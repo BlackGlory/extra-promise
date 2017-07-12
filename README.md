@@ -1,2 +1,2 @@
 # extra-promise
-Promise helper function collection
+Native Promise helper functions for Vanilla JS
