@@ -1,6 +1,6 @@
 {
   "name": "extra-promise",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Native Promise helper functions for Vanilla JS",
   "main": "lib/extra-promise.js",
   "repository": "git@github.com:BlackGlory/extra-promise.git",
