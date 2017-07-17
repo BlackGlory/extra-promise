@@ -1,4 +1,5 @@
 import mapDictionary from '../../src/fn/map-dictionary'
+import delay from '../../src/fn/delay'
 
 test('mapDictionary(dictionary)', async () => {
   const results = await mapDictionary(
@@ -11,9 +12,7 @@ test('mapDictionary(dictionary)', async () => {
     if (x === 0) {
       return Promise.reject('Zero')
     } else {
-      return new Promise(resolve => {
-        setTimeout(() => resolve(new Date()), 1000)
-      })
+      return delay(() => new Date(), 1000)()
     }
   }, 1)
 

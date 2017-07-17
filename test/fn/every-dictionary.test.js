@@ -1,4 +1,5 @@
 import everyDictionary from '../../src/fn/every-dictionary'
+import delay from '../../src/fn/delay'
 
 test('everyDictionary(dictionary)', async () => {
   const results = await everyDictionary(
@@ -6,11 +7,7 @@ test('everyDictionary(dictionary)', async () => {
       zero: 0
     , one: 1
     }
-  , x => {
-      return new Promise(resolve => {
-        setTimeout(() => resolve(new Date()), 1000)
-      })
-    }
+  , delay(() => new Date(), 1000)
   , 1)
 
   expect(results.one - results.zero >= 1000).toBeTruthy()

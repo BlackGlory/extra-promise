@@ -1,11 +1,8 @@
 import everyList from '../../src/fn/every-list'
+import delay from '../../src/fn/delay'
 
 test('everyList(list)', async () => {
-  const results = await everyList([0, 1], x => {
-    return new Promise(resolve => {
-      setTimeout(() => resolve(new Date()), 1000)
-    })
-  }, 1)
+  const results = await everyList([0, 1], delay(() => new Date(), 1000), 1)
   expect(results[1] - results[0] >= 1000).toBeTruthy()
 })
 
