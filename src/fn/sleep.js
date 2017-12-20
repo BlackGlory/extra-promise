@@ -5,8 +5,8 @@
  * @return {Promise<number>} Actual sleep time(ms)
  * @example
  * ;(async () => {
- *   console.log('I will print something in 5s...')
- *   await sleep(5000) // sleep five seconds.
+ *   console.log('I will print something in 2s...')
+ *   await sleep(2000) // sleep two seconds.
  *   console.log('something')
  * })()
  */

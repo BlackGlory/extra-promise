@@ -19,3 +19,25 @@ test('mapDictionary(dictionary)', async () => {
   expect(results.zero).toEqual('Zero')
   expect(results.two - results.one >= 1000).toBeTruthy()
 })
+
+test('mapDictionary example', async () => {
+  async function oneHundredDividedBy(x) {
+    if (x === 0) {
+      throw new RangeError('Divisor cannot be 0')
+    }
+    return 100 / x
+  }
+
+  const dictionary = {
+    a: 0
+  , b: 1
+  , c: 2
+  }
+
+  const newDictionary = await mapDictionary(dictionary, oneHundredDividedBy)
+  expect(newDictionary).toEqual({
+    a: RangeError('Divisor cannot be 0')
+  , b: 100
+  , c: 50
+  })
+})

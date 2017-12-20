@@ -4,7 +4,7 @@
  * @alias  everyList
  * @param  {Array} list list
  * @param  {function} fn factory function
- * @param  {number} concurrency The number of tasks processed at the same time, default is all at the same time
+ * @param  {number} concurrency The number of tasks processed at the same time
  * @return {Promise<Array>} A list with same indexs
  * @example
  * const double = async x => x * 2

@@ -32,3 +32,15 @@ test('everyDictionary(dictionary.reject)', async () => {
     expect(e).toEqual('Zero')
   }
 })
+
+test('everyDictionary example', async () => {
+  const double = async x => x * 2
+  const dictionary = {
+    a: 1
+  , b: 2
+  , c: 3
+  }
+
+  const newDictionary = await everyDictionary(dictionary, double)
+  expect(newDictionary).toEqual({ a: 2, b: 4, c: 6 })
+})

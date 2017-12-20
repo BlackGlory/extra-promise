@@ -134,7 +134,7 @@ The values of a dictionary are converted to asynchronous tasks by factory functi
 
 -   `dictionary` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** dictionary
 -   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** factory function
--   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of tasks processed at the same time, default is all at the same time (optional, default `Object.keys(dictionary).length`)
+-   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of tasks processed at the same time (optional, default `Object.keys(dictionary).length`)
 
 **Examples**
 
@@ -161,7 +161,7 @@ The elements of a list are converted to asynchronous tasks by factory function, 
 
 -   `list` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** list
 -   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** factory function
--   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of tasks processed at the same time, default is all at the same time (optional, default `list.length`)
+-   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of tasks processed at the same time (optional, default `list.length`)
 
 **Examples**
 
@@ -184,7 +184,7 @@ Equivalent to eachList or eachDictionary.
 
 -   `listOrDictionary` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array) \| [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** list or dictionary
 -   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** factory function
--   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of tasks processed at the same time, default is all at the same time
+-   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of tasks processed at the same time
 
 
 -   Throws **[TypeError](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/TypeError)** First argument must be a List or Dictionary
@@ -199,7 +199,7 @@ The values of a dictionary are converted to asynchronous tasks and return result
 
 -   `dictionary` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** dictionary
 -   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** factory function
--   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of tasks processed at the same time, default is all at the same time (optional, default `Object.keys(dictionary).length`)
+-   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of tasks processed at the same time (optional, default `Object.keys(dictionary).length`)
 
 **Examples**
 
@@ -228,7 +228,7 @@ The elements of a list are converted to asynchronous tasks and return results by
 
 -   `list` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** list
 -   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** factory function
--   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of tasks processed at the same time, default is all at the same time (optional, default `list.length`)
+-   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of tasks processed at the same time (optional, default `list.length`)
 
 **Examples**
 
@@ -253,7 +253,7 @@ Equivalent to everyList or everyDictionary.
 
 -   `listOrDictionary` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array) \| [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** list or dictionary
 -   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** factory function
--   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of tasks processed at the same time, default is all at the same time
+-   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of tasks processed at the same time
 
 
 -   Throws **[TypeError](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/TypeError)** First argument must be a List or Dictionary
@@ -287,7 +287,7 @@ The values of a dictionary are converted to asynchronous tasks and return result
 
 -   `dictionary` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** dictionary
 -   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** factory function
--   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of tasks processed at the same time, default is all at the same time (optional, default `Object.keys(dictionary).length`)
+-   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of tasks processed at the same time (optional, default `Object.keys(dictionary).length`)
 
 **Examples**
 
@@ -322,7 +322,7 @@ The elements of a list are converted to asynchronous tasks and return results by
 
 -   `list` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** list
 -   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** factory function
--   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of tasks processed at the same time, default is all at the same time (optional, default `list.length`)
+-   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of tasks processed at the same time (optional, default `list.length`)
 
 **Examples**
 
@@ -353,7 +353,7 @@ Equivalent to mapList or mapDictionary.
 
 -   `listOrDictionary` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array) \| [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** list or dictionary
 -   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** factory function
--   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of tasks processed at the same time, default is all at the same time
+-   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of tasks processed at the same time
 
 
 -   Throws **[TypeError](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/TypeError)** First argument must be a List or Dictionary
@@ -371,7 +371,7 @@ Convert a function that use callback to async functions.
 **Examples**
 
 ```javascript
-const add = (a, b, callback) => callback(a + b)
+const add = (a, b, callback) => callback(null, a + b)
 const asyncAdd = promisify(add)
 ;(async () => {
   const result = await asyncAdd(1, 2) // 3
@@ -387,8 +387,8 @@ Wrap an async function as an async function that will retry when meet Rejected, 
 **Parameters**
 
 -   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** async function
--   `maxRetryCount` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The maximum number of retries, default is 1 (optional, default `1`)
--   `retryInterval` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Retry interval(ms), default is 0 (optional, default `0`)
+-   `maxRetryCount` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The maximum number of retries (optional, default `1`)
+-   `retryInterval` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Retry interval(ms) (optional, default `0`)
 
 **Examples**
 
@@ -425,8 +425,8 @@ A sleep async function.
 
 ```javascript
 ;(async () => {
-  console.log('I will print something in 5s...')
-  await sleep(5000) // sleep five seconds.
+  console.log('I will print something in 2s...')
+  await sleep(2000) // sleep two seconds.
   console.log('something')
 })()
 ```
@@ -440,17 +440,17 @@ Wrap an async function as an async function that will only invoke a warning func
 **Parameters**
 
 -   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** async function
--   `buzzer` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** Function to receive the warning (optional, default `console.warn||console.error||console.log`)
+-   `buzzer` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** Function to receive the warning (optional, default `console.warn`)
 
 **Examples**
 
 ```javascript
 const problemMaker = text => Promise.reject(text)
-const buzzer = e => console.warn(`${ new Date() }: ${ e }`)
+const buzzer = e => console.warn(`WARNING: ${ e }`)
 const problemMakerWithBuzzer = warn(problemMaker, buzzer)
 
 ;(async () => {
-  await problemMakerWithBuzzer('Warning!')
+  await problemMakerWithBuzzer('Fire!')
 })()
 ```
 

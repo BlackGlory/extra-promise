@@ -3,8 +3,8 @@ import sleep from './sleep'
 /**
  * Wrap an async function as an async function that will retry when meet Rejected, and if it still fails after all retry, returns an array of all exceptions.
  * @param  {function} fn async function
- * @param  {number} maxRetryCount The maximum number of retries, default is 1
- * @param  {number} retryInterval Retry interval(ms), default is 0
+ * @param  {number} maxRetryCount The maximum number of retries
+ * @param  {number} retryInterval Retry interval(ms)
  * @return {function} new async function
  * @example
  * function threeOrOut() {

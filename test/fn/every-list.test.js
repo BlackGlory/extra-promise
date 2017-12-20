@@ -20,3 +20,11 @@ test('everyList(list.reject)', async () => {
     expect(e).toEqual('Zero')
   }
 })
+
+test('everyList example', async () => {
+  const double = async x => x * 2
+  const list = [1, 2, 3]
+
+  const newList = await everyList(list, double)
+  expect(newList).toEqual([2, 4, 6])
+})

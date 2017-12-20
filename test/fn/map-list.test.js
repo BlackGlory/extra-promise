@@ -12,3 +12,16 @@ test('mapList(list)', async () => {
   expect(results[0]).toEqual('Zero')
   expect(results[2] - results[1] >= 1000).toBeTruthy()
 })
+
+test('mapList example', async () => {
+  async function oneHundredDividedBy(x) {
+    if (x === 0) {
+      throw new RangeError('Divisor cannot be 0')
+    }
+    return 100 / x
+  }
+  const list = [0, 1, 2]
+  
+  const newList = await mapList(list, oneHundredDividedBy)
+  expect(newList).toEqual([RangeError('Divisor cannot be 0'), 100, 50])
+})

@@ -4,7 +4,7 @@
  * @alias  eachDictionary
  * @param  {Object} dictionary dictionary
  * @param  {function} fn factory function
- * @param  {number} concurrency The number of tasks processed at the same time, default is all at the same time
+ * @param  {number} concurrency The number of tasks processed at the same time
  * @return {Promise<void>} Promise state changes to Resolved when all asynchronous tasks have completed
  * @example
  * const printDouble = async x => console.log(x * 2)

@@ -5,14 +5,14 @@
  * @return {function} new async function
  * @example
  * const problemMaker = text => Promise.reject(text)
- * const buzzer = e => console.warn(`${ new Date() }: ${ e }`)
+ * const buzzer = e => console.warn(`WARNING: ${ e }`)
  * const problemMakerWithBuzzer = warn(problemMaker, buzzer)
  *
  * ;(async () => {
- *   await problemMakerWithBuzzer('Warning!')
+ *   await problemMakerWithBuzzer('Fire!')
  * })()
  */
-export default function warn(fn, buzzer = console.warn || console.error || console.log) {
+export default function warn(fn, buzzer = console.warn) {
   return async function(...args) {
     try {
       return await fn.apply(this, args)

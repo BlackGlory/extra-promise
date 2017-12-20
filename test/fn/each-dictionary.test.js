@@ -20,3 +20,18 @@ test('eachDictionary(dictionary)', async () => {
   expect(callTiming.length).toEqual(2)
   expect(callTiming[1] - callTiming[0] >= 1000).toBeTruthy()
 })
+
+test('eachDictionary example', async () => {
+  let result = []
+  function output(x) {
+    result.push(x)
+  }
+  const printDouble = async x => output(x * 2)
+  const dictionary = {
+    a: 1
+  , b: 2
+  , c: 3
+  }
+  await eachDictionary(dictionary, printDouble)
+  expect(result).toEqual([2, 4, 6])
+})

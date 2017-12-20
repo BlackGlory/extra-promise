@@ -8,7 +8,7 @@
   "author": "BlackGlory <woshenmedoubuzhidao@blackglory.me>",
   "license": "MIT",
   "scripts": {
-    "precommit": "npm test",
+    "precommit": "npm test && npm run doc-readme",
     "prepush": "npm test",
     "test": "jest --coverage",
     "build": "babel src -d lib",

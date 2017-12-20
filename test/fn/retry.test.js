@@ -63,3 +63,20 @@ test('retry(func, maxRetryCount, retryInterval)', async () => {
   expect(called).toEqual(3)
   expect(endTime - startTime >= 2000).toBeTruthy()
 })
+
+test('retry example', async () => {
+  function threeOrOut() {
+    let times = 0
+    return async () => {
+      times++
+      if (times < 3) {
+        throw new Error('need more')
+      }
+      return times
+    }
+  }
+  const threeOrOutWithRetry = retry(threeOrOut(), 3)
+
+  const result = await threeOrOutWithRetry()
+  expect(result).toEqual(3)
+})

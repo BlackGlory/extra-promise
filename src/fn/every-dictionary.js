@@ -4,7 +4,7 @@
  * @alias everyDictionary
  * @param  {Object} dictionary dictionary
  * @param  {function} fn factory function
- * @param  {number} concurrency The number of tasks processed at the same time, default is all at the same time
+ * @param  {number} concurrency The number of tasks processed at the same time
  * @return {Promise<Object>} A dictionary with same keys
  * @example
  * const double = async x => x * 2

@@ -7,7 +7,7 @@ import { isList, isDictionary } from '../utils'
  * @async
  * @param  {Array|Object} listOrDictionary list or dictionary
  * @param  {function} fn factory function
- * @param  {number} concurrency The number of tasks processed at the same time, default is all at the same time
+ * @param  {number} concurrency The number of tasks processed at the same time
  * @return {Promise<Array|Object>} A list or dictionary
  * @throws {TypeError} First argument must be a List or Dictionary
  */

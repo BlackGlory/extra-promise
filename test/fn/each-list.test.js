@@ -14,3 +14,14 @@ test('eachList(list)', async () => {
   expect(callTiming.length).toEqual(2)
   expect(callTiming[1] - callTiming[0] >= 1000).toBeTruthy()
 })
+
+test('eachList example', async () => {
+  let result = []
+  function output(x) {
+    result.push(x)
+  }
+  const printDouble = async x => output(x * 2)
+  const list = [1, 2, 3]
+  await eachList(list, printDouble)
+  expect(result).toEqual([2, 4, 6])
+})

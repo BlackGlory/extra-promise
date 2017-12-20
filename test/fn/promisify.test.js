@@ -29,3 +29,10 @@ test('promisify(fn.reject)', async () => {
 
   expect(endTime - startTime >= 1000).toBeTruthy()
 })
+
+test('promisify example', async () => {
+  const add = (a, b, callback) => callback(null, a + b)
+  const asyncAdd = promisify(add)
+  const result = await asyncAdd(1, 2)
+  expect(result).toEqual(3)
+})
