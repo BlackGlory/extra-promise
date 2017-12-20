@@ -10,8 +10,7 @@
   "scripts": {
     "precommit": "npm test",
     "prepush": "npm test",
-    "test": "jest",
-    "coverage": "jest --coverage",
+    "test": "jest --coverage",
     "build": "babel src -d lib",
     "doc-serve": "documentation serve --watch src/extra-promise.js",
     "doc-lint": "documentation lint src/extra-promise.js",
