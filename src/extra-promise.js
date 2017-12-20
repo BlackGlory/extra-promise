@@ -1,3 +1,4 @@
+export chain from './fn/chain'
 export delay from './fn/delay'
 export eachDictionary from './fn/each-dictionary'
 export eachList from './fn/each-list'

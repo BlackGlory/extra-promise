@@ -1,12 +1,28 @@
 import sleep from './sleep'
 
 /**
- * retry
+ * Wrap an async function as an async function that will retry when meet Rejected, and if it still fails after all retry, returns an array of all exceptions.
+ * @param  {function} fn async function
+ * @param  {number} maxRetryCount The maximum number of retries, default is 1
+ * @param  {number} retryInterval Retry interval(ms), default is 0
+ * @return {function} new async function
+ * @example
+ * function threeOrOut() {
+ *   let times = 0
+ *   return async () => {
+ *     times++
+ *     if (times < 3) {
+ *       throw new Error('need more')
+ *     }
+ *     return times
+ *   }
+ * }
+ * const threeOrOutWithRetry = retry(threeOrOut(), 3)
  *
- * @param  {function} fn
- * @param  {number} maxRetryCount = 1
- * @param  {number} retryInterval = 0
- * @return {function}
+ * ;(async () => {
+ *   const result = await threeOrOutWithRetry()
+ *   console.log(result) // 3
+ * })()
  */
 export default function retry(fn, maxRetryCount = 1, retryInterval = 0) {
   return async function(...args) {

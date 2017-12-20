@@ -1,8 +1,13 @@
 /**
- * promisify
- *
- * @param  {function} fn
- * @return {function}
+ * Convert a function that use callback to async functions.
+ * @param  {function} fn function
+ * @return {function} async function
+ * @example
+ * const add = (a, b, callback) => callback(a + b)
+ * const asyncAdd = promisify(add)
+ * ;(async () => {
+ *   const result = await asyncAdd(1, 2) // 3
+ * })()
  */
 export default function promisify(fn) {
   return function(...args) {

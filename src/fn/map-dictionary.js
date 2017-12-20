@@ -1,10 +1,30 @@
 /**
- * mapDictionary
+ * The values of a dictionary are converted to asynchronous tasks and return results by factory function, exceptions will save as results.
+ * @async
+ * @alias mapDictionary
+ * @param  {Object} dictionary dictionary
+ * @param  {function} fn factory function
+ * @param  {number} concurrency The number of tasks processed at the same time, default is all at the same time
+ * @return {Promise<Object>} A dictionary with same keys
+ * @example
+ * async function oneHundredDividedBy(x) {
+ *   if (x === 0) {
+ *     throw new RangeError('Divisor cannot be 0')
+ *   }
+ *   return 100 / x
+ * }
  *
- * @param  {Object} dictionary
- * @param  {Function} fn
- * @param  {Number} concurrency
- * @return {Object}
+ * const dictionary = {
+ *   a: 0
+ * , b: 1
+ * , c: 2
+ * }
+ *
+ * ;(async () => {
+ *   const newDictionary = await mapDictionary(dictionary, oneHundredDividedBy)
+ *   console.log(newDictionary)
+ *   // { a: RangeError('Divisor cannot be 0'), b: 100, c: 50 }
+ * })()
  */
 export default async function mapDictionary(dictionary, fn, concurrency = Object.keys(dictionary).length) {
   let results = {}
