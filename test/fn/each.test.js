@@ -1,46 +1,56 @@
 import each from '../../src/fn/each'
-import delay from '../../src/fn/delay'
+import sleep from '../../src/fn/sleep'
 
-// Copy from each-list.test.js, replace eachList to each
-test('each(list)', async () => {
-  let callTiming = []
-  const result = await each([0, 1, 2], x => {
-    if (x === 0) {
-      return Promise.reject('Zero')
-    } else {
-      return delay(() => callTiming.push(new Date()), 1000)()
-    }
-  }, 1)
-  expect(result).toBeUndefined()
-  expect(callTiming.length).toEqual(2)
-  expect(callTiming[1] - callTiming[0] >= 1000).toBeTruthy()
+test('each example', async () => {
+  let result = []
+  function output(x) {
+    result.push(x)
+  }
+  const printDouble = async x => output(x * 2)
+  const list = [1, 2, 3]
+  await each(list, printDouble)
+
+  expect(result).toEqual([2, 4, 6])
 })
 
-// Copy from each-dictionary.test.js, replace eachDictionary to each
-test('each(dictionary)', async () => {
-  let callTiming = []
-  const result = await each(
-    {
-      zero: 0
-    , one: 1
-    , two: 2
-    }
-  , x => {
-    if (x === 0) {
-      return Promise.reject('Zero')
-    } else {
-      return delay(() => callTiming.push(new Date()), 1000)()
-    }
-  }, 1)
-  expect(result).toBeUndefined()
-  expect(callTiming.length).toEqual(2)
-  expect(callTiming[1] - callTiming[0] >= 1000).toBeTruthy()
+test('each(Set)', async () => {
+  let result = []
+  function output(x) {
+    result.push(x)
+  }
+  const printDouble = async x => output(x * 2)
+  const list = new Set([1, 2, 3])
+  await each(list, printDouble)
+
+  expect(result).toEqual([2, 4, 6])
 })
 
+test('each(Generator)', async () => {
+  let result = []
+  function output(x) {
+    result.push(x)
+  }
 
-test('each()', async () => {
-  try {
-    await each()
-    expect(true).toBe(false)
-  } catch(e) {}
+  function* doubleCounter(start, end) {
+    for (let i = start; i <= end; i++) {
+      yield (async () => output(i * 2))()
+    }
+  }
+
+  await each(doubleCounter(1, 3))
+
+  expect(result).toEqual([2, 4, 6])
+})
+
+test('each concurrency', async () => {
+  let result = []
+  const list = [1, 1, 1]
+  await each(list, async x => {
+    await sleep(x * 1000)
+    result.push(new Date())
+  }, 1)
+
+  expect(result.length).toEqual(3)
+  expect(result[1] - result[0] >= 1000).toBeTruthy()
+  expect(result[2] - result[1] >= 1000).toBeTruthy()
 })

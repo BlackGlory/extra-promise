@@ -1,15 +1,15 @@
 import warn from '../../src/fn/warn'
 
 test('warn(fn, warn)', async () => {
-  const buzzer = jest.fn()
-  const result = await warn(() => Promise.reject('Warning'), buzzer)()
+  global.console = { warn: jest.fn() }
+  const result = await warn(() => Promise.reject('Warning'))()
   expect(result).toBeUndefined()
-  expect(buzzer).toHaveBeenCalledTimes(1)
-  expect(buzzer).toHaveBeenCalledWith('Warning')
+  expect(console.warn).toHaveBeenCalledTimes(1)
+  expect(console.warn).toHaveBeenCalledWith('Warning')
 })
 
 test('warn example', async () => {
-  let result = null
+  let result
   function output(x) {
     result = x
   }

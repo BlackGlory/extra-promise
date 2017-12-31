@@ -1,8 +1,10 @@
 /**
- * A sleep async function.
+ * A setTimeout async function.
+ * @method sleep
  * @async
- * @param  {number} timeout = 0 sleep time(ms)
- * @return {Promise<number>} Actual sleep time(ms)
+ * @static
+ * @param  {number} timeout = 0 Timeout(ms)
+ * @return {Promise<number>} Elapsed time(ms)
  * @example
  * ;(async () => {
  *   console.log('I will print something in 2s...')
@@ -12,9 +14,5 @@
  */
 export default function sleep(timeout = 0) {
   const startTime = new Date()
-  return new Promise((resolve, reject) => {
-    setTimeout(async () => {
-      resolve(new Date() - startTime)
-    }, timeout)
-  })
+  return new Promise(resolve => setTimeout(() => resolve(new Date() - startTime), timeout))
 }

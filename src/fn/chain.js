@@ -2,8 +2,10 @@ import isPromise from './is-promise'
 
 /**
  * Make asynchronous chained calls easy to write.
- * @param  {Object|function} target A target that requires asynchronous chained calls
- * @return {Proxy<Promise>} A Proxy object that support asynchronous chained calls
+ * @method chain
+ * @static
+ * @param  {Object|function} target A target that needs asynchronous chained calls
+ * @return {Proxy<Promise>} The Proxy object that supports asynchronous chained calls
  * @example
  * class Calculator {
  *   constructor(initialValue) {
@@ -34,7 +36,7 @@ import isPromise from './is-promise'
  *       .get()
  *   ) // 50
  *
- *   // only use await
+ *   // use await only
  *   console.log(
  *     await (
  *       await (
@@ -45,7 +47,7 @@ import isPromise from './is-promise'
  *     ).get()
  *   ) // 50
  *
- *   // only use then()
+ *   // use then() only
  *   new Calculator(100).add(50)
  *     .then(x => x.sub(100))
  *     .then(x => x.get())

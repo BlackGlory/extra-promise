@@ -1,22 +1,43 @@
-import eachList from './each-list'
-import eachDictionary from './each-dictionary'
-import { isList, isDictionary } from '../utils'
-
 /**
- * Equivalent to eachList or eachDictionary.
+ * Traverse an iterable object through a function.
+ * @alias  each
+ * @method each
  * @async
- * @param  {Array|Object} listOrDictionary list or dictionary
- * @param  {function} fn factory function
- * @param  {number} concurrency The number of tasks processed at the same time
- * @return {Promise<void>} Promise state changes to Resolved when all asynchronous tasks have completed
- * @throws {TypeError} First argument must be a List or Dictionary
+ * @static
+ * @param  {iterable} iterable An iterable object
+ * @param  {function} fn A function
+ * @param  {number} concurrency The maximum number of concurrency
+ * @return {Promise<void>}
+ * @example
+ * const printDouble = async x => console.log(x * 2)
+ * const list = [1, 2, 3]
+ *
+ * ;(async () => {
+ *   await each(list, printDouble) // 2 4 6
+ * })()
  */
-export default function each(listOrDictionary, fn, concurrency) {
-  if (isList(listOrDictionary)) {
-    return eachList(listOrDictionary, fn, concurrency)
+export default async function each(iterable, fn = x => x, concurrency = Infinity) {
+  const iterator = iterable[Symbol.iterator]()
+
+  async function run(value) {
+    try {
+      await fn(value)
+    } finally {
+      const { value, done } = iterator.next()
+      if (!done) {
+        await run(value)
+      }
+    }
   }
-  if (isDictionary(listOrDictionary)) {
-    return eachDictionary(listOrDictionary, fn, concurrency)
-  }
-  throw new TypeError('First argument must be a List or Dictionary')
+
+  await Promise.all((function* () {
+    while (concurrency--) {
+      const { value, done } = iterator.next()
+      if (done) {
+        break
+      } else {
+        yield run(value)
+      }
+    }
+  })())
 }

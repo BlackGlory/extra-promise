@@ -1,7 +1,9 @@
 /**
- * Convert a function that use callback to async functions.
- * @param  {function} fn function
- * @return {function} async function
+ * Convert a function that needs a callback to async function.
+ * @method promisify
+ * @static
+ * @param  {function} fn A function that needs convert
+ * @return {function} The converted async function
  * @example
  * const add = (a, b, callback) => callback(null, a + b)
  * const asyncAdd = promisify(add)
@@ -10,14 +12,12 @@
  * })()
  */
 export default function promisify(fn) {
-  return function(...args) {
-    return new Promise((resolve, reject) => {
-      fn.call(this, ...args, function(err, result) {
-        if (err) {
-          return reject(err)
-        }
-        resolve(result)
-      })
+  return (...args) => new Promise((resolve, reject) => {
+    fn(...args, (err, result) => {
+      if (err) {
+        return reject(err)
+      }
+      resolve(result)
     })
-  }
+  })
 }

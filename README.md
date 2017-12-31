@@ -1,6 +1,6 @@
 # extra-promise [![npm](https://img.shields.io/npm/v/extra-promise.svg?maxAge=2592000)](https://www.npmjs.com/package/extra-promise) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/BlackGlory/extra-promise/master/LICENSE) [![Build Status](https://travis-ci.org/BlackGlory/extra-promise.svg?branch=master)](https://travis-ci.org/BlackGlory/extra-promise) [![Coverage Status](https://coveralls.io/repos/github/BlackGlory/extra-promise/badge.svg)](https://coveralls.io/github/BlackGlory/extra-promise)
 
-Native Promise helpers for Vanilla JS
+Utilities for using Promise and Async/Await in JavaScript
 
 ## Installation
 
@@ -10,7 +10,7 @@ yarn add extra-promise
 
 ```javascript
 import * as extraPromise from 'extra-promise'
-import { chain, delay, each, every, isPromise, map, promisify, retry, sleep, warn } from 'extra-promise'
+import { chain, delay, each, fix, isPromise, map, promisify, retry, silent, sleep, warn } from 'extra-promise'
 ```
 
 ## API
@@ -21,18 +21,13 @@ import { chain, delay, each, every, isPromise, map, promisify, retry, sleep, war
 
 -   [chain](#chain)
 -   [delay](#delay)
--   [eachDictionary](#eachdictionary)
--   [eachList](#eachlist)
 -   [each](#each)
--   [everyDictionary](#everydictionary)
--   [everyList](#everylist)
--   [every](#every)
+-   [fix](#fix)
 -   [isPromise](#ispromise)
--   [mapDictionary](#mapdictionary)
--   [mapList](#maplist)
 -   [map](#map)
 -   [promisify](#promisify)
 -   [retry](#retry)
+-   [silent](#silent)
 -   [sleep](#sleep)
 -   [warn](#warn)
 
@@ -42,7 +37,7 @@ Make asynchronous chained calls easy to write.
 
 **Parameters**
 
--   `target` **([Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object) \| [function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function))** A target that requires asynchronous chained calls
+-   `target` **([Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object) \| [function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function))** A target that needs asynchronous chained calls
 
 **Examples**
 
@@ -76,7 +71,7 @@ class Calculator {
       .get()
   ) // 50
 
-  // only use await
+  // use await only
   console.log(
     await (
       await (
@@ -87,7 +82,7 @@ class Calculator {
     ).get()
   ) // 50
 
-  // only use then()
+  // use then() only
   new Calculator(100).add(50)
     .then(x => x.sub(100))
     .then(x => x.get())
@@ -95,7 +90,7 @@ class Calculator {
 })()
 ```
 
-Returns **[Proxy](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Proxy)&lt;[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)>** A Proxy object that support asynchronous chained calls
+Returns **[Proxy](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Proxy)&lt;[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)>** The Proxy object that supports asynchronous chained calls
 
 ### delay
 
@@ -103,8 +98,8 @@ Wrap an async function as a delayed async function.
 
 **Parameters**
 
--   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** async function
--   `timeout` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** delay(ms) (optional, default `0`)
+-   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** An async function that needs wrap
+-   `timeout` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** delay(ms)
 
 **Examples**
 
@@ -124,141 +119,41 @@ const sayHelloAfterOneSecond = delay(sayHello, 1000)
 })()
 ```
 
-Returns **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** new async function
-
-### eachDictionary
-
-The values of a dictionary are converted to asynchronous tasks by factory function, exceptions will be ignored.
-
-**Parameters**
-
--   `dictionary` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** dictionary
--   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** factory function
--   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of tasks processed at the same time (optional, default `Object.keys(dictionary).length`)
-
-**Examples**
-
-```javascript
-const printDouble = async x => console.log(x * 2)
-const dictionary = {
-  a: 1
-, b: 2
-, c: 3
-}
-
-;(async () => {
-  await eachDictionary(dictionary, printDouble) // 2 4 6
-})()
-```
-
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** Promise state changes to Resolved when all asynchronous tasks have completed
-
-### eachList
-
-The elements of a list are converted to asynchronous tasks by factory function, exceptions will be ignored.
-
-**Parameters**
-
--   `list` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** list
--   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** factory function
--   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of tasks processed at the same time (optional, default `list.length`)
-
-**Examples**
-
-```javascript
-const printDouble = async x => console.log(x * 2)
-const list = [1, 2, 3]
-
-;(async () => {
-  await eachList(list, printDouble) // 2 4 6
-})()
-```
-
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** Promise state changes to Resolved when all asynchronous tasks have completed
+Returns **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** The wrapped async function
 
 ### each
 
-Equivalent to eachList or eachDictionary.
+Traverse an iterable object through a function.
 
 **Parameters**
 
--   `listOrDictionary` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array) \| [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** list or dictionary
--   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** factory function
--   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of tasks processed at the same time
-
-
--   Throws **[TypeError](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/TypeError)** First argument must be a List or Dictionary
-
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** Promise state changes to Resolved when all asynchronous tasks have completed
-
-### everyDictionary
-
-The values of a dictionary are converted to asynchronous tasks and return results by factory function, exceptions will be abort all tasks.
-
-**Parameters**
-
--   `dictionary` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** dictionary
--   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** factory function
--   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of tasks processed at the same time (optional, default `Object.keys(dictionary).length`)
+-   `iterable` **iterable** An iterable object
+-   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** A function
+-   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The maximum number of concurrency
 
 **Examples**
 
 ```javascript
-const double = async x => x * 2
-const dictionary = {
-  a: 1
-, b: 2
-, c: 3
-}
-
-;(async () => {
-  const newDictionary = await everyDictionary(dictionary, double)
-  console.log(newDictionary)
-  // { a: 2, b: 4, c: 6 }
-})()
-```
-
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)>** A dictionary with same keys
-
-### everyList
-
-The elements of a list are converted to asynchronous tasks and return results by factory function, exceptions will be abort all tasks.
-
-**Parameters**
-
--   `list` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** list
--   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** factory function
--   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of tasks processed at the same time (optional, default `list.length`)
-
-**Examples**
-
-```javascript
-const double = async x => x * 2
+const printDouble = async x => console.log(x * 2)
 const list = [1, 2, 3]
 
 ;(async () => {
-  const newList = await everyList(list, double)
-  console.log(newList)
-  // [2, 4, 6]
+  await each(list, printDouble) // 2 4 6
 })()
 ```
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)>** A list with same indexs
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
-### every
+### fix
 
-Equivalent to everyList or everyDictionary.
+Add a fixer to an async function and automatic retry after the fixing.
 
 **Parameters**
 
--   `listOrDictionary` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array) \| [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** list or dictionary
--   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** factory function
--   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of tasks processed at the same time
+-   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** A fixable async function
+-   `fixer` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** A function can fix fn's problem
 
-
--   Throws **[TypeError](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/TypeError)** First argument must be a List or Dictionary
-
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array) \| [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))>** A list or dictionary
+Returns **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** The wrapped async function
 
 ### isPromise
 
@@ -266,7 +161,7 @@ Check if an object is a Promise instance.
 
 **Parameters**
 
--   `obj` **any** An object to be checked
+-   `obj` **any** An object needs to be checked
 
 **Examples**
 
@@ -279,94 +174,41 @@ isPromise({ then() {} }) // true
 
 Returns **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Result
 
-### mapDictionary
-
-The values of a dictionary are converted to asynchronous tasks and return results by factory function, exceptions will save as results.
-
-**Parameters**
-
--   `dictionary` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** dictionary
--   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** factory function
--   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of tasks processed at the same time (optional, default `Object.keys(dictionary).length`)
-
-**Examples**
-
-```javascript
-async function oneHundredDividedBy(x) {
-  if (x === 0) {
-    throw new RangeError('Divisor cannot be 0')
-  }
-  return 100 / x
-}
-
-const dictionary = {
-  a: 0
-, b: 1
-, c: 2
-}
-
-;(async () => {
-  const newDictionary = await mapDictionary(dictionary, oneHundredDividedBy)
-  console.log(newDictionary)
-  // { a: RangeError('Divisor cannot be 0'), b: 100, c: 50 }
-})()
-```
-
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)>** A dictionary with same keys
-
-### mapList
-
-The elements of a list are converted to asynchronous tasks and return results by factory function, exceptions will save as results.
-
-**Parameters**
-
--   `list` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** list
--   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** factory function
--   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of tasks processed at the same time (optional, default `list.length`)
-
-**Examples**
-
-```javascript
-async function oneHundredDividedBy(x) {
-  if (x === 0) {
-    throw new RangeError('Divisor cannot be 0')
-  }
-  return 100 / x
-}
-
-const list = [0, 1, 2]
-
-;(async () => {
-  const newList = await mapList(list, oneHundredDividedBy)
-  console.log(newList)
-  // [RangeError('Divisor cannot be 0'), 100, 50]
-})()
-```
-
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)>** A list with same indexs
-
 ### map
 
-Equivalent to mapList or mapDictionary.
+Convert an iterable object to results through a function.
 
 **Parameters**
 
--   `listOrDictionary` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array) \| [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))** list or dictionary
--   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** factory function
--   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The number of tasks processed at the same time
+-   `iterable` **iterable** An iterable object
+-   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** A function
+-   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The maximum number of concurrency
 
+**Examples**
 
--   Throws **[TypeError](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/TypeError)** First argument must be a List or Dictionary
+```javascript
+async function oneHundredDividedBy(x) {
+  return 100 / x
+}
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array) \| [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object))>** A list or dictionary
+const list = [1, 2, 4]
+
+;(async () => {
+  const newList = await map(list, oneHundredDividedBy)
+  console.log(newList)
+  // [100, 50, 25]
+})()
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)>** Results
 
 ### promisify
 
-Convert a function that use callback to async functions.
+Convert a function that needs a callback to async function.
 
 **Parameters**
 
--   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** function
+-   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** A function that needs convert
 
 **Examples**
 
@@ -378,17 +220,17 @@ const asyncAdd = promisify(add)
 })()
 ```
 
-Returns **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** async function
+Returns **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** The converted async function
 
 ### retry
 
-Wrap an async function as an async function that will retry when meet Rejected, and if it still fails after all retry, returns an array of all exceptions.
+Wrap an async function as an async function that will retry when meet Rejected, and if it still fails after all retry, return the last exception.
 
 **Parameters**
 
--   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** async function
--   `maxRetryCount` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The maximum number of retries (optional, default `1`)
--   `retryInterval` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Retry interval(ms) (optional, default `0`)
+-   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** An async function that needs wrap
+-   `maxRetries` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The maximum number of retries
+-   `retryInterval` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Retry interval(ms)
 
 **Examples**
 
@@ -411,15 +253,40 @@ const threeOrOutWithRetry = retry(threeOrOut(), 3)
 })()
 ```
 
-Returns **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** new async function
+Returns **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** The wrapped async function
 
-### sleep
+### silent
 
-A sleep async function.
+Wrap an async function as an async function that will never throw an exception.
 
 **Parameters**
 
--   `timeout` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** = 0 sleep time(ms) (optional, default `0`)
+-   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** The async function that needs wrap
+
+**Examples**
+
+```javascript
+async function noiseMaker() {
+  throw new Error('New problem!')
+}
+
+const silentMaker = pass(noiseMaker)
+
+;(async () => {
+  await silentMaker()
+  console.log('Wow! no problem?')
+})()
+```
+
+Returns **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** The wrapped async function
+
+### sleep
+
+A setTimeout async function.
+
+**Parameters**
+
+-   `timeout` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** = 0 Timeout(ms)
 
 **Examples**
 
@@ -431,16 +298,16 @@ A sleep async function.
 })()
 ```
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)>** Actual sleep time(ms)
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)>** Elapsed time(ms)
 
 ### warn
 
-Wrap an async function as an async function that will only invoke a warning function when Promise status is Rejected without interrupting the running.
+Wrap an async function be will only invoke a warning function when Promise status is Rejected without interrupting the running.
 
 **Parameters**
 
--   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** async function
--   `buzzer` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** Function to receive the warning (optional, default `console.warn`)
+-   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** The async function that needs wrap
+-   `buzzer` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** A function to receive the exception
 
 **Examples**
 
@@ -454,4 +321,4 @@ const problemMakerWithBuzzer = warn(problemMaker, buzzer)
 })()
 ```
 
-Returns **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** new async function
+Returns **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** The wrapped async function

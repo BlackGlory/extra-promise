@@ -1,8 +1,10 @@
 /**
- * Wrap an async function as an async function that will only invoke a warning function when Promise status is Rejected without interrupting the running.
- * @param {function} fn async function
- * @param {function} buzzer Function to receive the warning
- * @return {function} new async function
+ * Wrap an async function be will only invoke a warning function when Promise status is Rejected without interrupting the running.
+ * @method warn
+ * @static
+ * @param {function} fn The async function that needs wrap
+ * @param {function} buzzer A function to receive the exception
+ * @return {function} The wrapped async function
  * @example
  * const problemMaker = text => Promise.reject(text)
  * const buzzer = e => console.warn(`WARNING: ${ e }`)
@@ -13,11 +15,11 @@
  * })()
  */
 export default function warn(fn, buzzer = console.warn) {
-  return async function(...args) {
+  return async (...args) => {
     try {
-      return await fn.apply(this, args)
+      return await fn(...args)
     } catch(e) {
-      await warn(buzzer)(e)
+      buzzer(e)
     }
   }
 }

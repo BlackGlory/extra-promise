@@ -1,22 +1,30 @@
-import mapList from './map-list'
-import mapDictionary from './map-dictionary'
-import { isList, isDictionary } from '../utils'
+import each from './each'
 
 /**
- * Equivalent to mapList or mapDictionary.
+ * Convert an iterable object to results through a function.
+ * @alias map
+ * @method map
  * @async
- * @param  {Array|Object} listOrDictionary list or dictionary
- * @param  {function} fn factory function
- * @param  {number} concurrency The number of tasks processed at the same time
- * @return {Promise<Array|Object>} A list or dictionary
- * @throws {TypeError} First argument must be a List or Dictionary
+ * @static
+ * @param  {iterable} iterable An iterable object
+ * @param  {function} fn A function
+ * @param  {number} concurrency The maximum number of concurrency
+ * @return {Promise<Array>} Results
+ * @example
+ * async function oneHundredDividedBy(x) {
+ *   return 100 / x
+ * }
+ *
+ * const list = [1, 2, 4]
+ *
+ * ;(async () => {
+ *   const newList = await map(list, oneHundredDividedBy)
+ *   console.log(newList)
+ *   // [100, 50, 25]
+ * })()
  */
-export default function map(listOrDictionary, fn, concurrency) {
-  if (isList(listOrDictionary)) {
-    return mapList(listOrDictionary, fn, concurrency)
-  }
-  if (isDictionary(listOrDictionary)) {
-    return mapDictionary(listOrDictionary, fn, concurrency)
-  }
-  throw new TypeError('First argument must be a List or Dictionary')
+export default async function map(iterable, fn = x => x, concurrency = iterable.length) {
+  let results = []
+  await each(iterable, async x => results.push(await fn(x)), concurrency)
+  return results
 }

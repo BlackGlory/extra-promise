@@ -28,7 +28,7 @@ test('retry(func, maxRetryCount)', async () => {
       if (called === times) {
         resolve()
       } else {
-        reject()
+        reject(new Error('Fail'))
       }
     })
   }
@@ -37,7 +37,7 @@ test('retry(func, maxRetryCount)', async () => {
     await retry(callMeTimes, 2)(4)
     expect(true).toBe(false)
   } catch(e) {
-    expect(Array.isArray(e)).toBeTruthy()
+    expect(e.message).toEqual('Fail')
     expect(called).toEqual(3)
   }
 })

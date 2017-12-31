@@ -1,11 +1,13 @@
 import sleep from './sleep'
 
 /**
- * Wrap an async function as an async function that will retry when meet Rejected, and if it still fails after all retry, returns an array of all exceptions.
- * @param  {function} fn async function
- * @param  {number} maxRetryCount The maximum number of retries
+ * Wrap an async function as an async function that will retry when meet Rejected, and if it still fails after all retry, return the last exception.
+ * @method retry
+ * @static
+ * @param  {function} fn An async function that needs wrap
+ * @param  {number} maxRetries The maximum number of retries
  * @param  {number} retryInterval Retry interval(ms)
- * @return {function} new async function
+ * @return {function} The wrapped async function
  * @example
  * function threeOrOut() {
  *   let times = 0
@@ -24,17 +26,17 @@ import sleep from './sleep'
  *   console.log(result) // 3
  * })()
  */
-export default function retry(fn, maxRetryCount = 1, retryInterval = 0) {
-  return async function(...args) {
-    let errors = []
-    for (let i = 0; i <= maxRetryCount; i++) {
+export default function retry(fn, maxRetries = 1, retryInterval = 0) {
+  return async (...args) => {
+    let lastError
+    do {
       try {
-        return await fn.apply(this, args)
+        return await fn(...args)
       } catch(e) {
-        errors.push(e)
+        lastError = e
         await sleep(retryInterval)
       }
-    }
-    throw errors
+    } while (maxRetries--)
+    throw lastError
   }
 }

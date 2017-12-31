@@ -1,8 +1,12 @@
+import sleep from './sleep'
+
 /**
  * Wrap an async function as a delayed async function.
- * @param  {function} fn async function
+ * @method delay
+ * @static
+ * @param  {function} fn An async function that needs wrap
  * @param  {number} timeout delay(ms)
- * @return {function} new async function
+ * @return {function} The wrapped async function
  * @example
  * async function sayHello(name) {
  *   console.log(`${ name }: Hello.`)
@@ -19,11 +23,5 @@
  * })()
  */
 export default function delay(fn, timeout = 0) {
-  return function(...args) {
-    return new Promise((resolve, reject) => {
-      setTimeout(async () => {
-        resolve(await fn.apply(this, args))
-      }, timeout)
-    })
-  }
+  return (...args) => sleep(timeout).then(x => fn(...args))
 }
