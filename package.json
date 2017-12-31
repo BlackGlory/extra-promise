@@ -1,20 +1,21 @@
 {
   "name": "extra-promise",
-  "version": "0.1.0",
-  "description": "Native Promise helpers for Vanilla JS",
+  "version": "0.2.0",
+  "description": "Utilities for using Promise and Async/Await in JavaScript",
   "main": "lib/extra-promise.js",
   "module": "src/extra-promise.js",
   "repository": "git@github.com:BlackGlory/extra-promise.git",
   "author": "BlackGlory <woshenmedoubuzhidao@blackglory.me>",
   "license": "MIT",
   "scripts": {
-    "precommit": "npm test && npm run doc-readme",
+    "precommit": "npm test && npm run doc",
     "prepush": "npm test",
     "test": "jest --coverage",
+    "test-pure": "jest",
     "build": "babel src -d lib",
+    "doc": "documentation readme src/extra-promise.js --section=API",
     "doc-serve": "documentation serve --watch src/extra-promise.js",
-    "doc-lint": "documentation lint src/extra-promise.js",
-    "doc-readme": "documentation readme src/extra-promise.js --section=API"
+    "doc-lint": "documentation lint src/extra-promise.js"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
