@@ -1,6 +1,6 @@
 {
   "name": "extra-promise",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Utilities for using Promise and Async/Await in JavaScript",
   "main": "lib/extra-promise.js",
   "module": "src/extra-promise.js",
