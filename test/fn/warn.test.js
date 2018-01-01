@@ -1,3 +1,5 @@
+'use strict'
+
 import warn from '../../src/fn/warn'
 
 test('warn(fn, warn)', async () => {

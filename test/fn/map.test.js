@@ -1,3 +1,5 @@
+'use strict'
+
 import map from '../../src/fn/map'
 import sleep from '../../src/fn/sleep'
 

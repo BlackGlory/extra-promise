@@ -1,3 +1,5 @@
+'use strict'
+
 import each from '../../src/fn/each'
 import sleep from '../../src/fn/sleep'
 

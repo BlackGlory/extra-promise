@@ -1,3 +1,5 @@
+'use strict'
+
 export chain from './fn/chain'
 export delay from './fn/delay'
 export each from './fn/each'

@@ -1,3 +1,5 @@
+'use strict'
+
 import fix from '../../src/fn/fix'
 
 test('fix example', async () => {

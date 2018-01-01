@@ -1,3 +1,5 @@
+'use strict'
+
 import chain from '../../src/fn/chain'
 
 class Box {

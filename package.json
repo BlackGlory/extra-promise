@@ -26,7 +26,7 @@
     "coveralls": "^3.0.0",
     "documentation": "^5.3.5",
     "husky": "^0.14.3",
-    "jest": "^21.2.1"
+    "jest": "^22.0.4"
   },
   "dependencies": {
     "babel-runtime": "^6.26.0"

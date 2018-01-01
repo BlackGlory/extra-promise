@@ -1,3 +1,5 @@
+'use strict'
+
 import promisify from '../../src/fn/promisify'
 
 test('promisify(fn.resolve)', async () => {

@@ -1,9 +1,12 @@
+'use strict'
+
 /**
  * Add a fixer to an async function and automatic retry after the fixing.
+ *
  * @method fix
  * @static
- * @param {function} fn A fixable async function
- * @param {function} fixer A function can fix fn's problem
+ * @param {function} fn - A fixable async function
+ * @param {function} fixer - A function can fix fn's problem
  * @return {function} The wrapped async function
  * @example
  */

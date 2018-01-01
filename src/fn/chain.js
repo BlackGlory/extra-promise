@@ -1,10 +1,13 @@
+'use strict'
+
 import isPromise from './is-promise'
 
 /**
  * Make asynchronous chained calls easy to write.
+ * 
  * @method chain
  * @static
- * @param  {Object|function} target A target that needs asynchronous chained calls
+ * @param {Object|function} target - A target that needs asynchronous chained calls
  * @return {Proxy<Promise>} The Proxy object that supports asynchronous chained calls
  * @example
  * class Calculator {

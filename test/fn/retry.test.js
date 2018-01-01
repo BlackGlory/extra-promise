@@ -1,3 +1,5 @@
+'use strict'
+
 import retry from '../../src/fn/retry'
 
 test('retry(func)', async () => {

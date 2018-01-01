@@ -1,14 +1,17 @@
+'use strict'
+
 import each from './each'
 
 /**
  * Convert an iterable object to results through a function.
+ *
  * @alias map
  * @method map
  * @async
  * @static
- * @param  {iterable} iterable An iterable object
- * @param  {function} fn A function
- * @param  {number} concurrency The maximum number of concurrency
+ * @param {iterable} iterable - An iterable object
+ * @param {function} fn - A function
+ * @param {number} concurrency - The maximum number of concurrency
  * @return {Promise<Array>} Results
  * @example
  * async function oneHundredDividedBy(x) {

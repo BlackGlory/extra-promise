@@ -1,3 +1,5 @@
+'use strict'
+
 import isPromise from '../../src/fn/is-promise'
 
 test('isPromise(obj)', async () => {

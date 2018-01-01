@@ -1,12 +1,15 @@
+'use strict'
+
 /**
  * Traverse an iterable object through a function.
+ * 
  * @alias  each
  * @method each
  * @async
  * @static
- * @param  {iterable} iterable An iterable object
- * @param  {function} fn A function
- * @param  {number} concurrency The maximum number of concurrency
+ * @param {iterable} iterable - An iterable object
+ * @param {function} fn - A function
+ * @param {number} concurrency The maximum number of concurrency
  * @return {Promise<void>}
  * @example
  * const printDouble = async x => console.log(x * 2)

@@ -1,3 +1,5 @@
+'use strict'
+
 import silent from '../../src/fn/silent'
 
 test('silent example', async () => {

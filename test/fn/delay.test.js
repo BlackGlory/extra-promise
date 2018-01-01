@@ -1,3 +1,5 @@
+'use strict'
+
 import delay from '../../src/fn/delay'
 
 test('delay(fn, timeout)', async () => {

@@ -1,3 +1,5 @@
+'use strict'
+
 import sleep from '../../src/fn/sleep'
 
 test('sleep(timeout)', async () => {

@@ -1,12 +1,15 @@
+'use strict'
+
 import sleep from './sleep'
 
 /**
  * Wrap an async function as an async function that will retry when meet Rejected, and if it still fails after all retry, return the last exception.
+ * 
  * @method retry
  * @static
- * @param  {function} fn An async function that needs wrap
- * @param  {number} maxRetries The maximum number of retries
- * @param  {number} retryInterval Retry interval(ms)
+ * @param {function} fn - An async function that needs wrap
+ * @param {number} maxRetries - The maximum number of retries
+ * @param {number} retryInterval - Retry interval(ms)
  * @return {function} The wrapped async function
  * @example
  * function threeOrOut() {
