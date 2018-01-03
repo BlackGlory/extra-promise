@@ -128,17 +128,28 @@ Traverse an iterable object through a function.
 **Parameters**
 
 -   `iterable` **iterable** An iterable object
--   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** A function
+-   `fn` **function (v, i)** A function
 -   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The maximum number of concurrency
 
 **Examples**
 
 ```javascript
-const printDouble = async x => console.log(x * 2)
+function printDouble(v, i) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      output(`[${ i }] = ${ v * 2 }`)
+      resolve()
+    }, 1000)
+  })
+}
+
 const list = [1, 2, 3]
 
 ;(async () => {
-  await each(list, printDouble) // 2 4 6
+  await each(list, printDouble, 1)
+  // [0] = 2
+  // [1] = 4
+  // [2] = 6
 })()
 ```
 
@@ -181,14 +192,18 @@ Convert an iterable object to results through a function.
 **Parameters**
 
 -   `iterable` **iterable** An iterable object
--   `fn` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** A function
+-   `fn` **function (v, i)** A function
 -   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The maximum number of concurrency
 
 **Examples**
 
 ```javascript
-async function oneHundredDividedBy(x) {
-  return 100 / x
+function oneHundredDividedBy(v, i) {
+  return new Promsie(resolve => {
+    setTimeout(() => {
+      resolve(100 / v)
+    }, Math.floor(0 + Math.random() * (2000 + 1 - 0))) // Random 0ms ~ 2000ms
+  })
 }
 
 const list = [1, 2, 4]

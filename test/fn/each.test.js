@@ -3,16 +3,27 @@
 import each from '../../src/fn/each'
 import sleep from '../../src/fn/sleep'
 
+function generateRandomInteger(min, max) {
+  return Math.floor(min + Math.random() * (max + 1 - min))
+}
+
 test('each example', async () => {
   let result = []
   function output(x) {
     result.push(x)
   }
-  const printDouble = async x => output(x * 2)
+  async function printDouble(v, i) {
+    await sleep(generateRandomInteger(0, 2000))
+    output(`[${ i }] = ${ v * 2 }`)
+  }
   const list = [1, 2, 3]
-  await each(list, printDouble)
+  await each(list, printDouble, 1)
 
-  expect(result).toEqual([2, 4, 6])
+  expect(result).toEqual([
+    '[0] = 2'
+  , '[1] = 4'
+  , '[2] = 6'
+  ])
 })
 
 test('each(Set)', async () => {

@@ -2,33 +2,45 @@
 
 /**
  * Traverse an iterable object through a function.
- * 
+ *
  * @alias  each
  * @method each
  * @async
  * @static
  * @param {iterable} iterable - An iterable object
- * @param {function} fn - A function
+ * @param {function(v, i)} fn - A function
  * @param {number} concurrency The maximum number of concurrency
  * @return {Promise<void>}
  * @example
- * const printDouble = async x => console.log(x * 2)
+ * function printDouble(v, i) {
+ *   return new Promise(resolve => {
+ *     setTimeout(() => {
+ *       output(`[${ i }] = ${ v * 2 }`)
+ *       resolve()
+ *     }, 1000)
+ *   })
+ * }
+ *
  * const list = [1, 2, 3]
  *
  * ;(async () => {
- *   await each(list, printDouble) // 2 4 6
+ *   await each(list, printDouble, 1)
+ *   // [0] = 2
+ *   // [1] = 4
+ *   // [2] = 6
  * })()
  */
-export default async function each(iterable, fn = x => x, concurrency = Infinity) {
+export default async function each(iterable, fn = (x, i) => x, concurrency = Infinity) {
   const iterator = iterable[Symbol.iterator]()
+  let index = 0
 
-  async function run(value) {
+  async function run(value, i) {
     try {
-      await fn(value)
+      await fn(value, i)
     } finally {
       const { value, done } = iterator.next()
       if (!done) {
-        await run(value)
+        await run(value, index++)
       }
     }
   }
@@ -39,7 +51,7 @@ export default async function each(iterable, fn = x => x, concurrency = Infinity
       if (done) {
         break
       } else {
-        yield run(value)
+        yield run(value, index++)
       }
     }
   })())

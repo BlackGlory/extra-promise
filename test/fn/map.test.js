@@ -3,9 +3,14 @@
 import map from '../../src/fn/map'
 import sleep from '../../src/fn/sleep'
 
+function generateRandomInteger(min, max) {
+  return Math.floor(min + Math.random() * (max + 1 - min))
+}
+
 test('map example', async () => {
-  async function oneHundredDividedBy(x) {
-    return 100 / x
+  async function oneHundredDividedBy(v, i) {
+    await sleep(generateRandomInteger(0, 2000))
+    return 100 / v
   }
   const list = [1, 2, 4]
 
