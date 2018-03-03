@@ -33,7 +33,7 @@ export async function map(
 , fn = (element: any, index: number) => Promise.resolve(element)
 , concurrency: number = Infinity
 ) {
-  let results: any[] = []
+  const results: any[] = []
   await each(iterable, async (x, i) => results[i] = await fn(x, i), concurrency)
   return results
 }

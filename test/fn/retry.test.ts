@@ -38,7 +38,7 @@ test('retry(func, maxRetryCount)', async () => {
   try {
     await retry(callMeTimes, 2)(4)
     expect(true).toBe(false)
-  } catch(e) {
+  } catch (e) {
     expect(e.message).toEqual('Fail')
     expect(called).toEqual(3)
   }

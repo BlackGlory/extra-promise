@@ -14,7 +14,7 @@ export function fix<T>(fn: (...args: any[]) => T, fixer: (err: any) => void) {
     while (true) {
       try {
         return await fn(...args)
-      } catch(e) {
+      } catch (e) {
         await fixer(e)
       }
     }

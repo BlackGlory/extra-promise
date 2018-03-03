@@ -3,7 +3,8 @@
 import sleep from './sleep'
 
 /**
- * Wrap an async function as an async function that will retry when meet Rejected, and if it still fails after all retry, return the last exception.
+ * Wrap an async function as an async function that will retry when meet
+ * Rejected, and if it still fails after all retry, return the last exception.
  *
  * @method retry
  * @param {function} fn - An async function that needs wrap
@@ -38,7 +39,7 @@ export function retry<T>(
     do {
       try {
         return await fn(...args)
-      } catch(e) {
+      } catch (e) {
         lastError = e
         await sleep(retryInterval)
       }

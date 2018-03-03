@@ -26,7 +26,7 @@ test('promisify(fn.reject)', async () => {
   try {
     const result = await promisify(alert)(1000)
     expect(true).toBe(false)
-  } catch(e) {
+  } catch (e) {
     expect(e).toEqual('ALERT!!!')
   }
   const endTime = new Date().getTime()

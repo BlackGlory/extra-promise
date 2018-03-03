@@ -8,7 +8,7 @@ function generateRandomInteger(min: number, max: number) {
 }
 
 test('each example', async () => {
-  let result: string[] = []
+  const result: string[] = []
   function output(x: string) {
     result.push(x)
   }
@@ -27,7 +27,7 @@ test('each example', async () => {
 })
 
 test('each(Set)', async () => {
-  let result: number[] = []
+  const result: number[] = []
   function output(x: number) {
     result.push(x)
   }
@@ -39,7 +39,7 @@ test('each(Set)', async () => {
 })
 
 test('each(Generator)', async () => {
-  let result: number[] = []
+  const result: number[] = []
   function output(x: number) {
     result.push(x)
   }
@@ -56,7 +56,7 @@ test('each(Generator)', async () => {
 })
 
 test('each concurrency', async () => {
-  let result: number[] = []
+  const result: number[] = []
   const list = [1, 1, 1]
   await each(list, async x => {
     await sleep(x * 1000)

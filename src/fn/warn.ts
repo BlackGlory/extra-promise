@@ -1,7 +1,8 @@
 'use strict'
 
 /**
- * Wrap an async function be will only invoke a warning function when Promise status is Rejected without interrupting the running.
+ * Wrap an async function be will only invoke a warning function when Promise
+ * status is Rejected without interrupting the running.
  *
  * @method warn
  * @param {function} fn - The async function that needs wrap
@@ -23,7 +24,7 @@ export function warn<T>(
   return async (...args: any[]) => {
     try {
       return await fn(...args)
-    } catch(e) {
+    } catch (e) {
       buzzer(e)
     }
   }

@@ -13,7 +13,7 @@
  * isPromise(Promise) // false
  * isPromise({ then() {} }) // true
  */
-export function isPromise(obj: any) : boolean {
+export function isPromise(obj: any) {
   return typeof obj === 'object' && typeof obj.then === 'function'
 }
 

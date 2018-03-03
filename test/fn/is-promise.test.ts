@@ -12,5 +12,5 @@ test('isPromise example', async () => {
   expect(isPromise(Promise.resolve())).toBeTruthy()
   expect(isPromise(Promise.reject(new Error()))).toBeTruthy()
   expect(isPromise(Promise)).toBeFalsy()
-  expect(isPromise({ then() {} })).toBeTruthy()
+  expect(isPromise({ then: () => undefined })).toBeTruthy()
 })

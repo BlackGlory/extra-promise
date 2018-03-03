@@ -19,7 +19,7 @@
  * })()
  */
 export function silent<T>(asyncFn: (...args: any[]) => Promise<T>) {
-  return (...args: any[]) => asyncFn(...args).catch(() => {}) as Promise<T>
+  return (...args: any[]) => asyncFn(...args).catch(() => undefined) as Promise<T>
 }
 
 export default silent

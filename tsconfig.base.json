@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "target": "es6"
+  , "module": "umd"
+  , "strict": true
+  , "removeComments": true
+  , "sourceMap": true
+  , "declaration": true
+  }
+}

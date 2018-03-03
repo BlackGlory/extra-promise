@@ -22,8 +22,8 @@ class Box {
 }
 
 test('chain(fn)', async () => {
-  function createBox(val: number) : Promise<Box> {
-    return Promise.resolve(new Box(val))
+  function createBox(val: number) {
+    return Promise.resolve<Box>(new Box(val))
   }
 
   expect(await chain(createBox)(1).add(2).get()).toEqual(3)

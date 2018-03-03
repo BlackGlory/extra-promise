@@ -47,7 +47,7 @@ export async function each(
     }
   }
 
-  await Promise.all((function* () {
+  await Promise.all((function*() {
     while (concurrency--) {
       const { value, done } = iterator.next()
       if (done) {
