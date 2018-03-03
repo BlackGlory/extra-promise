@@ -5,8 +5,6 @@
  *
  * @alias  each
  * @method each
- * @async
- * @static
  * @param {iterable} iterable - An iterable object
  * @param {function(v, i)} fn - A function
  * @param {number} concurrency The maximum number of concurrency
@@ -30,11 +28,15 @@
  *   // [2] = 6
  * })()
  */
-export default async function each(iterable, fn = (x, i) => x, concurrency = Infinity) {
+export async function each(
+  iterable: Iterable<any>
+, fn = (element: any, index: number) => Promise.resolve(element)
+, concurrency = Infinity
+) {
   const iterator = iterable[Symbol.iterator]()
   let index = 0
 
-  async function run(value, i) {
+  async function run(value: any, i: number) {
     try {
       await fn(value, i)
     } finally {
@@ -56,3 +58,5 @@ export default async function each(iterable, fn = (x, i) => x, concurrency = Inf
     }
   })())
 }
+
+export default each

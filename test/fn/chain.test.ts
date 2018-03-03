@@ -3,12 +3,14 @@
 import chain from '../../src/fn/chain'
 
 class Box {
-  constructor(val) {
+  val: number
+
+  constructor(val: number) {
     this.val = val
   }
 
-  add(val) {
-    return new Promise(resolve => {
+  add(val: number) {
+    return new Promise<Box>(resolve => {
       this.val += val
       resolve(this)
     })
@@ -20,24 +22,44 @@ class Box {
 }
 
 test('chain(fn)', async () => {
-  function createBox(val) {
+  function createBox(val: number) : Promise<Box> {
     return Promise.resolve(new Box(val))
   }
 
   expect(await chain(createBox)(1).add(2).get()).toEqual(3)
-  expect(await chain(createBox)(1).add(2).get()).toEqual(await (await (await createBox(1)).add(2)).get())
-  expect(await chain(createBox)(1).add(2).get()).toEqual(await createBox(1).then(x => x.add(2)).then(x => x.get()))
+  expect(await chain(createBox)(1).add(2).get()).toEqual(
+    await (
+      await (
+        await createBox(1)
+      ).add(2)
+    ).get()
+  )
+  expect(await chain(createBox)(1).add(2).get()).toEqual(
+    await createBox(1)
+      .then(x => x.add(2))
+      .then(x => x.get())
+  )
 })
 
 test('chain(obj)', async () => {
   expect(await chain(new Box(1)).add(2).get()).toEqual(3)
-  expect(await chain(new Box(1)).add(2).get()).toEqual(await (await (new Box(1)).add(2)).get())
-  expect(await chain(new Box(1)).add(2).get()).toEqual(await (new Box(1)).add(2).then(x => x.get()))
+  expect(await chain(new Box(1)).add(2).get()).toEqual(
+    await (
+      await (
+        new Box(1)
+      ).add(2)
+    ).get()
+  )
+  expect(await chain(new Box(1)).add(2).get()).toEqual(
+    await (new Box(1)).add(2).then(x => x.get())
+  )
 })
 
 test('chain example', async () => {
   class Calculator {
-    constructor(initialValue) {
+    value: number
+
+    constructor(initialValue: number) {
       this.value = initialValue
     }
 
@@ -45,12 +67,12 @@ test('chain example', async () => {
       return this.value
     }
 
-    async add(value) {
+    async add(value: number) {
       this.value += value
       return this
     }
 
-    async sub(value) {
+    async sub(value: number) {
       this.value -= value
       return this
     }

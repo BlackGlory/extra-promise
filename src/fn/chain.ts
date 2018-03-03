@@ -1,12 +1,11 @@
 'use strict'
 
-import isPromise from './is-promise'
+import { isPromise } from './is-promise'
 
 /**
  * Make asynchronous chained calls easy to write.
- * 
+ *
  * @method chain
- * @static
  * @param {Object|function} target - A target that needs asynchronous chained calls
  * @return {Proxy<Promise>} The Proxy object that supports asynchronous chained calls
  * @example
@@ -57,14 +56,15 @@ import isPromise from './is-promise'
  *     .then(console.log) // 50
  * })()
  */
-export default function chain(target) {
+
+export function chain(target: any) {
   class CallableObject extends Function {}
 
   function wrapper() {
-    let lastPromise = Promise.resolve(target)
+    let lastPromise: Promise<any> = Promise.resolve(target)
 
-    const proxy = new Proxy(CallableObject, {
-      get(_, prop) {
+    const proxy: any = new Proxy(CallableObject, {
+      get(_: any, prop: string) {
         if (prop === 'then' || prop === 'catch') {
           return lastPromise[prop].bind(lastPromise)
         } else {
@@ -72,7 +72,7 @@ export default function chain(target) {
           return proxy
         }
       }
-    , apply(_, caller, args) {
+    , apply(_: any, caller: any, args: any[]) {
         lastPromise = lastPromise.then(x => x(...args))
         return proxy
       }
@@ -83,3 +83,5 @@ export default function chain(target) {
 
   return wrapper()
 }
+
+export default chain

@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es6"
+  , "module": "umd"
+  , "strict": true
+  , "removeComments": true
+  , "sourceMap": true
+  }
+, "include": [
+    "src/**/*"
+  ]
+, "exclude": [
+    "node_modules"
+  , "lib"
+  ]
+}

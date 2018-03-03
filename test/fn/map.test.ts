@@ -3,12 +3,12 @@
 import map from '../../src/fn/map'
 import sleep from '../../src/fn/sleep'
 
-function generateRandomInteger(min, max) {
+function generateRandomInteger(min: number, max: number) {
   return Math.floor(min + Math.random() * (max + 1 - min))
 }
 
 test('map example', async () => {
-  async function oneHundredDividedBy(v, i) {
+  async function oneHundredDividedBy(v: number, i: number) {
     await sleep(generateRandomInteger(0, 2000))
     return 100 / v
   }
@@ -19,7 +19,7 @@ test('map example', async () => {
 })
 
 test('map(Set)', async () => {
-  async function oneHundredDividedBy(x) {
+  async function oneHundredDividedBy(x: number) {
     return 100 / x
   }
   const list = new Set([1, 2, 4])
@@ -29,7 +29,7 @@ test('map(Set)', async () => {
 })
 
 test('map(Generator)', async () => {
-  function* counter(start, end) {
+  function* counter(start: number, end: number) {
     for (let i = start; i <= end; i++) {
       yield Promise.resolve(i)
     }

@@ -3,7 +3,7 @@
 import warn from '../../src/fn/warn'
 
 test('warn(fn, warn)', async () => {
-  global.console = { warn: jest.fn() }
+  global.console.warn = jest.fn()
   const result = await warn(() => Promise.reject('Warning'))()
   expect(result).toBeUndefined()
   expect(console.warn).toHaveBeenCalledTimes(1)
@@ -12,12 +12,12 @@ test('warn(fn, warn)', async () => {
 
 test('warn example', async () => {
   let result
-  function output(x) {
+  function output(x: any) {
     result = x
   }
 
-  const problemMaker = text => Promise.reject(text)
-  const buzzer = e => output(`WARNING: ${ e }`)
+  const problemMaker = (text: any) => Promise.reject(text)
+  const buzzer = (e: any) => output(`WARNING: ${ e }`)
   const problemMakerWithBuzzer = warn(problemMaker, buzzer)
 
   await problemMakerWithBuzzer('Fire!')

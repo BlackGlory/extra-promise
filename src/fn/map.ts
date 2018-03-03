@@ -7,8 +7,6 @@ import each from './each'
  *
  * @alias map
  * @method map
- * @async
- * @static
  * @param {iterable} iterable - An iterable object
  * @param {function(v, i)} fn - A function
  * @param {number} concurrency - The maximum number of concurrency
@@ -30,8 +28,14 @@ import each from './each'
  *   // [100, 50, 25]
  * })()
  */
-export default async function map(iterable, fn = (x, i) => x, concurrency = iterable.length) {
-  let results = []
+export async function map(
+  iterable: Iterable<any>
+, fn = (element: any, index: number) => Promise.resolve(element)
+, concurrency: number = Infinity
+) {
+  let results: any[] = []
   await each(iterable, async (x, i) => results[i] = await fn(x, i), concurrency)
   return results
 }
+
+export default map

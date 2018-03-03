@@ -15,5 +15,7 @@ test('extra-promise', () => {
   , 'silent'
   , 'sleep'
   , 'warn'
+  , 'extraPromise'
+  , 'default'
   ])
 })

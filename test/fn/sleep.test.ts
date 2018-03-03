@@ -3,9 +3,9 @@
 import sleep from '../../src/fn/sleep'
 
 test('sleep(timeout)', async () => {
-  const startTime = new Date()
+  const startTime = new Date().getTime()
   await sleep(1000)
-  const endTime = new Date()
+  const endTime = new Date().getTime()
   expect(endTime - startTime >= 1000).toBeTruthy()
 })
 
@@ -15,8 +15,8 @@ test('sleep()', async () => {
 })
 
 test('sleep example', async () => {
-  const startTime = new Date()
+  const startTime = new Date().getTime()
   await sleep(2000)
-  const endTime = new Date()
+  const endTime = new Date().getTime()
   expect(endTime - startTime >= 2000).toBeTruthy()
 })

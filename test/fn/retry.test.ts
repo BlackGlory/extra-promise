@@ -5,7 +5,7 @@ import retry from '../../src/fn/retry'
 test('retry(func)', async () => {
   let called = 0
 
-  function callMeTimes(times) {
+  function callMeTimes(times: number) {
     called++
     return new Promise((resolve, reject) => {
       if (called === times) {
@@ -24,7 +24,7 @@ test('retry(func)', async () => {
 test('retry(func, maxRetryCount)', async () => {
   let called = 0
 
-  function callMeTimes(times) {
+  function callMeTimes(times: number) {
     called++
     return new Promise((resolve, reject) => {
       if (called === times) {
@@ -47,7 +47,7 @@ test('retry(func, maxRetryCount)', async () => {
 test('retry(func, maxRetryCount, retryInterval)', async () => {
   let called = 0
 
-  function callMeTimes(times) {
+  function callMeTimes(times: number) {
     called++
     return new Promise((resolve, reject) => {
       if (called === times) {
@@ -58,9 +58,9 @@ test('retry(func, maxRetryCount, retryInterval)', async () => {
     })
   }
 
-  const startTime = new Date()
+  const startTime = new Date().getTime()
   await retry(callMeTimes, 2, 1000)(3)
-  const endTime = new Date()
+  const endTime = new Date().getTime()
 
   expect(called).toEqual(3)
   expect(endTime - startTime >= 2000).toBeTruthy()

@@ -2,9 +2,8 @@
 
 /**
  * Convert a function that needs a callback to async function.
- * 
+ *
  * @method promisify
- * @static
  * @param {function} fn - A function that needs convert
  * @return {function} The converted async function
  * @example
@@ -14,9 +13,9 @@
  *   const result = await asyncAdd(1, 2) // 3
  * })()
  */
-export default function promisify(fn) {
-  return (...args) => new Promise((resolve, reject) => {
-    fn(...args, (err, result) => {
+export function promisify<T>(fn: (...args: any[]) => any) {
+  return (...args: any[]) => new Promise<T>((resolve, reject) => {
+    fn(...args, (err: any, result: T) => {
       if (err) {
         return reject(err)
       }
@@ -24,3 +23,5 @@ export default function promisify(fn) {
     })
   })
 }
+
+export default promisify
