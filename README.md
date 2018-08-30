@@ -337,7 +337,7 @@ const problemMakerWithBuzzer = warn(problemMaker, buzzer)
 
 Returns **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** The wrapped async function
 
-### map
+### filter
 
 Filter an iterable object to results through a function.
 
