@@ -1,6 +1,6 @@
 {
   "name": "extra-promise",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Utilities for using Promise and Async/Await in JavaScript",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
