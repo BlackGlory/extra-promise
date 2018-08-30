@@ -1,6 +1,4 @@
-'use strict'
-
-import retry from '../../src/fn/retry'
+import retry from '../src/retry'
 
 test('retry(func)', async () => {
   let called = 0

@@ -28,6 +28,7 @@ import { chain, delay, each, fix, isPromise, map, promisify, retry, silent, slee
 -   [silent](#silent)
 -   [sleep](#sleep)
 -   [warn](#warn)
+-   [filter](#filter)
 
 ### chain
 
@@ -335,3 +336,35 @@ const problemMakerWithBuzzer = warn(problemMaker, buzzer)
 ```
 
 Returns **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** The wrapped async function
+
+### map
+
+Filter an iterable object to results through a function.
+
+**Parameters**
+
+-   `iterable` **iterable** An iterable object
+-   `fn` **function (v, i)** A function
+-   `concurrency` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The maximum number of concurrency
+
+**Examples**
+
+```javascript
+function isEven(num) {
+  return new Promise(resolve => {
+    setTimeout(
+      () => resolve(num % 2 === 0)
+    , 1000)
+  })
+}
+
+const list = [1, 2, 3, 4, 5]
+
+;(async () => {
+  const newList = await filter(list, isEven)
+  console.log(newList)
+  // [2, 4]
+})()
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)>** Results

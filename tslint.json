@@ -12,6 +12,7 @@
   , "no-shadowed-variable": false
   , "member-access": false
   , "max-classes-per-file": false
+  , "no-console": false
   }
 , "rulesDirectory": []
 }

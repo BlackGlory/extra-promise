@@ -1,9 +1,6 @@
-'use strict'
-
 /**
  * Wrap an async function as an async function that will never throw an exception.
  *
- * @method silent
  * @param {function} fn - The async function that needs wrap
  * @return {function} The wrapped async function
  * @example

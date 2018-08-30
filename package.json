@@ -1,14 +1,15 @@
 {
   "name": "extra-promise",
-  "version": "0.3.4",
+  "version": "0.4.0",
   "description": "Utilities for using Promise and Async/Await in JavaScript",
-  "main": "lib/extra-promise.js",
-  "typings": "lib/extra-promise.d.ts",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
   "repository": "git@github.com:BlackGlory/extra-promise.git",
   "author": "BlackGlory <woshenmedoubuzhidao@blackglory.me>",
   "license": "MIT",
   "scripts": {
-    "precommit": "yarn test && yarn lint",
+    "precommit": "yarn lint && yarn test",
+    "prepublishOnly": "yarn build",
     "test": "jest --coverage",
     "build": "tsc --outDir lib",
     "lint": "tslint -t codeFrame 'src/**/*.ts' 'test/**/*.ts'"
@@ -28,15 +29,15 @@
     ]
   },
   "devDependencies": {
-    "@types/jest": "^22.1.4",
-    "coveralls": "^3.0.0",
-    "documentation": "^5.3.5",
+    "@types/jest": "^23.3.1",
+    "coveralls": "^3.0.2",
+    "documentation": "^8.1.2",
     "husky": "^0.14.3",
-    "jest": "^22.4.2",
-    "ts-jest": "^22.4.1",
-    "tslint": "^5.9.1",
-    "typedoc": "^0.10.0",
-    "typescript": "^2.7.2"
+    "jest": "^23.5.0",
+    "ts-jest": "^23.1.4",
+    "tslint": "^5.11.0",
+    "typedoc": "^0.12.0",
+    "typescript": "^3.0.1"
   },
   "dependencies": {}
 }

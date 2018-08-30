@@ -1,6 +1,4 @@
-'use strict'
-
-import warn from '../../src/fn/warn'
+import warn from '../src/warn'
 
 test('warn(fn, warn)', async () => {
   global.console.warn = jest.fn()

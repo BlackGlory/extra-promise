@@ -1,7 +1,5 @@
-'use strict'
-
-import map from '../../src/fn/map'
-import sleep from '../../src/fn/sleep'
+import map from '../src/map'
+import sleep from '../src/sleep'
 
 function generateRandomInteger(min: number, max: number) {
   return Math.floor(min + Math.random() * (max + 1 - min))
@@ -31,7 +29,7 @@ test('map(Set)', async () => {
 test('map(Generator)', async () => {
   function* counter(start: number, end: number) {
     for (let i = start; i <= end; i++) {
-      yield Promise.resolve(i)
+      yield i
     }
   }
 

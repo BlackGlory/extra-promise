@@ -1,9 +1,6 @@
-'use strict'
-
 /**
  * A setTimeout async function.
  *
- * @method sleep
  * @param {number} timeout - Timeout(ms)
  * @return {Promise<number>} Elapsed time(ms)
  * @example

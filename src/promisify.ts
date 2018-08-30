@@ -1,9 +1,6 @@
-'use strict'
-
 /**
  * Convert a function that needs a callback to async function.
  *
- * @method promisify
  * @param {function} fn - A function that needs convert
  * @return {function} The converted async function
  * @example

@@ -1,11 +1,8 @@
-'use strict'
-
 import sleep from './sleep'
 
 /**
  * Wrap an async function as a delayed async function.
  *
- * @method delay
  * @param {function} fn - An async function that needs wrap
  * @param {number} timeout - delay(ms)
  * @return {function} The wrapped async function

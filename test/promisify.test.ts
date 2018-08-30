@@ -1,6 +1,4 @@
-'use strict'
-
-import promisify from '../../src/fn/promisify'
+import promisify from '../src/promisify'
 
 type Callback = (err: any, result?: any) => void
 

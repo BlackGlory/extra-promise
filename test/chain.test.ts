@@ -1,6 +1,4 @@
-'use strict'
-
-import chain from '../../src/fn/chain'
+import chain from '../src/chain'
 
 class Box {
   val: number

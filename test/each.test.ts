@@ -1,7 +1,5 @@
-'use strict'
-
-import each from '../../src/fn/each'
-import sleep from '../../src/fn/sleep'
+import each from '../src/each'
+import sleep from '../src/sleep'
 
 function generateRandomInteger(min: number, max: number) {
   return Math.floor(min + Math.random() * (max + 1 - min))

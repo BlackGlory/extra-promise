@@ -1,6 +1,4 @@
-'use strict'
-
-import silent from '../../src/fn/silent'
+import silent from '../src/silent'
 
 test('silent example', async () => {
   async function noiseMaker() {

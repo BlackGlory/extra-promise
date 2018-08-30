@@ -1,10 +1,6 @@
-'use strict'
-
 /**
  * Traverse an iterable object through a function.
  *
- * @alias  each
- * @method each
  * @param {iterable} iterable - An iterable object
  * @param {function(v, i)} fn - A function
  * @param {number} concurrency The maximum number of concurrency
@@ -30,7 +26,7 @@
  */
 export async function each(
   iterable: Iterable<any>
-, fn = (element: any, index: number) => Promise.resolve(element)
+, fn: (element: any, index: number) => any | Promise<any> = element => element
 , concurrency = Infinity
 ) {
   const iterator = iterable[Symbol.iterator]()

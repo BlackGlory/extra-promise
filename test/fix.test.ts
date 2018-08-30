@@ -1,6 +1,4 @@
-'use strict'
-
-import fix from '../../src/fn/fix'
+import fix from '../src/fix'
 
 test('fix example', async () => {
   let stable = false

@@ -1,6 +1,4 @@
-'use strict'
-
-import isPromise from '../../src/fn/is-promise'
+import isPromise from '../src/is-promise'
 
 test('isPromise(obj)', async () => {
   const promise = Promise.resolve()

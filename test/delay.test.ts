@@ -1,6 +1,4 @@
-'use strict'
-
-import delay from '../../src/fn/delay'
+import delay from '../src/delay'
 
 test('delay(fn, timeout)', async () => {
   function val(val: string) {

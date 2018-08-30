@@ -1,6 +1,4 @@
-'use strict'
-
-import sleep from '../../src/fn/sleep'
+import sleep from '../src/sleep'
 
 test('sleep(timeout)', async () => {
   const startTime = new Date().getTime()

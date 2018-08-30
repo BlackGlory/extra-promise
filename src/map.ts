@@ -1,12 +1,8 @@
-'use strict'
-
 import each from './each'
 
 /**
  * Convert an iterable object to results through a function.
  *
- * @alias map
- * @method map
  * @param {iterable} iterable - An iterable object
  * @param {function(v, i)} fn - A function
  * @param {number} concurrency - The maximum number of concurrency
@@ -30,7 +26,7 @@ import each from './each'
  */
 export async function map(
   iterable: Iterable<any>
-, fn = (element: any, index: number) => Promise.resolve(element)
+, fn: (element: any, index: number) => any | Promise<any> = element => element
 , concurrency: number = Infinity
 ) {
   const results: any[] = []

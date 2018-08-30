@@ -1,10 +1,6 @@
-'use strict'
-
 /**
  * Check if an object is a Promise instance.
  *
- * @alias isPromise
- * @method isPromise
  * @param {any} obj - An object needs to be checked
  * @return {boolean} Result
  * @example
