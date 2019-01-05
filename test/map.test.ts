@@ -37,7 +37,7 @@ test('map(Generator)', async () => {
   expect(result).toEqual([1, 2, 3, 4, 5])
 })
 
-test('map concurrency', async () => {
+test('map concurrent', async () => {
   const list = [1, 1, 1]
   const result = await map(list, async x => {
     await sleep(x * 1000)

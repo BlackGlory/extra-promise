@@ -5,7 +5,7 @@ import each from './each'
  *
  * @param {iterable} iterable - An iterable object
  * @param {function(v, i)} fn - A function
- * @param {number} concurrency - The maximum number of concurrency
+ * @param {number} concurrent - Concurrent
  * @return {Promise<Array>} Results
  * @example
  *
@@ -28,14 +28,14 @@ import each from './each'
 export async function filter(
   iterable: Iterable<any>
 , fn: (element: any, index: number) => any | Promise<any> = element => element
-, concurrency: number = Infinity
+, concurrent: number = Infinity
 ) {
   const results: any[] = []
   await each(iterable, async (x, i) => {
     if (await fn(x, i)) {
       results[i] = x
     }
-  }, concurrency)
+  }, concurrent)
   return Object.values(results) // Object.values will ignore empty elements.
 }
 

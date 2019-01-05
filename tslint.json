@@ -13,6 +13,7 @@
   , "member-access": false
   , "max-classes-per-file": false
   , "no-console": false
+  , "one-variable-per-declaration": false
   }
 , "rulesDirectory": []
 }

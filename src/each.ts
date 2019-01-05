@@ -3,7 +3,7 @@
  *
  * @param {iterable} iterable - An iterable object
  * @param {function(v, i)} fn - A function
- * @param {number} concurrency The maximum number of concurrency
+ * @param {number} concurrent - Concurrent
  * @return {Promise<void>}
  * @example
  * function printDouble(v, i) {
@@ -27,7 +27,7 @@
 export async function each(
   iterable: Iterable<any>
 , fn: (element: any, index: number) => any | Promise<any> = element => element
-, concurrency = Infinity
+, concurrent = Infinity
 ) {
   const iterator = iterable[Symbol.iterator]()
   let index = 0
@@ -44,7 +44,7 @@ export async function each(
   }
 
   await Promise.all((function*() {
-    while (concurrency--) {
+    while (concurrent--) {
       const { value, done } = iterator.next()
       if (done) {
         break

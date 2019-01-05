@@ -2,7 +2,7 @@ import { filter } from '../src/filter'
 import { sleep } from '../src/sleep'
 
 test('filter example', async () => {
-  function isEven(num) {
+  function isEven(num: number) {
     return new Promise(resolve => {
       setTimeout(
         () => resolve(num % 2 === 0)
@@ -32,7 +32,7 @@ test('filter(Generator)', async () => {
   expect(newList).toEqual([1, 2])
 })
 
-test('filter concurrency', async () => {
+test('filter concurrent', async () => {
   const result: number[] = []
   const list = [1, 1, 1]
   await filter(list, async x => {

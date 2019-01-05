@@ -5,7 +5,7 @@ import each from './each'
  *
  * @param {iterable} iterable - An iterable object
  * @param {function(v, i)} fn - A function
- * @param {number} concurrency - The maximum number of concurrency
+ * @param {number} concurrent - Concurrent
  * @return {Promise<Array>} Results
  * @example
  * function oneHundredDividedBy(v, i) {
@@ -27,10 +27,10 @@ import each from './each'
 export async function map(
   iterable: Iterable<any>
 , fn: (element: any, index: number) => any | Promise<any> = element => element
-, concurrency: number = Infinity
+, concurrent: number = Infinity
 ) {
   const results: any[] = []
-  await each(iterable, async (x, i) => results[i] = await fn(x, i), concurrency)
+  await each(iterable, async (x, i) => results[i] = await fn(x, i), concurrent)
   return results
 }
 

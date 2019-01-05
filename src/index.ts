@@ -1,4 +1,5 @@
 export * from './chain'
+export * from './defer'
 export * from './delay'
 export * from './each'
 export * from './fix'

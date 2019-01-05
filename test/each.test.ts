@@ -53,7 +53,7 @@ test('each(Generator)', async () => {
   expect(result).toEqual([2, 4, 6])
 })
 
-test('each concurrency', async () => {
+test('each concurrent', async () => {
   const result: number[] = []
   const list = [1, 1, 1]
   await each(list, async x => {
