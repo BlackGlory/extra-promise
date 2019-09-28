@@ -2,6 +2,8 @@ import isPromise from '../src/is-promise'
 
 test('isPromise(obj)', async () => {
   const promise = Promise.resolve()
+  expect(isPromise(undefined)).toBeFalsy()
+  expect(isPromise(null)).toBeFalsy()
   expect(isPromise(promise)).toBeTruthy()
   expect(isPromise({})).toBeFalsy()
 })
