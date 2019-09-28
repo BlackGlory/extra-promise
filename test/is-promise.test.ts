@@ -1,14 +1,9 @@
-import isPromise from '../src/is-promise'
+import { isPromise } from '../src'
 
-test('isPromise(obj)', async () => {
-  const promise = Promise.resolve()
-  expect(isPromise(promise)).toBeTruthy()
-  expect(isPromise({})).toBeFalsy()
+test('isPromise(PromiseLike)', () => {
+  expect(isPromise({ then: () => undefined })).toBeTruthy()
 })
 
-test('isPromise example', async () => {
-  expect(isPromise(Promise.resolve())).toBeTruthy()
-  expect(isPromise(Promise.reject(new Error()))).toBeTruthy()
-  expect(isPromise(Promise)).toBeFalsy()
-  expect(isPromise({ then: () => undefined })).toBeTruthy()
+test('isPromise(null)', () => {
+  expect(isPromise(null)).toBeFalsy()
 })

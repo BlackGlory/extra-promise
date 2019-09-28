@@ -56,3 +56,12 @@ typings/
 
 # dotenv environment variables file
 .env
+
+# Development
+src
+test
+jest.config.json
+tsconfig.*.json
+tsconfig.json
+tslint.json
+.travis.yml

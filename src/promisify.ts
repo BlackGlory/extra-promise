@@ -6,19 +6,15 @@
  * @example
  * const add = (a, b, callback) => callback(null, a + b)
  * const asyncAdd = promisify(add)
- * ;(async () => {
- *   const result = await asyncAdd(1, 2) // 3
- * })()
+ * const result = await asyncAdd(1, 2) // 3
  */
-export function promisify<T>(fn: (...args: any[]) => any) {
-  return (...args: any[]) => new Promise<T>((resolve, reject) => {
-    fn(...args, (err: any, result: T) => {
-      if (err) {
-        return reject(err)
-      }
-      resolve(result)
+export function promisify<Result = any, Args extends unknown[] = unknown[]>(fn: (...args: any[]) => unknown): (...args: Args) => Promise<Result> {
+  return function (...args: Args) {
+    return new Promise<Result>((resolve, reject) => {
+      fn(...args, (err: unknown, result: Result) => {
+        if (err) return reject(err)
+        resolve(result)
+      })
     })
-  })
+  }
 }
-
-export default promisify
