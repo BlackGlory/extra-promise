@@ -1,10 +1,7 @@
 {
   "compilerOptions": {
-    "target": "esnext"
+    "target": "es2019"
   , "module": "CommonJS"
   , "strict": true
-  , "removeComments": true
-  , "sourceMap": true
-  , "declaration": true
   }
 }

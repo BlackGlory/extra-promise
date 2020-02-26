@@ -1,82 +1,35 @@
-import retry from '../src/retry'
+import { getError } from 'return-style'
+import { retry } from '../src'
 
-test('retry(func)', async () => {
-  let called = 0
-
-  function callMeTimes(times: number) {
-    called++
-    return new Promise((resolve, reject) => {
-      if (called === times) {
-        resolve()
-      } else {
-        reject()
-      }
-    })
-  }
-
-  await retry(callMeTimes)(2)
-
-  expect(called).toEqual(2)
+test('retry(fn)', async () => {
+  expect(await retry(failTimes(10))).toBe(10)
 })
 
-test('retry(func, maxRetryCount)', async () => {
-  let called = 0
-
-  function callMeTimes(times: number) {
-    called++
-    return new Promise((resolve, reject) => {
-      if (called === times) {
-        resolve()
-      } else {
-        reject(new Error('Fail'))
-      }
-    })
-  }
-
-  try {
-    await retry(callMeTimes, 2)(4)
-    expect(true).toBe(false)
-  } catch (e) {
-    expect(e.message).toEqual('Fail')
-    expect(called).toEqual(3)
-  }
+test('retry(fn, { interval: 500 }', async () => {
+  const start = getTime()
+  expect(await retry(failTimes(1), { interval: 500 })).toBe(1)
+  expect(getTime() - start).toBeGreaterThanOrEqual(500)
 })
 
-test('retry(func, maxRetryCount, retryInterval)', async () => {
-  let called = 0
-
-  function callMeTimes(times: number) {
-    called++
-    return new Promise((resolve, reject) => {
-      if (called === times) {
-        resolve()
-      } else {
-        reject()
-      }
-    })
-  }
-
-  const startTime = new Date().getTime()
-  await retry(callMeTimes, 2, 1000)(3)
-  const endTime = new Date().getTime()
-
-  expect(called).toEqual(3)
-  expect(endTime - startTime >= 2000).toBeTruthy()
+test('retry(fn, { times: 1 })', async () => {
+  await retry(failTimes(1), { times: 1 })
+  const count = await getError(retry(failTimes(2), { times: 1 }))
+  if (!count) fail()
+  expect(count).toBe(2)
 })
 
-test('retry example', async () => {
-  function threeOrOut() {
-    let times = 0
-    return async () => {
-      times++
-      if (times < 3) {
-        throw new Error('need more')
-      }
-      return times
+function failTimes(times: number) {
+  let failCount = 0
+
+  return () => {
+    if (failCount < times) {
+      failCount++
+      throw failCount
     }
+    return failCount
   }
-  const threeOrOutWithRetry = retry(threeOrOut(), 3)
+}
 
-  const result = await threeOrOutWithRetry()
-  expect(result).toEqual(3)
-})
+function getTime() {
+  return new Date().getTime()
+}

@@ -1,40 +1,22 @@
-import promisify from '../src/promisify'
+import { getError } from 'return-style'
+import { promisify } from '../src'
+
+test('promisify(fn) resolved', async () => {
+  const asyncFn = promisify(call)
+  expect(typeof asyncFn === 'function').toBeTruthy()
+  expect(await asyncFn([null, 'resolved'])).toBe('resolved')
+})
+
+test('promisify(fn) rejected', async () => {
+  const asyncFn = promisify(call)
+  expect(typeof asyncFn === 'function').toBeTruthy()
+  const err = await getError(asyncFn(['rejected']))
+  if (!err) fail()
+  expect(err).toBe('rejected')
+})
 
 type Callback = (err: any, result?: any) => void
 
-test('promisify(fn.resolve)', async () => {
-  function alarm(timeout = 0, callback: Callback) {
-    setTimeout(() => callback(null, 'ALARM!!!'), timeout)
-  }
-
-  const startTime = new Date().getTime()
-  const result = await promisify(alarm)(1000)
-  const endTime = new Date().getTime()
-
-  expect(endTime - startTime >= 1000).toBeTruthy()
-  expect(result).toEqual('ALARM!!!')
-})
-
-test('promisify(fn.reject)', async () => {
-  function alert(timeout = 0, callback: Callback) {
-    setTimeout(() => callback('ALERT!!!'), timeout)
-  }
-
-  const startTime = new Date().getTime()
-  try {
-    const result = await promisify(alert)(1000)
-    expect(true).toBe(false)
-  } catch (e) {
-    expect(e).toEqual('ALERT!!!')
-  }
-  const endTime = new Date().getTime()
-
-  expect(endTime - startTime >= 1000).toBeTruthy()
-})
-
-test('promisify example', async () => {
-  const add = (a: number, b: number, callback: Callback) => callback(null, a + b)
-  const asyncAdd = promisify(add)
-  const result = await asyncAdd(1, 2)
-  expect(result).toEqual(3)
-})
+function call(args: Parameters<Callback>, callback: Callback) {
+  queueMicrotask(() => callback(...args))
+}
