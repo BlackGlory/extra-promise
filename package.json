@@ -8,7 +8,7 @@
   "author": "BlackGlory <woshenmedoubuzhidao@blackglory.me>",
   "license": "MIT",
   "scripts": {
-    "prepublishOnly": "yarn clean & yarn build",
+    "prepublishOnly": "yarn clean && yarn build",
     "test": "jest --coverage --config jest.config.json",
     "debug": "node --inspect node_modules/.bin/jest --runInBand",
     "clean": "rm -rf lib",
@@ -33,7 +33,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": ""
+      "pre-commit": "yarn clean && yarn build"
     }
   }
 }
