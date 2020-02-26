@@ -33,7 +33,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn clean && yarn build"
+      "pre-commit": "yarn lint && yarn test"
     }
   }
 }
