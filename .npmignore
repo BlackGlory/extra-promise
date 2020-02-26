@@ -58,6 +58,7 @@ typings/
 .env
 
 # Development
+.github
 src
 test
 jest.config.json
