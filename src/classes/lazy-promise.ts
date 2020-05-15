@@ -1,8 +1,8 @@
 export class LazyPromise<T> implements PromiseLike<T> {
   #promise?: Promise<T>
-  #executor: (resolve: (value?: T) => void, reject: (reason?: any) => void) => void
+  #executor: (resolve: (value: T) => void, reject: (reason: any) => void) => void
 
-  constructor(executor: (resolve: (value?: T) => void, reject: (reason?: any) => void) => void) {
+  constructor(executor: (resolve: (value: T) => void, reject: (reason: any) => void) => void) {
     this.#executor = executor
   }
 

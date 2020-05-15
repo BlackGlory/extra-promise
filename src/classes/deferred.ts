@@ -1,6 +1,6 @@
 export class Deferred<T> implements PromiseLike<T> {
-  #resolve?: (value?: T) => void
-  #reject?: (reason?: any) => void
+  #resolve!: (value: T) => void
+  #reject!: (reason: any) => void
   #promise: Promise<T>
 
   constructor() {
@@ -14,11 +14,11 @@ export class Deferred<T> implements PromiseLike<T> {
     return this.#promise.then.bind(this.#promise)
   }
 
-  resolve(value?: T): void {
-    this.#resolve!(value)
+  resolve(value: T): void {
+    this.#resolve(value)
   }
 
-  reject(reason?: any): void {
-    this.#reject!(reason)
+  reject(reason: unknown): void {
+    this.#reject(reason)
   }
 }
