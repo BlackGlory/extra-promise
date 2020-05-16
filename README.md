@@ -133,7 +133,7 @@ const addAsync = asyncify(add) // (a: number | PromiseLike<number>, b: number | 
 await addAsync(a, b) // Promise<3>
 ```
 
-#### cascadify
+### cascadify
 
 `function cascadify<T extends object>(target: T): Cascadify<T>`
 
@@ -175,7 +175,7 @@ await cascadify(adder)
   .value
 ```
 
-#### makeChannel, makeBlockingChannel
+### makeChannel, makeBlockingChannel
 
 * `function makeChannel(): [(value: T) => void, () => AsyncIterable<T>, () => void]`
 * `function makeBlockingChannel(bufferSize: number): [(value: T) => Promise<void>, () => AsyncIterable<T>, () => void]`
