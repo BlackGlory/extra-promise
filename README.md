@@ -184,7 +184,7 @@ Implement "multi-producer, single-consumer" FIFO queue communication with `Promi
 
 `makeChannel` return a tuple includes three channel functions:
 * `function send(value: T): void`
-* `function receive(): AsyncIterable<T>`)
+* `function receive(): AsyncIterable<T>`
 * `function close(): void`
 
 `makeBlockingChannel` is the asynchronous blocking version of `makeChannel` implemented with `Promise`.
@@ -192,7 +192,7 @@ When the amount of data sent exceeds `bufferSize`, blocking will occur until dat
 
 `makeBlockingChannel` return a tuple includes three channel functions:
 * `function send(value: T): Promise<void>`
-* `function receive(): AsyncIterable<T>`)
+* `function receive(): AsyncIterable<T>`
 * `function close(): void`
 
 If the channel closed, `send()` will throw `ChannelClosedError`.
