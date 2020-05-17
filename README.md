@@ -91,7 +91,7 @@ Invalid values will throw `InvalidArugmentError`.
 
 `function filter<T, U = T>(iterable: Iterable<T>, fn: (element: T, i: number) => boolean | PromiseLike<boolean>, concurrency: number = Infinity): Promise<U[]>`
 
-The async `filter` operator for Iteable.
+The async `filter` operator for Iterable.
 
 The value range of `concurrency` is [1, Infinity].
 Invalid values will throw `InvalidArugmentError`.
