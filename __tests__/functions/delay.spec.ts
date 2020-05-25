@@ -9,8 +9,8 @@ describe('delay(timeout: number): Promise<void>', () => {
 
     delay(ms)
 
-    expect(setTimeout).toHaveBeenCalledTimes(1)
-    expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), ms)
+    expect(setTimeout).toBeCalledTimes(1)
+    expect(setTimeout).toBeCalledWith(expect.any(Function), ms)
   })
 
   it('return Promise<void>', async () => {
