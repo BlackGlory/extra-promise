@@ -1,20 +1,21 @@
 import { Deferred } from './deferred'
 
 export class Signal implements PromiseLike<void> {
-  #referred = new Deferred<void>()
+  // fuck tsc https://github.com/microsoft/TypeScript/issues/36841
+  private _referred = new Deferred<void>()
 
   get then() {
-    return this.#referred.then.bind(this.#referred)
+    return this._referred.then.bind(this._referred)
   }
 
   emit() {
-    this.#referred.resolve()
+    this._referred.resolve()
   }
 
   refresh() {
-    this.#referred.reject(new SignalDiscarded())
-    Promise.resolve(this.#referred).catch(() => {})
-    this.#referred = new Deferred()
+    this._referred.reject(new SignalDiscarded())
+    Promise.resolve(this._referred).catch(() => {})
+    this._referred = new Deferred()
   }
 }
 

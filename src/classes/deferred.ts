@@ -1,24 +1,25 @@
 export class Deferred<T> implements PromiseLike<T> {
-  #resolve!: (value: T) => void
-  #reject!: (reason: any) => void
-  #promise: Promise<T>
+  // fuck tsc https://github.com/microsoft/TypeScript/issues/36841
+  private _resolve!: (value: T) => void
+  private _reject!: (reason: any) => void
+  private _promise: Promise<T>
 
   constructor() {
-    this.#promise = new Promise<T>((resolve, reject) => {
-      this.#resolve = resolve
-      this.#reject = reject
+    this._promise = new Promise<T>((resolve, reject) => {
+      this._resolve = resolve
+      this._reject = reject
     })
   }
 
   get then() {
-    return this.#promise.then.bind(this.#promise)
+    return this._promise.then.bind(this._promise)
   }
 
   resolve(value: T): void {
-    this.#resolve(value)
+    this._resolve(value)
   }
 
   reject(reason: unknown): void {
-    this.#reject(reason)
+    this._reject(reason)
   }
 }

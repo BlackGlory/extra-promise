@@ -1,13 +1,14 @@
 export class LazyPromise<T> implements PromiseLike<T> {
-  #promise?: Promise<T>
-  #executor: (resolve: (value: T) => void, reject: (reason: any) => void) => void
+  // fuck tsc https://github.com/microsoft/TypeScript/issues/36841
+  private _promise?: Promise<T>
+  private _executor: (resolve: (value: T) => void, reject: (reason: any) => void) => void
 
   constructor(executor: (resolve: (value: T) => void, reject: (reason: any) => void) => void) {
-    this.#executor = executor
+    this._executor = executor
   }
 
   get then() {
-    if (!this.#promise) this.#promise = new Promise<T>(this.#executor)
-    return this.#promise.then.bind(this.#promise)
+    if (!this._promise) this._promise = new Promise<T>(this._executor)
+    return this._promise.then.bind(this._promise)
   }
 }

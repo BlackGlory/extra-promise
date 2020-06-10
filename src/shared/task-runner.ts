@@ -1,47 +1,48 @@
 import { debounceMicrotask, cancelMicrotask } from './debounce-microtask'
 import { Queue } from './queue'
 import { guardForConcurrency, InvalidArgumentError } from './guard-for-concurrency'
-import * as EventEmitter from 'eventemitter3'
+import { EventEmitter } from 'eventemitter3'
 import { getFailureAsync } from 'return-style'
 
 type Task = () => PromiseLike<void>
 
 export class TaskRunner extends EventEmitter {
-  #event = new EventEmitter()
-  #queue = new Queue<Task>()
-  #pending: number = 0
-  #concurrency!: number
-  #running: boolean = true
+  // fuck tsc https://github.com/microsoft/TypeScript/issues/36841
+  private _event = new EventEmitter()
+  private _queue = new Queue<Task>()
+  private _pending: number = 0
+  private _concurrency!: number
+  private _running: boolean = true
 
   constructor(concurrency: number = Infinity) {
     super()
     this.setConcurrency(concurrency)
 
     const go = () => {
-      if (!this.#running) return
-      while (this.#pending < this.#concurrency && this.#queue.size > 0) {
-        const task = this.#queue.dequeue()
+      if (!this._running) return
+      while (this._pending < this._concurrency && this._queue.size > 0) {
+        const task = this._queue.dequeue()
         this.run(task)
       }
     }
 
-    this.#event.on('update', () => {
-      if (this.#running) debounceMicrotask(go)
+    this._event.on('update', () => {
+      if (this._running) debounceMicrotask(go)
     })
 
-    this.#event.on('start', (task: Task) => {
+    this._event.on('start', (task: Task) => {
       this.emit('started', task)
     })
 
-    this.#event.on('resolve', (task: Task) => {
-      if (this.#running) {
+    this._event.on('resolve', (task: Task) => {
+      if (this._running) {
         debounceMicrotask(go)
         this.emit('resolved', task)
       }
     })
 
-    this.#event.on('reject', (task: Task, reason: unknown) => {
-      this.#running = false
+    this._event.on('reject', (task: Task, reason: unknown) => {
+      this._running = false
       cancelMicrotask(go)
       this.emit('rejected', task, reason)
     })
@@ -50,26 +51,26 @@ export class TaskRunner extends EventEmitter {
   public setConcurrency(concurrency: number): void {
     guardForConcurrency('concurrency', concurrency)
 
-    this.#concurrency = concurrency
-    this.#event.emit('update')
+    this._concurrency = concurrency
+    this._event.emit('update')
   }
 
   public add(...tasks: Task[]) {
-    this.#queue.enqueue(...tasks)
-    this.#event.emit('update')
+    this._queue.enqueue(...tasks)
+    this._event.emit('update')
   }
 
   private async run(task: Task) {
-    this.#pending++
-    this.#event.emit('start', task)
+    this._pending++
+    this._event.emit('start', task)
 
     const [fail, reason] = await getFailureAsync(task())
 
-    this.#pending--
+    this._pending--
     if (fail) {
-      this.#event.emit('reject', task, reason)
+      this._event.emit('reject', task, reason)
     } else {
-      this.#event.emit('resolve', task)
+      this._event.emit('resolve', task)
     }
   }
 }

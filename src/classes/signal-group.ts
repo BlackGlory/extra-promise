@@ -1,20 +1,21 @@
 import { Signal } from './signal'
 
 export class SignalGroup {
-  #group = new Set<Signal>()
+  // fuck tsc https://github.com/microsoft/TypeScript/issues/36841
+  private _group = new Set<Signal>()
 
   add(signal: Signal) {
-    this.#group.add(signal)
+    this._group.add(signal)
   }
 
   emit() {
-    for (const signal of this.#group) {
+    for (const signal of this._group) {
       signal.emit()
     }
   }
 
   refresh() {
-    for (const signal of this.#group) {
+    for (const signal of this._group) {
       signal.refresh()
     }
   }
