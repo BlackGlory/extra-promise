@@ -1,39 +1,55 @@
-import { IterableOperator } from 'iterable-operator/lib/es2018/style/chaining/iterable-operator'
-import { TaskRunner } from '@src/shared/task-runner'
-import { guardForConcurrency, InvalidArgumentError } from '@src/shared/guard-for-concurrency'
+import { checkConcurrency, InvalidArgumentError } from '@src/shared/check-concurrency'
+import { Signal } from '@src/classes/signal'
 
-export function parallel<T>(tasks: Iterable<() => T | PromiseLike<T>>, concurrency: number = Infinity): Promise<T[]> {
-  guardForConcurrency('concurrency', concurrency)
+export function parallel<T>(tasks: Iterable<() => T | PromiseLike<T>>, concurrency: number = Infinity): Promise<void> {
+  checkConcurrency('concurrency', concurrency)
 
-  const runner = new TaskRunner(concurrency)
-  let total = 0
-  let done = 0
-  const results: T[] = []
+  return new Promise<void>(async (resolve, reject) => {
+    let total = 0
+    let done = 0
+    let running = 0
+    let isEnd = false
 
-  return new Promise<T[]>((resolve, reject) => {
-    runner.on('resolved', () => {
-      done++
-      if (done === total) {
-        runner.removeAllListeners()
-        resolve(results)
+    const iterator = tasks[Symbol.iterator]()
+    const resolved = new Signal()
+    while (true) {
+      const { value: task, done: end } = iterator.next()
+      if (end) {
+        isEnd = true
+        break
+      } else {
+        runTask(task)
+        total++
+        running++
+        while (running === concurrency) {
+          try {
+            await resolved
+          } catch {
+            return
+          }
+        }
+        if (isEnd) return
       }
-    })
+    }
 
-    runner.once('rejected', (_, error) => {
-      runner.removeAllListeners()
-      reject(error)
-    })
+    if (total === 0) resolve()
 
-    new IterableOperator(tasks)
-      .tap(() => total++)
-      .map((task, i) => async () => {
-        results[i] = await task()
-      })
-      .each(task => runner.add(task))
-
-    if (total === 0) {
-      runner.removeAllListeners()
-      resolve([])
+    async function runTask(task: () => T | PromiseLike<T>) {
+      try {
+        await task()
+        done++
+        running--
+        if (isEnd) {
+          if (total === done) resolve()
+        } else {
+          resolved.emit()
+          resolved.refresh()
+        }
+      } catch (e) {
+        isEnd = true
+        resolved.discard()
+        reject(e)
+      }
     }
   })
 }

@@ -1,40 +1,14 @@
-import { IterableOperator } from 'iterable-operator/lib/es2018/style/chaining/iterable-operator'
-import { TaskRunner } from '@src/shared/task-runner'
-import { guardForConcurrency, InvalidArgumentError } from '@src/shared/guard-for-concurrency'
+import { parallel } from './parallel'
+import { checkConcurrency, InvalidArgumentError } from '@src/shared/check-concurrency'
+import { map } from 'iterable-operator'
 
 export function each<T>(iterable: Iterable<T>, fn: (element: T, i: number) => unknown | PromiseLike<unknown>, concurrency: number = Infinity): Promise<void> {
-  guardForConcurrency('concurrency', concurrency)
+  checkConcurrency('concurrency', concurrency)
 
-  const runner = new TaskRunner(concurrency)
-  let total = 0
-  let done = 0
-
-  return new Promise<void>((resolve, reject) => {
-    runner.on('resolved', () => {
-      done++
-      if (done === total) {
-        runner.removeAllListeners()
-        resolve()
-      }
-    })
-
-    runner.once('rejected', (_, error) => {
-      runner.removeAllListeners()
-      reject(error)
-    })
-
-    new IterableOperator(iterable)
-      .tap(() => total++)
-      .map((task, i) => async () => {
-        await fn(task, i)
-      })
-      .each(task => runner.add(task))
-
-    if (total === 0) {
-      runner.removeAllListeners()
-      resolve()
-    }
-  })
+  return (async () => {
+    const tasks = map(iterable, (element, i) => () => fn(element, i))
+    await parallel(tasks, concurrency)
+  })()
 }
 
 export { InvalidArgumentError }

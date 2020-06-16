@@ -8,14 +8,15 @@ export class SignalGroup {
     this._group.add(signal)
   }
 
-  emit() {
+  emitAll() {
     for (const signal of this._group) {
       signal.emit()
     }
   }
 
-  refresh() {
+  discardAndRefreshAll() {
     for (const signal of this._group) {
+      signal.discard()
       signal.refresh()
     }
   }

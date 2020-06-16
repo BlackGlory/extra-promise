@@ -49,18 +49,18 @@ If `fn` function throws an error, continue to retry until the return value of th
 
 ### parallel
 
-`function parallel<T>(tasks: Iterable<() => T | PromiseLike<T>>, concurrency: number = Infinity): Promise<T[]>`
+`function parallel<T>(tasks: Iterable<() => T | PromiseLike<T>>, concurrency: number = Infinity): Promise<void>`
 
-Perform tasks in parallel and return results in the same order.
+Perform tasks in parallel.
 
 The value range of `concurrency` is [1, Infinity].
 Invalid values will throw `InvalidArugmentError`.
 
 ### series
 
-`function series<T>(tasks: Iterable<() => T | PromiseLike<T>>): Promise<T[]>`
+`function series<T>(tasks: Iterable<() => T | PromiseLike<T>>): Promise<void>`
 
-Perform tasks in order and return results in order.
+Perform tasks in order.
 Equivalent to `parallel(tasks, 1)`.
 
 ### waterfall
@@ -259,10 +259,13 @@ class Signal implements PromiseLike<void> {
   then: PromiseLike<void>['then']
 
   emit(): void
+  discard(): void
   refresh(): void
 }
 ```
 
-The `emit()` changes the internal Promise to resovled.
+The `emit()` make the internal Promise resolve.
 
-The `refresh()` re-creates the internal Promise, the old Promise throw `SignalDiscarded`.
+The `discard()` make the internal Promise reject `SignalDiscarded`.
+
+The `refresh()` re-creates the internal Promise.

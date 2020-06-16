@@ -3,19 +3,19 @@ import { delay } from '@functions/delay'
 import { getCalledTimes, advanceTimersByTime, runAllMicrotasks } from '@test/utils'
 import '@test/matchers'
 
-describe('series<T>(tasks: Iterable<() => T | PromiseLike<T>>): Promise<T[]>', () => {
+describe('series<T>(tasks: Iterable<() => T | PromiseLike<T>>): Promise<void>', () => {
   describe('tasks is empty iterable', () => {
-    it('return Promise<[]>', async () => {
+    it('return Promise<void>', async () => {
       const result = series([])
       const proResult = await result
 
       expect(result).toBePromise()
-      expect(proResult).toEqual([])
+      expect(proResult).toBeUndefined()
     })
   })
 
   describe('tasks isnt empty iterable', () => {
-    it('return Promise<T[]>', async () => {
+    it('return Promise<void>', async () => {
       jest.useFakeTimers()
       const task1 = jest.fn().mockImplementation(async () => {
         await delay(500)
@@ -39,7 +39,7 @@ describe('series<T>(tasks: Iterable<() => T | PromiseLike<T>>): Promise<T[]>', (
       expect(task1CalledStep1).toBe(1)
       expect(task2CalledStep1).toBe(0)
       expect(task2CalledStep2).toBe(1)
-      expect(proResult).toEqual([1, 2])
+      expect(proResult).toBeUndefined()
     })
   })
 })

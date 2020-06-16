@@ -12,29 +12,46 @@ describe('Signal', () => {
   })
 
   describe('emit(): void', () => {
-    it('resolved', async () => {
-      const signal = new Signal()
-
-      const result = signal.emit()
-      const proResult = await signal
-
-      expect(result).toBeUndefined()
-      expect(proResult).toBeUndefined()
-    })
-  })
-
-  describe('refresh(): void', () => {
-    it('The old promise throw SignalDiscarded', async () => {
+    it('The promise resolved', async () => {
       const signal = new Signal()
 
       const oldThen = signal.then
       const oldPromise = oldThen()
-      const result = signal.refresh()
+      const result = signal.emit()
+      const proResult = await oldPromise
+      const newThen = signal.then
+
+      expect(result).toBeUndefined()
+      expect(proResult).toBeUndefined()
+      expect(newThen).not.toBe(oldThen)
+    })
+  })
+
+  describe('discard(): void', () => {
+    it('The promise rejected SignalDiscarded', async () => {
+      const signal = new Signal()
+
+      const oldThen = signal.then
+      const oldPromise = oldThen()
+      const result = signal.discard()
       const err = await getErrorAsync(oldPromise)
       const newThen = signal.then
 
       expect(result).toBeUndefined()
       expect(err).toBeInstanceOf(SignalDiscarded)
+      expect(newThen).not.toBe(oldThen)
+    })
+  })
+
+  describe('refresh(): void', () => {
+    it('re-creates the internal promise', async () => {
+      const signal = new Signal()
+
+      const oldThen = signal.then
+      const result = signal.refresh()
+      const newThen = signal.then
+
+      expect(result).toBeUndefined()
       expect(newThen).not.toBe(oldThen)
     })
   })

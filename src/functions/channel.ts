@@ -30,6 +30,7 @@ export function makeChannel<T>(): [Send<T>, Receive<T>, Close] {
           async next() {
             while (buffer.size === 0) {
               if (isClosed || await isFailureAsync(enqueueSignal)) return { done: true, value: undefined }
+              enqueueSignal.discard()
               enqueueSignal.refresh()
             }
 
@@ -44,7 +45,7 @@ export function makeChannel<T>(): [Send<T>, Receive<T>, Close] {
   function close() {
     if (!isClosed) {
       isClosed = true
-      enqueueSignal.refresh()
+      enqueueSignal.discard()
     }
   }
 }
@@ -76,11 +77,12 @@ export function makeBlockingChannel<T>(bufferSize: number): [BlockingSend<T>, Re
           async next() {
             while (buffer.size === 0) {
               if (isClosed || await isFailureAsync(enqueueSingal)) return { done: true, value: undefined }
+              enqueueSingal.discard()
               enqueueSingal.refresh()
             }
 
             const value = buffer.dequeue()
-            dequeueSignalGroup.emit()
+            dequeueSignalGroup.emitAll()
             return { done: false, value }
           }
         }
@@ -91,8 +93,8 @@ export function makeBlockingChannel<T>(bufferSize: number): [BlockingSend<T>, Re
   function close() {
     if (!isClosed) {
       isClosed = true
-      enqueueSingal.refresh()
-      dequeueSignalGroup.refresh()
+      enqueueSingal.discard()
+      dequeueSignalGroup.discardAndRefreshAll()
     }
   }
 }

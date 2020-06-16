@@ -1,13 +1,15 @@
-import { map as mapIt } from 'iterable-operator'
-import { parallel } from './parallel'
-import { guardForConcurrency, InvalidArgumentError } from '@src/shared/guard-for-concurrency'
+import { each } from './each'
+import { checkConcurrency, InvalidArgumentError } from '@src/shared/check-concurrency'
 
 export function map<T, U>(iterable: Iterable<T>, fn: (element: T, i: number) => U | PromiseLike<U>, concurrency: number = Infinity): Promise<U[]> {
-  guardForConcurrency('concurrency', concurrency)
+  checkConcurrency('concurrency', concurrency)
 
   return (async () => {
-    const tasks = mapIt(iterable, (x, i) => () => fn(x, i))
-    return await parallel(tasks, concurrency)
+    const results: U[] = []
+    await each(iterable, async (x, i) => {
+      results[i] = await fn(x, i)
+    }, concurrency)
+    return results
   })()
 }
 

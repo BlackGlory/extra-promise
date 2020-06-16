@@ -1,7 +1,7 @@
 import { getError, getErrorAsync } from 'return-style'
 import { each, InvalidArgumentError } from '@functions/each'
 import { delay } from '@functions/delay'
-import { getCalledTimes, runAllMicrotasks, advanceTimersByTime } from '@test/utils'
+import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIter } from '@test/utils'
 import '@test/matchers'
 
 describe('each(iterable: Iterable<T>, fn: (element: T, i: number) => unknown | PromiseLike<unknown>, concurrency: number = Infinity): Promise<void>', () => {
@@ -38,13 +38,15 @@ describe('each(iterable: Iterable<T>, fn: (element: T, i: number) => unknown | P
         const task1 = jest.fn(() => delay(500))
         const task2 = jest.fn(() => delay(1000))
         const task3 = jest.fn(() => delay(1000))
+        const iter = new MockIter([task1, task2, task3])
         const callTask = jest.fn(x => x())
 
-        const result = each([task1, task2, task3], callTask, 2)
+        const result = each(iter, callTask, 2)
         await runAllMicrotasks() // 0ms: task1, task2 start
         const task1CalledStep1 = getCalledTimes(task1)
         const task2CalledStep1 = getCalledTimes(task2)
         const task3CalledStep1 = getCalledTimes(task3)
+        const iterNextIndexStep1 = iter.nextIndex // iterable is lazy, it should be 2: task3
         await advanceTimersByTime(500) // 500ms: task1 done, task3 start
         const task3CalledStep2 = getCalledTimes(task3)
         await advanceTimersByTime(500) // 1000ms: task2 done
@@ -55,6 +57,7 @@ describe('each(iterable: Iterable<T>, fn: (element: T, i: number) => unknown | P
         expect(task1CalledStep1).toBe(1)
         expect(task2CalledStep1).toBe(1)
         expect(task3CalledStep1).toBe(0)
+        expect(iterNextIndexStep1).toBe(2)
         expect(task3CalledStep2).toBe(1)
         expect(proResult).toBeUndefined()
       })

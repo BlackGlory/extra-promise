@@ -1,7 +1,5 @@
-export async function series<T>(tasks: Iterable<() => T | PromiseLike<T>>): Promise<T[]> {
-  const results: T[] = []
+export async function series<T>(tasks: Iterable<() => T | PromiseLike<T>>): Promise<void> {
   for (const task of tasks) {
-    results.push(await task())
+    await task()
   }
-  return results
 }

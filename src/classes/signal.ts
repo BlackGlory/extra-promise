@@ -12,9 +12,12 @@ export class Signal implements PromiseLike<void> {
     this._referred.resolve()
   }
 
-  refresh() {
-    this._referred.reject(new SignalDiscarded())
+  discard() {
     Promise.resolve(this._referred).catch(() => {})
+    this._referred.reject(new SignalDiscarded())
+  }
+
+  refresh() {
     this._referred = new Deferred()
   }
 }

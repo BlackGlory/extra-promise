@@ -1,8 +1,8 @@
 import { each } from './each'
-import { guardForConcurrency, InvalidArgumentError } from '@src/shared/guard-for-concurrency'
+import { checkConcurrency, InvalidArgumentError } from '@src/shared/check-concurrency'
 
 export function filter<T, U = T>(iterable: Iterable<T>, fn: (element: T, i: number) => boolean | PromiseLike<boolean>, concurrency: number = Infinity): Promise<U[]> {
-  guardForConcurrency('concurrency', concurrency)
+  checkConcurrency('concurrency', concurrency)
 
   return (async () => {
     const results: any[] = []

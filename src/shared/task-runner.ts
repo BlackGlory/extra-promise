@@ -1,6 +1,6 @@
 import { debounceMicrotask, cancelMicrotask } from './debounce-microtask'
 import { Queue } from './queue'
-import { guardForConcurrency, InvalidArgumentError } from './guard-for-concurrency'
+import { checkConcurrency, InvalidArgumentError } from './check-concurrency'
 import { EventEmitter } from 'eventemitter3'
 import { getFailureAsync } from 'return-style'
 
@@ -49,7 +49,7 @@ export class TaskRunner extends EventEmitter {
   }
 
   public setConcurrency(concurrency: number): void {
-    guardForConcurrency('concurrency', concurrency)
+    checkConcurrency('concurrency', concurrency)
 
     this._concurrency = concurrency
     this._event.emit('update')
