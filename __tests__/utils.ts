@@ -19,9 +19,8 @@ export class MockIter<T> implements Iterable<T> {
   [Symbol.iterator]() {
     return {
       next: () => {
-        this.nextIndex++
-
         if (this.contents.length) {
+          this.nextIndex++
           return {
             value: this.contents.shift()
           , done: false
