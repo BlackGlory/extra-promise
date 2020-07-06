@@ -1,6 +1,6 @@
 import { delay } from '@functions/delay'
 import { parallel, InvalidArgumentError } from '@functions/parallel'
-import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIter } from '@test/utils'
+import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable } from '@test/utils'
 import { getError, getErrorAsync } from 'return-style'
 import '@test/matchers'
 
@@ -47,7 +47,7 @@ describe('parallel<T>(tasks: Iterable<() => T | PromiseLike<T>>, concurrency: nu
           await delay (1000)
           return 3
         })
-        const iter = new MockIter([task1, task2, task3])
+        const iter = new MockIterable([task1, task2, task3])
 
         const result = parallel(iter, 2)
         await runAllMicrotasks() // 0ms: task1, task2 start

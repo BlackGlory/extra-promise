@@ -1,6 +1,6 @@
 {
   "name": "extra-promise",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Utility for JavaScript Promise and AsyncFunction.",
   "files": [
     "lib",
@@ -34,24 +34,24 @@
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^13.0.0",
-    "@rollup/plugin-node-resolve": "^8.0.1",
-    "@rollup/plugin-typescript": "^4.1.2",
-    "@types/jest": "^26.0.0",
-    "@types/node": "^14.0.13",
+    "@rollup/plugin-node-resolve": "^8.1.0",
+    "@rollup/plugin-typescript": "^5.0.1",
+    "@types/jest": "^26.0.3",
+    "@types/node": "^14.0.14",
     "husky": "^4.2.5",
-    "jest": "^26.0.1",
+    "jest": "^26.1.0",
     "jest-extended": "^0.11.5",
-    "rollup": "^2.16.1",
+    "rollup": "^2.19.0",
     "rollup-plugin-terser": "^6.1.0",
-    "ts-jest": "^26.1.0",
+    "ts-jest": "^26.1.1",
     "tscpaths": "^0.0.9",
     "tslint": "^6.1.2",
-    "typescript": "^3.9.5"
+    "typescript": "^3.9.6"
   },
   "dependencies": {
     "eventemitter3": "^4.0.4",
-    "iterable-operator": "^0.10.3",
+    "iterable-operator": "^0.11.0",
     "reflect-metadata": "^0.1.13",
-    "return-style": "^0.6.1"
+    "return-style": "^0.7.0"
   }
 }

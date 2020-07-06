@@ -11,10 +11,10 @@ export function runAllMicrotasks() {
   return new Promise(resolve => setImmediate(resolve))
 }
 
-export class MockIter<T> implements Iterable<T> {
+export class MockIterable<T> implements Iterable<T> {
   nextIndex: number = 0
 
-  constructor(private contents: T[]) {}
+  constructor(private contents: T[] = []) {}
 
   [Symbol.iterator]() {
     return {

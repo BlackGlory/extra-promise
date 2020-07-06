@@ -1,7 +1,7 @@
 import { getError, getErrorAsync } from 'return-style'
 import { filter, InvalidArgumentError } from '@functions/filter'
 import { delay } from '@functions/delay'
-import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIter } from '@test/utils'
+import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable } from '@test/utils'
 import '@test/matchers'
 
 describe('filter<T, U = T>(iterable: Iterable<T>, fn: (element: T, i: number) => boolean | PromiseLike<boolean>, concurrency: number = Infinity): Promise<U[]>', () => {
@@ -47,7 +47,7 @@ describe('filter<T, U = T>(iterable: Iterable<T>, fn: (element: T, i: number) =>
           await delay(1000)
           return 3
         })
-        const iter = new MockIter([task1, task2, task3])
+        const iter = new MockIterable([task1, task2, task3])
         const callTaskAndResultIsEven = jest.fn(async x => await x() % 2 === 0)
 
         const result = filter(iter, callTaskAndResultIsEven, 2)

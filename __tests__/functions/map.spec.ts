@@ -1,7 +1,7 @@
 import { getError, getErrorAsync } from 'return-style'
 import { map, InvalidArgumentError } from '@functions/map'
 import { delay } from '@functions/delay'
-import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIter } from '@test/utils'
+import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable } from '@test/utils'
 import '@test/matchers'
 
 describe('map<T, U>(iterable: Iterable<T>, fn: (element: T, i: number) => U | PromiseLike<U>, concurrency: number = Infinity): Promise<U[]>', () => {
@@ -47,7 +47,7 @@ describe('map<T, U>(iterable: Iterable<T>, fn: (element: T, i: number) => U | Pr
           await delay(1000)
           return 3
         })
-        const iter = new MockIter([task1, task2, task3])
+        const iter = new MockIterable([task1, task2, task3])
         const callTask = jest.fn(x => x())
 
         const result = map(iter, callTask, 2)

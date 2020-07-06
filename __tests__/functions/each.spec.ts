@@ -1,7 +1,7 @@
 import { getError, getErrorAsync } from 'return-style'
 import { each, InvalidArgumentError } from '@functions/each'
 import { delay } from '@functions/delay'
-import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIter } from '@test/utils'
+import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable } from '@test/utils'
 import '@test/matchers'
 
 describe('each(iterable: Iterable<T>, fn: (element: T, i: number) => unknown | PromiseLike<unknown>, concurrency: number = Infinity): Promise<void>', () => {
@@ -38,7 +38,7 @@ describe('each(iterable: Iterable<T>, fn: (element: T, i: number) => unknown | P
         const task1 = jest.fn(() => delay(500))
         const task2 = jest.fn(() => delay(1000))
         const task3 = jest.fn(() => delay(1000))
-        const iter = new MockIter([task1, task2, task3])
+        const iter = new MockIterable([task1, task2, task3])
         const callTask = jest.fn(x => x())
 
         const result = each(iter, callTask, 2)
