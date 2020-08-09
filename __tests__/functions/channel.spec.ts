@@ -1,5 +1,5 @@
 import { makeChannel, makeBlockingChannel, ChannelClosedError } from '@functions/channel'
-import { getError, getErrorAsync } from 'return-style'
+import { getError, getErrorPromise } from 'return-style'
 import { toArrayAsync } from 'iterable-operator'
 import { delay } from '@functions/delay'
 import 'jest-extended'
@@ -68,7 +68,7 @@ describe('makeBlockingChannel(bufferSize: number): [(value: T) => Promise<void>,
 
       const [send, receive, close] = makeBlockingChannel<string>(bufferSize)
       close()
-      const err = await getErrorAsync(send(value))
+      const err = await getErrorPromise(send(value))
       const result = await toArrayAsync(receive())
 
       expect(err).toBeInstanceOf(ChannelClosedError)

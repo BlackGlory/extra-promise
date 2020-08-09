@@ -1,4 +1,4 @@
-import { isFailureAsync } from 'return-style'
+import { isFailurePromise } from 'return-style'
 import { Signal } from '@classes/signal'
 import { SignalGroup } from '@classes/signal-group'
 import { Queue } from '@src/shared/queue'
@@ -29,7 +29,7 @@ export function makeChannel<T>(): [Send<T>, Receive<T>, Close] {
         return {
           async next() {
             while (buffer.size === 0) {
-              if (isClosed || await isFailureAsync(enqueueSignal)) return { done: true, value: undefined }
+              if (isClosed || await isFailurePromise(enqueueSignal)) return { done: true, value: undefined }
               enqueueSignal.discard()
               enqueueSignal.refresh()
             }
@@ -64,7 +64,7 @@ export function makeBlockingChannel<T>(bufferSize: number): [BlockingSend<T>, Re
     while (buffer.size === bufferSize) {
       const blocking = new Signal()
       dequeueSignalGroup.add(blocking)
-      if (await isFailureAsync(blocking) || isClosed) throw new ChannelClosedError()
+      if (await isFailurePromise(blocking) || isClosed) throw new ChannelClosedError()
     }
     buffer.enqueue(value)
     enqueueSingal.emit()
@@ -76,7 +76,7 @@ export function makeBlockingChannel<T>(bufferSize: number): [BlockingSend<T>, Re
         return {
           async next() {
             while (buffer.size === 0) {
-              if (isClosed || await isFailureAsync(enqueueSingal)) return { done: true, value: undefined }
+              if (isClosed || await isFailurePromise(enqueueSingal)) return { done: true, value: undefined }
               enqueueSingal.discard()
               enqueueSingal.refresh()
             }

@@ -1,4 +1,4 @@
-import { getErrorAsync } from 'return-style'
+import { getErrorPromise } from 'return-style'
 import { Deferred } from '@classes/deferred'
 import '@test/matchers'
 
@@ -30,7 +30,7 @@ describe('Deferred<T>', () => {
       const defer = new Deferred()
 
       const result = defer.reject(reason)
-      const err = await getErrorAsync(defer)
+      const err = await getErrorPromise(defer)
 
       expect(result).toBeUndefined()
       expect(err).toBe(reason)

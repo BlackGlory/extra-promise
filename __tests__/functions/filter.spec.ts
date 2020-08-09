@@ -1,4 +1,4 @@
-import { getError, getErrorAsync } from 'return-style'
+import { getError, getErrorPromise } from 'return-style'
 import { filter, InvalidArgumentError } from '@functions/filter'
 import { delay } from '@functions/delay'
 import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable } from '@test/utils'
@@ -81,7 +81,7 @@ describe('filter<T, U = T>(iterable: Iterable<T>, fn: (element: T, i: number) =>
         const fn = jest.fn(async x => await x % 2 === 0)
 
         const result = filter([element1, element2, element3], fn, 2)
-        const err = await getErrorAsync(result)
+        const err = await getErrorPromise(result)
 
         expect(result).toBePromise()
         expect(fn).toBeCalledTimes(2)

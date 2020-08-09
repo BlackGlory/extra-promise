@@ -1,7 +1,7 @@
 import { delay } from '@functions/delay'
 import { parallel, InvalidArgumentError } from '@functions/parallel'
 import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable } from '@test/utils'
-import { getError, getErrorAsync } from 'return-style'
+import { getError, getErrorPromise } from 'return-style'
 import '@test/matchers'
 
 describe('parallel<T>(tasks: Iterable<() => T | PromiseLike<T>>, concurrency: number = Infinity): Promise<void>', () => {
@@ -91,7 +91,7 @@ describe('parallel<T>(tasks: Iterable<() => T | PromiseLike<T>>, concurrency: nu
         const task2CalledStep1 = getCalledTimes(task2)
         const task3CalledStep1 = getCalledTimes(task3)
         advanceTimersByTime(500) // 500ms: task1 done, task2 throw
-        const err = await getErrorAsync(result)
+        const err = await getErrorPromise(result)
 
         expect(result).toBePromise()
         expect(task1CalledStep1).toBe(1)

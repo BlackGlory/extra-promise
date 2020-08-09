@@ -1,4 +1,4 @@
-import { getError, getErrorAsync } from 'return-style'
+import { getError, getErrorPromise } from 'return-style'
 import { map, InvalidArgumentError } from '@functions/map'
 import { delay } from '@functions/delay'
 import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable } from '@test/utils'
@@ -81,7 +81,7 @@ describe('map<T, U>(iterable: Iterable<T>, fn: (element: T, i: number) => U | Pr
         const fn = jest.fn(x => x)
 
         const result = map([element1, element2, element3], fn, 2)
-        const err = await getErrorAsync(result)
+        const err = await getErrorPromise(result)
 
         expect(result).toBePromise()
         expect(fn).toBeCalledTimes(2)

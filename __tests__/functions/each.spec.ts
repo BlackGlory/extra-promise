@@ -1,4 +1,4 @@
-import { getError, getErrorAsync } from 'return-style'
+import { getError, getErrorPromise } from 'return-style'
 import { each, InvalidArgumentError } from '@functions/each'
 import { delay } from '@functions/delay'
 import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable } from '@test/utils'
@@ -72,7 +72,7 @@ describe('each(iterable: Iterable<T>, fn: (element: T, i: number) => unknown | P
         const fn = jest.fn(x => x)
 
         const result = each([element1, element2, element3], fn, 2)
-        const err = await getErrorAsync(result)
+        const err = await getErrorPromise(result)
 
         expect(result).toBePromise()
         expect(fn).toBeCalledTimes(2)

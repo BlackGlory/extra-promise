@@ -64,7 +64,7 @@ export class TaskRunner extends EventEmitter {
     this._pending++
     this._event.emit('start', task)
 
-    const [fail, reason] = await getFailureAsync(task())
+    const [fail, reason] = await getFailureAsync(task)
 
     this._pending--
     if (fail) {

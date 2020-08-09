@@ -1,4 +1,4 @@
-import { getErrorAsync } from 'return-style'
+import { getErrorPromise } from 'return-style'
 import { promisify } from '@functions/promisify'
 import '@test/matchers'
 
@@ -27,7 +27,7 @@ describe('promisify<Result, Args extends any[] = unknown[]>(fn: (...args: any[])
       const promisified = promisify(fn)
       const isFunc = isFunction(promisified)
       const result = promisified(error)
-      const proResult = await getErrorAsync(result)
+      const proResult = await getErrorPromise(result)
 
       expect(isFunc).toBe(true)
       expect(result).toBePromise()

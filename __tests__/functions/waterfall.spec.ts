@@ -1,5 +1,5 @@
 import { waterfall } from '@functions/waterfall'
-import { getErrorAsync } from 'return-style'
+import { getErrorPromise } from 'return-style'
 import '@test/matchers'
 
 describe('waterfall<T>(tasks: Iterable<(result: unknown) => unknown | PromiseLike<unknown>>): Promise<T | undefined>', () => {
@@ -40,7 +40,7 @@ describe('waterfall<T>(tasks: Iterable<(result: unknown) => unknown | PromiseLik
       const task2 = jest.fn().mockReturnValue(Promise.resolve(value))
 
       const result = waterfall([task1, task2])
-      const err = await getErrorAsync(result)
+      const err = await getErrorPromise(result)
 
       expect(result).toBePromise()
       expect(task1).toBeCalledTimes(1)

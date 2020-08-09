@@ -1,4 +1,4 @@
-import { getErrorAsync } from 'return-style'
+import { getErrorPromise } from 'return-style'
 import { retryUntil } from '@functions/retry-until'
 import '@test/matchers'
 
@@ -28,7 +28,7 @@ describe('retryUntil<T, U = unknown>(fn: () => T | PromiseLike<T>, until: (error
       const until = jest.fn().mockResolvedValueOnce(false).mockResolvedValue(true)
 
       const result = retryUntil(fn, until)
-      const proResult = await getErrorAsync(result)
+      const proResult = await getErrorPromise(result)
 
       expect(result).toBePromise()
       expect(fn).toBeCalledTimes(2)

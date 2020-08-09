@@ -1,4 +1,4 @@
-import { getErrorAsync } from 'return-style'
+import { getErrorPromise } from 'return-style'
 import { timeout, TimeoutError } from '@functions/timeout'
 import { advanceTimersByTime } from '@test/utils'
 
@@ -27,7 +27,7 @@ describe('timeout(ms: number): Promise<never>', () => {
 
       const result = Promise.race([promise, timeout(ms)])
       advanceTimersByTime(500)
-      const err = await getErrorAsync(result)
+      const err = await getErrorPromise(result)
 
       expect(err).toBeInstanceOf(TimeoutError)
     })

@@ -1,4 +1,4 @@
-import { getErrorAsync } from 'return-style'
+import { getErrorPromise } from 'return-style'
 import { Signal, SignalDiscarded } from '@classes/signal'
 import '@test/matchers'
 
@@ -34,7 +34,7 @@ describe('Signal', () => {
       const oldThen = signal.then
       const oldPromise = oldThen()
       const result = signal.discard()
-      const err = await getErrorAsync(oldPromise)
+      const err = await getErrorPromise(oldPromise)
       const newThen = signal.then
 
       expect(result).toBeUndefined()
