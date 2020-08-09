@@ -1,7 +1,28 @@
 {
   "name": "extra-promise",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Utility for JavaScript Promise and AsyncFunction.",
+  "keywords": [
+    "isPromise",
+    "isPromiseLike",
+    "delay",
+    "timeout",
+    "retry",
+    "parallel",
+    "series",
+    "waterfall",
+    "each",
+    "map",
+    "filter",
+    "promisify",
+    "callbackify",
+    "asyncify",
+    "cascadify",
+    "channel",
+    "deferred",
+    "lazy",
+    "signal"
+  ],
   "files": [
     "lib",
     "dist"
