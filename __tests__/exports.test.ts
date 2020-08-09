@@ -6,6 +6,7 @@ test('exports', () => {
   , 'InvalidArgumentsLengthError'
 
   , 'isPromise'
+  , 'isPromiseLike'
   , 'delay'
   , 'timeout', 'TimeoutError'
   , 'retryUntil'

@@ -1,4 +1,5 @@
-import { isPromise as isPromiseLike } from '@functions/is-promise'
+import { isPromiseLike } from '@functions/is-promise-like'
+import { isPromise } from '@functions/is-promise'
 
 /* eslint-disable */
 declare global {
@@ -39,7 +40,3 @@ expect.extend({
     }
   }
 })
-
-function isPromise<T>(val: any): val is Promise<T> {
-  return val instanceof Promise
-}

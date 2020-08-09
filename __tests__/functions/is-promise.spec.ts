@@ -1,9 +1,9 @@
 import { isPromise } from '@functions/is-promise'
 
 describe('isPromise<T>(val: any): boolean', () => {
-  describe('val is PromiseLike<T>', () => {
+  describe('val is Promise<T>', () => {
     it('return true', () => {
-      const obj = { then() {} }
+      const obj = Promise.resolve()
 
       const result = isPromise(obj)
 
@@ -11,7 +11,7 @@ describe('isPromise<T>(val: any): boolean', () => {
     })
   })
 
-  describe('val isnt PromiseLike<T>', () => {
+  describe('val isnt Promise<T>', () => {
     it('return false', () => {
       const obj = null
 

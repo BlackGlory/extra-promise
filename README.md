@@ -14,7 +14,13 @@ yarn add extra-promise
 
 ### isPromise
 
-`function isPromise<T>(val: any): val is PromiseLike<T>`
+`function isPromise<T>(val: any): val is Promise<T>`
+
+Check if the `val` is a `Promise` instance.
+
+### isPromiseLike
+
+`function isPromiseLike<T>(val: any): val is PromiseLike<T>`
 
 Check if the `val` has a `then` method.
 
