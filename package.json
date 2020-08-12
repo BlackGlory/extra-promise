@@ -75,6 +75,7 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
+    "@blackglory/types": "^0.1.2",
     "eventemitter3": "^4.0.4",
     "iterable-operator": "^0.11.0",
     "reflect-metadata": "^0.1.13",

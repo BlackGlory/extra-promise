@@ -1,3 +1,4 @@
+import { isFunction } from '@blackglory/types'
 import { getErrorPromise } from 'return-style'
 import { promisify } from '@functions/promisify'
 import '@test/matchers'
@@ -35,7 +36,3 @@ describe('promisify<Result, Args extends any[] = unknown[]>(fn: (...args: any[])
     })
   })
 })
-
-function isFunction(val: unknown): val is Function {
-  return typeof val === 'function'
-}

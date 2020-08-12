@@ -1,3 +1,4 @@
+import { isntFunction } from '@blackglory/types'
 import { InvalidArgumentError, InvalidArgumentsLengthError } from '@error'
 export { InvalidArgumentError, InvalidArgumentsLengthError }
 
@@ -40,12 +41,4 @@ export class FalsyError extends Error {
     super()
     this.reason = val
   }
-}
-
-function isntFunction(val: unknown) {
-  return !isFunction(val)
-}
-
-function isFunction(val: unknown): val is Function {
-  return typeof val === 'function'
 }

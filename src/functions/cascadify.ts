@@ -1,4 +1,5 @@
 import 'reflect-metadata'
+import { isFunction } from '@blackglory/types'
 
 const CASCADABLE = 'extra-promise:cascadable'
 
@@ -49,8 +50,4 @@ export function cascadable(target: any, key: string) {
 
 function isCascadable(target: any, key: string | symbol): boolean {
   return Reflect.getMetadata(CASCADABLE, target, key)
-}
-
-function isFunction(val: unknown): val is Function {
-  return typeof val === 'function'
 }
