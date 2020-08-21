@@ -3117,10 +3117,10 @@ istanbul-reports@^3.0.2:
     html-escaper "^2.0.0"
     istanbul-lib-report "^3.0.0"
 
-iterable-operator@^0.12.0:
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/iterable-operator/-/iterable-operator-0.12.0.tgz#405804995444cd558b35854246df063f19ae51f6"
-  integrity sha512-9mdnSi1g1ZhNdY/AsXaJ2Kyl5lgnwz6GoeQwvEExb2ESw5oR5SiPGOjaBZqdZefO15iEzYiOp5VQ9cpBVnaZlA==
+iterable-operator@^0.12.1:
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/iterable-operator/-/iterable-operator-0.12.1.tgz#8d39bb0c8d2731a74e016b58c8a39402a756d533"
+  integrity sha512-tvS2MxIWZ2yxhXEKnl2Cpq/8WqJotOwbJzxbZswpTjPjkcaS2A+9wOPu906SmjGDxCVPbh+bo7W8/AUMHN3PfA==
   dependencies:
     "@blackglory/types" "^0.1.3"
 

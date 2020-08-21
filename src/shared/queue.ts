@@ -1,18 +1,17 @@
 export class Queue<T> {
-  // fuck tsc https://github.com/microsoft/TypeScript/issues/36841
-  private _items: T[] = []
+  #items: T[] = []
 
   enqueue(...items: T[]): void {
-    this._items.push(...items)
+    this.#items.push(...items)
   }
 
   dequeue(): T {
     if (this.size === 0) throw new EmptyQueueError()
-    return this._items.shift()!
+    return this.#items.shift()!
   }
 
   get size(): number {
-    return this._items.length
+    return this.#items.length
   }
 }
 
