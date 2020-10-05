@@ -8,7 +8,6 @@ test('exports', () => {
   , 'isPromise'
   , 'isPromiseLike'
   , 'delay'
-  , 'timeout', 'TimeoutError'
   , 'retryUntil'
   , 'parallel'
   , 'series'
@@ -17,14 +16,27 @@ test('exports', () => {
   , 'map'
   , 'filter'
   , 'promisify'
-  , 'callbackify', 'FalsyError'
   , 'asyncify'
-  , 'cascadify', 'cascadable'
-  , 'makeChannel', 'makeBlockingChannel', 'ChannelClosedError'
+
+  , 'timeout'
+  , 'TimeoutError'
+
+  , 'cascadify'
+  , 'cascadable'
+
+  , 'callbackify'
+  , 'FalsyError'
+
+  , 'makeChannel'
+  , 'makeBufferedChannel'
+  , 'makeUnlimitedChannel'
+  , 'ChannelClosedError'
 
   , 'Deferred'
   , 'LazyPromise'
-  , 'Signal', 'SignalDiscarded'
+
+  , 'Signal'
+  , 'SignalDiscarded'
   ].sort()
 
   const actualExports = Object.keys(target).sort()

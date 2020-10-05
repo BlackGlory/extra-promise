@@ -1,10 +1,14 @@
-import { Signal } from './signal'
+import { Signal } from '@classes/signal'
 
 export class SignalGroup {
   #group = new Set<Signal>()
 
   add(signal: Signal) {
     this.#group.add(signal)
+  }
+
+  remove(signal: Signal) {
+    this.#group.delete(signal)
   }
 
   emitAll() {

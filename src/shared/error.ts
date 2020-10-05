@@ -26,3 +26,7 @@ function pluralize(word: string, count: number) {
   }
   return `${count} ${word}`
 }
+
+export class ChannelClosedError {
+  name = this.constructor.name
+}
