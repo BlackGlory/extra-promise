@@ -2,7 +2,7 @@ import { delay } from '@functions/delay'
 import { parallel, InvalidArgumentError } from '@functions/parallel'
 import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable } from '@test/utils'
 import { getError, getErrorPromise } from 'return-style'
-import '@test/matchers'
+import '@blackglory/jest-matchers'
 
 describe('parallel<T>(tasks: Iterable<() => T | PromiseLike<T>>, concurrency: number = Infinity): Promise<void>', () => {
   describe('concurrency < 1', () => {

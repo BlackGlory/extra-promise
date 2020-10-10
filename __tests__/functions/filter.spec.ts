@@ -2,7 +2,7 @@ import { getError, getErrorPromise } from 'return-style'
 import { filter, InvalidArgumentError } from '@functions/filter'
 import { delay } from '@functions/delay'
 import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable } from '@test/utils'
-import '@test/matchers'
+import '@blackglory/jest-matchers'
 
 describe('filter<T, U = T>(iterable: Iterable<T>, fn: (element: T, i: number) => boolean | PromiseLike<boolean>, concurrency: number = Infinity): Promise<U[]>', () => {
   describe('concurrency < 1', () => {

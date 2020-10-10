@@ -1,6 +1,6 @@
 import { LazyPromise } from '@classes/lazy-promise'
 import { getCalledTimes } from '@test/utils'
-import '@test/matchers'
+import '@blackglory/jest-matchers'
 
 describe('LazyPromise<T>', () => {
   describe('constructor', () => {

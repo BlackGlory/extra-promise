@@ -1,6 +1,6 @@
 import { waterfall } from '@functions/waterfall'
 import { getErrorPromise } from 'return-style'
-import '@test/matchers'
+import '@blackglory/jest-matchers'
 
 describe('waterfall<T>(tasks: Iterable<(result: unknown) => unknown | PromiseLike<unknown>>): Promise<T | undefined>', () => {
   describe('tasks is empty iterable', () => {

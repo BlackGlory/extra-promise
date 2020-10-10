@@ -1,6 +1,6 @@
 import { getErrorPromise } from 'return-style'
 import { Signal, SignalDiscarded } from '@classes/signal'
-import '@test/matchers'
+import '@blackglory/jest-matchers'
 
 describe('Signal', () => {
   describe('constructor', () => {

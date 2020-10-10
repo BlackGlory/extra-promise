@@ -1,6 +1,6 @@
 import { getErrorPromise } from 'return-style'
 import { Deferred } from '@classes/deferred'
-import '@test/matchers'
+import '@blackglory/jest-matchers'
 
 describe('Deferred<T>', () => {
   describe('constructor', () => {

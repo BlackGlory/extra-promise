@@ -2,7 +2,7 @@ import { getError, getErrorPromise } from 'return-style'
 import { map, InvalidArgumentError } from '@functions/map'
 import { delay } from '@functions/delay'
 import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable } from '@test/utils'
-import '@test/matchers'
+import '@blackglory/jest-matchers'
 
 describe('map<T, U>(iterable: Iterable<T>, fn: (element: T, i: number) => U | PromiseLike<U>, concurrency: number = Infinity): Promise<U[]>', () => {
   describe('concurrency < 1', () => {

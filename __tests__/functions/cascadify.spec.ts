@@ -1,7 +1,7 @@
 import { cascadify, cascadable } from '@src/functions/cascadify'
 import { isFailure } from 'return-style'
 import 'jest-extended'
-import '@test/matchers'
+import '@blackglory/jest-matchers'
 
 describe('cascadify<T extends object>(target: T): Cascadify<T>', () => {
   describe('sync method T as exit', () => {

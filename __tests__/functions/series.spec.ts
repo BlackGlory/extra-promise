@@ -1,7 +1,7 @@
 import { series } from '@functions/series'
 import { delay } from '@functions/delay'
 import { getCalledTimes, advanceTimersByTime, runAllMicrotasks } from '@test/utils'
-import '@test/matchers'
+import '@blackglory/jest-matchers'
 
 describe('series<T>(tasks: Iterable<() => T | PromiseLike<T>>): Promise<void>', () => {
   describe('tasks is empty iterable', () => {

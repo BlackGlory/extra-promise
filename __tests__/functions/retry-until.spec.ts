@@ -1,6 +1,6 @@
 import { getErrorPromise } from 'return-style'
 import { retryUntil } from '@functions/retry-until'
-import '@test/matchers'
+import '@blackglory/jest-matchers'
 
 describe('retryUntil<T, U = unknown>(fn: () => T | PromiseLike<T>, until: (error: U) => boolean | PromiseLike<boolean>): Promise<T>', () => {
   describe('fn fail once', () => {

@@ -1,7 +1,7 @@
 import { isFunction } from '@blackglory/types'
 import { getErrorPromise } from 'return-style'
 import { promisify } from '@functions/promisify'
-import '@test/matchers'
+import '@blackglory/jest-matchers'
 
 describe('promisify<Result, Args extends any[] = unknown[]>(fn: (...args: any[]) => unknown): (...args: Args) => Promise<Result>', () => {
   describe('fn resolved', () => {

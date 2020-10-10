@@ -2,7 +2,7 @@ import { getError, getErrorPromise } from 'return-style'
 import { each, InvalidArgumentError } from '@functions/each'
 import { delay } from '@functions/delay'
 import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable } from '@test/utils'
-import '@test/matchers'
+import '@blackglory/jest-matchers'
 
 describe('each(iterable: Iterable<T>, fn: (element: T, i: number) => unknown | PromiseLike<unknown>, concurrency: number = Infinity): Promise<void>', () => {
   describe('concurrency < 1', () => {

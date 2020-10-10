@@ -1,6 +1,6 @@
 import { delay } from '@functions/delay'
 import { advanceTimersByTime } from '@test/utils'
-import '@test/matchers'
+import '@blackglory/jest-matchers'
 
 describe('delay(timeout: number): Promise<void>', () => {
   it('call setTimeout', () => {

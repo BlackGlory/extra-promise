@@ -1,5 +1,5 @@
 import { asyncify } from '@functions/asyncify'
-import '@test/matchers'
+import '@blackglory/jest-matchers'
 
 describe('asyncify<T extends any[], U>(fn: (...args: T) => U | PromiseLike<U>): (...args: Promisify<T>) => Promise<U>', () => {
   describe('fn does not accept promises', () => {
