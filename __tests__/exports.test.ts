@@ -18,6 +18,9 @@ test('exports', () => {
   , 'promisify'
   , 'asyncify'
 
+  , 'pad'
+  , 'padResolve'
+
   , 'timeout'
   , 'TimeoutError'
 

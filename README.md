@@ -47,6 +47,18 @@ try {
 }
 ```
 
+### pad
+
+`function pad<T>(ms: number, promise: PromiseLike<T>): Promise<T>`
+
+Return a new Promise, wait at least `ms` milliseconds whether it is resolved or rejected.
+
+### padResolve
+
+`function padResolve<T>(ms: number, promise: PromiseLike<T>): Promise<T>`
+
+Similar to `pad`, but only pad resolving.
+
 ### retryUntil
 
 `function retryUntil<T, U = unknown>(fn: () => T | PromiseLike<T>, until: (error: U) => boolean | PromiseLike<boolean>): Promise<T>`
