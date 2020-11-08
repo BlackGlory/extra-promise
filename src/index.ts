@@ -18,7 +18,6 @@ export * from '@functions/series'
 export * from '@functions/timeout'
 export * from '@functions/waterfall'
 export * from '@functions/pad'
-export * from '@functions/pad-resolve'
 
 export * from '@functions/make-channel'
 export * from '@functions/make-buffered-channel'

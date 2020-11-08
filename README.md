@@ -49,15 +49,9 @@ try {
 
 ### pad
 
-`function pad<T>(ms: number, promise: PromiseLike<T>): Promise<T>`
+`function pad<T>(ms: number, fn: () => T | PromiseLike<T>): Promise<T>`
 
-Return a new Promise, wait at least `ms` milliseconds whether it is resolved or rejected.
-
-### padResolve
-
-`function padResolve<T>(ms: number, promise: PromiseLike<T>): Promise<T>`
-
-Similar to `pad`, but only pad resolving.
+Run a function, but wait at least `ms` milliseconds before returning.
 
 ### retryUntil
 

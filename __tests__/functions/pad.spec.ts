@@ -3,13 +3,13 @@ import { getErrorPromise } from 'return-style'
 import '@blackglory/jest-matchers'
 import 'jest-extended'
 
-describe('pad<T>(ms: number, promise: PromiseLike<T>): Promise<T>', () => {
+describe('pad<T>(ms: number, fn: () => T | PromiseLike<T>): Promise<T>', () => {
   describe('need padding', () => {
     it('pad resolving', async () => {
       const value = 'value'
 
       const start = Date.now()
-      const result = pad(500, Promise.resolve(value))
+      const result = pad(500, () => Promise.resolve(value))
       const proResult = await result
       const elapsed = Date.now() - start
 
@@ -18,17 +18,17 @@ describe('pad<T>(ms: number, promise: PromiseLike<T>): Promise<T>', () => {
       expect(elapsed).toBeGreaterThanOrEqual(500)
     })
 
-    it('pad rejecting', async () => {
+    it('not pad rejecting', async () => {
       const error = new Error('custom error')
 
       const start = Date.now()
-      const result = pad(500, Promise.reject(error))
+      const result = pad(500, () => Promise.reject(error))
       const proResult = await getErrorPromise(result)
       const elapsed = Date.now() - start
 
       expect(result).toBePromise()
       expect(proResult).toBe(error)
-      expect(elapsed).toBeGreaterThanOrEqual(500)
+      expect(elapsed).toBeLessThan(500)
     })
   })
 
@@ -37,7 +37,7 @@ describe('pad<T>(ms: number, promise: PromiseLike<T>): Promise<T>', () => {
       const value = 'value'
 
       const start = Date.now()
-      const result = pad(500, resolveAfter(500, value))
+      const result = pad(500, () => resolveAfter(500, value))
       const proResult = await result
       const elapsed = Date.now() - start
 
@@ -50,7 +50,7 @@ describe('pad<T>(ms: number, promise: PromiseLike<T>): Promise<T>', () => {
       const error = new Error('custom error')
 
       const start = Date.now()
-      const result = pad(500, rejectAfter(500, error))
+      const result = pad(500, () => rejectAfter(500, error))
       const proResult = await getErrorPromise(result)
       const elapsed = Date.now() - start
 
