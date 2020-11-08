@@ -86,11 +86,11 @@ describe('makeBufferedChannel(bufferSize: number): [(value: T) => Promise<void>,
       for await (const _ of receive()) await delay(500)
 
       expect(enqueueTiming[0]).toBeWithin(0, 500) // 0ms
-      expect(enqueueTiming[1]).toBeWithin(enqueueTiming[0], enqueueTiming[0] + 500) // 0ms
-      expect(enqueueTiming[2]).toBeWithin(enqueueTiming[1], enqueueTiming[1] + 500) // 0ms
-      expect(enqueueTiming[3]).toBeWithin(enqueueTiming[2] + 500, enqueueTiming[2] + 1000) // 500ms
-      expect(enqueueTiming[4]).toBeWithin(enqueueTiming[3] + 500, enqueueTiming[3] + 1000) // 1000ms
-      expect(enqueueTiming[5]).toBeWithin(enqueueTiming[4] + 500, enqueueTiming[4] + 1000) // 1500ms
+      expect(enqueueTiming[1]).toBeWithin(0, 500) // 0ms
+      expect(enqueueTiming[2]).toBeWithin(0, 500) // 0ms
+      expect(enqueueTiming[3]).toBeWithin(500, 1000) // 500ms
+      expect(enqueueTiming[4]).toBeWithin(1000, 1500) // 1000ms
+      expect(enqueueTiming[5]).toBeWithin(1500, 2000) // 1500ms
     })
   })
 })

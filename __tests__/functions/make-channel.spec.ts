@@ -73,7 +73,7 @@ describe('makeChannel(): [(value: T) => Promise<void>, () => AsyncIterable<T>, (
       expect(produceTiming[0]).toBeWithin(0, 500) // 0ms
       expect(consumeTiming[0]).toBeWithin(500, 1000) // 500ms
       expect(produceTiming[1]).toBeWithin(0, 500) // 0ms
-      expect(consumeTiming[1]).toBeWithin(consumeTiming[0] + 500, consumeTiming[0] + 1000) // 1000ms
+      expect(consumeTiming[1]).toBeWithin(1000, 1500) // 1000ms
     })
   })
 })
