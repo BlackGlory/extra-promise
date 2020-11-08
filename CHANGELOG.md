@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.9.3](https://github.com/BlackGlory/extra-promise/compare/v0.9.2...v0.9.3) (2020-11-08)
+
+
+### Features
+
+* add pad, padResolve ([20db485](https://github.com/BlackGlory/extra-promise/commit/20db4851f4a7649b3824e73da7ff4a36b254cd1d))
+
 ### [0.9.2](https://github.com/BlackGlory/extra-promise/compare/v0.9.1...v0.9.2) (2020-11-08)
 
 ### [0.9.1](https://github.com/BlackGlory/extra-promise/compare/v0.9.0...v0.9.1) (2020-10-10)
