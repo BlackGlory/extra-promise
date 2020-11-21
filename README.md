@@ -324,3 +324,27 @@ The `emit()` make the internal Promise resolve.
 The `discard()` make the internal Promise reject `SignalDiscarded`.
 
 The `refresh()` re-creates the internal Promise.
+
+### Semaphore
+
+```ts
+type Release = () => void
+
+class Semaphore {
+  constructor(count: number)
+
+  acquire(): Promise<Release>
+  acquire(handler: () => void | Promise<void>): void
+}
+```
+
+### Mutex
+
+```ts
+type Release = () => void
+
+class Mutex extends Semaphore {
+  acquire(): Promise<Release>
+  acquire(handler: () => void | Promise<void>): void
+}
+```
