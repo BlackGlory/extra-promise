@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.9.4](https://github.com/BlackGlory/extra-promise/compare/v0.9.3...v0.9.4) (2020-11-21)
+
+
+### Features
+
+* add Semaphore, Mutex ([f1af83f](https://github.com/BlackGlory/extra-promise/commit/f1af83f1721fc30cc3e138e55cb2b7a3e5ac84ff))
+
 ### [0.9.3](https://github.com/BlackGlory/extra-promise/compare/v0.9.2...v0.9.3) (2020-11-08)
 
 
