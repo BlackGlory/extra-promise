@@ -1,6 +1,8 @@
 export * from '@classes/deferred'
 export * from '@classes/lazy-promise'
 export * from '@classes/signal'
+export * from '@classes/semaphore'
+export * from '@classes/mutex'
 
 export * from '@functions/asyncify'
 export * from '@functions/callbackify'

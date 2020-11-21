@@ -38,6 +38,9 @@ test('exports', () => {
 
   , 'Signal'
   , 'SignalDiscarded'
+
+  , 'Semaphore'
+  , 'Mutex'
   ].sort()
 
   const actualExports = Object.keys(target).sort()
