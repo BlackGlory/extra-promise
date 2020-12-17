@@ -41,6 +41,8 @@ test('exports', () => {
 
   , 'Semaphore'
   , 'Mutex'
+
+  , 'DebounceMicrotask'
   ].sort()
 
   const actualExports = Object.keys(target).sort()
