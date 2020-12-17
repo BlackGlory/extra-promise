@@ -348,3 +348,17 @@ class Mutex extends Semaphore {
   acquire(handler: () => void | Promise<void>): void
 }
 ```
+
+### DebounceMicrotask
+
+```ts
+class DebounceMicrotask {
+  queue(fn: () => void): void
+  cancel(fn: () => void): boolean
+}
+```
+
+`queue` can create microtasks,
+if the microtask is not executed, multiple calls will only queue it once.
+
+`cancel` can cancel microtasks before it is executed.

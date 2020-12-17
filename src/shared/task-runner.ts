@@ -1,4 +1,4 @@
-import { debounceMicrotask, cancelMicrotask } from './debounce-microtask'
+import { DebounceMicrotask } from '@classes/debounce-microtask'
 import { Queue } from './queue'
 import { checkConcurrency, InvalidArgumentError } from './check-concurrency'
 import { EventEmitter } from 'eventemitter3'
@@ -12,6 +12,7 @@ export class TaskRunner extends EventEmitter {
   #pending: number = 0
   #concurrency!: number
   #running: boolean = true
+  #debounceMicrotask = new DebounceMicrotask()
 
   constructor(concurrency: number = Infinity) {
     super()
@@ -26,7 +27,7 @@ export class TaskRunner extends EventEmitter {
     }
 
     this.#event.on('update', () => {
-      if (this.#running) debounceMicrotask(go)
+      if (this.#running) this.#debounceMicrotask.queue(go)
     })
 
     this.#event.on('start', (task: Task) => {
@@ -35,14 +36,14 @@ export class TaskRunner extends EventEmitter {
 
     this.#event.on('resolve', (task: Task) => {
       if (this.#running) {
-        debounceMicrotask(go)
+        this.#debounceMicrotask.queue(go)
         this.emit('resolved', task)
       }
     })
 
     this.#event.on('reject', (task: Task, reason: unknown) => {
       this.#running = false
-      cancelMicrotask(go)
+      this.#debounceMicrotask.cancel(go)
       this.emit('rejected', task, reason)
     })
   }
