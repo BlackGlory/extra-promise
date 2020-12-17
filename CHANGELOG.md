@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.9.6](https://github.com/BlackGlory/extra-promise/compare/v0.9.5...v0.9.6) (2020-12-17)
+
+
+### Features
+
+* add DebounceMicrotask ([cc76f0b](https://github.com/BlackGlory/extra-promise/commit/cc76f0b65cdf837ebf8ccc1f099caecc7c632ee0))
+
 ### [0.9.5](https://github.com/BlackGlory/extra-promise/compare/v0.9.4...v0.9.5) (2020-11-21)
 
 ### [0.9.4](https://github.com/BlackGlory/extra-promise/compare/v0.9.3...v0.9.4) (2020-11-21)
