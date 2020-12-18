@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.10.4](https://github.com/BlackGlory/extra-promise/compare/v0.10.3...v0.10.4) (2020-12-18)
+
+
+### Features
+
+* use shared/Mutex ([02446f7](https://github.com/BlackGlory/extra-promise/commit/02446f758ef7668ac26bf84110c1caf8a2a5d930))
+
 ### [0.10.3](https://github.com/BlackGlory/extra-promise/compare/v0.10.2...v0.10.3) (2020-12-18)
 
 
