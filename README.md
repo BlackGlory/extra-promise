@@ -186,37 +186,6 @@ await cascadify(adder)
   .add(10)
   .value
 ```
-
-### makeChannel
-
-`function makeChannel(): [(value: T) => Promise<void>, () => AsyncIterable<T>, () => void]`
-
-Implement MPSC(multi-producer, single-consumer) FIFO queue communication with `Promise` and `AsyncIterable`.
-
-`makeChannel` return a tuple includes three channel functions:
-- `function send(value: T): Promise<void>`
-  Send value to the channel, block until data is taken out by the consumer.
-- `function receive(): AsyncIterable<T>`
-  Receive value from the channel.
-- `function close(): void`
-  Record no more values will be sent on the channel.
-
-If the channel closed, `send()` will throw `ChannelClosedError`.
-
-```ts
-const [send, receive, close] = makeChannel<string>()
-
-queueMicrotask(() => {
-  await send('hello')
-  await send('world')
-  close()
-})
-
-for await (const value of receive()) {
-  console.log(value)
-}
-```
-
 ### makeBufferedChannel
 
 `function makeBufferedChannel(bufferSize: number): [(value: T) => Promise<void>, () => AsyncIterable<T>, () => void]`
@@ -231,7 +200,7 @@ When the amount of data sent exceeds `bufferSize`, `send()` will block until dat
 - `function receive(): AsyncIterable<T>`
   Receive value from the channel.
 - `function close(): void`
-  Record no more values will be sent on the channel.
+  Close channel, no more values can be sent.
 
 If the channel closed, `send()` will throw `ChannelClosedError`.
 
@@ -262,7 +231,7 @@ Implement MPSC(multi-producer, single-consumer) FIFO queue communication with `P
 - `function receive(): AsyncIterable<T>`
   Receive value from the channel.
 - `function close(): void`
-  Record no more values will be sent on the channel.
+  close the channel, no more values can be sent.
 
 If the channel closed, `send()` will throw `ChannelClosedError`.
 

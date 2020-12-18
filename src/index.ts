@@ -22,6 +22,5 @@ export * from '@functions/timeout'
 export * from '@functions/waterfall'
 export * from '@functions/pad'
 
-export * from '@functions/make-channel'
 export * from '@functions/make-buffered-channel'
 export * from '@functions/make-unlimited-channel'
