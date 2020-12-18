@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.10.5](https://github.com/BlackGlory/extra-promise/compare/v0.10.4...v0.10.5) (2020-12-18)
+
+
+### Features
+
+* overwrite Mutex ([7e62996](https://github.com/BlackGlory/extra-promise/commit/7e62996cf0873ad83e552d115bcac3e9f0ae6ac2))
+
 ### [0.10.4](https://github.com/BlackGlory/extra-promise/compare/v0.10.3...v0.10.4) (2020-12-18)
 
 
