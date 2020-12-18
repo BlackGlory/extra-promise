@@ -2,7 +2,6 @@ import { isFailurePromise } from 'return-style'
 import { Signal } from '@classes/signal'
 import { ChannelClosedError } from '@error'
 import { Mutex } from '@src/shared/mutex'
-import { Mutex as Mutex2 } from '@classes/mutex'
 
 type BlockingSend<T> = (value: T) => Promise<void>
 type Receive<T> = () => AsyncIterable<T>
@@ -16,7 +15,7 @@ export function makeChannel<T>(): [BlockingSend<T>, Receive<T>, Close] {
   const writeLock = new Mutex()
   const writeSignal = new Signal()
   const readSignal = new Signal()
-  const readLock = new Mutex2()
+  const readLock = new Mutex()
   const box: T[] = []
 
   return [send, receive, close]
@@ -25,22 +24,25 @@ export function makeChannel<T>(): [BlockingSend<T>, Receive<T>, Close] {
     if (isClosed) throw new ChannelClosedError()
 
     await writeLock.lock()
-    // 双重检查
-    if (isClosed) throw new ChannelClosedError()
 
-    box.push(value)
-    writeSignal.emit()
+    try {
+      // 双重检查
+      if (isClosed) throw new ChannelClosedError()
 
-    // 等待receive发出读取信号
-    if (await isFailurePromise(readSignal)) {
-      // 删除值
-      box.pop()
-      throw new ChannelClosedError()
+      box.push(value)
+      writeSignal.emit()
+
+      // 等待receive发出读取信号
+      if (await isFailurePromise(readSignal)) {
+        // 删除值
+        box.pop()
+        throw new ChannelClosedError()
+      }
+      // 得到读取信号后, 刷新读取信号
+      readSignal.refresh()
+    } finally {
+      writeLock.unlock()
     }
-    // 得到读取信号后, 刷新读取信号
-    readSignal.refresh()
-
-    writeLock.unlock()
   }
 
   function receive(): AsyncIterable<T> {
@@ -48,7 +50,7 @@ export function makeChannel<T>(): [BlockingSend<T>, Receive<T>, Close] {
       [Symbol.asyncIterator]() {
         return {
           async next() {
-            const release = await readLock.acquire()
+            await readLock.lock()
             try {
               while (box.length === 0) {
                 // 如果通道关闭, 则停止接收
@@ -63,7 +65,7 @@ export function makeChannel<T>(): [BlockingSend<T>, Receive<T>, Close] {
               readSignal.emit()
               return { done: false, value }
             } finally {
-              release()
+              readLock.unlock()
             }
           }
         }
@@ -76,7 +78,6 @@ export function makeChannel<T>(): [BlockingSend<T>, Receive<T>, Close] {
       isClosed = true
       writeSignal.discard()
       readSignal.discard()
-      writeLock.unlock()
     }
   }
 }
