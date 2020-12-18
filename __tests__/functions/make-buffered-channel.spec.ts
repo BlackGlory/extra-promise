@@ -93,6 +93,31 @@ describe('makeBufferedChannel(bufferSize: number): [(value: T) => Promise<void>,
       expect(enqueueTiming[5]).toBeWithin(1500, 2000) // 1500ms
     })
   })
+
+  describe('multiple-producer, multiple-consumer', () => {
+    it('return AsyncIterable', async () => {
+      const [send, receive, close] = makeBufferedChannel<number>(1)
+      const iter = receive()[Symbol.asyncIterator]()
+
+      const promise1 = iter.next()
+      const promise2 = iter.next()
+      const promise3 = iter.next()
+
+      send(1)
+      send(2)
+      send(3)
+
+      const value1 = (await promise1).value
+      const value2 = (await promise2).value
+      const value3 = (await promise3).value
+
+      close()
+
+      expect(value1).toBe(1)
+      expect(value2).toBe(2)
+      expect(value3).toBe(3)
+    })
+  })
 })
 
 function getNow(start: number) {

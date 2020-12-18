@@ -1,5 +1,6 @@
 import { isFailurePromise } from 'return-style'
 import { Signal } from '@classes/signal'
+import { Mutex } from '@classes/mutex'
 import { Queue } from '@src/shared/queue'
 import { ChannelClosedError } from '@error'
 
@@ -12,6 +13,7 @@ export function makeUnlimitedChannel<T>(): [Send<T>, Receive<T>, Close] {
   let isClosed = false
 
   const enqueueSignal = new Signal()
+  const readLock = new Mutex()
   const buffer = new Queue<T>()
 
   return [send, receive, close]
@@ -27,17 +29,23 @@ export function makeUnlimitedChannel<T>(): [Send<T>, Receive<T>, Close] {
       [Symbol.asyncIterator]() {
         return {
           async next() {
-            // 缓冲区队列为空, 则等待入列信号
-            while (buffer.size === 0) {
-              if (isClosed) return { done: true, value: undefined }
-              // 等待入列信号, 如果通道关闭, 则停止接收
-              if (await isFailurePromise(enqueueSignal)) return { done: true, value: undefined }
-              // 得到入列信号后, 刷新入列信号
-              enqueueSignal.refresh()
-            }
+            const release = await readLock.acquire()
 
-            const value = buffer.dequeue()
-            return { done: false, value }
+            try {
+              // 缓冲区队列为空, 则等待入列信号
+              while (buffer.size === 0) {
+                if (isClosed) return { done: true, value: undefined }
+                // 等待入列信号, 如果通道关闭, 则停止接收
+                if (await isFailurePromise(enqueueSignal)) return { done: true, value: undefined }
+                // 得到入列信号后, 刷新入列信号
+                enqueueSignal.refresh()
+              }
+
+              const value = buffer.dequeue()
+              return { done: false, value }
+            } finally {
+              release()
+            }
           }
         }
       }
