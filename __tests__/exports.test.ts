@@ -28,6 +28,7 @@ test('exports', () => {
   , 'callbackify'
   , 'FalsyError'
 
+  , 'makeChannel'
   , 'makeBufferedChannel'
   , 'makeUnlimitedChannel'
   , 'ChannelClosedError'
