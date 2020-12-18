@@ -1,7 +1,7 @@
 import { isFailurePromise } from 'return-style'
 import { Signal } from '@classes/signal'
 import { ChannelClosedError } from '@error'
-import { Mutex } from '@src/shared/mutex'
+import { Mutex } from '@classes/mutex'
 
 type BlockingSend<T> = (value: T) => Promise<void>
 type Receive<T> = () => AsyncIterable<T>
@@ -23,7 +23,7 @@ export function makeChannel<T>(): [BlockingSend<T>, Receive<T>, Close] {
   async function send(value: T): Promise<void> {
     if (isClosed) throw new ChannelClosedError()
 
-    await writeLock.lock()
+    const release = await writeLock.acquire()
 
     try {
       // 双重检查
@@ -41,7 +41,7 @@ export function makeChannel<T>(): [BlockingSend<T>, Receive<T>, Close] {
       // 得到读取信号后, 刷新读取信号
       readSignal.refresh()
     } finally {
-      writeLock.unlock()
+      release()
     }
   }
 
@@ -50,7 +50,7 @@ export function makeChannel<T>(): [BlockingSend<T>, Receive<T>, Close] {
       [Symbol.asyncIterator]() {
         return {
           async next() {
-            await readLock.lock()
+            const release = await readLock.acquire()
             try {
               while (box.length === 0) {
                 // 如果通道关闭, 则停止接收
@@ -65,7 +65,7 @@ export function makeChannel<T>(): [BlockingSend<T>, Receive<T>, Close] {
               readSignal.emit()
               return { done: false, value }
             } finally {
-              readLock.unlock()
+              release()
             }
           }
         }
