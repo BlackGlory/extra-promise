@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.10.0](https://github.com/BlackGlory/extra-promise/compare/v0.9.6...v0.10.0) (2020-12-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* remove makeChannel
+
+### Features
+
+* remove makeChannel ([5486b34](https://github.com/BlackGlory/extra-promise/commit/5486b348ce6be65129630a39ff20ac9891be7d3d))
+
 ### [0.9.6](https://github.com/BlackGlory/extra-promise/compare/v0.9.5...v0.9.6) (2020-12-17)
 
 
