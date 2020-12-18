@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.10.2](https://github.com/BlackGlory/extra-promise/compare/v0.10.1...v0.10.2) (2020-12-18)
+
+
+### Features
+
+* add makeChannel ([aa4165a](https://github.com/BlackGlory/extra-promise/commit/aa4165ad44408edcb730581edcd083e6f0070825))
+
 ### [0.10.1](https://github.com/BlackGlory/extra-promise/compare/v0.10.0...v0.10.1) (2020-12-18)
 
 
