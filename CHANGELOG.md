@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.10.1](https://github.com/BlackGlory/extra-promise/compare/v0.10.0...v0.10.1) (2020-12-18)
+
+
+### Features
+
+* experimental support MPMC ([91d0749](https://github.com/BlackGlory/extra-promise/commit/91d0749dc4ba49a967bebdd920eed6116cfcc577))
+
 ## [0.10.0](https://github.com/BlackGlory/extra-promise/compare/v0.9.6...v0.10.0) (2020-12-18)
 
 
