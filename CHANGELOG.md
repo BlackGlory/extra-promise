@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.12.0](https://github.com/BlackGlory/extra-promise/compare/v0.11.0...v0.12.0) (2020-12-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* remove Signal#refresh
+
+### Features
+
+* export SignalGroup ([24fbb49](https://github.com/BlackGlory/extra-promise/commit/24fbb49b644cb855f7fa1227756f43f31b687f3d))
+* remove Signal#refresh ([5da7dce](https://github.com/BlackGlory/extra-promise/commit/5da7dce8d49e2003d9002cfae3b55849b32011b1))
+
 ## [0.11.0](https://github.com/BlackGlory/extra-promise/compare/v0.10.6...v0.11.0) (2020-12-19)
 
 
