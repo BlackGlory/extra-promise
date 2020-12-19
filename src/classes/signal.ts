@@ -1,3 +1,4 @@
+import { CustomError } from '@blackglory/errors'
 import { Deferred } from './deferred'
 
 export class Signal implements PromiseLike<void> {
@@ -21,6 +22,4 @@ export class Signal implements PromiseLike<void> {
   }
 }
 
-export class SignalDiscarded extends Error {
-  name = this.constructor.name
-}
+export class SignalDiscarded extends CustomError {}

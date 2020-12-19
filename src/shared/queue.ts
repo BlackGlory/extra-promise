@@ -1,3 +1,5 @@
+import { CustomError } from '@blackglory/errors'
+
 export class Queue<T> {
   #items: T[] = []
 
@@ -15,9 +17,7 @@ export class Queue<T> {
   }
 }
 
-export class EmptyQueueError extends Error {
-  name = this.constructor.name
-
+export class EmptyQueueError extends CustomError {
   constructor() {
     super('Queue is empty.')
   }

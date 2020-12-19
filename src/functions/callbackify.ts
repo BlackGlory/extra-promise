@@ -1,4 +1,5 @@
 import { isntFunction } from '@blackglory/types'
+import { CustomError } from '@blackglory/errors'
 import { InvalidArgumentError, InvalidArgumentsLengthError } from '@error'
 export { InvalidArgumentError, InvalidArgumentsLengthError }
 
@@ -33,8 +34,7 @@ export function callbackify<Result, Args extends any[] = unknown[]>(fn: (...args
   }
 }
 
-export class FalsyError extends Error {
-  name = this.constructor.name
+export class FalsyError extends CustomError {
   reason: any
 
   constructor(val: any) {

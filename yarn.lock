@@ -459,6 +459,11 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
+"@blackglory/errors@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@blackglory/errors/-/errors-0.1.2.tgz#45c3670c075e1e928f7bede05a5b8095d2f43112"
+  integrity sha512-OwgxggAWYhLNo2TYs1c7GBWLdjiJMz03UsGTQv/BlIYMg5hq0ABLGfFw7G/PO0Htgbgs+Yi44ftknwUX5/t6RA==
+
 "@blackglory/jest-matchers@^0.1.4":
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/@blackglory/jest-matchers/-/jest-matchers-0.1.4.tgz#b465fa87c06e5cb25fae607b51869c2bb9ee278f"
