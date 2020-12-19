@@ -42,17 +42,4 @@ describe('Signal', () => {
       expect(newThen).not.toBe(oldThen)
     })
   })
-
-  describe('refresh(): void', () => {
-    it('re-creates the internal promise', async () => {
-      const signal = new Signal()
-
-      const oldThen = signal.then
-      const result = signal.refresh()
-      const newThen = signal.then
-
-      expect(result).toBeUndefined()
-      expect(newThen).not.toBe(oldThen)
-    })
-  })
 })

@@ -17,10 +17,9 @@ export class SignalGroup {
     }
   }
 
-  discardAndRefreshAll() {
+  discardAll() {
     for (const signal of this.#group) {
       signal.discard()
-      signal.refresh()
     }
   }
 }

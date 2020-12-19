@@ -1,5 +1,6 @@
 import { isFailurePromise } from 'return-style'
 import { Signal } from '@classes/signal'
+import { SignalGroup } from '@src/shared/signal-group'
 import { Mutex } from '@classes/mutex'
 import { Queue } from '@src/shared/queue'
 import { ChannelClosedError } from '@error'
@@ -12,7 +13,7 @@ type Close = Callback
 export function makeUnlimitedChannel<T>(): [Send<T>, Receive<T>, Close] {
   let isClosed = false
 
-  const enqueueSignal = new Signal()
+  const enqueueSignalGroup = new SignalGroup()
   const readLock = new Mutex()
   const buffer = new Queue<T>()
 
@@ -21,7 +22,7 @@ export function makeUnlimitedChannel<T>(): [Send<T>, Receive<T>, Close] {
   function send(value: T): void {
     if (isClosed) throw new ChannelClosedError()
     buffer.enqueue(value)
-    enqueueSignal.emit()
+    enqueueSignalGroup.emitAll()
   }
 
   function receive(): AsyncIterable<T> {
@@ -35,10 +36,16 @@ export function makeUnlimitedChannel<T>(): [Send<T>, Receive<T>, Close] {
               // 缓冲区队列为空, 则等待入列信号
               while (buffer.size === 0) {
                 if (isClosed) return { done: true, value: undefined }
-                // 等待入列信号, 如果通道关闭, 则停止接收
-                if (await isFailurePromise(enqueueSignal)) return { done: true, value: undefined }
-                // 得到入列信号后, 刷新入列信号
-                enqueueSignal.refresh()
+
+                const enqueueSignal = new Signal()
+                enqueueSignalGroup.add(enqueueSignal)
+
+                try {
+                  // 等待入列信号, 如果通道关闭, 则停止接收
+                  if (await isFailurePromise(enqueueSignal)) return { done: true, value: undefined }
+                } finally {
+                  enqueueSignalGroup.remove(enqueueSignal)
+                }
               }
 
               const value = buffer.dequeue()
@@ -55,7 +62,7 @@ export function makeUnlimitedChannel<T>(): [Send<T>, Receive<T>, Close] {
   function close() {
     if (!isClosed) {
       isClosed = true
-      enqueueSignal.discard()
+      enqueueSignalGroup.discardAll()
     }
   }
 }

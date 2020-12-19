@@ -11,7 +11,7 @@ export function parallel<T>(tasks: Iterable<() => T | PromiseLike<T>>, concurren
     let isEnd = false
 
     const iterator = tasks[Symbol.iterator]()
-    const resolved = new Signal()
+    let resolved = new Signal()
     while (true) {
       const { value: task, done: end } = iterator.next()
       if (end) {
@@ -26,6 +26,8 @@ export function parallel<T>(tasks: Iterable<() => T | PromiseLike<T>>, concurren
             await resolved
           } catch {
             return
+          } finally {
+            resolved = new Signal()
           }
         }
         if (isEnd) return
@@ -43,7 +45,6 @@ export function parallel<T>(tasks: Iterable<() => T | PromiseLike<T>>, concurren
           if (total === done) resolve()
         } else {
           resolved.emit()
-          resolved.refresh()
         }
       } catch (e) {
         isEnd = true

@@ -313,16 +313,12 @@ class Signal implements PromiseLike<void> {
 
   emit(): void
   discard(): void
-  refresh(): void
 }
 ```
 
 The `emit()` make the internal Promise resolve.
 
 The `discard()` make the internal Promise reject `SignalDiscarded`.
-
-The `refresh()` re-creates the internal Promise.
-
 ### Semaphore
 
 ```ts

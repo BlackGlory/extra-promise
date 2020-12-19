@@ -16,10 +16,6 @@ export class Signal implements PromiseLike<void> {
     Promise.resolve(this.#deferred).catch(() => {})
     this.#deferred.reject(new SignalDiscarded())
   }
-
-  refresh() {
-    this.#deferred = new Deferred()
-  }
 }
 
 export class SignalDiscarded extends CustomError {}
