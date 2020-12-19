@@ -11,7 +11,6 @@ export class Channel<T> implements IBlockingChannel<T> {
   writeLock = new Mutex()
   writeSignalGroup = new SignalGroup()
   readSignalGroup = new SignalGroup()
-  readLock = new Mutex()
   box: T[] = []
 
   async send(value: T): Promise<void> {
@@ -45,30 +44,24 @@ export class Channel<T> implements IBlockingChannel<T> {
       [Symbol.asyncIterator]: () => {
         return {
           next: async () => {
-            const release = await this.readLock.acquire()
+            while (this.box.length === 0) {
+              // 如果通道关闭, 则停止接收
+              if (this.isClosed) return { done: true, value: undefined }
 
-            try {
-              while (this.box.length === 0) {
-                // 如果通道关闭, 则停止接收
-                if (this.isClosed) return { done: true, value: undefined }
+              const writeSignal = new Signal()
+              this.writeSignalGroup.add(writeSignal)
 
-                const writeSignal = new Signal()
-                this.writeSignalGroup.add(writeSignal)
-
-                try {
-                  // 等待send发出写入信号, 如果通道关闭, 则停止接收
-                  if (await isFailurePromise(writeSignal)) return { done: true, value: undefined }
-                } finally {
-                  this.writeSignalGroup.remove(writeSignal)
-                }
+              try {
+                // 等待send发出写入信号, 如果通道关闭, 则停止接收
+                if (await isFailurePromise(writeSignal)) return { done: true, value: undefined }
+              } finally {
+                this.writeSignalGroup.remove(writeSignal)
               }
-
-              const value = this.box.pop()!
-              this.readSignalGroup.emitAll()
-              return { done: false, value }
-            } finally {
-              release()
             }
+
+            const value = this.box.pop()!
+            this.readSignalGroup.emitAll()
+            return { done: false, value }
           }
         }
       }

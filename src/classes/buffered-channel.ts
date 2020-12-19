@@ -1,6 +1,5 @@
 import { isFailurePromise } from 'return-style'
 import { Signal } from '@classes/signal'
-import { Mutex } from '@classes/mutex'
 import { SignalGroup } from '@classes/signal-group'
 import { Queue } from '@src/shared/queue'
 import { ChannelClosedError } from '@error'
@@ -11,7 +10,6 @@ export class BufferedChannel<T> implements IBlockingChannel<T> {
   enqueueSingalGroup = new SignalGroup()
   dequeueSignalGroup = new SignalGroup()
   buffer = new Queue<T>()
-  readLock = new Mutex()
 
   constructor(private bufferSize: number) {}
 
@@ -40,30 +38,24 @@ export class BufferedChannel<T> implements IBlockingChannel<T> {
       [Symbol.asyncIterator]: () => {
         return {
           next : async () => {
-            const release = await this.readLock.acquire()
+            // 缓冲区队列为空, 则等待入列信号
+            while (this.buffer.size === 0) {
+              if (this.isClosed) return { done: true, value: undefined }
 
-            try {
-              // 缓冲区队列为空, 则等待入列信号
-              while (this.buffer.size === 0) {
-                if (this.isClosed) return { done: true, value: undefined }
+              const enqueueSignal = new Signal()
+              this.enqueueSingalGroup.add(enqueueSignal)
 
-                const enqueueSignal = new Signal()
-                this.enqueueSingalGroup.add(enqueueSignal)
-
-                try {
-                  // 等待入列信号, 如果通道关闭, 则停止接收
-                  if (await isFailurePromise(enqueueSignal)) return { done: true, value: undefined }
-                } finally {
-                  this.enqueueSingalGroup.remove(enqueueSignal)
-                }
+              try {
+                // 等待入列信号, 如果通道关闭, 则停止接收
+                if (await isFailurePromise(enqueueSignal)) return { done: true, value: undefined }
+              } finally {
+                this.enqueueSingalGroup.remove(enqueueSignal)
               }
-
-              const value = this.buffer.dequeue()
-              this.dequeueSignalGroup.emitAll()
-              return { done: false, value }
-            } finally {
-              release()
             }
+
+            const value = this.buffer.dequeue()
+            this.dequeueSignalGroup.emitAll()
+            return { done: false, value }
           }
         }
       }
