@@ -3,6 +3,8 @@ import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
 import { terser } from 'rollup-plugin-terser'
 
+const UMD_NAME = 'ExtraPromise'
+
 function createOptions({ directory, target }) {
   return [
     {
@@ -36,7 +38,7 @@ function createOptions({ directory, target }) {
     , {
         file: `dist/${directory}/${name}.umd.js`
       , format: 'umd'
-      , name: 'ExtraPromise'
+      , name: UMD_NAME
       , sourcemap: true
       }
     ]
@@ -52,7 +54,7 @@ function createOptions({ directory, target }) {
     , {
         file: `dist/${directory}/${name}.umd.min.js`
       , format: 'umd'
-      , name: 'ExtraPromise'
+      , name: UMD_NAME
       , sourcemap: true
       }
     ]
