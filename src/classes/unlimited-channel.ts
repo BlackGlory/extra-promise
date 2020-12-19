@@ -5,23 +5,7 @@ import { Mutex } from '@classes/mutex'
 import { Queue } from '@src/shared/queue'
 import { ChannelClosedError } from '@error'
 
-type Send<T> = (value: T) => void
-type Receive<T> = () => AsyncIterable<T>
-type Callback = () => void
-type Close = Callback
-
-export function makeUnlimitedChannel<T>(): [Send<T>, Receive<T>, Close] {
-  const channel = new UnlimitedChannel<T>()
-  return [
-    channel.send.bind(channel)
-  , channel.receive.bind(channel)
-  , channel.close.bind(channel)
-  ]
-}
-
-export { ChannelClosedError } from '@error'
-
-class UnlimitedChannel<T> {
+export class UnlimitedChannel<T> implements IChannel<T> {
   isClosed = false
 
   enqueueSignalGroup = new SignalGroup()
@@ -75,3 +59,5 @@ class UnlimitedChannel<T> {
     }
   }
 }
+
+export { ChannelClosedError } from '@error'

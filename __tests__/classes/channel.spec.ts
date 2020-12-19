@@ -1,18 +1,18 @@
-import { makeChannel, ChannelClosedError } from '@functions/make-channel'
+import { Channel, ChannelClosedError } from '@classes/channel'
 import { getErrorPromise } from 'return-style'
 import { toArrayAsync } from 'iterable-operator'
 import { delay } from '@functions/delay'
 import 'jest-extended'
 
-describe('makeChannel(): [(value: T) => Promise<void>, () => AsyncIterable<T>, () => void]', () => {
+describe('Channel', () => {
   describe('close, send, receive', () => {
     it('throw ChannelClosedError', async () => {
       const value = 'value'
 
-      const [send, receive, close] = makeChannel<string>()
-      close()
-      const err = await getErrorPromise(send(value))
-      const result = await toArrayAsync(receive())
+      const channel = new Channel<string>()
+      channel.close()
+      const err = await getErrorPromise(channel.send(value))
+      const result = await toArrayAsync(channel.receive())
 
       expect(err).toBeInstanceOf(ChannelClosedError)
       expect(result).toEqual([])
@@ -21,9 +21,9 @@ describe('makeChannel(): [(value: T) => Promise<void>, () => AsyncIterable<T>, (
 
   describe('close, receive', () => {
     it('return empty AsyncIterable', async () => {
-      const [, receive, close] = makeChannel<string>()
-      close()
-      const result = await toArrayAsync(receive())
+      const channel = new Channel<string>()
+      channel.close()
+      const result = await toArrayAsync(channel.receive())
 
       expect(result).toEqual([])
     })
@@ -33,10 +33,10 @@ describe('makeChannel(): [(value: T) => Promise<void>, () => AsyncIterable<T>, (
     it('throw ChannelClosedError, return empty AsyncIterable', async () => {
       const value = 'value'
 
-      const [send, receive, close] = makeChannel<string>()
-      setImmediate(() => close())
-      const err = await getErrorPromise(send(value))
-      const result = await toArrayAsync(receive())
+      const channel = new Channel<string>()
+      setImmediate(() => channel.close())
+      const err = await getErrorPromise(channel.send(value))
+      const result = await toArrayAsync(channel.receive())
 
       expect(err).toBeInstanceOf(ChannelClosedError)
       expect(result).toEqual([])
@@ -48,7 +48,7 @@ describe('makeChannel(): [(value: T) => Promise<void>, () => AsyncIterable<T>, (
       // This is why the case uses real time:
       // jest.useFakeTimers('modern') - cannot work
       // jest.useFakeTimers() - Date.now() return wrong value
-      const [send, receive, close] = makeChannel<void>()
+      const channel = new Channel<void>()
 
       const start = Date.now()
       const produceTiming: number[] = []
@@ -56,19 +56,19 @@ describe('makeChannel(): [(value: T) => Promise<void>, () => AsyncIterable<T>, (
       queueMicrotask(async () => {
         // #1
         produceTiming[0] = getNow(start) // 0ms
-        await send()
+        await channel.send()
         consumeTiming[0] = getNow(start) // 500ms
       })
       queueMicrotask(async () => {
         // #2
         produceTiming[1] = getNow(start) // 0ms
-        await send()
+        await channel.send()
         consumeTiming[1] = getNow(start) // 1000ms
-        queueMicrotask(close)
+        queueMicrotask(() => channel.close())
       })
 
       await delay(500)
-      for await (const _ of receive()) await delay(500)
+      for await (const _ of channel.receive()) await delay(500)
 
       expect(produceTiming[0]).toBeWithin(0, 500) // 0ms
       expect(consumeTiming[0]).toBeWithin(500, 1000) // 500ms
@@ -79,22 +79,22 @@ describe('makeChannel(): [(value: T) => Promise<void>, () => AsyncIterable<T>, (
 
   describe('multiple-producer, multiple-consumer', () => {
     it('return AsyncIterable', async () => {
-      const [send, receive, close] = makeChannel<number>()
-      const iter = receive()[Symbol.asyncIterator]()
+      const channel = new Channel<number>()
+      const iter = channel.receive()[Symbol.asyncIterator]()
 
       const promise1 = iter.next()
       const promise2 = iter.next()
       const promise3 = iter.next()
 
-      send(1)
-      send(2)
-      send(3)
+      channel.send(1)
+      channel.send(2)
+      channel.send(3)
 
       const value1 = (await promise1).value
       const value2 = (await promise2).value
       const value3 = (await promise3).value
 
-      close()
+      channel.close()
 
       expect(value1).toBe(1)
       expect(value2).toBe(2)

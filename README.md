@@ -187,93 +187,109 @@ await cascadify(adder)
   .value
 ```
 
-### makeChannel
+### Channel
 
-`function makeChannel(): [(value: T) => Promise<void>, () => AsyncIterable<T>, () => void]`
+```ts
+class Channel<T> {
+  send(value: T): Promise<void>
+  receive(): AsyncIterable<T>
+  close: () => void
+}
+```
 
-Implement MPSC(multi-producer, single-consumer) FIFO queue communication with `Promise` and `AsyncIterable`.
+Implement MPMC(multi-producer, multi-consumer) FIFO queue communication with `Promise` and `AsyncIterable`.
 
-`makeChannel` return a tuple includes three channel functions:
-- `function send(value: T): Promise<void>`
+- `send`
   Send value to the channel, block until data is taken out by the consumer.
-- `function receive(): AsyncIterable<T>`
+- `receive`
   Receive value from the channel.
-- `function close(): void`
+- `close`
   Close the channel, no more values can be sent.
 
-If the channel closed, `send()` will throw `ChannelClosedError`.
+If the channel closed, `send` will throw `ChannelClosedError`.
 
 ```ts
-const [send, receive, close] = makeChannel<string>()
+const chan = new Channel<string>()
 queueMicrotask(() => {
-  await send('hello')
-  await send('world')
-  close()
+  await chan.send('hello')
+  await chan.send('world')
+  chan.close()
 })
-for await (const value of receive()) {
+for await (const value of chan.receive()) {
   console.log(value)
 }
 ```
 
-### makeBufferedChannel
+### BufferedChannel
 
-`function makeBufferedChannel(bufferSize: number): [(value: T) => Promise<void>, () => AsyncIterable<T>, () => void]`
+```ts
+class BufferedChannel {
+  send(value: T): Promise<void>
+  receive(): AsyncIterable<T>
+  close: () => void
+}
+```
 
-Implement MPSC(multi-producer, single-consumer) FIFO queue communication with `Promise` and `AsyncIterable`.
-When the amount of data sent exceeds `bufferSize`, `send()` will block until data in buffer is taken out by the consumer.
+Implement MPMC(multi-producer, multi-consumer) FIFO queue communication with `Promise` and `AsyncIterable`.
+When the amount of data sent exceeds `bufferSize`, `send` will block until data in buffer is taken out by the consumer.
 
-`makeBufferedChannel` return a tuple includes three channel functions:
-- `function send(value: T): Promise<void>`
+- `send`
   Send value to the channel.
   If the buffer is full, block.
-- `function receive(): AsyncIterable<T>`
+- `receive`
   Receive value from the channel.
-- `function close(): void`
+- `close`
   Close channel, no more values can be sent.
 
-If the channel closed, `send()` will throw `ChannelClosedError`.
+If the channel closed, `send` will throw `ChannelClosedError`.
 
 ```ts
-const [send, receive, close] = makeBufferedChannel<string>(1)
+const chan = new BufferedChannel<string>(1)
 
 queueMicrotask(() => {
-  await send('hello')
-  await send('world')
-  close()
+  await chan.send('hello')
+  await chan.send('world')
+  chan.close()
 })
 
-for await (const value of receive()) {
+for await (const value of chan.receive()) {
   console.log(value)
 }
 ```
 
-### makeUnlimitedChannel
-
-`function makeUnlimitedChannel(): [(value: T) => void, () => AsyncIterable<T>, () => void]`
-
-Implement MPSC(multi-producer, single-consumer) FIFO queue communication with `Promise` and `AsyncIterable`.
-
-`makeUnlimitedChannel` return a tuple includes three channel functions:
-- `function send(value: T): void`
-  Send value to the channel.
-  There is no size limit on the buffer, all sending will return immediately.
-- `function receive(): AsyncIterable<T>`
-  Receive value from the channel.
-- `function close(): void`
-  close the channel, no more values can be sent.
-
-If the channel closed, `send()` will throw `ChannelClosedError`.
+### UnlimitedChannel
 
 ```ts
-const [send, receive, close] = makeUnlimitedChannel<string>()
+class UnlimitedChannel {
+  send(value: T): void
+  receive(): AsyncIterable<T>
+  close: () => void
+}
+```
+
+Implement MPMC(multi-producer, multi-consumer) FIFO queue communication with `Promise` and `AsyncIterable`.
+
+`UnlimitedChannel` return a tuple includes three channel functions:
+- `send`
+  Send value to the channel.
+  There is no size limit on the buffer, all sending will return immediately.
+- `receive`
+  Receive value from the channel.
+- `close`
+  close the channel, no more values can be sent.
+
+If the channel closed, `send` will throw `ChannelClosedError`.
+
+```ts
+const chan = new UnlimitedChannel<string>()
 
 queueMicrotask(() => {
-  send('hello')
-  send('world')
-  close()
+  chan.send('hello')
+  chan.send('world')
+  chan.close()
 })
 
-for await (const value of receive()) {
+for await (const value of chan.receive()) {
   console.log(value)
 }
 ```

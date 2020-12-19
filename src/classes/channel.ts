@@ -4,24 +4,8 @@ import { SignalGroup } from '@classes/signal-group'
 import { ChannelClosedError } from '@error'
 import { Mutex } from '@classes/mutex'
 
-type BlockingSend<T> = (value: T) => Promise<void>
-type Receive<T> = () => AsyncIterable<T>
-type Callback = () => void
-type Close = Callback
-
-// Technically, it is the `makeBufferedChannel(0)`
-export function makeChannel<T>(): [BlockingSend<T>, Receive<T>, Close] {
-  const channel = new Channel<T>()
-  return [
-    channel.send.bind(channel)
-  , channel.receive.bind(channel)
-  , channel.close.bind(channel)
-  ]
-}
-
-export { ChannelClosedError } from '@error'
-
-class Channel<T> {
+// Technically, it is the `BufferedChannel(0)`
+export class Channel<T> implements IBlockingChannel<T> {
   isClosed = false
 
   writeLock = new Mutex()
@@ -99,3 +83,5 @@ class Channel<T> {
     }
   }
 }
+
+export { ChannelClosedError } from '@error'

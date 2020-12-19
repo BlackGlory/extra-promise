@@ -1,17 +1,17 @@
-import { makeUnlimitedChannel, ChannelClosedError } from '@functions/make-unlimited-channel'
+import { UnlimitedChannel, ChannelClosedError } from '@classes/unlimited-channel'
 import { getError } from 'return-style'
 import { toArrayAsync } from 'iterable-operator'
 import 'jest-extended'
 
-describe('makeUnlimitedChannel(): [(value: T) => void, () => AsyncIterable<T>, () => void]', () => {
+describe('UnlimitedChannel', () => {
   describe('close, send, receive', () => {
     it('throw ChannelClosedError', async () => {
       const value = 'value'
 
-      const [send, receive, close] = makeUnlimitedChannel<string>()
-      close()
-      const err = getError(() => send(value))
-      const result = await toArrayAsync(receive())
+      const channel = new UnlimitedChannel<string>()
+      channel.close()
+      const err = getError(() => channel.send(value))
+      const result = await toArrayAsync(channel.receive())
 
       expect(err).toBeInstanceOf(ChannelClosedError)
       expect(result).toEqual([])
@@ -20,9 +20,9 @@ describe('makeUnlimitedChannel(): [(value: T) => void, () => AsyncIterable<T>, (
 
   describe('close, receive', () => {
     it('return empty AsyncIterable', async () => {
-      const [, receive, close] = makeUnlimitedChannel<string>()
-      close()
-      const result = await toArrayAsync(receive())
+      const channel = new UnlimitedChannel<string>()
+      channel.close()
+      const result = await toArrayAsync(channel.receive())
 
       expect(result).toEqual([])
     })
@@ -32,10 +32,10 @@ describe('makeUnlimitedChannel(): [(value: T) => void, () => AsyncIterable<T>, (
     it('return AsyncIterable', async () => {
       const value = 'value'
 
-      const [send, receive, close] = makeUnlimitedChannel<string>()
-      send(value)
-      close()
-      const result = await toArrayAsync(receive())
+      const channel = new UnlimitedChannel<string>()
+      channel.send(value)
+      channel.close()
+      const result = await toArrayAsync(channel.receive())
 
       expect(result).toEqual([value])
     })
@@ -43,16 +43,16 @@ describe('makeUnlimitedChannel(): [(value: T) => void, () => AsyncIterable<T>, (
 
   describe('multiple-producer, single-consumer', () => {
     it('return AsyncIterable', async () => {
-      const [send, receive, close] = makeUnlimitedChannel<number>()
+      const channel = new UnlimitedChannel<number>()
 
       queueMicrotask(() => {
-        send(1)
+        channel.send(1)
       })
       queueMicrotask(() => {
-        send(2)
-        queueMicrotask(close)
+        channel.send(2)
+        queueMicrotask(() => channel.close())
       })
-      const result = await toArrayAsync(receive())
+      const result = await toArrayAsync(channel.receive())
 
       expect(result).toEqual([1, 2])
     })
@@ -60,22 +60,22 @@ describe('makeUnlimitedChannel(): [(value: T) => void, () => AsyncIterable<T>, (
 
   describe('multiple-producer, multiple-consumer', () => {
     it('return AsyncIterable', async () => {
-      const [send, receive, close] = makeUnlimitedChannel<number>()
-      const iter = receive()[Symbol.asyncIterator]()
+      const channel = new UnlimitedChannel<number>()
+      const iter = channel.receive()[Symbol.asyncIterator]()
 
       const promise1 = iter.next()
       const promise2 = iter.next()
       const promise3 = iter.next()
 
-      send(1)
-      send(2)
-      send(3)
+      channel.send(1)
+      channel.send(2)
+      channel.send(3)
 
       const value1 = (await promise1).value
       const value2 = (await promise2).value
       const value3 = (await promise3).value
 
-      close()
+      channel.close()
 
       expect(value1).toBe(1)
       expect(value2).toBe(2)

@@ -28,13 +28,13 @@ test('exports', () => {
   , 'callbackify'
   , 'FalsyError'
 
-  , 'makeChannel'
-  , 'makeBufferedChannel'
-  , 'makeUnlimitedChannel'
-  , 'ChannelClosedError'
-
   , 'Deferred'
   , 'LazyPromise'
+
+  , 'Channel'
+  , 'BufferedChannel'
+  , 'UnlimitedChannel'
+  , 'ChannelClosedError'
 
   , 'Signal'
   , 'SignalDiscarded'

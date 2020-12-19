@@ -5,23 +5,7 @@ import { SignalGroup } from '@classes/signal-group'
 import { Queue } from '@src/shared/queue'
 import { ChannelClosedError } from '@error'
 
-type BlockingSend<T> = (value: T) => Promise<void>
-type Receive<T> = () => AsyncIterable<T>
-type Callback = () => void
-type Close = Callback
-
-export function makeBufferedChannel<T>(bufferSize: number): [BlockingSend<T>, Receive<T>, Close] {
-  const channel = new BufferedChannel<T>(bufferSize)
-  return [
-    channel.send.bind(channel)
-  , channel.receive.bind(channel)
-  , channel.close.bind(channel)
-  ]
-}
-
-export { ChannelClosedError }
-
-class BufferedChannel<T> {
+export class BufferedChannel<T> implements IBlockingChannel<T> {
   isClosed = false
 
   enqueueSingalGroup = new SignalGroup()
@@ -94,3 +78,5 @@ class BufferedChannel<T> {
     }
   }
 }
+
+export { ChannelClosedError }
