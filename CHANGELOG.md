@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.10.6](https://github.com/BlackGlory/extra-promise/compare/v0.10.5...v0.10.6) (2020-12-19)
+
+
+### Features
+
+* overwrite Semaphore ([4d402b3](https://github.com/BlackGlory/extra-promise/commit/4d402b3807a5527fe9ea429ff385302add490a5a))
+
 ### [0.10.5](https://github.com/BlackGlory/extra-promise/compare/v0.10.4...v0.10.5) (2020-12-18)
 
 
