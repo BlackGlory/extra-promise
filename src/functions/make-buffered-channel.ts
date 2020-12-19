@@ -11,59 +11,71 @@ type Callback = () => void
 type Close = Callback
 
 export function makeBufferedChannel<T>(bufferSize: number): [BlockingSend<T>, Receive<T>, Close] {
-  let isClosed = false
+  const channel = new BufferedChannel<T>(bufferSize)
+  return [
+    channel.send.bind(channel)
+  , channel.receive.bind(channel)
+  , channel.close.bind(channel)
+  ]
+}
 
-  const enqueueSingalGroup = new SignalGroup()
-  const dequeueSignalGroup = new SignalGroup()
-  const buffer = new Queue<T>()
-  const readLock = new Mutex()
+export { ChannelClosedError }
 
-  return [send, receive, close]
+class BufferedChannel<T> {
+  isClosed = false
 
-  async function send(value: T): Promise<void> {
-    if (isClosed) throw new ChannelClosedError()
+  enqueueSingalGroup = new SignalGroup()
+  dequeueSignalGroup = new SignalGroup()
+  buffer = new Queue<T>()
+  readLock = new Mutex()
+
+  constructor(private bufferSize: number) {}
+
+  async send(value: T): Promise<void> {
+    if (this.isClosed) throw new ChannelClosedError()
     // 缓冲区队列已满, 则等待出列信号
-    while (buffer.size === bufferSize) {
+    while (this.buffer.size === this.bufferSize) {
       const dequeueSignal = new Signal()
-      dequeueSignalGroup.add(dequeueSignal)
+      this.dequeueSignalGroup.add(dequeueSignal)
 
       try {
         // 等待出列信号, 如果通道关闭, 则抛出错误
         if (await isFailurePromise(dequeueSignal)) throw new ChannelClosedError()
       } finally {
-        dequeueSignalGroup.remove(dequeueSignal)
+        this.dequeueSignalGroup.remove(dequeueSignal)
       }
       // 对通道关闭的双重检查
-      if (isClosed) throw new ChannelClosedError()
+      if (this.isClosed) throw new ChannelClosedError()
     }
-    buffer.enqueue(value)
-    enqueueSingalGroup.emitAll()
+    this.buffer.enqueue(value)
+    this.enqueueSingalGroup.emitAll()
   }
 
-  function receive(): AsyncIterable<T> {
+  receive(): AsyncIterable<T> {
     return {
-      [Symbol.asyncIterator]() {
+      [Symbol.asyncIterator]: () => {
         return {
-          async next() {
-            const release = await readLock.acquire()
+          next : async () => {
+            const release = await this.readLock.acquire()
 
             try {
               // 缓冲区队列为空, 则等待入列信号
-              while (buffer.size === 0) {
-                if (isClosed) return { done: true, value: undefined }
+              while (this.buffer.size === 0) {
+                if (this.isClosed) return { done: true, value: undefined }
 
                 const enqueueSignal = new Signal()
-                enqueueSingalGroup.add(enqueueSignal)
+                this.enqueueSingalGroup.add(enqueueSignal)
+
                 try {
                   // 等待入列信号, 如果通道关闭, 则停止接收
                   if (await isFailurePromise(enqueueSignal)) return { done: true, value: undefined }
                 } finally {
-                  enqueueSingalGroup.remove(enqueueSignal)
+                  this.enqueueSingalGroup.remove(enqueueSignal)
                 }
               }
 
-              const value = buffer.dequeue()
-              dequeueSignalGroup.emitAll()
+              const value = this.buffer.dequeue()
+              this.dequeueSignalGroup.emitAll()
               return { done: false, value }
             } finally {
               release()
@@ -74,13 +86,11 @@ export function makeBufferedChannel<T>(bufferSize: number): [BlockingSend<T>, Re
     }
   }
 
-  function close() {
-    if (!isClosed) {
-      isClosed = true
-      enqueueSingalGroup.discardAll()
-      dequeueSignalGroup.discardAll()
+  close() {
+    if (!this.isClosed) {
+      this.isClosed = true
+      this.enqueueSingalGroup.discardAll()
+      this.dequeueSignalGroup.discardAll()
     }
   }
 }
-
-export { ChannelClosedError }

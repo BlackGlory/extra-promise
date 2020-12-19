@@ -11,66 +11,76 @@ type Close = Callback
 
 // Technically, it is the `makeBufferedChannel(0)`
 export function makeChannel<T>(): [BlockingSend<T>, Receive<T>, Close] {
-  let isClosed = false
+  const channel = new Channel<T>()
+  return [
+    channel.send.bind(channel)
+  , channel.receive.bind(channel)
+  , channel.close.bind(channel)
+  ]
+}
 
-  const writeLock = new Mutex()
-  const writeSignalGroup = new SignalGroup()
-  const readSignalGroup = new SignalGroup()
-  const readLock = new Mutex()
-  const box: T[] = []
+export { ChannelClosedError } from '@error'
 
-  return [send, receive, close]
+class Channel<T> {
+  isClosed = false
 
-  async function send(value: T): Promise<void> {
-    if (isClosed) throw new ChannelClosedError()
+  writeLock = new Mutex()
+  writeSignalGroup = new SignalGroup()
+  readSignalGroup = new SignalGroup()
+  readLock = new Mutex()
+  box: T[] = []
 
-    const release = await writeLock.acquire()
+  async send(value: T): Promise<void> {
+    if (this.isClosed) throw new ChannelClosedError()
+
+    const release = await this.writeLock.acquire()
     const readSignal = new Signal()
-    readSignalGroup.add(readSignal)
+    this.readSignalGroup.add(readSignal)
 
     try {
       // 双重检查
-      if (isClosed) throw new ChannelClosedError()
+      if (this.isClosed) throw new ChannelClosedError()
 
-      box.push(value)
-      writeSignalGroup.emitAll()
+      this.box.push(value)
+      this.writeSignalGroup.emitAll()
 
       // 等待receive发出读取信号
       if (await isFailurePromise(readSignal)) {
         // 删除值
-        box.pop()
+        this.box.pop()
         throw new ChannelClosedError()
       }
     } finally {
-      readSignalGroup.remove(readSignal)
+      this.readSignalGroup.remove(readSignal)
       release()
     }
   }
 
-  function receive(): AsyncIterable<T> {
+  receive(): AsyncIterable<T> {
     return {
-      [Symbol.asyncIterator]() {
+      [Symbol.asyncIterator]: () => {
         return {
-          async next() {
-            const release = await readLock.acquire()
+          next: async () => {
+            const release = await this.readLock.acquire()
+
             try {
-              while (box.length === 0) {
+              while (this.box.length === 0) {
                 // 如果通道关闭, 则停止接收
-                if (isClosed) return { done: true, value: undefined }
+                if (this.isClosed) return { done: true, value: undefined }
 
                 const writeSignal = new Signal()
-                writeSignalGroup.add(writeSignal)
+                this.writeSignalGroup.add(writeSignal)
 
                 try {
                   // 等待send发出写入信号, 如果通道关闭, 则停止接收
                   if (await isFailurePromise(writeSignal)) return { done: true, value: undefined }
                 } finally {
-                  writeSignalGroup.remove(writeSignal)
+                  this.writeSignalGroup.remove(writeSignal)
                 }
               }
 
-              const value = box.pop()!
-              readSignalGroup.emitAll()
+              const value = this.box.pop()!
+              this.readSignalGroup.emitAll()
               return { done: false, value }
             } finally {
               release()
@@ -81,13 +91,11 @@ export function makeChannel<T>(): [BlockingSend<T>, Receive<T>, Close] {
     }
   }
 
-  function close() {
-    if (!isClosed) {
-      isClosed = true
-      writeSignalGroup.discardAll()
-      readSignalGroup.discardAll()
+  close() {
+    if (!this.isClosed) {
+      this.isClosed = true
+      this.writeSignalGroup.discardAll()
+      this.readSignalGroup.discardAll()
     }
   }
 }
-
-export { ChannelClosedError } from '@error'

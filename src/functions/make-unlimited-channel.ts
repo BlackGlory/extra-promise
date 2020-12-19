@@ -11,44 +11,53 @@ type Callback = () => void
 type Close = Callback
 
 export function makeUnlimitedChannel<T>(): [Send<T>, Receive<T>, Close] {
-  let isClosed = false
+  const channel = new UnlimitedChannel<T>()
+  return [
+    channel.send.bind(channel)
+  , channel.receive.bind(channel)
+  , channel.close.bind(channel)
+  ]
+}
 
-  const enqueueSignalGroup = new SignalGroup()
-  const readLock = new Mutex()
-  const buffer = new Queue<T>()
+export { ChannelClosedError } from '@error'
 
-  return [send, receive, close]
+class UnlimitedChannel<T> {
+  isClosed = false
 
-  function send(value: T): void {
-    if (isClosed) throw new ChannelClosedError()
-    buffer.enqueue(value)
-    enqueueSignalGroup.emitAll()
+  enqueueSignalGroup = new SignalGroup()
+  readLock = new Mutex()
+  buffer = new Queue<T>()
+
+  send(value: T): void {
+    if (this.isClosed) throw new ChannelClosedError()
+    this.buffer.enqueue(value)
+    this.enqueueSignalGroup.emitAll()
   }
 
-  function receive(): AsyncIterable<T> {
+  receive(): AsyncIterable<T> {
     return {
-      [Symbol.asyncIterator]() {
+      [Symbol.asyncIterator]: () => {
         return {
-          async next() {
-            const release = await readLock.acquire()
+          next: async () => {
+            const release = await this.readLock.acquire()
 
             try {
               // 缓冲区队列为空, 则等待入列信号
-              while (buffer.size === 0) {
-                if (isClosed) return { done: true, value: undefined }
+              while (this.buffer.size === 0) {
+                if (this.isClosed) return { done: true, value: undefined }
 
                 const enqueueSignal = new Signal()
-                enqueueSignalGroup.add(enqueueSignal)
+                this.enqueueSignalGroup.add(enqueueSignal)
 
                 try {
                   // 等待入列信号, 如果通道关闭, 则停止接收
                   if (await isFailurePromise(enqueueSignal)) return { done: true, value: undefined }
                 } finally {
-                  enqueueSignalGroup.remove(enqueueSignal)
+                  this.enqueueSignalGroup.remove(enqueueSignal)
                 }
               }
 
-              const value = buffer.dequeue()
+              const value = this.buffer.dequeue()
               return { done: false, value }
             } finally {
               release()
@@ -59,12 +68,10 @@ export function makeUnlimitedChannel<T>(): [Send<T>, Receive<T>, Close] {
     }
   }
 
-  function close() {
-    if (!isClosed) {
-      isClosed = true
-      enqueueSignalGroup.discardAll()
+  close() {
+    if (!this.isClosed) {
+      this.isClosed = true
+      this.enqueueSignalGroup.discardAll()
     }
   }
 }
-
-export { ChannelClosedError } from '@error'
