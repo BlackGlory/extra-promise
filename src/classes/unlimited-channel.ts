@@ -1,7 +1,7 @@
 import { isFailurePromise } from 'return-style'
 import { Signal } from '@classes/signal'
 import { SignalGroup } from '@classes/signal-group'
-import { Queue } from '@src/shared/queue'
+import { Queue } from '@blackglory/structures'
 import { ChannelClosedError } from '@error'
 
 export class UnlimitedChannel<T> implements IChannel<T> {

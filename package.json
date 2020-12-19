@@ -79,6 +79,7 @@
   },
   "dependencies": {
     "@blackglory/errors": "^0.1.2",
+    "@blackglory/structures": "^0.1.0",
     "@blackglory/types": "^0.1.6",
     "eventemitter3": "^4.0.7",
     "iterable-operator": "^0.12.2",
