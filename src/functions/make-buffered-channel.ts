@@ -1,7 +1,7 @@
 import { isFailurePromise } from 'return-style'
 import { Signal } from '@classes/signal'
 import { Mutex } from '@classes/mutex'
-import { SignalGroup } from '@src/shared/signal-group'
+import { SignalGroup } from '@classes/signal-group'
 import { Queue } from '@src/shared/queue'
 import { ChannelClosedError } from '@error'
 

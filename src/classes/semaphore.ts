@@ -1,6 +1,6 @@
 import { Signal } from './signal'
 import { isFunction } from '@blackglory/types'
-import { SignalGroup } from '@src/shared/signal-group'
+import { SignalGroup } from '@classes/signal-group'
 
 type Release = () => void
 

@@ -38,6 +38,7 @@ test('exports', () => {
 
   , 'Signal'
   , 'SignalDiscarded'
+  , 'SignalGroup'
 
   , 'Semaphore'
   , 'Mutex'

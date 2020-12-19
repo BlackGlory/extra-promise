@@ -1,6 +1,6 @@
 import { isFailurePromise } from 'return-style'
 import { Signal } from '@classes/signal'
-import { SignalGroup } from '@src/shared/signal-group'
+import { SignalGroup } from '@classes/signal-group'
 import { ChannelClosedError } from '@error'
 import { Mutex } from '@classes/mutex'
 

@@ -3,21 +3,21 @@ import { Signal } from '@classes/signal'
 export class SignalGroup {
   #group = new Set<Signal>()
 
-  add(signal: Signal) {
+  add(signal: Signal): void {
     this.#group.add(signal)
   }
 
-  remove(signal: Signal) {
+  remove(signal: Signal): void {
     this.#group.delete(signal)
   }
 
-  emitAll() {
+  emitAll(): void {
     for (const signal of this.#group) {
       signal.emit()
     }
   }
 
-  discardAll() {
+  discardAll(): void {
     for (const signal of this.#group) {
       signal.discard()
     }

@@ -319,6 +319,19 @@ class Signal implements PromiseLike<void> {
 The `emit()` make the internal Promise resolve.
 
 The `discard()` make the internal Promise reject `SignalDiscarded`.
+
+### SignalGroup
+
+```ts
+class SignalGroup {
+  add(signal: Signal): void
+  remove(signal: Signal): void
+
+  emitAll(): void
+  discardAll(): void
+}
+```
+
 ### Semaphore
 
 ```ts
