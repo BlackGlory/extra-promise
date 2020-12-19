@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.11.0](https://github.com/BlackGlory/extra-promise/compare/v0.10.6...v0.11.0) (2020-12-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* InvalidArgumentError extends CustomError
+InvalidArugmentsLengthError extends CustomError
+
+### Features
+
+* use @blackglory/errors ([4b8f119](https://github.com/BlackGlory/extra-promise/commit/4b8f119ba3fdaf1cf844aa63c251a571c5fb5ab8))
+
 ### [0.10.6](https://github.com/BlackGlory/extra-promise/compare/v0.10.5...v0.10.6) (2020-12-19)
 
 
