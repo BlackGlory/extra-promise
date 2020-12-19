@@ -2,6 +2,7 @@ import { Channel, ChannelClosedError } from '@classes/channel'
 import { getErrorPromise } from 'return-style'
 import { toArrayAsync } from 'iterable-operator'
 import { delay } from '@functions/delay'
+import { TIME_ERROR } from '@test/utils'
 import 'jest-extended'
 
 describe('Channel', () => {
@@ -70,10 +71,10 @@ describe('Channel', () => {
       await delay(500)
       for await (const _ of channel.receive()) await delay(500)
 
-      expect(produceTiming[0]).toBeWithin(0, 500) // 0ms
-      expect(consumeTiming[0]).toBeWithin(500, 1000) // 500ms
-      expect(produceTiming[1]).toBeWithin(0, 500) // 0ms
-      expect(consumeTiming[1]).toBeWithin(1000, 1500) // 1000ms
+      expect(produceTiming[0]).toBeWithin(0 - TIME_ERROR, 500 - TIME_ERROR) // 0ms
+      expect(consumeTiming[0]).toBeWithin(500 - TIME_ERROR, 1000 - TIME_ERROR) // 500ms
+      expect(produceTiming[1]).toBeWithin(0 - TIME_ERROR, 500 - TIME_ERROR) // 0ms
+      expect(consumeTiming[1]).toBeWithin(1000 - TIME_ERROR, 1500 - TIME_ERROR) // 1000ms
     })
   })
 

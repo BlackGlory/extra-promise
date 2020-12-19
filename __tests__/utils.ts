@@ -1,3 +1,5 @@
+export const TIME_ERROR = 1
+
 export function getCalledTimes(fn: jest.Mock): number {
   return fn.mock.calls.length
 }

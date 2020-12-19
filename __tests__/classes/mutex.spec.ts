@@ -1,5 +1,6 @@
 import { Mutex } from '@classes/mutex'
 import '@blackglory/jest-matchers'
+import { TIME_ERROR } from '@test/utils'
 import 'jest-extended'
 
 describe('Mutex', () => {
@@ -32,7 +33,7 @@ describe('Mutex', () => {
       setTimeout(release, 1000)
       await mutex.acquire()
 
-      expect(now() - start).toBeGreaterThanOrEqual(1000)
+      expect(now() - start).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
     })
 
     it('acquire(handler: (release: Release) => void): void', async done => {
@@ -42,7 +43,7 @@ describe('Mutex', () => {
       const start = now()
       setTimeout(release, 1000)
       mutex.acquire(() => {
-        expect(now() - start).toBeGreaterThanOrEqual(1000)
+        expect(now() - start).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
         done()
       })
     })

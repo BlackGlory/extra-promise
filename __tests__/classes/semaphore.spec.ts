@@ -1,5 +1,6 @@
 import { Semaphore } from '@classes/semaphore'
 import '@blackglory/jest-matchers'
+import { TIME_ERROR } from '@test/utils'
 import 'jest-extended'
 
 describe('Semaphore', () => {
@@ -35,8 +36,8 @@ describe('Semaphore', () => {
       await semaphore.acquire()
       const time3 = now()
 
-      expect(time3 - time1).toBeGreaterThanOrEqual(1000)
-      expect(time3 - time2).toBeGreaterThanOrEqual(1000)
+      expect(time3 - time1).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
+      expect(time3 - time2).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
     })
 
     it('acquire(handler: () => void | Promise<void>): void', async done => {
@@ -55,8 +56,8 @@ describe('Semaphore', () => {
       })
       semaphore.acquire(async () => {
         time3 = now()
-        expect(time3 - time1).toBeGreaterThanOrEqual(1000)
-        expect(time3 - time2).toBeGreaterThanOrEqual(1000)
+        expect(time3 - time1).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
+        expect(time3 - time2).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
         done()
       })
     })
