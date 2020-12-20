@@ -3,6 +3,7 @@ import { Signal } from '@classes/signal'
 import { SignalGroup } from '@classes/signal-group'
 import { ChannelClosedError } from '@error'
 import { Mutex } from '@classes/mutex'
+import { IBlockingChannel } from '@src/types'
 
 // Technically, it is the `BufferedChannel(0)`
 export class Channel<T> implements IBlockingChannel<T> {
@@ -13,6 +14,9 @@ export class Channel<T> implements IBlockingChannel<T> {
   readSignalGroup = new SignalGroup()
   box: T[] = []
 
+  // signal的关键在于, 能够阻止以下两件事发生:
+  // 1. 撤销已经入列, 但还未出列的项目(需要有一个可以精准撤销项目的有序队列)
+  // 2. 撤销还未入列的项目(简单, 可在获取锁时通过事件决定取消)
   async send(value: T): Promise<void> {
     if (this.isClosed) throw new ChannelClosedError()
 
