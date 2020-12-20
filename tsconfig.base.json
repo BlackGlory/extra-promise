@@ -10,6 +10,7 @@
   , "baseUrl": "."
   , "paths": {
       "@src/*": ["src/*"]
+    , "@shared/*": ["src/shared/*"]
     , "@error": ["src/shared/error"]
     , "@functions/*": ["src/functions/*"]
     , "@classes/*": ["src/classes/*"]

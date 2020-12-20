@@ -3,7 +3,7 @@ import { Signal } from '@classes/signal'
 import { SignalGroup } from '@classes/signal-group'
 import { Queue } from '@blackglory/structures'
 import { ChannelClosedError } from '@error'
-import { IChannel } from '@src/types'
+import { IChannel } from '@shared/types'
 
 export class UnlimitedChannel<T> implements IChannel<T> {
   isClosed = false

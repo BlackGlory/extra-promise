@@ -3,7 +3,7 @@ import { Signal } from '@classes/signal'
 import { SignalGroup } from '@classes/signal-group'
 import { Queue } from '@blackglory/structures'
 import { ChannelClosedError } from '@error'
-import { IBlockingChannel } from '@src/types'
+import { IBlockingChannel } from '@shared/types'
 
 export class BufferedChannel<T> implements IBlockingChannel<T> {
   isClosed = false
