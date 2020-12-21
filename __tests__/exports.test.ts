@@ -21,6 +21,7 @@ test('exports', () => {
 
   , 'timeout'
   , 'TimeoutError'
+  , 'timeoutSignal'
 
   , 'cascadify'
   , 'cascadable'

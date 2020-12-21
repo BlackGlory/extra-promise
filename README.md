@@ -47,6 +47,16 @@ try {
 }
 ```
 
+### timeoutSignal
+
+`function timeoutSignal(ms: number): AbortSignal`
+
+It will abort after `ms` milliseconds.
+
+```ts
+await fetch('http://example.com', { signal: timeoutSignal(5000) })
+```
+
 ### pad
 
 `function pad<T>(ms: number, fn: () => T | PromiseLike<T>): Promise<T>`

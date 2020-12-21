@@ -57,6 +57,7 @@
   },
   "devDependencies": {
     "@blackglory/jest-matchers": "^0.1.4",
+    "@blackglory/wait-for": "^0.2.1",
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@rollup/plugin-commonjs": "^16.0.0",
@@ -81,6 +82,7 @@
     "@blackglory/errors": "^0.1.2",
     "@blackglory/structures": "^0.1.0",
     "@blackglory/types": "^0.1.6",
+    "abort-controller": "^3.0.0",
     "eventemitter3": "^4.0.7",
     "iterable-operator": "^0.12.2",
     "reflect-metadata": "^0.1.13",
