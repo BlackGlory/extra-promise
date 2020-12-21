@@ -1,6 +1,7 @@
 import typescript from '@rollup/plugin-typescript'
 import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
+import json from '@rollup/plugin-json'
 import { terser } from 'rollup-plugin-terser'
 
 const UMD_NAME = 'ExtraPromise'
@@ -12,6 +13,7 @@ function createOptions({ directory, target }) {
     , output: createOutput('index')
     , plugins: [
         typescript({ target })
+      , json()
       , resolve()
       , commonjs()
       ]
@@ -21,6 +23,7 @@ function createOptions({ directory, target }) {
     , output: createMinification('index')
     , plugins: [
         typescript({ target })
+      , json()
       , resolve()
       , commonjs()
       , terser()
