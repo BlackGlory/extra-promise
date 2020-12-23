@@ -1,6 +1,6 @@
 # extra-promise [![npm](https://img.shields.io/npm/v/extra-promise.svg?maxAge=86400)](https://www.npmjs.com/package/extra-promise) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/BlackGlory/extra-promise/master/LICENSE)
 
-Utility for JavaScript Promise and AsyncFunction.
+Utilities for JavaScript Promise and AsyncFunction.
 
 ## Install
 
