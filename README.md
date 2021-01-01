@@ -69,6 +69,18 @@ Run a function, but wait at least `ms` milliseconds before returning.
 
 If `fn` function throws an error, continue to retry until the return value of the `until` function is true.
 
+### retryForever
+
+`function retryForever<T>(fn: () => T | PromiseLike<T>): Promise<T>`
+
+A sugar for `retryUntil`, it is equivalent to`retryUntil(fn, () => false)`.
+
+### retryCount
+
+`function retryCount<T>(fn: () => T | PromiseLike<T>, maximum: number): Promise<T>`
+
+A sugar for `retryUntil`, the parameter `maximum` determines the maximum number of retries.
+
 ### parallel
 
 `function parallel<T>(tasks: Iterable<() => T | PromiseLike<T>>, concurrency: number = Infinity): Promise<void>`

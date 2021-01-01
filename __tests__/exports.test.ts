@@ -9,6 +9,8 @@ test('exports', () => {
   , 'isPromiseLike'
   , 'delay'
   , 'retryUntil'
+  , 'retryForever'
+  , 'retryCount'
   , 'parallel'
   , 'series'
   , 'waterfall'
