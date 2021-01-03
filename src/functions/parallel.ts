@@ -1,5 +1,5 @@
-import { checkConcurrency, InvalidArgumentError } from '@src/shared/check-concurrency'
-import { Signal } from '@src/classes/signal'
+import { checkConcurrency, InvalidArgumentError } from '@shared/check-concurrency'
+import { Signal } from '@classes/signal'
 
 export function parallel<T>(tasks: Iterable<() => T | PromiseLike<T>>, concurrency: number = Infinity): Promise<void> {
   checkConcurrency('concurrency', concurrency)

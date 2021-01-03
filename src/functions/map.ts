@@ -1,5 +1,5 @@
 import { each } from './each'
-import { checkConcurrency, InvalidArgumentError } from '@src/shared/check-concurrency'
+import { checkConcurrency, InvalidArgumentError } from '@shared/check-concurrency'
 
 export function map<T, U>(iterable: Iterable<T>, fn: (element: T, i: number) => U | PromiseLike<U>, concurrency: number = Infinity): Promise<U[]> {
   checkConcurrency('concurrency', concurrency)
