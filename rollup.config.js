@@ -2,6 +2,7 @@ import typescript from '@rollup/plugin-typescript'
 import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
 import json from '@rollup/plugin-json'
+import analyze from 'rollup-plugin-analyzer'
 import { terser } from 'rollup-plugin-terser'
 
 const UMD_NAME = 'ExtraPromise'
@@ -14,8 +15,9 @@ function createOptions({ directory, target }) {
     , plugins: [
         typescript({ target })
       , json()
-      , resolve()
+      , resolve({ browser: true })
       , commonjs()
+      , analyze({ summaryOnly: true })
       ]
     }
   , {
@@ -24,7 +26,7 @@ function createOptions({ directory, target }) {
     , plugins: [
         typescript({ target })
       , json()
-      , resolve()
+      , resolve({ browser: true })
       , commonjs()
       , terser()
       ]
