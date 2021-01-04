@@ -464,6 +464,11 @@
   resolved "https://registry.yarnpkg.com/@blackglory/errors/-/errors-0.1.2.tgz#45c3670c075e1e928f7bede05a5b8095d2f43112"
   integrity sha512-OwgxggAWYhLNo2TYs1c7GBWLdjiJMz03UsGTQv/BlIYMg5hq0ABLGfFw7G/PO0Htgbgs+Yi44ftknwUX5/t6RA==
 
+"@blackglory/errors@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/@blackglory/errors/-/errors-0.1.3.tgz#5ec4c7c2f67b4f066031c1d2601759177a4e411c"
+  integrity sha512-7h63kbR5YIw9izt5efQFVoiYtXTxmr1o+FkWcdRLHYfI0aVzz5dgg5diWV+NcnUR7EOrtq7J/PXZ5oppaq5NYQ==
+
 "@blackglory/jest-matchers@^0.1.7":
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/@blackglory/jest-matchers/-/jest-matchers-0.1.7.tgz#f61a9d94982cd53a82c12e536d7da2f325bc364d"
@@ -480,14 +485,6 @@
   dependencies:
     "@blackglory/errors" "^0.1.2"
 
-"@blackglory/types@^0.1.11", "@blackglory/types@^0.1.7":
-  version "0.1.11"
-  resolved "https://registry.yarnpkg.com/@blackglory/types/-/types-0.1.11.tgz#98be1f671eb29d4f1c16757317c9fc9367653703"
-  integrity sha512-mzYlnLev2Gu5AtZG8mG1oWzkteEM1OMrgvXjtGGLxAcV3imF/TIC8I7o1J4xaDJdz8a4Fg2ZukoE81fsVpO/hg==
-  dependencies:
-    "@types/node" "^14.14.14"
-    ajv "^7.0.1"
-
 "@blackglory/types@^0.1.3":
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/@blackglory/types/-/types-0.1.3.tgz#a2fc6e8cabe6179cd4ffd6d9e24f1bdda1c11ece"
@@ -498,13 +495,21 @@
   resolved "https://registry.yarnpkg.com/@blackglory/types/-/types-0.1.6.tgz#087e7bea037248925176bff6e94032d31ce521dc"
   integrity sha512-TagNLUCa2QJwGcXwoPzVEGb0uybqz2k6fEfiJJDW8Yx1lu2gwtTmAOyFYQVdU7QqzzDYp80+4r1MYLmLGaRYtQ==
 
-"@blackglory/types@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@blackglory/types/-/types-0.2.1.tgz#58722098a3f0e9fbce88179df718a14cc7755c50"
-  integrity sha512-7kbbr3mAWKSDtumKRkjkNlFDZwmgUItXubpArjYBBlUdMFw6m4247gxVwOiHTqGMV5vmOIgEXr8Ox/qqy13GIg==
+"@blackglory/types@^0.1.7":
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/@blackglory/types/-/types-0.1.11.tgz#98be1f671eb29d4f1c16757317c9fc9367653703"
+  integrity sha512-mzYlnLev2Gu5AtZG8mG1oWzkteEM1OMrgvXjtGGLxAcV3imF/TIC8I7o1J4xaDJdz8a4Fg2ZukoE81fsVpO/hg==
   dependencies:
     "@types/node" "^14.14.14"
     ajv "^7.0.1"
+
+"@blackglory/types@^0.2.3", "@blackglory/types@^0.2.4":
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/@blackglory/types/-/types-0.2.4.tgz#5eb4c7c53a9ad7d60ceb6b036ae64c18486aefdd"
+  integrity sha512-bHadZ24Jn4Fjbl61gb58LbMyAWgHbIF9y+fbfLVGcwGlNrOA9rOtjgFLVd4icRzfCFgZCTr8LXcu5IHBf702ug==
+  dependencies:
+    "@types/node" "^14.14.19"
+    ajv "^7.0.3"
 
 "@blackglory/wait-for@^0.2.1":
   version "0.2.1"
@@ -1387,6 +1392,16 @@ ajv@^7.0.1:
   version "7.0.2"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-7.0.2.tgz#04ccc89a93449c64382fe0846d45a7135d986dbc"
   integrity sha512-qIaxO9RXjaXyO21tJr0EvwPcZa49m64GcXCU8ZrLjCAlFyMuOcPpI560So4A11M1WsKslJYIXn6jSyG5P0xIeg==
+  dependencies:
+    fast-deep-equal "^3.1.1"
+    json-schema-traverse "^1.0.0"
+    require-from-string "^2.0.2"
+    uri-js "^4.2.2"
+
+ajv@^7.0.3:
+  version "7.0.3"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-7.0.3.tgz#13ae747eff125cafb230ac504b2406cf371eece2"
+  integrity sha512-R50QRlXSxqXcQP5SvKUrw8VZeypvo12i2IX0EeR5PiZ7bEKeHWgzgo264LDadUsCU42lTJVhFikTqJwNeH34gQ==
   dependencies:
     fast-deep-equal "^3.1.1"
     json-schema-traverse "^1.0.0"
@@ -3780,12 +3795,12 @@ iterable-operator@^0.12.2:
   dependencies:
     "@blackglory/types" "^0.1.3"
 
-iterable-operator@^0.12.4:
-  version "0.12.4"
-  resolved "https://registry.yarnpkg.com/iterable-operator/-/iterable-operator-0.12.4.tgz#41769636c270229b795efe71acfdbec848ba908f"
-  integrity sha512-+PxAlNThHLW0/VPHhiSpJ1WblYG8GUuQDij09bUSCKrvlSzvJnwziI9fd4xoFdNpzNmEDNcIAAta2SS/Sa5k9g==
+iterable-operator@^0.12.6:
+  version "0.12.6"
+  resolved "https://registry.yarnpkg.com/iterable-operator/-/iterable-operator-0.12.6.tgz#379fb8bcf2c5c5393e4875fd3ec746d661a0638e"
+  integrity sha512-okVBH8KYdpx4nWbERve+OOOJjrrGY88mP/jxyYlYZ9thHs2UE7S3k2/Tszovs7CGv2vVVmlBBZSN2KDM7mkTzA==
   dependencies:
-    "@blackglory/types" "^0.1.11"
+    "@blackglory/types" "^0.2.3"
 
 jest-changed-files@^26.6.2:
   version "26.6.2"
