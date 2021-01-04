@@ -5700,6 +5700,11 @@ return-style@^0.10.1:
   resolved "https://registry.yarnpkg.com/return-style/-/return-style-0.10.1.tgz#f6f056ede4b34ed406a72a3848c44106982ace5a"
   integrity sha512-L35j+oBANdElKek/cut4bcY9EVHbpTOVOlGQQDvAOIENyPylpLQxIqW0vBGZzmQM8dezFL3xoMS+L7J1STwtEg==
 
+return-style@^0.11.2:
+  version "0.11.2"
+  resolved "https://registry.yarnpkg.com/return-style/-/return-style-0.11.2.tgz#c81727177ba7f40bab2c9feda0785b1ec7d7d46f"
+  integrity sha512-vkyiBamCBwt4ofdu+Y3hSL4S2cCVH8qX4/hPF8p9TTJwR2jfx2uKucYT9h7GEyxPAcXR/kdpNnrRQLfgKYZVcg==
+
 reusify@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/reusify/-/reusify-1.0.4.tgz#90da382b1e126efc02146e90845a88db12925d76"

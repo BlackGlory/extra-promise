@@ -47,6 +47,8 @@ test('exports', () => {
   , 'Mutex'
 
   , 'DebounceMicrotask'
+
+  , 'TaskRunner'
   ].sort()
 
   const actualExports = Object.keys(target).sort()

@@ -407,3 +407,26 @@ class DebounceMicrotask {
 if the microtask is not executed, multiple calls will only queue it once.
 
 `cancel` can cancel microtasks before it is executed.
+
+### TaskRunner
+
+```ts
+type Task<T> = () => PromiseLike<T>
+
+class TaskRunner<T> extends EventEmitter {
+  constructor(concurrency: number = Infinity)
+
+  setConcurrency(concurrency: number): void
+  push(...tasks: Task<T>[]): void
+
+  pause(): void
+  resume(): void
+}
+```
+
+A task runner, it will automatically execute tasks in FIFO order.
+
+TaskRunner provides theses events:
+- `started`: It will be triggered after a task is started, provide the parameter `task`.
+- `resolved`: It will be triggered after a task is resolved, provide the paramter `task` and `result`.
+- `rejected`: It will be triggered after a task is rejected, provide the paramters `task` and `reason`. At the same time, TaskRunner will pause.

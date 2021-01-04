@@ -8,6 +8,7 @@ export * from '@classes/debounce-microtask'
 export * from '@classes/channel'
 export * from '@classes/buffered-channel'
 export * from '@classes/unlimited-channel'
+export * from '@classes/task-runner'
 
 export * from '@functions/asyncify'
 export * from '@functions/callbackify'
