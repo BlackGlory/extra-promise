@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.13.9](https://github.com/BlackGlory/extra-promise/compare/v0.13.8...v0.13.9) (2021-01-04)
+
+
+### Features
+
+* add TaskRunner ([81b5468](https://github.com/BlackGlory/extra-promise/commit/81b5468a0ff377b6a2968c1f81b0e70f82b09b02))
+
 ### [0.13.8](https://github.com/BlackGlory/extra-promise/compare/v0.13.7...v0.13.8) (2021-01-01)
 
 
