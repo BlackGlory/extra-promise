@@ -418,6 +418,7 @@ class TaskRunner<T> extends EventEmitter {
 
   setConcurrency(concurrency: number): void
   push(...tasks: Task<T>[]): void
+  clear(): void
 
   pause(): void
   resume(): void

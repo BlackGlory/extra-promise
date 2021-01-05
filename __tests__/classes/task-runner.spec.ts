@@ -168,4 +168,19 @@ describe('TaskRunner', () => {
     expect(task3CalledStep1).toBe(0)
     expect(task3CalledStep2).toBe(1)
   })
+
+  it('can clear unstarted tasks', done => {
+    const runner = new TaskRunner(1)
+    const task1 = jest.fn().mockResolvedValue(undefined)
+    const task2 = jest.fn().mockResolvedValue(undefined)
+
+    runner.on('resolved', () => runner.clear())
+    runner.push(task1, task2)
+
+    queueMicrotask(() => {
+      expect(task1).toBeCalledTimes(1)
+      expect(task2).toBeCalledTimes(0)
+      done()
+    })
+  })
 })

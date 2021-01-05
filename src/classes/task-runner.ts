@@ -35,8 +35,8 @@ export class TaskRunner<T> extends EventEmitter {
     })
 
     this.#internalEvents.on('resolve', (task: Task<T>, result: T) => {
-      if (this.#running) this.#debounceMicrotask.queue(consume)
       this.emit('resolved', task, result)
+      if (this.#running) this.#debounceMicrotask.queue(consume)
     })
 
     this.#internalEvents.on('reject', (task: Task<T>, reason: unknown) => {
@@ -75,6 +75,10 @@ export class TaskRunner<T> extends EventEmitter {
 
   resume(): void {
     this.#internalEvents.emit('resume')
+  }
+
+  clear(): void {
+    this.#queue.empty()
   }
 
   private async run(task: Task<T>): Promise<void> {
