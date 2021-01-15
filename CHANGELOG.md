@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.13.13](https://github.com/BlackGlory/extra-promise/compare/v0.13.12...v0.13.13) (2021-01-15)
+
+
+### Bug Fixes
+
+* esm bundle ([1fc1e0d](https://github.com/BlackGlory/extra-promise/commit/1fc1e0da2d147b7b9960f4fd8611c35a9e89377b))
+
 ### [0.13.12](https://github.com/BlackGlory/extra-promise/compare/v0.13.11...v0.13.12) (2021-01-05)
 
 
