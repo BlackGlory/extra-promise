@@ -4,19 +4,39 @@ import resolve from '@rollup/plugin-node-resolve'
 import json from '@rollup/plugin-json'
 import analyze from 'rollup-plugin-analyzer'
 import { terser } from 'rollup-plugin-terser'
+import replace from '@rollup/plugin-replace'
 
 const UMD_NAME = 'ExtraPromise'
 
+export default [
+  ...createOptions({
+    directory: 'es2015'
+  , target: 'ES2015'
+  })
+, ...createOptions({
+    directory: 'es2018'
+  , target: 'ES2018'
+  })
+]
+
 function createOptions({ directory, target }) {
+  const commonPlugins = [
+    replace({
+      'Object.defineProperty(exports, "__esModule", { value: true });': ''
+    , delimiters: ['\n', '\n']
+    })
+  , typescript({ target })
+  , json()
+  , resolve({ browser: true })
+  , commonjs()
+  ]
+
   return [
     {
       input: 'src/index.ts'
     , output: createOutput('index')
     , plugins: [
-        typescript({ target })
-      , json()
-      , resolve({ browser: true })
-      , commonjs()
+        ...commonPlugins
       , analyze({ summaryOnly: true })
       ]
     }
@@ -24,10 +44,7 @@ function createOptions({ directory, target }) {
       input: 'src/index.ts'
     , output: createMinification('index')
     , plugins: [
-        typescript({ target })
-      , json()
-      , resolve({ browser: true })
-      , commonjs()
+        ...commonPlugins
       , terser()
       ]
     }
@@ -65,14 +82,3 @@ function createOptions({ directory, target }) {
     ]
   }
 }
-
-export default [
-  ...createOptions({
-    directory: 'es2015'
-  , target: 'ES2015'
-  })
-, ...createOptions({
-    directory: 'es2018'
-  , target: 'ES2018'
-  })
-]
