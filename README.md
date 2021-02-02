@@ -171,7 +171,7 @@ await addAsync(a, b) // Promise<3>
 
 `function cascadify<T extends object>(target: T): Cascadify<T>`
 
-Use the decorator `cascadable` to mark the cascadable methods (the return value is `PromiseLike<this>`), transform the instance into a cascadify instance, and end with the non-cascadable member.
+Use the decorator `Cascadable` to mark the cascadable methods (the return value is `PromiseLike<this>`), transform the instance into a cascadify instance, and end with the non-cascadable member.
 
 ```ts
 class Adder {
@@ -189,7 +189,7 @@ class Adder {
     return this.value
   }
 
-  @cascadable
+  @Cascadable
   async add(value: number) {
     this.value += value
     return this

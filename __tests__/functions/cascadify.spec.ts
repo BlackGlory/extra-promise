@@ -1,4 +1,4 @@
-import { cascadify, cascadable } from '@src/functions/cascadify'
+import { cascadify, Cascadable } from '@src/functions/cascadify'
 import { isFailure } from 'return-style'
 import 'jest-extended'
 import '@blackglory/jest-matchers'
@@ -17,7 +17,7 @@ describe('cascadify<T extends object>(target: T): Cascadify<T>', () => {
           return this.value
         }
 
-        @cascadable
+        @Cascadable
         async add(value: number) {
           this.value += value
           return this
@@ -51,7 +51,7 @@ describe('cascadify<T extends object>(target: T): Cascadify<T>', () => {
           return this.value
         }
 
-        @cascadable
+        @Cascadable
         async add(value: number) {
           this.value += value
           return this
@@ -81,7 +81,7 @@ describe('cascadify<T extends object>(target: T): Cascadify<T>', () => {
           this.value = initialValue
         }
 
-        @cascadable
+        @Cascadable
         async add(value: number) {
           this.value += value
           return this

@@ -44,7 +44,7 @@ export function cascadify<T extends object>(target: T): Cascadify<T> {
   return proxy as Cascadify<T>
 }
 
-export function cascadable(target: any, key: string) {
+export function Cascadable(target: any, key: string) {
   Reflect.defineMetadata(CASCADABLE, true, target, key)
 }
 
