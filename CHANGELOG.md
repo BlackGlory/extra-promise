@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.14.0](https://github.com/BlackGlory/extra-promise/compare/v0.13.15...v0.14.0) (2021-02-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* cascadable => Cascadable
+
+### Features
+
+* rename cascadable to Cascadable ([a14c6e0](https://github.com/BlackGlory/extra-promise/commit/a14c6e006903f997335530760033ece82c017fb7))
+
 ### [0.13.15](https://github.com/BlackGlory/extra-promise/compare/v0.13.14...v0.13.15) (2021-01-20)
 
 
