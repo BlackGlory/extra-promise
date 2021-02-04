@@ -58,8 +58,8 @@
     }
   },
   "devDependencies": {
-    "@blackglory/jest-matchers": "^0.1.7",
-    "@blackglory/wait-for": "^0.2.6",
+    "@blackglory/jest-matchers": "^0.1.8",
+    "@blackglory/wait-for": "^0.2.7",
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@rollup/plugin-commonjs": "^17.1.0",
@@ -68,7 +68,7 @@
     "@rollup/plugin-replace": "^2.3.4",
     "@rollup/plugin-typescript": "^8.1.1",
     "@types/jest": "^26.0.20",
-    "@types/node": "^14.14.22",
+    "@types/node": "^14.14.24",
     "@typescript-eslint/eslint-plugin": "^4.14.2",
     "@typescript-eslint/parser": "^4.14.2",
     "eslint": "^7.19.0",
@@ -88,12 +88,12 @@
   },
   "dependencies": {
     "@blackglory/errors": "^0.1.4",
-    "@blackglory/structures": "^0.1.9",
-    "@blackglory/types": "^0.2.11",
+    "@blackglory/structures": "^0.1.11",
+    "@blackglory/types": "^0.2.13",
     "abort-controller": "^3.0.0",
     "eventemitter3": "^4.0.7",
-    "iterable-operator": "^0.13.0",
+    "iterable-operator": "^0.13.2",
     "reflect-metadata": "^0.1.13",
-    "return-style": "^0.11.5"
+    "return-style": "^0.11.6"
   }
 }

@@ -1,15 +1,15 @@
 dependencies:
   '@blackglory/errors': 0.1.5
-  '@blackglory/structures': 0.1.9
-  '@blackglory/types': 0.2.11
+  '@blackglory/structures': 0.1.11
+  '@blackglory/types': 0.2.13
   abort-controller: 3.0.0
   eventemitter3: 4.0.7
-  iterable-operator: 0.13.0
+  iterable-operator: 0.13.2
   reflect-metadata: 0.1.13
-  return-style: 0.11.5
+  return-style: 0.11.6
 devDependencies:
-  '@blackglory/jest-matchers': 0.1.7
-  '@blackglory/wait-for': 0.2.6
+  '@blackglory/jest-matchers': 0.1.8
+  '@blackglory/wait-for': 0.2.7
   '@commitlint/cli': 11.0.0
   '@commitlint/config-conventional': 11.0.0
   '@rollup/plugin-commonjs': 17.1.0_rollup@2.38.4
@@ -18,7 +18,7 @@ devDependencies:
   '@rollup/plugin-replace': 2.3.4_rollup@2.38.4
   '@rollup/plugin-typescript': 8.1.1_d56c154bb9699a64f5c6c2e4dccbd95b
   '@types/jest': 26.0.20
-  '@types/node': 14.14.22
+  '@types/node': 14.14.24
   '@typescript-eslint/eslint-plugin': 4.14.2_e5f964fa93e839b7a7927397f6cb9cb1
   '@typescript-eslint/parser': 4.14.2_eslint@7.19.0+typescript@4.1.3
   eslint: 7.19.0
@@ -324,48 +324,48 @@ packages:
       node: '>=12'
     resolution:
       integrity: sha512-n0pCQ8JKx5Tw9QuNBWsokvOwX0oJn/qnEYWspSNaPzo/QrmZAiHhpIiPWHEhtmt8gLVsHw3dizw7iQbiOwR/ZA==
-  /@blackglory/jest-matchers/0.1.7:
+  /@blackglory/jest-matchers/0.1.8:
     dependencies:
       '@blackglory/types': 0.1.12
       fs-extra: 9.1.0
       jest-diff: 26.6.2
     dev: true
     resolution:
-      integrity: sha512-aCNbGu3wGkhuqJ//QhV/0OUUbQItWSLcrLi4mTW+i+4OVaAdIou4m7kLoTp0A0AB6fJgiHgR9B0zlKke5q3OzA==
-  /@blackglory/structures/0.1.9:
+      integrity: sha512-WVXTeYS4VRpuizUqoD/vll0PbfWlTIXXZlFVHVvls8qxaMZqUpOJmhzI41VrS7gUa8mLrsnrEL7Ht/Pmt1Nkmg==
+  /@blackglory/structures/0.1.11:
     dependencies:
       '@blackglory/errors': 0.1.5
     engines:
       node: '>=12'
     resolution:
-      integrity: sha512-p84Je95Waw74TOcf+2JX2RWl05IEm1i/qzrEJQriasr6mpb4Kn5jEnULibQYcEi/HoG6LoCtshOiYZvqlfIDLg==
+      integrity: sha512-e43L5H7lMwJuy4j96yXRRVXEx+kzM4O/har56wG3mCSq0VAyrCpStAWqx9nX7LAXH0r4NHEqPJbN9Vm3W/c6IA==
   /@blackglory/types/0.1.12:
     dependencies:
-      '@types/node': 14.14.22
+      '@types/node': 14.14.24
       ajv: 7.0.4
     dev: true
     engines:
       node: '>=12'
     resolution:
       integrity: sha512-hjjX9bltppnl8bg67aie8D3h+grKmrjGyu5I/SDq3HVgARUgFjugw2Ax6MdxsIdIaBUtASVeslkHOs3Rf8W70g==
-  /@blackglory/types/0.2.11:
+  /@blackglory/types/0.2.13:
     dependencies:
-      '@types/node': 14.14.22
+      '@types/node': 14.14.24
       ajv: 7.0.4
       extra-dom: 0.2.10
       jsdom: 16.4.0
     engines:
       node: '>=12'
     resolution:
-      integrity: sha512-FADvGYOCQZJsXTETrYHQ5NqaLfz+iCE/yPZQiE87xV+4JBAeSgyuB+j+mi3NwYWp+gTZQ3P+9KonnlezNW2kIw==
-  /@blackglory/wait-for/0.2.6:
+      integrity: sha512-5p9p4af04W/K/M6ObAiwHtMeHVkAAH2iF3H86ozfcJdiDLImn9ZL8aJ9f9cXfgdmSJ8qKj+8qtj4o2ZZ7klx5w==
+  /@blackglory/wait-for/0.2.7:
     dependencies:
       extra-promise: 0.13.15
       iterable-operator: 0.12.11
       rxjs: 7.0.0-beta.10
     dev: true
     resolution:
-      integrity: sha512-48c3d+KAC1HQUTXvQRo1pdo0rdLiNSeK6rXRYrr5L1D8XzsC44zs7b70BOwJCkkDBQpH9ZYqSUSFfQJ7GxsfaA==
+      integrity: sha512-CAFsCPLk6Xz4NhtgOaHSO5S/hxa9G1Ql7RjoUEJZu81aqqju/W1GUsgty5ZOcll/P8DrClJERlhBjWUdGiGtWQ==
   /@cnakazawa/watch/1.0.4:
     dependencies:
       exec-sh: 0.3.4
@@ -577,7 +577,7 @@ packages:
   /@jest/console/26.6.2:
     dependencies:
       '@jest/types': 26.6.2
-      '@types/node': 14.14.22
+      '@types/node': 14.14.24
       chalk: 4.1.0
       jest-message-util: 26.6.2
       jest-util: 26.6.2
@@ -594,7 +594,7 @@ packages:
       '@jest/test-result': 26.6.2
       '@jest/transform': 26.6.2
       '@jest/types': 26.6.2
-      '@types/node': 14.14.22
+      '@types/node': 14.14.24
       ansi-escapes: 4.3.1
       chalk: 4.1.0
       exit: 0.1.2
@@ -626,7 +626,7 @@ packages:
     dependencies:
       '@jest/fake-timers': 26.6.2
       '@jest/types': 26.6.2
-      '@types/node': 14.14.22
+      '@types/node': 14.14.24
       jest-mock: 26.6.2
     dev: true
     engines:
@@ -637,7 +637,7 @@ packages:
     dependencies:
       '@jest/types': 26.6.2
       '@sinonjs/fake-timers': 6.0.1
-      '@types/node': 14.14.22
+      '@types/node': 14.14.24
       jest-message-util: 26.6.2
       jest-mock: 26.6.2
       jest-util: 26.6.2
@@ -778,7 +778,7 @@ packages:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.3
       '@types/istanbul-reports': 3.0.0
-      '@types/node': 14.14.22
+      '@types/node': 14.14.24
       '@types/yargs': 15.0.13
       chalk: 4.1.0
     dev: true
@@ -958,13 +958,13 @@ packages:
   /@types/glob/7.1.3:
     dependencies:
       '@types/minimatch': 3.0.3
-      '@types/node': 14.14.22
+      '@types/node': 14.14.24
     dev: true
     resolution:
       integrity: sha512-SEYeGAIQIQX8NN6LDKprLjbrd5dARM5EXsd8GI/A5l0apYI1fGMWgPHSe4ZKL4eozlAyI+doUE9XbYS4xCkQ1w==
   /@types/graceful-fs/4.1.4:
     dependencies:
-      '@types/node': 14.14.22
+      '@types/node': 14.14.24
     dev: true
     resolution:
       integrity: sha512-mWA/4zFQhfvOA8zWkXobwJvBD7vzcxgrOQ0J5CH1votGqdq9m7+FwtGaqyCZqC3NyyBkc9z4m+iry4LlqcMWJg==
@@ -1010,9 +1010,9 @@ packages:
     dev: true
     resolution:
       integrity: sha512-fZQQafSREFyuZcdWFAExYjBiCL7AUCdgsk80iO0q4yihYYdcIiH28CcuPTGFgLOCC8RlW49GSQxdHwZP+I7CNg==
-  /@types/node/14.14.22:
+  /@types/node/14.14.24:
     resolution:
-      integrity: sha512-g+f/qj/cNcqKkc3tFqlXOYjrmZA+jNBiDzbP3kH+B+otKFqAdPgVTGP1IeKRdMml/aE69as5S4FqtxAbl+LaMw==
+      integrity: sha512-6BAlkS4seVjszhrwN0W1WabqWwuJwcYF36Z1rPPyQm80LGRKsIeUPdzI51TezXenjetFNy1gRTpuDn1NBg33LA==
   /@types/normalize-package-data/2.4.0:
     dev: true
     resolution:
@@ -1027,7 +1027,7 @@ packages:
       integrity: sha512-6gOkRe7OIioWAXfnO/2lFiv+SJichKVSys1mSsgyrYHSEjk8Ctv4tSR/Odvnu+HWlH2C8j53dahU03XmQdd5fA==
   /@types/resolve/1.17.1:
     dependencies:
-      '@types/node': 14.14.22
+      '@types/node': 14.14.24
     dev: true
     resolution:
       integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==
@@ -2591,20 +2591,20 @@ packages:
       integrity: sha512-Nmb6QXkELsuBr24CJSkilo6UHHgbekK5UiZgfE6UHD3Eb27YC6oD+bhcT+tJ6cl8dmsgdQxnWlcry8ksBIBLpw==
   /extra-dom/0.2.10:
     dependencies:
-      '@blackglory/types': 0.2.11
-      iterable-operator: 0.13.0
+      '@blackglory/types': 0.2.13
+      iterable-operator: 0.13.2
     resolution:
       integrity: sha512-bqSjWP3b3qPGuV7vt5N1OeJ/jaKfzQJj4lCpiTNZEp6cmZDL9/gi8+vCu8PbEXFzci576egs9LiZy5awxifHfg==
   /extra-promise/0.13.15:
     dependencies:
       '@blackglory/errors': 0.1.5
-      '@blackglory/structures': 0.1.9
-      '@blackglory/types': 0.2.11
+      '@blackglory/structures': 0.1.11
+      '@blackglory/types': 0.2.13
       abort-controller: 3.0.0
       eventemitter3: 4.0.7
       iterable-operator: 0.12.11
       reflect-metadata: 0.1.13
-      return-style: 0.11.5
+      return-style: 0.11.6
     dev: true
     resolution:
       integrity: sha512-Bnpv2W1FDT5KtafVVW9Ljvuz8snsNt27dScaTe7VUfXHhH8qpJQv2XOPSZCV2+Yp4rj2EGxiOAFCPHxNK1ycqg==
@@ -3616,15 +3616,15 @@ packages:
       integrity: sha512-9tZvz7AiR3PEDNGiV9vIouQ/EAcqMXFmkcA1CDFTwOB98OZVDL0PH9glHotf5Ugp6GCOTypfzGWI/OqjWNCRUw==
   /iterable-operator/0.12.11:
     dependencies:
-      '@blackglory/types': 0.2.11
+      '@blackglory/types': 0.2.13
     dev: true
     resolution:
       integrity: sha512-f6g7Ftzxk4JyJNL19/tB1Lt7CnXQC2kcRQ2+SZX0RaSr8+3SuAPLAMzU515dRl5/yfK9YI0JdDvW+hL02+tShQ==
-  /iterable-operator/0.13.0:
+  /iterable-operator/0.13.2:
     dependencies:
-      '@blackglory/types': 0.2.11
+      '@blackglory/types': 0.2.13
     resolution:
-      integrity: sha512-/M2KRn+iVZPeeEO0ZubWU6w6sSvCC064bx30oTN9DKHERW4Jk8GUNZugFtIVXKcKnssnVtp5BPuUbejzIKs4Ig==
+      integrity: sha512-cVygsGfAl4FK+N88sY6CkvOzZCcCPkUZvhjjioGL4QcoUXD8N1aWZzzLYXmT3n2Xl/f4nbijz0Pha9qfIIpPkg==
   /jest-changed-files/26.6.2:
     dependencies:
       '@jest/types': 26.6.2
@@ -3733,7 +3733,7 @@ packages:
       '@jest/environment': 26.6.2
       '@jest/fake-timers': 26.6.2
       '@jest/types': 26.6.2
-      '@types/node': 14.14.22
+      '@types/node': 14.14.24
       jest-mock: 26.6.2
       jest-util: 26.6.2
       jsdom: 16.4.0
@@ -3747,7 +3747,7 @@ packages:
       '@jest/environment': 26.6.2
       '@jest/fake-timers': 26.6.2
       '@jest/types': 26.6.2
-      '@types/node': 14.14.22
+      '@types/node': 14.14.24
       jest-mock: 26.6.2
       jest-util: 26.6.2
     dev: true
@@ -3783,7 +3783,7 @@ packages:
     dependencies:
       '@jest/types': 26.6.2
       '@types/graceful-fs': 4.1.4
-      '@types/node': 14.14.22
+      '@types/node': 14.14.24
       anymatch: 3.1.1
       fb-watchman: 2.0.1
       graceful-fs: 4.2.4
@@ -3808,7 +3808,7 @@ packages:
       '@jest/source-map': 26.6.2
       '@jest/test-result': 26.6.2
       '@jest/types': 26.6.2
-      '@types/node': 14.14.22
+      '@types/node': 14.14.24
       chalk: 4.1.0
       co: 4.6.0
       expect: 26.6.2
@@ -3899,7 +3899,7 @@ packages:
   /jest-mock/26.6.2:
     dependencies:
       '@jest/types': 26.6.2
-      '@types/node': 14.14.22
+      '@types/node': 14.14.24
     dev: true
     engines:
       node: '>= 10.14.2'
@@ -3961,7 +3961,7 @@ packages:
       '@jest/environment': 26.6.2
       '@jest/test-result': 26.6.2
       '@jest/types': 26.6.2
-      '@types/node': 14.14.22
+      '@types/node': 14.14.24
       chalk: 4.1.0
       emittery: 0.7.2
       exit: 0.1.2
@@ -4019,7 +4019,7 @@ packages:
       integrity: sha512-lrzyR3N8sacTAMeonbqpnSka1dHNux2uk0qqDXVkMv2c/A3wYnvQ4EXuI013Y6+gSKSCxdaczvf4HF0mVXHRdw==
   /jest-serializer/26.6.2:
     dependencies:
-      '@types/node': 14.14.22
+      '@types/node': 14.14.24
       graceful-fs: 4.2.4
     dev: true
     engines:
@@ -4052,7 +4052,7 @@ packages:
   /jest-util/26.6.2:
     dependencies:
       '@jest/types': 26.6.2
-      '@types/node': 14.14.22
+      '@types/node': 14.14.24
       chalk: 4.1.0
       graceful-fs: 4.2.4
       is-ci: 2.0.0
@@ -4079,7 +4079,7 @@ packages:
     dependencies:
       '@jest/test-result': 26.6.2
       '@jest/types': 26.6.2
-      '@types/node': 14.14.22
+      '@types/node': 14.14.24
       ansi-escapes: 4.3.1
       chalk: 4.1.0
       jest-util: 26.6.2
@@ -4091,7 +4091,7 @@ packages:
       integrity: sha512-WKJob0P/Em2csiVthsI68p6aGKTIcsfjH9Gsx1f0A3Italz43e3ho0geSAVsmj09RWOELP1AZ/DXyJgOgDKxXQ==
   /jest-worker/26.6.2:
     dependencies:
-      '@types/node': 14.14.22
+      '@types/node': 14.14.24
       merge-stream: 2.0.0
       supports-color: 7.2.0
     dev: true
@@ -5525,9 +5525,9 @@ packages:
       node: '>=0.12'
     resolution:
       integrity: sha512-TTlYpa+OL+vMMNG24xSlQGEJ3B/RzEfUlLct7b5G/ytav+wPrplCpVMFuwzXbkecJrb6IYo1iFb0S9v37754mg==
-  /return-style/0.11.5:
+  /return-style/0.11.6:
     resolution:
-      integrity: sha512-Ml0QIZWXLJBu93zDFNkipvk6pG50vpqJA3VFpGmo+0+pGY1dx9Tl4GCdzPexnISnC3vIvrEty0egsVa++lnQgA==
+      integrity: sha512-ABrltlHQT20FC2pLgcNRqXSSk0vGb9U6GXTaRMCzm6858JpWIbNQU+cQUKX7Z1wLpngbBzdvtt5vblgGpB067Q==
   /reusify/1.0.4:
     dev: true
     engines:
@@ -6674,10 +6674,10 @@ packages:
       integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 specifiers:
   '@blackglory/errors': ^0.1.4
-  '@blackglory/jest-matchers': ^0.1.7
-  '@blackglory/structures': ^0.1.9
-  '@blackglory/types': ^0.2.11
-  '@blackglory/wait-for': ^0.2.6
+  '@blackglory/jest-matchers': ^0.1.8
+  '@blackglory/structures': ^0.1.11
+  '@blackglory/types': ^0.2.13
+  '@blackglory/wait-for': ^0.2.7
   '@commitlint/cli': ^11.0.0
   '@commitlint/config-conventional': ^11.0.0
   '@rollup/plugin-commonjs': ^17.1.0
@@ -6686,19 +6686,19 @@ specifiers:
   '@rollup/plugin-replace': ^2.3.4
   '@rollup/plugin-typescript': ^8.1.1
   '@types/jest': ^26.0.20
-  '@types/node': ^14.14.22
+  '@types/node': ^14.14.24
   '@typescript-eslint/eslint-plugin': ^4.14.2
   '@typescript-eslint/parser': ^4.14.2
   abort-controller: ^3.0.0
   eslint: ^7.19.0
   eventemitter3: ^4.0.7
   husky: ^4.3.8
-  iterable-operator: ^0.13.0
+  iterable-operator: ^0.13.2
   jest: ^26.6.3
   jest-extended: ^0.11.5
   npm-run-all: ^4.1.5
   reflect-metadata: ^0.1.13
-  return-style: ^0.11.5
+  return-style: ^0.11.6
   rimraf: ^3.0.2
   rollup: ^2.38.4
   rollup-plugin-analyzer: ^4.0.0
