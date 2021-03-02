@@ -14,25 +14,33 @@ yarn add extra-promise
 
 ### isPromise
 
-`function isPromise<T>(val: any): val is Promise<T>`
+```ts
+function isPromise<T>(val: any): val is Promise<T>
+```
 
 Check if the `val` is a `Promise` instance.
 
 ### isPromiseLike
 
-`function isPromiseLike<T>(val: any): val is PromiseLike<T>`
+```ts
+function isPromiseLike<T>(val: any): val is PromiseLike<T>
+```
 
 Check if the `val` has a `then` method.
 
 ### delay
 
-`function delay(timeout: number): Promise<void>`
+```ts
+function delay(timeout: number): Promise<void>
+```
 
 A simple wrapper for `setTimeout`.
 
 ### timeout
 
-`function timeout(ms: number): Promise<never>`
+```ts
+function timeout(ms: number): Promise<never>
+```
 
 It throws a `TimeoutError` after `ms` milliseconds.
 
@@ -49,7 +57,9 @@ try {
 
 ### timeoutSignal
 
-`function timeoutSignal(ms: number): AbortSignal`
+```ts
+function timeoutSignal(ms: number): AbortSignal
+```
 
 It will abort after `ms` milliseconds.
 
@@ -59,31 +69,50 @@ await fetch('http://example.com', { signal: timeoutSignal(5000) })
 
 ### pad
 
-`function pad<T>(ms: number, fn: () => T | PromiseLike<T>): Promise<T>`
+```ts
+function pad<T>(ms: number, fn: () => T | PromiseLike<T>): Promise<T>
+```
 
 Run a function, but wait at least `ms` milliseconds before returning.
 
 ### retryUntil
 
-`function retryUntil<T, U = unknown>(fn: () => T | PromiseLike<T>, until: (error: U) => boolean | PromiseLike<boolean>): Promise<T>`
+```ts
+function retryUntil<T, U = unknown>(
+  fn: () => T | PromiseLike<T>
+, until: (error: U) => boolean | PromiseLike<boolean>
+): Promise<T>
+```
 
 If `fn` function throws an error, continue to retry until the return value of the `until` function is true.
 
 ### retryForever
 
-`function retryForever<T>(fn: () => T | PromiseLike<T>): Promise<T>`
+```ts
+function retryForever<T>(
+  fn: () => T | PromiseLike<T>
+, fatalErrors: Array<new (...args: any) => Error> = []
+): Promise<T>
+```
 
-A sugar for `retryUntil`, it is equivalent to`retryUntil(fn, () => false)`.
+A sugar for `retryUntil`, `retryForever(fn)` is equivalent to`retryUntil(fn, () => false)`.
 
 ### retryCount
 
-`function retryCount<T>(fn: () => T | PromiseLike<T>, maximum: number): Promise<T>`
+```ts
+function retryCount<T>(fn: () => T | PromiseLike<T>, maximum: number): Promise<T>
+```
 
 A sugar for `retryUntil`, the parameter `maximum` determines the maximum number of retries.
 
 ### parallel
 
-`function parallel<T>(tasks: Iterable<() => T | PromiseLike<T>>, concurrency: number = Infinity): Promise<void>`
+```ts
+function parallel<T>(
+  tasks: Iterable<() => T | PromiseLike<T>>
+, concurrency: number = Infinity
+): Promise<void>
+```
 
 Perform tasks in parallel.
 
@@ -92,20 +121,32 @@ Invalid values will throw `InvalidArugmentError`.
 
 ### series
 
-`function series<T>(tasks: Iterable<() => T | PromiseLike<T>>): Promise<void>`
+```ts
+function series<T>(tasks: Iterable<() => T | PromiseLike<T>>): Promise<void>
+```
 
 Perform tasks in order.
 Equivalent to `parallel(tasks, 1)`.
 
 ### waterfall
 
-`function waterfall<T>(tasks: Iterable<(result: unknown) => unknown | PromiseLike<unknown>>): Promise<T | undefined>`
+```ts
+function waterfall<T>(
+  tasks: Iterable<(result: unknown) => unknown | PromiseLike<unknown>>
+): Promise<T | undefined>
+```
 
 Perform tasks in order, the return value of the previous task will become the parameter of the next task. If `tasks` is empty, return `Promise<undefined>`.
 
 ### each
 
-`function each(iterable: Iterable<T>, fn: (element: T, i: number) => unknown | PromiseLike<unknown>, concurrency: number = Infinity): Promise<void>`
+```ts
+function each(
+  iterable: Iterable<T>
+, fn: (element: T, i: number) => unknown | PromiseLike<unknown>
+, concurrency: number = Infinity
+): Promise<void>
+```
 
 The async `each` operator for Iterable.
 
@@ -114,7 +155,13 @@ Invalid values will throw `InvalidArugmentError`.
 
 ### map
 
-`function map<T, U>(iterable: Iterable<T>, fn: (element: T, i: number) => U | PromiseLike<U>, concurrency: number = Infinity): Promise<U[]>`
+```ts
+function map<T, U>(
+  iterable: Iterable<T>
+, fn: (element: T, i: number) => U | PromiseLike<U>
+, concurrency: number = Infinity
+): Promise<U[]>
+```
 
 The async `map` operator for Iterable.
 
@@ -123,7 +170,13 @@ Invalid values will throw `InvalidArugmentError`.
 
 ### filter
 
-`function filter<T, U = T>(iterable: Iterable<T>, fn: (element: T, i: number) => boolean | PromiseLike<boolean>, concurrency: number = Infinity): Promise<U[]>`
+```ts
+function filter<T, U = T>(
+  iterable: Iterable<T>
+, fn: (element: T, i: number) => boolean | PromiseLike<boolean>
+, concurrency: number = Infinity
+): Promise<U[]>
+```
 
 The async `filter` operator for Iterable.
 
@@ -132,13 +185,21 @@ Invalid values will throw `InvalidArugmentError`.
 
 ### promisify
 
-`function promisify<Result, Args extends any[] = unknown[]>(fn: (...args: any[]) => unknown): (...args: Args) => Promise<Result>`
+```ts
+function promisify<Result, Args extends any[] = unknown[]>(
+  fn: (...args: any[]) => unknown
+): (...args: Args) => Promise<Result>
+```
 
 The well-known `promisify` function.
 
 ### callbackify
 
-`function callbackify<Result, Args extends any[] = unknown[]>(fn: (...args: Args) => PromiseLike<Result>): (...args: Args) => void`
+```ts
+function callbackify<Result, Args extends any[] = unknown[]>(
+  fn: (...args: Args) => PromiseLike<Result>
+): (...args: Args) => void
+```
 
 The `callbackify` function, as opposed to `promisify`.
 
@@ -149,7 +210,11 @@ The return value:
 
 ### asyncify
 
-`function asyncify<T extends any[], U>(fn: (...args: T) => U | PromiseLike<U>): (...args: Promisify<T>) => Promise<U>`
+```ts
+function asyncify<T extends any[], U>(
+  fn: (...args: T) => U | PromiseLike<U>
+): (...args: Promisify<T>) => Promise<U>
+```
 
 Turn sync functions into async functions.
 
@@ -169,7 +234,9 @@ await addAsync(a, b) // Promise<3>
 
 ### cascadify
 
-`function cascadify<T extends object>(target: T): Cascadify<T>`
+```ts
+function cascadify<T extends object>(target: T): Cascadify<T>
+```
 
 Use the decorator `Cascadable` to mark the cascadable methods (the return value is `PromiseLike<this>`), transform the instance into a cascadify instance, and end with the non-cascadable member.
 
