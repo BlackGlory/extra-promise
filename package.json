@@ -58,10 +58,10 @@
     }
   },
   "devDependencies": {
-    "@blackglory/jest-matchers": "^0.1.9",
-    "@blackglory/wait-for": "^0.2.8",
-    "@commitlint/cli": "^12.0.0",
-    "@commitlint/config-conventional": "^12.0.0",
+    "@blackglory/jest-matchers": "^0.1.10",
+    "@blackglory/wait-for": "^0.2.9",
+    "@commitlint/cli": "^12.0.1",
+    "@commitlint/config-conventional": "^12.0.1",
     "@rollup/plugin-commonjs": "^17.1.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^11.2.0",
@@ -69,15 +69,15 @@
     "@rollup/plugin-typescript": "^8.2.0",
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.31",
-    "@typescript-eslint/eslint-plugin": "^4.15.2",
-    "@typescript-eslint/parser": "^4.15.2",
-    "eslint": "^7.20.0",
+    "@typescript-eslint/eslint-plugin": "^4.16.1",
+    "@typescript-eslint/parser": "^4.16.1",
+    "eslint": "^7.21.0",
     "husky": "^4.3.8",
     "jest": "^26.6.3",
     "jest-extended": "^0.11.5",
     "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2",
-    "rollup": "^2.39.1",
+    "rollup": "^2.40.0",
     "rollup-plugin-analyzer": "^4.0.0",
     "rollup-plugin-terser": "^7.0.2",
     "standard-version": "^9.1.1",
@@ -88,12 +88,12 @@
   },
   "dependencies": {
     "@blackglory/errors": "^1.1.2",
-    "@blackglory/structures": "^0.1.12",
-    "@blackglory/types": "^0.2.17",
+    "@blackglory/structures": "^0.1.13",
+    "@blackglory/types": "^0.2.23",
     "abort-controller": "^3.0.0",
     "eventemitter3": "^4.0.7",
-    "iterable-operator": "^0.13.2",
+    "iterable-operator": "^0.13.3",
     "reflect-metadata": "^0.1.13",
-    "return-style": "^0.12.1"
+    "return-style": "^0.12.2"
   }
 }
