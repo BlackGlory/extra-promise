@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.14.5](https://github.com/BlackGlory/extra-promise/compare/v0.14.4...v0.14.5) (2021-03-02)
+
+
+### Features
+
+* add parameter fatalErrors ([02c39f6](https://github.com/BlackGlory/extra-promise/commit/02c39f61b4bb226d5027e5bacf5bcfb52d443bbf))
+
 ### [0.14.4](https://github.com/BlackGlory/extra-promise/compare/v0.14.3...v0.14.4) (2021-02-25)
 
 ### [0.14.3](https://github.com/BlackGlory/extra-promise/compare/v0.14.2...v0.14.3) (2021-02-04)
