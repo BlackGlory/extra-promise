@@ -282,12 +282,13 @@
   resolved "https://registry.yarnpkg.com/@blackglory/errors/-/errors-1.1.2.tgz#0577f01ca13850049efa0dd729e1a26e77e1dc3a"
   integrity sha512-THXSkTUB5eXSn7Yj01TgizNqw2rRnkNj0t6drNtmGQNJRoh4qLdSD0WUiM6ClGgKTdaBJbAarRqG/6Gn/NjLig==
 
-"@blackglory/jest-matchers@^0.1.10":
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/@blackglory/jest-matchers/-/jest-matchers-0.1.10.tgz#785f8d01628a0782a8e9a72791497d721c8d8d11"
-  integrity sha512-zDG+8kws6I9sIKraY2+G0Ty5Zg80hjQAL/UqYp1Ne9ZyrNiaAdVNz21ZJFlUKSi/ZkjACRylZVOEsikryZvrSA==
+"@blackglory/jest-matchers@^0.1.11":
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/@blackglory/jest-matchers/-/jest-matchers-0.1.11.tgz#437c729408bf972bed0fd308fe56c0f6d450d7b9"
+  integrity sha512-cRNFb62fE3AlZ0TGQ1J/GDfi+ULq7GFvtk7DFlbX0j3XYraoPscGb+27ztGftAmHgjIaR5zReXnRxNzB3agvxQ==
   dependencies:
-    "@blackglory/types" "^0.2.17"
+    "@blackglory/types" "^0.2.25"
+    "@types/node" "^14.14.31"
     fs-extra "^9.0.1"
     jest-diff "^26.6.2"
 
@@ -324,12 +325,11 @@
     ajv "^7.1.1"
     extra-dom "^0.2.9"
 
-"@blackglory/types@^0.2.23":
-  version "0.2.23"
-  resolved "https://registry.yarnpkg.com/@blackglory/types/-/types-0.2.23.tgz#4e4d79f545fdf9901bedd4df3092e14897073717"
-  integrity sha512-shJnVh+oSAoxtBEQyEjGta+nqzfwOfvKyHmEG1GkrwdQFQHhtkQsKwEu9TI4UiGc5rt0X6iLXvG96j4bB504/w==
+"@blackglory/types@^0.2.25":
+  version "0.2.25"
+  resolved "https://registry.yarnpkg.com/@blackglory/types/-/types-0.2.25.tgz#f473fda1741c95e92cbaa2881e0b9a74a2582d00"
+  integrity sha512-8jtvDWkbseLcYSmi40xudWFK1OUQHxeRNR1sa4C/mtIs8A1WaAWWQWdpoEG9GfYEe9rnHMVTkaFcaiMBPluKHw==
   dependencies:
-    "@types/node" "^14.14.31"
     ajv "^7.1.1"
     extra-dom "^0.2.12"
 
@@ -2325,9 +2325,9 @@ eventemitter3@^4.0.7:
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-4.0.7.tgz#2de9b68f6528d5644ef5c59526a1b4a07306169f"
   integrity sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==
 
-"eventsource@git+https://github.com/EventSource/eventsource.git#46fe04e03e54f4129a28bf75b3a1e5f4ab68b52a":
+"eventsource@https://github.com/EventSource/eventsource#46fe04e03e54f4129a28bf75b3a1e5f4ab68b52a":
   version "1.0.7"
-  resolved "git+https://github.com/EventSource/eventsource.git#46fe04e03e54f4129a28bf75b3a1e5f4ab68b52a"
+  resolved "https://github.com/EventSource/eventsource#46fe04e03e54f4129a28bf75b3a1e5f4ab68b52a"
   dependencies:
     original "^1.0.0"
 
