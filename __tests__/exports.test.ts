@@ -7,6 +7,8 @@ test('exports', () => {
 
   , 'isPromise'
   , 'isPromiseLike'
+  , 'isntPromise'
+  , 'isntPromiseLike'
   , 'delay'
   , 'retryUntil'
   , 'parallel'
