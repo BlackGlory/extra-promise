@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.15.1](https://github.com/BlackGlory/extra-promise/compare/v0.15.0...v0.15.1) (2021-03-05)
+
+
+### Bug Fixes
+
+* timeoutSignal ([720eb00](https://github.com/BlackGlory/extra-promise/commit/720eb00a6726aaa4703215fb7151916d2da628cf))
+
 ## [0.15.0](https://github.com/BlackGlory/extra-promise/compare/v0.14.5...v0.15.0) (2021-03-05)
 
 
