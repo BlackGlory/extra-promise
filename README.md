@@ -86,25 +86,6 @@ function retryUntil<T, U = unknown>(
 
 If `fn` function throws an error, continue to retry until the return value of the `until` function is true.
 
-### retryForever
-
-```ts
-function retryForever<T>(
-  fn: () => T | PromiseLike<T>
-, fatalErrors: Array<new (...args: any) => Error> = []
-): Promise<T>
-```
-
-A sugar for `retryUntil`, `retryForever(fn)` is equivalent to`retryUntil(fn, () => false)`.
-
-### retryCount
-
-```ts
-function retryCount<T>(fn: () => T | PromiseLike<T>, maximum: number): Promise<T>
-```
-
-A sugar for `retryUntil`, the parameter `maximum` determines the maximum number of retries.
-
 ### parallel
 
 ```ts
