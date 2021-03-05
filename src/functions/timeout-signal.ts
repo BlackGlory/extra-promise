@@ -1,4 +1,4 @@
-import { AbortController } from 'abort-controller'
+import AbortController from 'abort-controller'
 
 export function timeoutSignal(ms: number): AbortSignal {
   const controller = new AbortController()
