@@ -58,7 +58,7 @@
     }
   },
   "devDependencies": {
-    "@blackglory/jest-matchers": "^0.1.11",
+    "@blackglory/jest-matchers": "^0.1.12",
     "@blackglory/wait-for": "^0.2.9",
     "@commitlint/cli": "^12.0.1",
     "@commitlint/config-conventional": "^12.0.1",
@@ -89,10 +89,10 @@
   "dependencies": {
     "@blackglory/errors": "^1.1.2",
     "@blackglory/structures": "^0.1.13",
-    "@blackglory/types": "^0.2.25",
+    "@blackglory/types": "^0.3.0",
     "eventemitter3": "^4.0.7",
     "extra-fetch": "^1.2.0",
-    "iterable-operator": "^0.13.3",
+    "iterable-operator": "^0.13.4",
     "reflect-metadata": "^0.1.13",
     "return-style": "^0.12.2"
   }
