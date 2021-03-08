@@ -88,6 +88,7 @@
   },
   "dependencies": {
     "@blackglory/errors": "^1.1.2",
+    "@blackglory/go": "^0.1.0",
     "@blackglory/structures": "^0.1.13",
     "@blackglory/types": "^0.3.0",
     "eventemitter3": "^4.0.7",

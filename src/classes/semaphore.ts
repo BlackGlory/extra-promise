@@ -1,6 +1,7 @@
 import { Signal } from './signal'
 import { isFunction } from '@blackglory/types'
 import { SignalGroup } from '@classes/signal-group'
+import { go } from '@blackglory/go'
 
 type Release = () => void
 
@@ -17,11 +18,11 @@ export class Semaphore {
   acquire(handler: () => void | Promise<void>): void
   acquire(handler?: () => void | Promise<void>): void | Promise<Release> {
     if (isFunction(handler)) {
-      (async () => {
+      go(async () => {
         await this.lock()
         await handler()
         this.unlock()
-      })()
+      })
     } else {
       return new Promise(async resolve => {
         await this.lock()
