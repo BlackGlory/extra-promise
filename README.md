@@ -12,7 +12,9 @@ yarn add extra-promise
 
 ## API
 
-### isPromise
+### functions
+
+#### isPromise
 
 ```ts
 function isPromise<T>(val: any): val is Promise<T>
@@ -20,7 +22,7 @@ function isPromise<T>(val: any): val is Promise<T>
 
 Check if the `val` is a `Promise` instance.
 
-### isPromiseLike
+#### isPromiseLike
 
 ```ts
 function isPromiseLike<T>(val: any): val is PromiseLike<T>
@@ -28,7 +30,7 @@ function isPromiseLike<T>(val: any): val is PromiseLike<T>
 
 Check if the `val` has a `then` method.
 
-### delay
+#### delay
 
 ```ts
 function delay(timeout: number): Promise<void>
@@ -36,7 +38,7 @@ function delay(timeout: number): Promise<void>
 
 A simple wrapper for `setTimeout`.
 
-### timeout
+#### timeout
 
 ```ts
 function timeout(ms: number): Promise<never>
@@ -55,7 +57,7 @@ try {
 }
 ```
 
-### timeoutSignal
+#### timeoutSignal
 
 ```ts
 function timeoutSignal(ms: number): AbortSignal
@@ -67,7 +69,7 @@ It will abort after `ms` milliseconds.
 await fetch('http://example.com', { signal: timeoutSignal(5000) })
 ```
 
-### pad
+#### pad
 
 ```ts
 function pad<T>(ms: number, fn: () => T | PromiseLike<T>): Promise<T>
@@ -75,7 +77,7 @@ function pad<T>(ms: number, fn: () => T | PromiseLike<T>): Promise<T>
 
 Run a function, but wait at least `ms` milliseconds before returning.
 
-### retryUntil
+#### retryUntil
 
 ```ts
 function retryUntil<T, U = unknown>(
@@ -86,7 +88,7 @@ function retryUntil<T, U = unknown>(
 
 If `fn` function throws an error, continue to retry until the return value of the `until` function is true.
 
-### parallel
+#### parallel
 
 ```ts
 function parallel<T>(
@@ -100,7 +102,7 @@ Perform tasks in parallel.
 The value range of `concurrency` is [1, Infinity].
 Invalid values will throw `InvalidArugmentError`.
 
-### series
+#### series
 
 ```ts
 function series<T>(tasks: Iterable<() => T | PromiseLike<T>>): Promise<void>
@@ -109,7 +111,7 @@ function series<T>(tasks: Iterable<() => T | PromiseLike<T>>): Promise<void>
 Perform tasks in order.
 Equivalent to `parallel(tasks, 1)`.
 
-### waterfall
+#### waterfall
 
 ```ts
 function waterfall<T>(
@@ -119,7 +121,7 @@ function waterfall<T>(
 
 Perform tasks in order, the return value of the previous task will become the parameter of the next task. If `tasks` is empty, return `Promise<undefined>`.
 
-### each
+#### each
 
 ```ts
 function each(
@@ -134,7 +136,7 @@ The async `each` operator for Iterable.
 The value range of `concurrency` is [1, Infinity].
 Invalid values will throw `InvalidArugmentError`.
 
-### map
+#### map
 
 ```ts
 function map<T, U>(
@@ -149,7 +151,7 @@ The async `map` operator for Iterable.
 The value range of `concurrency` is [1, Infinity].
 Invalid values will throw `InvalidArugmentError`.
 
-### filter
+#### filter
 
 ```ts
 function filter<T, U = T>(
@@ -164,7 +166,7 @@ The async `filter` operator for Iterable.
 The value range of `concurrency` is [1, Infinity].
 Invalid values will throw `InvalidArugmentError`.
 
-### promisify
+#### promisify
 
 ```ts
 function promisify<Result, Args extends any[] = unknown[]>(
@@ -174,7 +176,7 @@ function promisify<Result, Args extends any[] = unknown[]>(
 
 The well-known `promisify` function.
 
-### callbackify
+#### callbackify
 
 ```ts
 function callbackify<Result, Args extends any[] = unknown[]>(
@@ -189,7 +191,7 @@ The return value:
 * If the last element of args is not a function then throw `InvalidArugmentError`.
 * If the error of it is a falsy value then wrap it into a `FalsyError`, the `reason` property is the real error.
 
-### asyncify
+#### asyncify
 
 ```ts
 function asyncify<T extends any[], U>(
@@ -213,7 +215,7 @@ const addAsync = asyncify(add) // (a: number | PromiseLike<number>, b: number | 
 await addAsync(a, b) // Promise<3>
 ```
 
-### cascadify
+#### cascadify
 
 ```ts
 function cascadify<T extends object>(target: T): Cascadify<T>
@@ -257,7 +259,17 @@ await cascadify(adder)
   .value
 ```
 
-### Channel
+#### withAbortSignal
+
+```ts
+function withAbortSignal<T>(signal: AbortSignal, fn: () => PromiseLike<T>): Promise<T>
+```
+
+If `AbortSignal` is aborted, the promise will be rejected with `AbortError`.
+
+### Classes
+
+#### Channel
 
 ```ts
 class Channel<T> {
@@ -290,7 +302,7 @@ for await (const value of chan.receive()) {
 }
 ```
 
-### BufferedChannel
+#### BufferedChannel
 
 ```ts
 class BufferedChannel {
@@ -327,7 +339,7 @@ for await (const value of chan.receive()) {
 }
 ```
 
-### UnlimitedChannel
+#### UnlimitedChannel
 
 ```ts
 class UnlimitedChannel {
@@ -364,7 +376,7 @@ for await (const value of chan.receive()) {
 }
 ```
 
-### Deferred
+#### Deferred
 
 ```ts
 class Deferred<T> implements PromiseLike<T> {
@@ -377,7 +389,7 @@ class Deferred<T> implements PromiseLike<T> {
 
 `Deferred` is a `Promise` that separates `resolve()` and `reject()` from the constructor.
 
-### LazyPromise
+#### LazyPromise
 
 ```ts
 class LazyPromise<T> implements PromiseLike<T> {
@@ -391,7 +403,7 @@ class LazyPromise<T> implements PromiseLike<T> {
 
 The difference with `Promise` is that `LazyPromise` only performs `executor` after `then` method is called.
 
-### Signal
+#### Signal
 
 ```ts
 class Signal implements PromiseLike<void> {
@@ -406,7 +418,7 @@ The `emit()` make the internal Promise resolve.
 
 The `discard()` make the internal Promise reject `SignalDiscarded`.
 
-### SignalGroup
+#### SignalGroup
 
 ```ts
 class SignalGroup {
@@ -418,7 +430,7 @@ class SignalGroup {
 }
 ```
 
-### Semaphore
+#### Semaphore
 
 ```ts
 type Release = () => void
@@ -431,7 +443,7 @@ class Semaphore {
 }
 ```
 
-### Mutex
+#### Mutex
 
 ```ts
 type Release = () => void
@@ -442,7 +454,7 @@ class Mutex extends Semaphore {
 }
 ```
 
-### DebounceMicrotask
+#### DebounceMicrotask
 
 ```ts
 class DebounceMicrotask {
@@ -456,7 +468,7 @@ if the microtask is not executed, multiple calls will only queue it once.
 
 `cancel` can cancel microtasks before it is executed.
 
-### TaskRunner
+#### TaskRunner
 
 ```ts
 type Task<T> = () => PromiseLike<T>
