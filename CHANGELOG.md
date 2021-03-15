@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.15.5](https://github.com/BlackGlory/extra-promise/compare/v0.15.4...v0.15.5) (2021-03-15)
+
+
+### Features
+
+* add withAbortSignal ([28cf792](https://github.com/BlackGlory/extra-promise/commit/28cf79209ccf5ffeb33e3784d793bb39ae5d9f7c))
+
 ### [0.15.4](https://github.com/BlackGlory/extra-promise/compare/v0.15.3...v0.15.4) (2021-03-05)
 
 ### [0.15.3](https://github.com/BlackGlory/extra-promise/compare/v0.15.2...v0.15.3) (2021-03-05)
