@@ -10,7 +10,6 @@ test('exports', () => {
   , 'isntPromise'
   , 'isntPromiseLike'
   , 'delay'
-  , 'retryUntil'
   , 'parallel'
   , 'series'
   , 'waterfall'

@@ -77,17 +77,6 @@ function pad<T>(ms: number, fn: () => T | PromiseLike<T>): Promise<T>
 
 Run a function, but wait at least `ms` milliseconds before returning.
 
-#### retryUntil
-
-```ts
-function retryUntil<T, U = unknown>(
-  fn: () => T | PromiseLike<T>
-, until: (error: U) => boolean | PromiseLike<boolean>
-): Promise<T>
-```
-
-If `fn` function throws an error, continue to retry until the return value of the `until` function is true.
-
 #### parallel
 
 ```ts
