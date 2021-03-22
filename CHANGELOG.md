@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.16.0](https://github.com/BlackGlory/extra-promise/compare/v0.15.6...v0.16.0) (2021-03-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* move retryUntil to extra-retry
+
+### Features
+
+* move retryUntil to extra-retry ([e38211d](https://github.com/BlackGlory/extra-promise/commit/e38211d025c37029ac1408894046995e9b4741be))
+
 ### [0.15.6](https://github.com/BlackGlory/extra-promise/compare/v0.15.5...v0.15.6) (2021-03-17)
 
 ### [0.15.5](https://github.com/BlackGlory/extra-promise/compare/v0.15.4...v0.15.5) (2021-03-15)
