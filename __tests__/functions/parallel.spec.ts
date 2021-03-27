@@ -51,22 +51,22 @@ describe('parallel<T>(tasks: Iterable<() => T | PromiseLike<T>>, concurrency: nu
 
         const result = parallel(iter, 2)
         await runAllMicrotasks() // 0ms: task1, task2 start
-        const task1CalledStep1 = getCalledTimes(task1)
-        const task2CalledStep1 = getCalledTimes(task2)
-        const task3CalledStep1 = getCalledTimes(task3)
-        const iterNextIndexStep1 = iter.nextIndex // iterable is lazy, it should be 2: task3
+        const task1CalledTimesAtStep1 = getCalledTimes(task1)
+        const task2CalledTimesAtStep1 = getCalledTimes(task2)
+        const task3CalledTimesAtStep1 = getCalledTimes(task3)
+        const iterNextIndexAtStep1 = iter.nextIndex // iterable is lazy, it should be 2: task3
         await advanceTimersByTime(500) // 500ms: task1 done, task3 start
-        const task3CalledStep2 = getCalledTimes(task3)
+        const task3CalledTimesAtStep2 = getCalledTimes(task3)
         await advanceTimersByTime(500) // 1000ms: task2 done
         await advanceTimersByTime(500) // 1500ms: task3 done
         const proResult = await result
 
         expect(result).toBePromise()
-        expect(task1CalledStep1).toBe(1)
-        expect(task2CalledStep1).toBe(1)
-        expect(task3CalledStep1).toBe(0)
-        expect(iterNextIndexStep1).toBe(2)
-        expect(task3CalledStep2).toBe(1)
+        expect(task1CalledTimesAtStep1).toBe(1)
+        expect(task2CalledTimesAtStep1).toBe(1)
+        expect(task3CalledTimesAtStep1).toBe(0)
+        expect(iterNextIndexAtStep1).toBe(2)
+        expect(task3CalledTimesAtStep2).toBe(1)
         expect(proResult).toBeUndefined()
       })
     })
@@ -87,19 +87,30 @@ describe('parallel<T>(tasks: Iterable<() => T | PromiseLike<T>>, concurrency: nu
 
         const result = parallel([task1, task2, task3], 2)
         await runAllMicrotasks() // 0ms: task1, task2 start
-        const task1CalledStep1 = getCalledTimes(task1)
-        const task2CalledStep1 = getCalledTimes(task2)
-        const task3CalledStep1 = getCalledTimes(task3)
+        const task1CalledTimesAtStep1 = getCalledTimes(task1)
+        const task2CalledTimesAtStep1 = getCalledTimes(task2)
+        const task3CalledTimesAtStep1 = getCalledTimes(task3)
         advanceTimersByTime(500) // 500ms: task1 done, task2 throw
         const err = await getErrorPromise(result)
 
         expect(result).toBePromise()
-        expect(task1CalledStep1).toBe(1)
-        expect(task2CalledStep1).toBe(1)
-        expect(task3CalledStep1).toBe(0)
+        expect(task1CalledTimesAtStep1).toBe(1)
+        expect(task2CalledTimesAtStep1).toBe(1)
+        expect(task3CalledTimesAtStep1).toBe(0)
         expect(task3).not.toBeCalled()
         expect(err).toBe(error)
       })
+    })
+
+    test('edge: concurrency = 1', async () => {
+      const fn1 = jest.fn()
+      const fn2 = jest.fn()
+
+      const result = parallel([fn1, fn2], 1)
+      const proResult = await result
+
+      expect(result).toBePromise()
+      expect(proResult).toBeUndefined()
     })
   })
 })

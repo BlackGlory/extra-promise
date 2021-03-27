@@ -34,7 +34,8 @@ export function parallel<T>(tasks: Iterable<() => T | PromiseLike<T>>, concurren
       }
     }
 
-    if (total === 0) resolve()
+    if (total === 0) return resolve()
+    if (isEnd) return resolve()
 
     async function runTask(task: () => T | PromiseLike<T>) {
       try {
