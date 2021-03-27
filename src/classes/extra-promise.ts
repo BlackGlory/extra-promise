@@ -1,46 +1,60 @@
-enum Flag {
+enum State {
   Pending
 , Fulfilled
 , Rejected
 }
 
 export class ExtraPromise<T> extends Promise<T> {
-  private states: [boolean, boolean, boolean]
+  private state: Box<State>
 
   get pending() {
-    return this.states[Flag.Pending]
+    return this.state.get() === State.Pending
   }
 
   get fulfilled() {
-    return this.states[Flag.Fulfilled]
+    return this.state.get() === State.Fulfilled
   }
 
   get rejected() {
-    return this.states[Flag.Rejected]
+    return this.state.get() === State.Rejected
   }
 
   constructor(executor: (resolve: (value: T) => void, reject: (reason: any) => void) => void) {
-    const states: [boolean, boolean, boolean] = [true, false, false]
+    const state = new Box(State.Pending)
 
     super((resolve, reject) => {
       executor(
         value => {
-          if (states[Flag.Pending]) {
-            states[Flag.Pending] = false
-            states[Flag.Fulfilled] = true
+          if (state.get() === State.Pending) {
+            state.set(State.Fulfilled)
             resolve(value)
           }
         }
       , reason => {
-          if (states[Flag.Pending]) {
-            states[Flag.Pending] = false
-            states[Flag.Rejected] = true
+          if (state.get() === State.Pending) {
+            state.set(State.Rejected)
             reject(reason)
           }
         }
       )
     })
 
-    this.states = states
+    this.state = state
+  }
+}
+
+class Box<T> {
+  #value: T
+
+  constructor(value: T) {
+    this.#value = value
+  }
+
+  set(value: T) {
+    this.#value = value
+  }
+
+  get() {
+    return this.#value
   }
 }

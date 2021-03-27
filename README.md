@@ -272,8 +272,8 @@ class ExtraPromise<T> extends Promise<T> {
 
 A subclass of `Promise`.
 
-`ExtraPromise` has 3 readonly properties: pending, fulfilled, and rejected.
-So the status of the promise can be known without calling the `then` method.
+`ExtraPromise` has 3 readonly properties: `pending`, `fulfilled`, and `rejected`.
+So the state of the `Promise` can be known without calling the `then` method.
 
 #### Channel
 
