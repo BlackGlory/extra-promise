@@ -1,4 +1,4 @@
-export async function series<T>(tasks: Iterable<() => T | PromiseLike<T>>): Promise<void> {
+export async function series(tasks: Iterable<() => unknown | PromiseLike<unknown>>): Promise<void> {
   for (const task of tasks) {
     await task()
   }

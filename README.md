@@ -80,8 +80,8 @@ Run a function, but wait at least `ms` milliseconds before returning.
 #### parallel
 
 ```ts
-function parallel<T>(
-  tasks: Iterable<() => T | PromiseLike<T>>
+function parallel(
+  tasks: Iterable<() => unknown | PromiseLike<unknown>>
 , concurrency: number = Infinity
 ): Promise<void>
 ```
@@ -94,7 +94,7 @@ Invalid values will throw `InvalidArugmentError`.
 #### series
 
 ```ts
-function series<T>(tasks: Iterable<() => T | PromiseLike<T>>): Promise<void>
+function series<T>(tasks: Iterable<() => unknown | PromiseLike<unknown>>): Promise<void>
 ```
 
 Perform tasks in order.

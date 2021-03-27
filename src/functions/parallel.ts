@@ -1,57 +1,54 @@
 import { checkConcurrency, InvalidArgumentError } from '@shared/check-concurrency'
-import { Signal } from '@classes/signal'
+import { ExtraPromise } from '@classes/extra-promise'
 
-export function parallel<T>(tasks: Iterable<() => T | PromiseLike<T>>, concurrency: number = Infinity): Promise<void> {
+export function parallel(tasks: Iterable<() => unknown | PromiseLike<unknown>>, concurrency: number = Infinity): ExtraPromise<void> {
   checkConcurrency('concurrency', concurrency)
 
-  return new Promise<void>(async (resolve, reject) => {
+  return new ExtraPromise<void>((resolve, reject) => {
     let total = 0
-    let done = 0
     let running = 0
-    let isEnd = false
+    let iterableDone = false
+    let promisePending = true
 
     const iterator = tasks[Symbol.iterator]()
-    let resolved = new Signal()
-    while (true) {
-      const { value: task, done: end } = iterator.next()
-      if (end) {
-        isEnd = true
-        break
-      } else {
-        runTask(task)
-        total++
-        running++
-        while (running === concurrency) {
-          try {
-            await resolved
-          } catch {
-            return
-          } finally {
-            resolved = new Signal()
-          }
-        }
-        if (isEnd) return
-      }
+
+    for (let i = 0; !iterableDone && i < concurrency; i++) {
+      next()
     }
 
     if (total === 0) return resolve()
-    if (isEnd) return resolve()
 
-    async function runTask(task: () => T | PromiseLike<T>) {
+    async function next() {
+      if (!promisePending) return
+      if (iterableDone && running === 0) return resolveGracefully()
+
+      const result = iterator.next()
+      if (result.done) {
+        iterableDone = true
+        if (running === 0) resolveGracefully()
+        return
+      }
+      const task = result.value
+
+      total++
+      running++
       try {
         await task()
-        done++
-        running--
-        if (isEnd) {
-          if (total === done) resolve()
-        } else {
-          resolved.emit()
-        }
       } catch (e) {
-        isEnd = true
-        resolved.discard()
-        reject(e)
+        return rejectGracefully(e)
       }
+      running--
+      next()
+    }
+
+    function resolveGracefully() {
+      promisePending = false
+      resolve()
+    }
+
+    function rejectGracefully(reason: any) {
+      promisePending = false
+      reject(reason)
     }
   })
 }

@@ -75,9 +75,9 @@ describe('map<T, U>(iterable: Iterable<T>, fn: (element: T, i: number) => U | Pr
     describe('reject', () => {
       it('return rejected Promise<U[]>', async () => {
         const error = new Error('CustomError')
-        const element1 = Promise.resolve(1)
-        const element2 = Promise.reject(error)
-        const element3 = Promise.resolve(3)
+        const element1 = Promise.reject(error)
+        const element2 = Promise.resolve()
+        const element3 = Promise.resolve()
         const fn = jest.fn(x => x)
 
         const result = map([element1, element2, element3], fn, 2)
@@ -85,8 +85,6 @@ describe('map<T, U>(iterable: Iterable<T>, fn: (element: T, i: number) => U | Pr
 
         expect(result).toBePromise()
         expect(fn).toBeCalledTimes(2)
-        expect(fn).nthCalledWith(1, element1, 0)
-        expect(fn).nthCalledWith(2, element2, 1)
         expect(err).toBe(error)
       })
     })

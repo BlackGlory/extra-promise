@@ -3,7 +3,7 @@ import { delay } from '@functions/delay'
 import { getCalledTimes, advanceTimersByTime, runAllMicrotasks } from '@test/utils'
 import '@blackglory/jest-matchers'
 
-describe('series<T>(tasks: Iterable<() => T | PromiseLike<T>>): Promise<void>', () => {
+describe('series(tasks: Iterable<() => unknown | PromiseLike<unknown>>): Promise<void>', () => {
   describe('tasks is empty iterable', () => {
     it('return Promise<void>', async () => {
       const result = series([])
