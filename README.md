@@ -258,6 +258,23 @@ If `AbortSignal` is aborted, the promise will be rejected with `AbortError`.
 
 ### Classes
 
+#### ExtraPromise
+
+```ts
+class ExtraPromise<T> extends Promise<T> {
+  get pending(): boolean
+  get fulfilled(): boolean
+  get rejected(): boolean
+
+  constructor(executor: (resolve: (value: T) => void, reject: (reason: any) => void) => void)
+}
+```
+
+A subclass of `Promise`.
+
+`ExtraPromise` has 3 readonly properties: pending, fulfilled, and rejected.
+So the status of the promise can be known without calling the `then` method.
+
 #### Channel
 
 ```ts

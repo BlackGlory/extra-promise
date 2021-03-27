@@ -1,3 +1,4 @@
+export * from '@classes/extra-promise'
 export * from '@classes/deferred'
 export * from '@classes/lazy-promise'
 export * from '@classes/signal'

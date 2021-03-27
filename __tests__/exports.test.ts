@@ -31,6 +31,8 @@ test('exports', () => {
   , 'callbackify'
   , 'FalsyError'
 
+  , 'ExtraPromise'
+
   , 'Deferred'
   , 'LazyPromise'
 
