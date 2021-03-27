@@ -1,6 +1,7 @@
 import { delay } from '@functions/delay'
 import { advanceTimersByTime } from '@test/utils'
 import '@blackglory/jest-matchers'
+import { toExtraPromise } from '@functions/to-extra-promise'
 
 describe('delay(timeout: number): Promise<void>', () => {
   it('call setTimeout', () => {
@@ -18,12 +19,13 @@ describe('delay(timeout: number): Promise<void>', () => {
     const ms = 500
 
     const result = delay(ms)
+    const promise = toExtraPromise(result)
 
     expect(result).toBePromise()
-    expect(result.pending).toBe(true)
+    expect(promise.pending).toBe(true)
 
     await advanceTimersByTime(500)
-    expect(result.fulfilled).toBe(true)
+    expect(promise.fulfilled).toBe(true)
     expect(await result).toBeUndefined()
   })
 })

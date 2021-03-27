@@ -1,13 +1,12 @@
 import { each } from '@functions/each'
 import { checkConcurrency, InvalidArgumentError } from '@utils/check-concurrency'
-import { go } from '@utils/go'
-import { ExtraPromise } from '@classes/extra-promise'
+import { go } from '@blackglory/go'
 
 export function filter<T, U = T>(
   iterable: Iterable<T>
 , fn: (element: T, i: number) => boolean | PromiseLike<boolean>
 , concurrency: number = Infinity
-): ExtraPromise<U[]> {
+): Promise<U[]> {
   checkConcurrency('concurrency', concurrency)
 
   return go(async () => {

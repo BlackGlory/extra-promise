@@ -2,6 +2,7 @@ import { series } from '@functions/series'
 import { delay } from '@functions/delay'
 import { getCalledTimes, advanceTimersByTime, runAllMicrotasks } from '@test/utils'
 import '@blackglory/jest-matchers'
+import { toExtraPromise } from '@functions/to-extra-promise'
 
 describe('series(tasks: Iterable<() => unknown | PromiseLike<unknown>>): Promise<void>', () => {
   describe('tasks is empty iterable', () => {
@@ -27,21 +28,22 @@ describe('series(tasks: Iterable<() => unknown | PromiseLike<unknown>>): Promise
       })
 
       const result = series([task1, task2])
+      const promise = toExtraPromise(result)
 
       expect(result).toBePromise()
-      expect(result.pending).toBe(true)
+      expect(promise.pending).toBe(true)
 
       await runAllMicrotasks() // 0ms: task1 start
-      expect(result.pending).toBe(true)
+      expect(promise.pending).toBe(true)
       expect(getCalledTimes(task1)).toBe(1)
       expect(getCalledTimes(task2)).toBe(0)
 
       await advanceTimersByTime(500) // 500ms: task1 done, task2 start
-      expect(result.pending).toBe(true)
+      expect(promise.pending).toBe(true)
       expect(getCalledTimes(task2)).toBe(1)
 
       await advanceTimersByTime(500) // 1000ms: task2 done
-      expect(result.fulfilled).toBe(true)
+      expect(promise.fulfilled).toBe(true)
       expect(await result).toBeUndefined()
     })
   })

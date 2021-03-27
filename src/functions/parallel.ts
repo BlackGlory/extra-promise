@@ -1,13 +1,12 @@
 import { checkConcurrency, InvalidArgumentError } from '@utils/check-concurrency'
-import { ExtraPromise } from '@classes/extra-promise'
 
 export function parallel(
   tasks: Iterable<() => unknown | PromiseLike<unknown>>
 , concurrency: number = Infinity
-): ExtraPromise<void> {
+): Promise<void> {
   checkConcurrency('concurrency', concurrency)
 
-  return new ExtraPromise<void>((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     let total = 0
     let running = 0
     let iterableDone = false

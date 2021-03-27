@@ -20,6 +20,7 @@ test('exports', () => {
   , 'asyncify'
   , 'pad'
   , 'withAbortSignal'
+  , 'toExtraPromise'
   , 'AbortError'
   , 'timeout'
   , 'TimeoutError'

@@ -3,6 +3,7 @@ import { parallel, InvalidArgumentError } from '@functions/parallel'
 import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable } from '@test/utils'
 import { getError, getErrorPromise } from 'return-style'
 import '@blackglory/jest-matchers'
+import { toExtraPromise } from '@functions/to-extra-promise'
 
 describe('parallel(tasks: Iterable<() => unknown | PromiseLike<unknown>>, concurrency: number = Infinity): Promise<void>', () => {
   describe('concurrency < 1', () => {
@@ -50,27 +51,28 @@ describe('parallel(tasks: Iterable<() => unknown | PromiseLike<unknown>>, concur
         const iter = new MockIterable([task1, task2, task3])
 
         const result = parallel(iter, 2)
+        const promise = toExtraPromise(result)
 
         expect(result).toBePromise()
-        expect(result.pending).toBe(true)
+        expect(promise.pending).toBe(true)
 
         await runAllMicrotasks() // 0ms: task1, task2 start
-        expect(result.pending).toBe(true)
+        expect(promise.pending).toBe(true)
         expect(getCalledTimes(task1)).toBe(1)
         expect(getCalledTimes(task2)).toBe(1)
         expect(getCalledTimes(task3)).toBe(0)
         expect(iter.nextIndex).toBe(2) // iterable is lazy, it should be 2: task3
 
         await advanceTimersByTime(500) // 500ms: task1 done, task3 start
-        expect(result.pending).toBe(true)
+        expect(promise.pending).toBe(true)
         expect(getCalledTimes(task3)).toBe(1)
-        expect(result.pending).toBe(true)
+        expect(promise.pending).toBe(true)
 
         await advanceTimersByTime(500) // 1000ms: task2 done
-        expect(result.pending).toBe(true)
+        expect(promise.pending).toBe(true)
 
         await advanceTimersByTime(500) // 1500ms: task3 done
-        expect(result.fulfilled).toBe(true)
+        expect(promise.fulfilled).toBe(true)
         expect(await result).toBeUndefined()
       })
     })
@@ -90,19 +92,21 @@ describe('parallel(tasks: Iterable<() => unknown | PromiseLike<unknown>>, concur
         const task3 = jest.fn()
 
         const result = parallel([task1, task2, task3], 2)
+        const promise = toExtraPromise(result)
         result.catch(() => {}) // we will catch it later
+        promise.catch(() => {}) // we will catch it later
 
         expect(result).toBePromise()
-        expect(result.pending).toBe(true)
+        expect(promise.pending).toBe(true)
 
         await runAllMicrotasks() // 0ms: task1, task2 start
-        expect(result.pending).toBe(true)
+        expect(promise.pending).toBe(true)
         expect(getCalledTimes(task1)).toBe(1)
         expect(getCalledTimes(task2)).toBe(1)
         expect(getCalledTimes(task3)).toBe(0)
 
         await advanceTimersByTime(500) // 500ms: task1 throw, task2 done
-        expect(result.rejected).toBe(true)
+        expect(promise.rejected).toBe(true)
         expect(await getErrorPromise(result)).toBe(error)
         expect(task3).not.toBeCalled()
       })
