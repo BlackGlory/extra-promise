@@ -1,7 +1,10 @@
-import { checkConcurrency, InvalidArgumentError } from '@shared/check-concurrency'
+import { checkConcurrency, InvalidArgumentError } from '@utils/check-concurrency'
 import { ExtraPromise } from '@classes/extra-promise'
 
-export function parallel(tasks: Iterable<() => unknown | PromiseLike<unknown>>, concurrency: number = Infinity): ExtraPromise<void> {
+export function parallel(
+  tasks: Iterable<() => unknown | PromiseLike<unknown>>
+, concurrency: number = Infinity
+): ExtraPromise<void> {
   checkConcurrency('concurrency', concurrency)
 
   return new ExtraPromise<void>((resolve, reject) => {

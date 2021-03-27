@@ -50,16 +50,19 @@ describe('parallel(tasks: Iterable<() => unknown | PromiseLike<unknown>>, concur
         const iter = new MockIterable([task1, task2, task3])
 
         const result = parallel(iter, 2)
+
         expect(result).toBePromise()
+        expect(result.pending).toBe(true)
 
         await runAllMicrotasks() // 0ms: task1, task2 start
+        expect(result.pending).toBe(true)
         expect(getCalledTimes(task1)).toBe(1)
         expect(getCalledTimes(task2)).toBe(1)
         expect(getCalledTimes(task3)).toBe(0)
         expect(iter.nextIndex).toBe(2) // iterable is lazy, it should be 2: task3
-        expect(result.pending).toBe(true)
 
         await advanceTimersByTime(500) // 500ms: task1 done, task3 start
+        expect(result.pending).toBe(true)
         expect(getCalledTimes(task3)).toBe(1)
         expect(result.pending).toBe(true)
 
@@ -87,14 +90,16 @@ describe('parallel(tasks: Iterable<() => unknown | PromiseLike<unknown>>, concur
         const task3 = jest.fn()
 
         const result = parallel([task1, task2, task3], 2)
-        expect(result).toBePromise()
         result.catch(() => {}) // we will catch it later
 
+        expect(result).toBePromise()
+        expect(result.pending).toBe(true)
+
         await runAllMicrotasks() // 0ms: task1, task2 start
+        expect(result.pending).toBe(true)
         expect(getCalledTimes(task1)).toBe(1)
         expect(getCalledTimes(task2)).toBe(1)
         expect(getCalledTimes(task3)).toBe(0)
-        expect(result.pending).toBe(true)
 
         await advanceTimersByTime(500) // 500ms: task1 throw, task2 done
         expect(result.rejected).toBe(true)

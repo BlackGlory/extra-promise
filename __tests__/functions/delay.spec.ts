@@ -18,10 +18,12 @@ describe('delay(timeout: number): Promise<void>', () => {
     const ms = 500
 
     const result = delay(ms)
-    advanceTimersByTime(500)
-    const proResult = await result
 
     expect(result).toBePromise()
-    expect(proResult).toBeUndefined()
+    expect(result.pending).toBe(true)
+
+    await advanceTimersByTime(500)
+    expect(result.fulfilled).toBe(true)
+    expect(await result).toBeUndefined()
   })
 })

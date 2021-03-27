@@ -1,6 +1,6 @@
 import { DebounceMicrotask } from '@classes/debounce-microtask'
 import { Queue } from '@blackglory/structures'
-import { checkConcurrency, InvalidArgumentError } from '@shared/check-concurrency'
+import { checkConcurrency, InvalidArgumentError } from '@utils/check-concurrency'
 import { EventEmitter } from 'eventemitter3'
 import { toResultAsync, getError } from 'return-style'
 

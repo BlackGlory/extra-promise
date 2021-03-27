@@ -1,3 +1,5 @@
-export function delay(ms: number): Promise<void> {
-  return new Promise<void>(resolve => setTimeout(resolve, ms))
+import { ExtraPromise } from '@classes/extra-promise'
+
+export function delay(ms: number): ExtraPromise<void> {
+  return new ExtraPromise<void>(resolve => setTimeout(resolve, ms))
 }

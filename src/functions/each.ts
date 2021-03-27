@@ -1,14 +1,19 @@
 import { parallel } from './parallel'
-import { checkConcurrency, InvalidArgumentError } from '@shared/check-concurrency'
+import { checkConcurrency, InvalidArgumentError } from '@utils/check-concurrency'
 import { map } from 'iterable-operator'
-import { go } from '@blackglory/go'
+import { go } from '@utils/go'
+import { ExtraPromise } from '@classes/extra-promise'
 
-export function each<T>(iterable: Iterable<T>, fn: (element: T, i: number) => unknown | PromiseLike<unknown>, concurrency: number = Infinity): Promise<void> {
+export function each<T>(
+  iterable: Iterable<T>
+, fn: (element: T, i: number) => unknown | PromiseLike<unknown>
+, concurrency: number = Infinity
+): ExtraPromise<void> {
   checkConcurrency('concurrency', concurrency)
 
   return go(async () => {
     const tasks = map(iterable, (element, i) => () => fn(element, i))
-    await parallel(tasks, concurrency)
+    return await parallel(tasks, concurrency)
   })
 }
 

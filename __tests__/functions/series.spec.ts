@@ -27,19 +27,22 @@ describe('series(tasks: Iterable<() => unknown | PromiseLike<unknown>>): Promise
       })
 
       const result = series([task1, task2])
-      await runAllMicrotasks() // 0ms: task1 start
-      const task1CalledStep1 = getCalledTimes(task1)
-      const task2CalledStep1 = getCalledTimes(task2)
-      await advanceTimersByTime(500) // 500ms: task1 done, task2 start
-      const task2CalledStep2 = getCalledTimes(task2)
-      await advanceTimersByTime(500) // 1000ms: task2 done
-      const proResult = await result
 
       expect(result).toBePromise()
-      expect(task1CalledStep1).toBe(1)
-      expect(task2CalledStep1).toBe(0)
-      expect(task2CalledStep2).toBe(1)
-      expect(proResult).toBeUndefined()
+      expect(result.pending).toBe(true)
+
+      await runAllMicrotasks() // 0ms: task1 start
+      expect(result.pending).toBe(true)
+      expect(getCalledTimes(task1)).toBe(1)
+      expect(getCalledTimes(task2)).toBe(0)
+
+      await advanceTimersByTime(500) // 500ms: task1 done, task2 start
+      expect(result.pending).toBe(true)
+      expect(getCalledTimes(task2)).toBe(1)
+
+      await advanceTimersByTime(500) // 1000ms: task2 done
+      expect(result.fulfilled).toBe(true)
+      expect(await result).toBeUndefined()
     })
   })
 })

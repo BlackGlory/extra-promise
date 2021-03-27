@@ -42,24 +42,26 @@ describe('each(iterable: Iterable<T>, fn: (element: T, i: number) => unknown | P
         const callTask = jest.fn(x => x())
 
         const result = each(iter, callTask, 2)
-        await runAllMicrotasks() // 0ms: task1, task2 start
-        const task1CalledStep1 = getCalledTimes(task1)
-        const task2CalledStep1 = getCalledTimes(task2)
-        const task3CalledStep1 = getCalledTimes(task3)
-        const iterNextIndexStep1 = iter.nextIndex // iterable is lazy, it should be 2: task3
-        await advanceTimersByTime(500) // 500ms: task1 done, task3 start
-        const task3CalledStep2 = getCalledTimes(task3)
-        await advanceTimersByTime(500) // 1000ms: task2 done
-        await advanceTimersByTime(500) // 1500ms: task3 done
-        const proResult = await result
 
         expect(result).toBePromise()
-        expect(task1CalledStep1).toBe(1)
-        expect(task2CalledStep1).toBe(1)
-        expect(task3CalledStep1).toBe(0)
-        expect(iterNextIndexStep1).toBe(2)
-        expect(task3CalledStep2).toBe(1)
-        expect(proResult).toBeUndefined()
+        expect(result.pending).toBe(true)
+
+        await runAllMicrotasks() // 0ms: task1, task2 start
+        expect(getCalledTimes(task1)).toBe(1)
+        expect(getCalledTimes(task2)).toBe(1)
+        expect(getCalledTimes(task3)).toBe(0)
+        expect(result.pending).toBe(true)
+        expect(iter.nextIndex).toBe(2) // iterable is lazy, it should be 2: task3
+
+        await advanceTimersByTime(500) // 500ms: task1 done, task3 start
+        expect(result.pending).toBe(true)
+        expect(getCalledTimes(task3)).toBe(1)
+
+        await advanceTimersByTime(500) // 1000ms: task2 done
+        expect(result.pending).toBe(true)
+        await advanceTimersByTime(500) // 1500ms: task3 done
+        expect(result.fulfilled).toBe(true)
+        expect(await result).toBeUndefined()
       })
     })
 

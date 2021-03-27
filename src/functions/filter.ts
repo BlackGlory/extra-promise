@@ -1,8 +1,13 @@
-import { each } from './each'
-import { checkConcurrency, InvalidArgumentError } from '@shared/check-concurrency'
-import { go } from '@blackglory/go'
+import { each } from '@functions/each'
+import { checkConcurrency, InvalidArgumentError } from '@utils/check-concurrency'
+import { go } from '@utils/go'
+import { ExtraPromise } from '@classes/extra-promise'
 
-export function filter<T, U = T>(iterable: Iterable<T>, fn: (element: T, i: number) => boolean | PromiseLike<boolean>, concurrency: number = Infinity): Promise<U[]> {
+export function filter<T, U = T>(
+  iterable: Iterable<T>
+, fn: (element: T, i: number) => boolean | PromiseLike<boolean>
+, concurrency: number = Infinity
+): ExtraPromise<U[]> {
   checkConcurrency('concurrency', concurrency)
 
   return go(async () => {

@@ -3,7 +3,7 @@ import { Signal } from '@classes/signal'
 import { SignalGroup } from '@classes/signal-group'
 import { ChannelClosedError } from '@error'
 import { Mutex } from '@classes/mutex'
-import { IBlockingChannel } from '@shared/types'
+import { IBlockingChannel } from '@utils/types'
 
 // Technically, it is the `BufferedChannel(0)`
 export class Channel<T> implements IBlockingChannel<T> {

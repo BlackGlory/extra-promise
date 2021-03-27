@@ -10,8 +10,8 @@
   , "baseUrl": "."
   , "paths": {
       "@src/*": ["src/*"]
-    , "@shared/*": ["src/shared/*"]
-    , "@error": ["src/shared/error"]
+    , "@utils/*": ["src/utils/*"]
+    , "@error": ["src/utils/error"]
     , "@functions/*": ["src/functions/*"]
     , "@classes/*": ["src/classes/*"]
     , "@test/*": ["__tests__/*"]
