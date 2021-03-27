@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.16.1](https://github.com/BlackGlory/extra-promise/compare/v0.16.0...v0.16.1) (2021-03-27)
+
+
+### Features
+
+* add ExtraPromise ([a2a4e8c](https://github.com/BlackGlory/extra-promise/commit/a2a4e8c76310acaf5fc3f8beb45da700902feca0))
+
+
+### Bug Fixes
+
+* edge cases ([185f94d](https://github.com/BlackGlory/extra-promise/commit/185f94de984f02891d74698ab60d9e92ac9143aa))
+* parallel behavior ([6978627](https://github.com/BlackGlory/extra-promise/commit/69786274eae6d29080e1c1caa02c9d0033a03ee6))
+
 ## [0.16.0](https://github.com/BlackGlory/extra-promise/compare/v0.15.6...v0.16.0) (2021-03-22)
 
 
