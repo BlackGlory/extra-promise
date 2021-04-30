@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.16.4](https://github.com/BlackGlory/extra-promise/compare/v0.16.3...v0.16.4) (2021-04-30)
+
+
+### Features
+
+* improve spawn ([836e4c7](https://github.com/BlackGlory/extra-promise/commit/836e4c726102f0d7ded3979466ab0cacd443f1d4))
+
 ### [0.16.3](https://github.com/BlackGlory/extra-promise/compare/v0.16.2...v0.16.3) (2021-04-30)
 
 
