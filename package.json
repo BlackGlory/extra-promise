@@ -94,6 +94,7 @@
     "@blackglory/types": "^0.4.2",
     "eventemitter3": "^4.0.7",
     "extra-fetch": "^1.7.1",
+    "extra-generator": "^0.2.4",
     "iterable-operator": "^0.13.6",
     "reflect-metadata": "^0.1.13",
     "return-style": "^0.12.3"

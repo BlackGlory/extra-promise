@@ -13,6 +13,7 @@ test('exports', () => {
   , 'parallel'
   , 'series'
   , 'waterfall'
+  , 'spawn'
   , 'each'
   , 'map'
   , 'filter'

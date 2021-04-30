@@ -262,6 +262,14 @@ If `AbortSignal` is aborted, the promise will be rejected with `AbortError`.
 function toExtraPromise<T>(promise: PromiseLike<T>): ExtraPromise<T>
 ```
 
+#### spawn
+
+```ts
+function spawn(num: number, task: () => Promise<void>): Promise<void>
+```
+
+A sugar for running the same task in parallel.
+
 ### Classes
 
 #### ExtraPromise
