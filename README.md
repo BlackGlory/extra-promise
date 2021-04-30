@@ -265,10 +265,12 @@ function toExtraPromise<T>(promise: PromiseLike<T>): ExtraPromise<T>
 #### spawn
 
 ```ts
-function spawn(num: number, task: () => Promise<void>): Promise<void>
+function spawn(num: number, task: (id: number) => Promise<void>): Promise<void>
 ```
 
 A sugar for running the same task in parallel.
+
+The parameter `id` is from `1` to `num`.
 
 ### Classes
 
