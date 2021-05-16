@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.16.6](https://github.com/BlackGlory/extra-promise/compare/v0.16.5...v0.16.6) (2021-05-16)
+
 ### [0.16.5](https://github.com/BlackGlory/extra-promise/compare/v0.16.4...v0.16.5) (2021-05-16)
 
 ### [0.16.4](https://github.com/BlackGlory/extra-promise/compare/v0.16.3...v0.16.4) (2021-04-30)
