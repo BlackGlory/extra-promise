@@ -37,7 +37,7 @@ export class UnlimitedChannel<T> implements IChannel<T> {
               }
             }
 
-            const value = this.buffer.dequeue()
+            const value = this.buffer.dequeue()!
             return { done: false, value }
           }
         }

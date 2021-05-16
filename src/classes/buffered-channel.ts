@@ -16,7 +16,7 @@ export class BufferedChannel<T> implements IBlockingChannel<T> {
 
   async send(value: T): Promise<void> {
     if (this.isClosed) throw new ChannelClosedError()
-    // 缓冲区队列已满, 则等待出列信号
+    // 若缓冲区队列已满, 则等待出列信号
     while (this.buffer.size === this.bufferSize) {
       const dequeueSignal = new Signal()
       this.dequeueSignalGroup.add(dequeueSignal)
@@ -54,7 +54,7 @@ export class BufferedChannel<T> implements IBlockingChannel<T> {
               }
             }
 
-            const value = this.buffer.dequeue()
+            const value = this.buffer.dequeue()!
             this.dequeueSignalGroup.emitAll()
             return { done: false, value }
           }

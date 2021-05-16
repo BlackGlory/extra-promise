@@ -21,7 +21,7 @@ export class TaskRunner<T> extends EventEmitter {
     const consume = () => {
       if (!this.#running) return
       while (this.#pending < this.#concurrency && this.#queue.size > 0) {
-        const task = this.#queue.dequeue()
+        const task = this.#queue.dequeue()!
         this.run(task)
       }
     }
