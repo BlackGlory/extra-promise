@@ -1,6 +1,6 @@
 import { DebounceMicrotask } from '@classes/debounce-microtask'
 import { Queue } from '@blackglory/structures'
-import { checkConcurrency, InvalidArgumentError } from '@utils/check-concurrency'
+import { validateConcurrency } from '@utils/validate-concurrency'
 import { EventEmitter } from 'eventemitter3'
 import { toResultAsync, getError } from 'return-style'
 
@@ -58,7 +58,7 @@ export class TaskRunner<T> extends EventEmitter {
   }
 
   setConcurrency(concurrency: number): void {
-    checkConcurrency('concurrency', concurrency)
+    validateConcurrency('concurrency', concurrency)
 
     this.#concurrency = concurrency
     this.#internalEvents.emit('update')
@@ -95,5 +95,3 @@ export class TaskRunner<T> extends EventEmitter {
     }
   }
 }
-
-export { InvalidArgumentError }

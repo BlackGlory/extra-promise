@@ -1,37 +1,12 @@
-import 'jest-extended'
-import { getError } from 'return-style'
 import { runAllMicrotasks } from '@test/utils'
-import { callbackify, FalsyError, InvalidArgumentsLengthError, InvalidArgumentError } from '@functions/callbackify'
+import { callbackify } from '@functions/callbackify'
+import 'jest-extended'
 
-describe('function callbackify<Result, Args extends any[] = unknown[]>(fn: (...args: Args) => PromiseLike<Result>): (...args: Args) => void', () => {
-  describe('arguments.length = 0', () => {
-    it('throw InvalidArgumentsLengthError', async () => {
-      const value = 'value'
-      const fn = () => Promise.resolve(value)
-
-      const callbackified = callbackify(fn)
-      // @ts-ignore
-      const err = getError(() => callbackified())
-
-      expect(callbackified).toBeFunction()
-      expect(err).toBeInstanceOf(InvalidArgumentsLengthError)
-    })
-  })
-
-  describe('The last arugment isnt function', () => {
-    it('throw InvalidArgumentError', () => {
-      const value = 'value'
-      const fn = () => Promise.resolve(value)
-
-      const callbackified = callbackify(fn)
-      // @ts-ignore
-      const err = getError(() => callbackified(value))
-
-      expect(callbackified).toBeFunction()
-      expect(err).toBeInstanceOf(InvalidArgumentError)
-    })
-  })
-
+describe(`
+  callbackify<Result, Args extends any[] = unknown[]>(
+    fn: (...args: Args) => PromiseLike<Result>
+  ): (...args: [...args: Args, callback: Callback<Result>]) => void
+`, () => {
   describe('Promise resolved', () => {
     it('call back', async () => {
       const value = 'value'
@@ -64,24 +39,6 @@ describe('function callbackify<Result, Args extends any[] = unknown[]>(fn: (...a
         expect(result).toBeUndefined()
         expect(cb).toBeCalledTimes(1)
         expect(cb).toBeCalledWith(error)
-      })
-    })
-
-    describe('rejected falsy', () => {
-      it('callback with FalsyError', async () => {
-        const error = null
-        const fn = (error: unknown) => Promise.reject(error)
-        const cb = jest.fn()
-
-        const callbackified = callbackify(fn)
-        const result = callbackified(error, cb)
-        await runAllMicrotasks()
-
-        expect(callbackified).toBeFunction()
-        expect(result).toBeUndefined()
-        expect(cb).toBeCalledTimes(1)
-        expect(cb).toBeCalledWith(expect.any(FalsyError))
-        expect(cb).toBeCalledWith(expect.objectContaining({ reason: error }))
       })
     })
   })

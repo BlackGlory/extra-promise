@@ -1,31 +1,8 @@
 import { delay } from '@functions/delay'
-import { getError } from 'return-style'
 import { getCalledTimes, runAllMicrotasks, advanceTimersByTime } from '@test/utils'
-import { TaskRunner, InvalidArgumentError } from '@classes/task-runner'
+import { TaskRunner } from '@classes/task-runner'
 
 describe('TaskRunner', () => {
-  describe('setConcurrency(val: number): void', () => {
-    describe('val < 1', () => {
-      it('throw InvalidArgumentError', () => {
-        const runner = new TaskRunner()
-
-        const err = getError(() => runner.setConcurrency(0))
-
-        expect(err).toBeInstanceOf(InvalidArgumentError)
-      })
-    })
-
-    describe('val isnt integer', () => {
-      it('throw InvalidArgumentError', () => {
-        const runner = new TaskRunner()
-
-        const err = getError(() => runner.setConcurrency(1.5))
-
-        expect(err).toBeInstanceOf(InvalidArgumentError)
-      })
-    })
-  })
-
   describe('events', () => {
     it('emit started event', done => {
       const runner = new TaskRunner()

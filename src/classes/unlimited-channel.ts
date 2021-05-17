@@ -2,7 +2,7 @@ import { isFailurePromise } from 'return-style'
 import { Signal } from '@classes/signal'
 import { SignalGroup } from '@classes/signal-group'
 import { Queue } from '@blackglory/structures'
-import { ChannelClosedError } from '@error'
+import { ChannelClosedError } from '@errors'
 import { IChannel } from '@utils/types'
 
 export class UnlimitedChannel<T> implements IChannel<T> {
@@ -53,4 +53,4 @@ export class UnlimitedChannel<T> implements IChannel<T> {
   }
 }
 
-export { ChannelClosedError } from '@error'
+export { ChannelClosedError } from '@errors'

@@ -1,10 +1,10 @@
-import { checkConcurrency, InvalidArgumentError } from '@utils/check-concurrency'
+import { validateConcurrency } from '@utils/validate-concurrency'
 
 export function parallel(
   tasks: Iterable<() => unknown | PromiseLike<unknown>>
 , concurrency: number = Infinity
 ): Promise<void> {
-  checkConcurrency('concurrency', concurrency)
+  validateConcurrency('concurrency', concurrency)
 
   return new Promise<void>((resolve, reject) => {
     let total = 0
@@ -54,5 +54,3 @@ export function parallel(
     }
   })
 }
-
-export { InvalidArgumentError }

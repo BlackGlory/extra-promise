@@ -11,7 +11,7 @@
   , "paths": {
       "@src/*": ["src/*"]
     , "@utils/*": ["src/utils/*"]
-    , "@error": ["src/utils/error"]
+    , "@errors": ["src/utils/errors"]
     , "@functions/*": ["src/functions/*"]
     , "@classes/*": ["src/classes/*"]
     , "@test/*": ["__tests__/*"]

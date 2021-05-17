@@ -1,5 +1,5 @@
 import { each } from '@functions/each'
-import { checkConcurrency, InvalidArgumentError } from '@utils/check-concurrency'
+import { validateConcurrency } from '@utils/validate-concurrency'
 import { go } from '@blackglory/go'
 
 export function filter<T, U = T>(
@@ -7,7 +7,7 @@ export function filter<T, U = T>(
 , fn: (element: T, i: number) => boolean | PromiseLike<boolean>
 , concurrency: number = Infinity
 ): Promise<U[]> {
-  checkConcurrency('concurrency', concurrency)
+  validateConcurrency('concurrency', concurrency)
 
   return go(async () => {
     const results: any[] = []
@@ -19,5 +19,3 @@ export function filter<T, U = T>(
     return Object.values(results)
   })
 }
-
-export { InvalidArgumentError }

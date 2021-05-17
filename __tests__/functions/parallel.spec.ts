@@ -1,27 +1,17 @@
 import { delay } from '@functions/delay'
-import { parallel, InvalidArgumentError } from '@functions/parallel'
-import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable } from '@test/utils'
-import { getError, getErrorPromise } from 'return-style'
+import { parallel } from '@functions/parallel'
+import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable }
+  from '@test/utils'
+import { getErrorPromise } from 'return-style'
 import '@blackglory/jest-matchers'
 import { toExtraPromise } from '@functions/to-extra-promise'
 
-describe('parallel(tasks: Iterable<() => unknown | PromiseLike<unknown>>, concurrency: number = Infinity): Promise<void>', () => {
-  describe('concurrency < 1', () => {
-    it('throw InvalidArgumentError', () => {
-      const err = getError(() => parallel([], 0))
-
-      expect(err).toBeInstanceOf(InvalidArgumentError)
-    })
-  })
-
-  describe('concurrency isnt integer', () => {
-    it('throw InvalidArgumentError', () => {
-      const err = getError(() => parallel([], 1.5))
-
-      expect(err).toBeInstanceOf(InvalidArgumentError)
-    })
-  })
-
+describe(`
+  parallel(
+    tasks: Iterable<() => unknown | PromiseLike<unknown>>
+  , concurrency: number = Infinity
+  ): Promise<void>
+`, () => {
   describe('tasks is empty iterable', () => {
     it('return Promise<void>', async () => {
       const result = parallel([])

@@ -1,5 +1,5 @@
 import { each } from './each'
-import { checkConcurrency, InvalidArgumentError } from '@utils/check-concurrency'
+import { validateConcurrency } from '@utils/validate-concurrency'
 import { go } from '@blackglory/go'
 
 export function map<T, U>(
@@ -7,7 +7,7 @@ export function map<T, U>(
 , fn: (element: T, i: number) => U | PromiseLike<U>
 , concurrency: number = Infinity
 ): Promise<U[]> {
-  checkConcurrency('concurrency', concurrency)
+  validateConcurrency('concurrency', concurrency)
 
   return go(async () => {
     const results: U[] = []
@@ -19,5 +19,3 @@ export function map<T, U>(
     return results
   })
 }
-
-export { InvalidArgumentError }

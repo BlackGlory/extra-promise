@@ -1,27 +1,18 @@
-import { getError, getErrorPromise } from 'return-style'
-import { filter, InvalidArgumentError } from '@functions/filter'
+import { getErrorPromise } from 'return-style'
+import { filter } from '@functions/filter'
 import { delay } from '@functions/delay'
-import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable } from '@test/utils'
+import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable }
+  from '@test/utils'
 import '@blackglory/jest-matchers'
 import { toExtraPromise } from '@functions/to-extra-promise'
 
-describe('filter<T, U = T>(iterable: Iterable<T>, fn: (element: T, i: number) => boolean | PromiseLike<boolean>, concurrency: number = Infinity): Promise<U[]>', () => {
-  describe('concurrency < 1', () => {
-    it('throw InvalidArgumentError', () => {
-      const err = getError(() => filter([], () => true, 0))
-
-      expect(err).toBeInstanceOf(InvalidArgumentError)
-    })
-  })
-
-  describe('concurrency isnt integer', () => {
-    it('throw InvalidArgumentError', () => {
-      const err = getError(() => filter([], () => true, 1.5))
-
-      expect(err).toBeInstanceOf(InvalidArgumentError)
-    })
-  })
-
+describe(`
+  filter<T, U = T>(
+    iterable: Iterable<T>
+  , fn: (element: T, i: number) => boolean | PromiseLike<boolean>
+  , concurrency: number = Infinity
+  ): Promise<U[]>
+`, () => {
   describe('iterable is empty', () => {
     it('return Promise<[]>', async () => {
       const result = filter([], () => true)

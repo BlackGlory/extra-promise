@@ -2,7 +2,7 @@ import { isFailurePromise } from 'return-style'
 import { Signal } from '@classes/signal'
 import { SignalGroup } from '@classes/signal-group'
 import { Queue } from '@blackglory/structures'
-import { ChannelClosedError } from '@error'
+import { ChannelClosedError } from '@errors'
 import { IBlockingChannel } from '@utils/types'
 
 export class BufferedChannel<T> implements IBlockingChannel<T> {

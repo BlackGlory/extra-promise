@@ -3,11 +3,16 @@ import { getErrorPromise } from 'return-style'
 import { promisify } from '@functions/promisify'
 import '@blackglory/jest-matchers'
 
-describe('promisify<Result, Args extends any[] = unknown[]>(fn: (...args: any[]) => unknown): (...args: Args) => Promise<Result>', () => {
+describe(`
+  promisify<Result, Args extends any[] = unknown[]>(
+    fn: (...args: [...args: Args, callback: Callback<Result>]) => unknown
+  ): (...args: Args) => Promise<Result>
+`, () => {
   describe('fn resolved', () => {
     it('return resovled Promise', async () => {
       const value = 'value'
-      const fn = (value: string, cb: (err: unknown, result: string) => void) => queueMicrotask(() => cb(null, value))
+      const fn = (value: string, cb: (err: unknown, result: string) => void) =>
+        queueMicrotask(() => cb(null, value))
 
       const promisified = promisify(fn)
       const isFunc = isFunction(promisified)
@@ -23,7 +28,8 @@ describe('promisify<Result, Args extends any[] = unknown[]>(fn: (...args: any[])
   describe('fn rejected', () => {
     it('return rejected Promise', async () => {
       const error = new Error('CustomError')
-      const fn = (value: Error, cb: (err: Error) => void) => queueMicrotask(() => cb(value))
+      const fn = (value: Error, cb: (err: Error) => void) =>
+        queueMicrotask(() => cb(value))
 
       const promisified = promisify(fn)
       const isFunc = isFunction(promisified)

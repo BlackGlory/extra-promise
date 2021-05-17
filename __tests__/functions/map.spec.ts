@@ -1,27 +1,18 @@
-import { getError, getErrorPromise } from 'return-style'
-import { map, InvalidArgumentError } from '@functions/map'
+import { getErrorPromise } from 'return-style'
+import { map } from '@functions/map'
 import { delay } from '@functions/delay'
-import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable } from '@test/utils'
+import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable }
+  from '@test/utils'
 import '@blackglory/jest-matchers'
 import { toExtraPromise } from '@functions/to-extra-promise'
 
-describe('map<T, U>(iterable: Iterable<T>, fn: (element: T, i: number) => U | PromiseLike<U>, concurrency: number = Infinity): Promise<U[]>', () => {
-  describe('concurrency < 1', () => {
-    it('throw InvalidArgumentError', () => {
-      const err = getError(() => map([], () => {}, 0))
-
-      expect(err).toBeInstanceOf(InvalidArgumentError)
-    })
-  })
-
-  describe('concurrency isnt integer', () => {
-    it('throw InvalidArgumentError', () => {
-      const err = getError(() => map([], () => {}, 1.5))
-
-      expect(err).toBeInstanceOf(InvalidArgumentError)
-    })
-  })
-
+describe(`
+  map<T, U>(
+    iterable: Iterable<T>
+  , fn: (element: T, i: number) => U | PromiseLike<U>
+  , concurrency: number = Infinity
+  ): Promise<U[]>
+`, () => {
   describe('iterable is empty', () => {
     it('return Promise<[]>', async () => {
       const result = map([], () => {})

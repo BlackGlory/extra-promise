@@ -2,10 +2,7 @@ import * as target from '@src/index'
 
 test('exports', () => {
   const expectedExports: string[] = [
-    'InvalidArgumentError'
-  , 'InvalidArgumentsLengthError'
-
-  , 'isPromise'
+    'isPromise'
   , 'isPromiseLike'
   , 'isntPromise'
   , 'isntPromiseLike'
@@ -31,7 +28,6 @@ test('exports', () => {
   , 'Cascadable'
 
   , 'callbackify'
-  , 'FalsyError'
 
   , 'ExtraPromise'
 

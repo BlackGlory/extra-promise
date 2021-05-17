@@ -89,7 +89,7 @@ function parallel(
 Perform tasks in parallel.
 
 The value range of `concurrency` is [1, Infinity].
-Invalid values will throw `InvalidArugmentError`.
+Invalid values will throw `Error`.
 
 #### series
 
@@ -123,7 +123,7 @@ function each(
 The async `each` operator for Iterable.
 
 The value range of `concurrency` is [1, Infinity].
-Invalid values will throw `InvalidArugmentError`.
+Invalid values will throw `Error`.
 
 #### map
 
@@ -138,7 +138,7 @@ function map<T, U>(
 The async `map` operator for Iterable.
 
 The value range of `concurrency` is [1, Infinity].
-Invalid values will throw `InvalidArugmentError`.
+Invalid values will throw `Error`.
 
 #### filter
 
@@ -153,13 +153,15 @@ function filter<T, U = T>(
 The async `filter` operator for Iterable.
 
 The value range of `concurrency` is [1, Infinity].
-Invalid values will throw `InvalidArugmentError`.
+Invalid values will throw `Error`.
 
 #### promisify
 
 ```ts
+type Callback<T> =(err: any, result?: T) => void
+
 function promisify<Result, Args extends any[] = unknown[]>(
-  fn: (...args: any[]) => unknown
+  fn: (...args: [...args: Args, callback: Callback<Result>]) => unknown
 ): (...args: Args) => Promise<Result>
 ```
 
@@ -168,17 +170,14 @@ The well-known `promisify` function.
 #### callbackify
 
 ```ts
+type Callback<T> = (err: any, result?: T) => void
+
 function callbackify<Result, Args extends any[] = unknown[]>(
   fn: (...args: Args) => PromiseLike<Result>
-): (...args: Args) => void
+): (...args: [...args: Args, callback: Callback<Result>]) => void
 ```
 
 The `callbackify` function, as opposed to `promisify`.
-
-The return value:
-* If `args.length = 0` then throw `InvalidArgumentsLengthError`.
-* If the last element of args is not a function then throw `InvalidArugmentError`.
-* If the error of it is a falsy value then wrap it into a `FalsyError`, the `reason` property is the real error.
 
 #### asyncify
 

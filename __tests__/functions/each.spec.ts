@@ -1,27 +1,18 @@
-import { getError, getErrorPromise } from 'return-style'
-import { each, InvalidArgumentError } from '@functions/each'
+import { getErrorPromise } from 'return-style'
+import { each } from '@functions/each'
 import { delay } from '@functions/delay'
-import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable } from '@test/utils'
+import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable }
+  from '@test/utils'
 import '@blackglory/jest-matchers'
 import { toExtraPromise } from '@functions/to-extra-promise'
 
-describe('each(iterable: Iterable<T>, fn: (element: T, i: number) => unknown | PromiseLike<unknown>, concurrency: number = Infinity): Promise<void>', () => {
-  describe('concurrency < 1', () => {
-    it('throw InvalidArgumentError', () => {
-      const err = getError(() => each([], () => {}, 0))
-
-      expect(err).toBeInstanceOf(InvalidArgumentError)
-    })
-  })
-
-  describe('concurrency isnt integer', () => {
-    it('throw InvalidArgumentError', () => {
-      const err = getError(() => each([], () => {}, 1.5))
-
-      expect(err).toBeInstanceOf(InvalidArgumentError)
-    })
-  })
-
+describe(`
+  each(
+    iterable: Iterable<T>
+  , fn: (element: T, i: number) => unknown | PromiseLike<unknown>
+  , concurrency: number = Infinity
+  ): Promise<void>
+`, () => {
   describe('iterable is empty', () => {
     it('return Promise<[]>', async () => {
       const result = each([], () => {})
