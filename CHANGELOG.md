@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.17.0](https://github.com/BlackGlory/extra-promise/compare/v0.16.6...v0.17.0) (2021-05-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* - remove `InvalidArgumentError`
+- remove `InvalidArgumentsLengthError`
+
+### Features
+
+* rewrite ([a67a402](https://github.com/BlackGlory/extra-promise/commit/a67a40274c65785c53572c7e8f010b6a1800e54b))
+
 ### [0.16.6](https://github.com/BlackGlory/extra-promise/compare/v0.16.5...v0.16.6) (2021-05-16)
 
 ### [0.16.5](https://github.com/BlackGlory/extra-promise/compare/v0.16.4...v0.16.5) (2021-05-16)
