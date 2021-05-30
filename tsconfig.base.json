@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "ES2019"
   , "module": "CommonJS"
+  , "lib": ["DOM", "ES2019.Object"]
   , "strict": true
   , "noUnusedLocals": true
   , "noUnusedParameters": true
