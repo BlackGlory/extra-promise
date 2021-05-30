@@ -14,6 +14,7 @@ test('exports', () => {
   , 'each'
   , 'map'
   , 'filter'
+  , 'all'
   , 'promisify'
   , 'asyncify'
   , 'pad'

@@ -11,6 +11,7 @@ export * from '@classes/buffered-channel'
 export * from '@classes/unlimited-channel'
 export * from '@classes/task-runner'
 
+export * from '@functions/all'
 export * from '@functions/asyncify'
 export * from '@functions/callbackify'
 export * from '@functions/cascadify'

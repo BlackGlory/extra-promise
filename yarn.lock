@@ -3080,6 +3080,11 @@ hotypes@^0.2.1:
   resolved "https://registry.yarnpkg.com/hotypes/-/hotypes-0.2.1.tgz#80fa4e0fc8e856f22417cb21ff555878793cf6d7"
   integrity sha512-+qzhm3TZRt/41RG3nM6SsKvSTtchli6peI+uv/lVfnWjcCVr6gYOotb8t4DAa7RTj0TM/mAye/9ycfuniMNaGQ==
 
+hotypes@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/hotypes/-/hotypes-0.2.2.tgz#8ac0d269a0f43e4d01da6c47ea3f4f3de246e290"
+  integrity sha512-xF/OQiV8CR7M/IgHerF7b3Mq9khESX4g98EN+fi6pYAbEz2EYQlTV9l1HKCPcSMXR3SzONluTuYmg7AMJjwLTA==
+
 html-encoding-sniffer@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/html-encoding-sniffer/-/html-encoding-sniffer-2.0.1.tgz#42a6dc4fd33f00281176e8b23759ca4e4fa185f3"

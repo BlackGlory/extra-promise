@@ -155,6 +155,24 @@ The async `filter` operator for Iterable.
 The value range of `concurrency` is [1, Infinity].
 Invalid values will throw `Error`.
 
+#### all
+
+```ts
+function all<T extends { [key: string]: PromiseLike<unknown> }>(
+  obj: T
+): Promise<{ [Key in keyof T]: UnpackedPromiseLike<T[Key]> }>
+```
+
+It is similar to `Promise.all`, but the first parameter is an object.
+
+Example:
+```ts
+const { task1, task2 } = await all({
+  task1: invokeTask1()
+, task2: invokeTask2()
+})
+```
+
 #### promisify
 
 ```ts

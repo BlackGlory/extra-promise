@@ -34,9 +34,9 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --quiet src __tests__",
-    "test": "jest --no-cache --config jest.config.js",
+    "test": "jest --runInBand --no-cache --config jest.config.js",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
-    "test:coverage": "jest --coverage --config jest.config.js",
+    "test:coverage": "jest --runInBand --coverage --config jest.config.js",
     "prepublishOnly": "run-s clean build bundle",
     "clean": "run-p clean:*",
     "clean:build": "rimraf lib",
@@ -95,6 +95,7 @@
     "eventemitter3": "^4.0.7",
     "extra-fetch": "^1.7.1",
     "extra-generator": "^0.2.6",
+    "hotypes": "^0.2.2",
     "iterable-operator": "^0.14.0",
     "reflect-metadata": "^0.1.13",
     "return-style": "^0.12.3"
