@@ -17,7 +17,6 @@ describe('series(tasks: Iterable<() => unknown | PromiseLike<unknown>>): Promise
 
   describe('tasks isnt empty iterable', () => {
     it('return Promise<void>', async () => {
-      jest.useFakeTimers()
       const task1 = jest.fn().mockImplementation(async () => {
         await delay(500)
         return 1

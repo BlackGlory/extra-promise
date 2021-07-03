@@ -1,4 +1,4 @@
-import { UnpackedPromiseLike } from 'hotypes'
+import { UnpackedPromiseLike } from 'justypes'
 import { map } from './map'
 import { go } from '@blackglory/go'
 import 'core-js/es/object/from-entries'

@@ -25,7 +25,6 @@ describe(`
   describe('tasks isnt empty iterable', () => {
     describe('resolve', () => {
       it('return resolved Promise<void>', async () => {
-        jest.useFakeTimers()
         const task1 = jest.fn(async () => {
           await delay(500)
           return 1
@@ -69,7 +68,6 @@ describe(`
 
     describe('reject', () => {
       it('return rejected Promise<void>', async () => {
-        jest.useFakeTimers()
         const error = new Error('CustomError')
         const task1 = jest.fn(async () => {
           await delay(500)

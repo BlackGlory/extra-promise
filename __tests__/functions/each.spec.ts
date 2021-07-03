@@ -26,7 +26,6 @@ describe(`
   describe('iterable isnt empty', () => {
     describe('resolve', () => {
       it('return resolved Promise<void>', async () => {
-        jest.useFakeTimers()
         const task1 = jest.fn(() => delay(500))
         const task2 = jest.fn(() => delay(1000))
         const task3 = jest.fn(() => delay(1000))

@@ -2,6 +2,7 @@ import { Semaphore } from '@classes/semaphore'
 import '@blackglory/jest-matchers'
 import { TIME_ERROR } from '@test/utils'
 import 'jest-extended'
+import { go } from '@blackglory/go'
 
 describe('Semaphore', () => {
   describe('not locked', () => {
@@ -15,7 +16,7 @@ describe('Semaphore', () => {
       expect(proResult).toBeFunction()
     })
 
-    it('acquire(handler: () => void | Promise<void>): void', async done => {
+    it('acquire(handler: () => void | Promise<void>): void', done => {
       const semaphore = new Semaphore(1)
 
       const result = semaphore.acquire(done)
@@ -40,25 +41,27 @@ describe('Semaphore', () => {
       expect(time3 - time2).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
     })
 
-    it('acquire(handler: () => void | Promise<void>): void', async done => {
-      const semaphore = new Semaphore(2)
+    it('acquire(handler: () => void | Promise<void>): void', done => {
+      go(async () => {
+        const semaphore = new Semaphore(2)
 
-      let time1: number
-        , time2: number
-        , time3: number
-      semaphore.acquire(async () => {
-        time1 = now()
-        await sleep(1000)
-      })
-      semaphore.acquire(async () => {
-        time2 = now()
-        await sleep(1000)
-      })
-      semaphore.acquire(async () => {
-        time3 = now()
-        expect(time3 - time1).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
-        expect(time3 - time2).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
-        done()
+        let time1: number
+          , time2: number
+          , time3: number
+        semaphore.acquire(async () => {
+          time1 = now()
+          await sleep(1000)
+        })
+        semaphore.acquire(async () => {
+          time2 = now()
+          await sleep(1000)
+        })
+        semaphore.acquire(async () => {
+          time3 = now()
+          expect(time3 - time1).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
+          expect(time3 - time2).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
+          done()
+        })
       })
     })
   })

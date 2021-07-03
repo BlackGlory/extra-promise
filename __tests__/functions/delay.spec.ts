@@ -5,7 +5,7 @@ import { toExtraPromise } from '@functions/to-extra-promise'
 
 describe('delay(timeout: number): Promise<void>', () => {
   it('call setTimeout', () => {
-    jest.useFakeTimers()
+    const setTimeout = jest.spyOn(globalThis, 'setTimeout')
     const ms = 1000
 
     delay(ms)
@@ -15,7 +15,6 @@ describe('delay(timeout: number): Promise<void>', () => {
   })
 
   it('return Promise<void>', async () => {
-    jest.useFakeTimers()
     const ms = 500
 
     const result = delay(ms)

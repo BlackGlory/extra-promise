@@ -2,6 +2,7 @@ import { Mutex } from '@classes/mutex'
 import '@blackglory/jest-matchers'
 import { TIME_ERROR } from '@test/utils'
 import 'jest-extended'
+import { go } from '@blackglory/go'
 
 describe('Mutex', () => {
   describe('not locked', () => {
@@ -15,7 +16,7 @@ describe('Mutex', () => {
       expect(proResult).toBeFunction()
     })
 
-    it('acquire(handler: () => void | Promise<void>): void', async done => {
+    it('acquire(handler: () => void | Promise<void>): void', done => {
       const mutex = new Mutex()
 
       const result = mutex.acquire(done)
@@ -36,15 +37,17 @@ describe('Mutex', () => {
       expect(now() - start).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
     })
 
-    it('acquire(handler: (release: Release) => void): void', async done => {
-      const mutex = new Mutex()
-      const release = await mutex.acquire()
+    it('acquire(handler: (release: Release) => void): void', done => {
+      go(async () => {
+        const mutex = new Mutex()
+        const release = await mutex.acquire()
 
-      const start = now()
-      setTimeout(release, 1000)
-      mutex.acquire(() => {
-        expect(now() - start).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
-        done()
+        const start = now()
+        setTimeout(release, 1000)
+        mutex.acquire(() => {
+          expect(now() - start).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
+          done()
+        })
       })
     })
   })

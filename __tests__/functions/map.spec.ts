@@ -26,7 +26,6 @@ describe(`
   describe('iterable isnt empty', () => {
     describe('resolve', () => {
       it('return resolved Promise<U[]>', async () => {
-        jest.useFakeTimers()
         const task1 = jest.fn(async () => {
           await delay(500)
           return 1

@@ -21,7 +21,7 @@ describe('TaskRunner', () => {
       const value = 'value'
       const task = jest.fn().mockResolvedValue(value)
 
-      runner.on('rejected', done.fail)
+      runner.on('rejected', e => done(e))
       runner.on('resolved', (resolvedTask, result) => {
         expect(resolvedTask).toBe(task)
         expect(result).toBe(value)
@@ -35,7 +35,7 @@ describe('TaskRunner', () => {
       const customError = new Error('custom error')
       const task = jest.fn().mockRejectedValue(customError)
 
-      runner.on('resolved', done.fail)
+      runner.on('resolved', e => done(e))
       runner.on('rejected', (rejectedTask, reason) => {
         expect(rejectedTask).toBe(task)
         expect(reason).toBe(customError)
@@ -46,7 +46,6 @@ describe('TaskRunner', () => {
   })
 
   it('consumes tasks', async () => {
-    jest.useFakeTimers()
     const runner = new TaskRunner(2)
     const task1 = jest.fn(async () => {
       await delay(500)
@@ -78,7 +77,6 @@ describe('TaskRunner', () => {
   })
 
   it('pause when task rejected', async () => {
-    jest.useFakeTimers()
     const runner = new TaskRunner(2)
     const error = new Error('CustomError')
     const task1 = jest.fn(async () => {
@@ -105,7 +103,6 @@ describe('TaskRunner', () => {
   })
 
   it('can pause and resume', async () => {
-    jest.useFakeTimers()
     const runner = new TaskRunner(2)
     runner.pause()
     const task1 = jest.fn(async () => {

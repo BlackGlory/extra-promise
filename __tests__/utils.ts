@@ -4,15 +4,6 @@ export function getCalledTimes(fn: jest.Mock): number {
   return fn.mock.calls.length
 }
 
-export async function advanceTimersByTime(ms: number) {
-  jest.advanceTimersByTime(ms)
-  await runAllMicrotasks()
-}
-
-export function runAllMicrotasks() {
-  return new Promise(resolve => setImmediate(resolve))
-}
-
 export class MockIterable<T> implements Iterable<T> {
   nextIndex: number = 0
 
@@ -26,14 +17,22 @@ export class MockIterable<T> implements Iterable<T> {
           return {
             value: this.contents.shift()
           , done: false
-          } as IteratorResult<T> // fuck tsc https://github.com/microsoft/TypeScript/issues/32890
+          } as IteratorResult<T>
         } else {
           return {
             value: undefined
           , done: true
-          } as IteratorResult<T> // fuck tsc https://github.com/microsoft/TypeScript/issues/32890
+          } as IteratorResult<T>
         }
       }
     }
   }
+}
+
+export function runAllMicrotasks() {
+  return Promise.resolve()
+}
+
+export function advanceTimersByTime(ms: number): Promise<void> {
+  return new Promise<void>(resolve => setTimeout(resolve, ms))
 }
