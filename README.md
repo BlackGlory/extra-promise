@@ -94,7 +94,7 @@ Invalid values will throw `Error`.
 #### series
 
 ```ts
-function series<T>(tasks: Iterable<() => unknown | PromiseLike<unknown>>): Promise<void>
+function series(tasks: Iterable<() => unknown | PromiseLike<unknown>>): Promise<void>
 ```
 
 Perform tasks in order.

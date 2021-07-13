@@ -9,12 +9,12 @@ export function parallel(
   return new Promise<void>((resolve, reject) => {
     let total = 0
     let running = 0
-    let iterableDone = false
     let promisePending = true
 
     const iterator = tasks[Symbol.iterator]()
+    let done: boolean | undefined
 
-    for (let i = 0; !iterableDone && i < concurrency; i++) {
+    for (let i = 0; !done && i < concurrency; i++) {
       next()
     }
 
@@ -22,15 +22,15 @@ export function parallel(
 
     async function next() {
       if (!promisePending) return
-      if (iterableDone && running === 0) return resolveGracefully()
+      if (done && running === 0) return resolveGracefully()
 
-      const result = iterator.next()
-      if (result.done) {
-        iterableDone = true
+      let value: () => unknown | PromiseLike<unknown>
+      ;({ value, done } = iterator.next())
+      if (done) {
         if (running === 0) resolveGracefully()
         return
       }
-      const task = result.value
+      const task = value
 
       total++
       running++
@@ -45,11 +45,13 @@ export function parallel(
 
     function resolveGracefully() {
       promisePending = false
+      if (!done) iterator.return?.()
       resolve()
     }
 
     function rejectGracefully(reason: any) {
       promisePending = false
+      if (!done) iterator.return?.()
       reject(reason)
     }
   })

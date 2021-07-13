@@ -57,7 +57,9 @@ export class Channel<T> implements IBlockingChannel<T> {
 
               try {
                 // 等待send发出写入信号, 如果通道关闭, 则停止接收
-                if (await isFailurePromise(writeSignal)) return { done: true, value: undefined }
+                if (await isFailurePromise(writeSignal)) {
+                  return { done: true, value: undefined }
+                }
               } finally {
                 this.writeSignalGroup.remove(writeSignal)
               }
@@ -66,6 +68,10 @@ export class Channel<T> implements IBlockingChannel<T> {
             const value = this.box.pop()!
             this.readSignalGroup.emitAll()
             return { done: false, value }
+          }
+        , return: async () => {
+            this.close()
+            return { done: true, value: undefined }
           }
         }
       }

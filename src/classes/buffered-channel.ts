@@ -38,7 +38,7 @@ export class BufferedChannel<T> implements IBlockingChannel<T> {
     return {
       [Symbol.asyncIterator]: () => {
         return {
-          next : async () => {
+          next: async () => {
             // 缓冲区队列为空, 则等待入列信号
             while (this.buffer.size === 0) {
               if (this.isClosed) return { done: true, value: undefined }
@@ -48,7 +48,9 @@ export class BufferedChannel<T> implements IBlockingChannel<T> {
 
               try {
                 // 等待入列信号, 如果通道关闭, 则停止接收
-                if (await isFailurePromise(enqueueSignal)) return { done: true, value: undefined }
+                if (await isFailurePromise(enqueueSignal)) {
+                  return { done: true, value: undefined }
+                }
               } finally {
                 this.enqueueSingalGroup.remove(enqueueSignal)
               }
@@ -57,6 +59,10 @@ export class BufferedChannel<T> implements IBlockingChannel<T> {
             const value = this.buffer.dequeue()!
             this.dequeueSignalGroup.emitAll()
             return { done: false, value }
+          }
+        , return: async () => {
+            this.close()
+            return { done: true, value: undefined }
           }
         }
       }

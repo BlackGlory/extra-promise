@@ -31,7 +31,9 @@ export class UnlimitedChannel<T> implements IChannel<T> {
 
               try {
                 // 等待入列信号, 如果通道关闭, 则停止接收
-                if (await isFailurePromise(enqueueSignal)) return { done: true, value: undefined }
+                if (await isFailurePromise(enqueueSignal)) {
+                  return { done: true, value: undefined }
+                }
               } finally {
                 this.enqueueSignalGroup.remove(enqueueSignal)
               }
@@ -39,6 +41,10 @@ export class UnlimitedChannel<T> implements IChannel<T> {
 
             const value = this.buffer.dequeue()!
             return { done: false, value }
+          }
+        , return: async () => {
+            this.close()
+            return { done: true, value: undefined }
           }
         }
       }
