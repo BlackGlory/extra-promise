@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.17.6](https://github.com/BlackGlory/extra-promise/compare/v0.17.5...v0.17.6) (2021-07-13)
+
+
+### Bug Fixes
+
+* close unexhausted iterators ([2545371](https://github.com/BlackGlory/extra-promise/commit/25453714c818e8e01af6e8604c41882ec4c1e41b))
+
 ### [0.17.5](https://github.com/BlackGlory/extra-promise/compare/v0.17.4...v0.17.5) (2021-07-12)
 
 ### [0.17.4](https://github.com/BlackGlory/extra-promise/compare/v0.17.3...v0.17.4) (2021-07-03)
