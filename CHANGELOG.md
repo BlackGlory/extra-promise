@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.18.0](https://github.com/BlackGlory/extra-promise/compare/v0.17.6...v0.18.0) (2021-07-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* The `acquire` method of `Semaphore` and `Mutex` now always return `Promise`.
+
+### Features
+
+* improve Semaphore, Mutex ([41af3a9](https://github.com/BlackGlory/extra-promise/commit/41af3a92f2f0df136d46142616caa9cee40ffb3b))
+
 ### [0.17.6](https://github.com/BlackGlory/extra-promise/compare/v0.17.5...v0.17.6) (2021-07-13)
 
 
