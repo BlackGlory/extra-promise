@@ -478,7 +478,7 @@ class Semaphore {
   constructor(count: number)
 
   acquire(): Promise<Release>
-  acquire(handler: () => void | Promise<void>): void
+  acquire(handler: () => void | Promise<void>): Promise<void>
 }
 ```
 
@@ -489,7 +489,7 @@ type Release = () => void
 
 class Mutex extends Semaphore {
   acquire(): Promise<Release>
-  acquire(handler: () => void | Promise<void>): void
+  acquire(handler: () => void | Promise<void>): Promise<void>
 }
 ```
 

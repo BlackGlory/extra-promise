@@ -1,5 +1,4 @@
 import { Signal } from './signal'
-import { isFunction } from '@blackglory/types'
 import { SignalGroup } from '@classes/signal-group'
 import { go } from '@blackglory/go'
 
@@ -15,18 +14,22 @@ export class Semaphore {
   }
 
   acquire(): Promise<Release>
-  acquire(handler: () => void | Promise<void>): void
-  acquire(handler?: () => void | Promise<void>): void | Promise<Release> {
-    if (isFunction(handler)) {
-      go(async () => {
-        await this.lock()
-        await handler()
-        this.unlock()
-      })
-    } else {
+  acquire(handler: () => void | PromiseLike<void>): Promise<void>
+  acquire(...args:
+  | []
+  | [handler: () => void | PromiseLike<void>]
+  ) {
+    if (args.length === 0) {
       return new Promise(async resolve => {
         await this.lock()
         resolve(oneShot(() => this.unlock()))
+      })
+    } else {
+      const [handler] = args
+      return go(async () => {
+        await this.lock()
+        await handler()
+        this.unlock()
       })
     }
   }

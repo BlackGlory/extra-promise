@@ -1,8 +1,8 @@
 import { Semaphore } from '@classes/semaphore'
-import '@blackglory/jest-matchers'
 import { TIME_ERROR } from '@test/utils'
-import 'jest-extended'
 import { go } from '@blackglory/go'
+import 'jest-extended'
+import '@blackglory/jest-matchers'
 
 describe('Semaphore', () => {
   describe('not locked', () => {
@@ -16,12 +16,22 @@ describe('Semaphore', () => {
       expect(proResult).toBeFunction()
     })
 
-    it('acquire(handler: () => void | Promise<void>): void', done => {
-      const semaphore = new Semaphore(1)
+    describe('acquire(handler: () => void | Promise<void>): Promise<void>', () => {
+      test('handler', done => {
+        const semaphore = new Semaphore(1)
 
-      const result = semaphore.acquire(done)
+        semaphore.acquire(done)
+      })
 
-      expect(result).toBeUndefined()
+      test('return value', async () => {
+        const semaphore = new Semaphore(1)
+
+        const result = semaphore.acquire(() => {})
+        const proResult = await result
+
+        expect(result).toBePromise()
+        expect(proResult).toBeUndefined()
+      })
     })
   })
 
@@ -41,28 +51,52 @@ describe('Semaphore', () => {
       expect(time3 - time2).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
     })
 
-    it('acquire(handler: () => void | Promise<void>): void', done => {
-      go(async () => {
-        const semaphore = new Semaphore(2)
+    describe('acquire(handler: () => void | Promise<void>): Promise<void>', () => {
+      test('handler', done => {
+        go(async () => {
+          const semaphore = new Semaphore(2)
 
-        let time1: number
-          , time2: number
-          , time3: number
-        semaphore.acquire(async () => {
-          time1 = now()
-          await sleep(1000)
-        })
-        semaphore.acquire(async () => {
-          time2 = now()
-          await sleep(1000)
-        })
-        semaphore.acquire(async () => {
-          time3 = now()
-          expect(time3 - time1).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
-          expect(time3 - time2).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
-          done()
+          let time1: number
+            , time2: number
+            , time3: number
+          semaphore.acquire(async () => {
+            time1 = now()
+            await sleep(1000)
+          })
+          semaphore.acquire(async () => {
+            time2 = now()
+            await sleep(1000)
+          })
+          semaphore.acquire(async () => {
+            time3 = now()
+            expect(time3 - time1).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
+            expect(time3 - time2).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
+            done()
+          })
         })
       })
+    })
+
+    test('return value', async () => {
+      const semaphore = new Semaphore(2)
+      const release = await semaphore.acquire()
+
+      const start = now()
+      setTimeout(release, 1000)
+      const result1 = semaphore.acquire(() => sleep(500))
+      const result2 = semaphore.acquire(() => sleep(500))
+      const proResult1 = await result1
+      const result1ResolvedTime = now()
+      const proResult2 = await result2
+      const result2ResolvedTime = now()
+
+      expect(result1).toBePromise()
+      expect(result2).toBePromise()
+      expect(proResult1).toBeUndefined()
+      expect(proResult2).toBeUndefined()
+      expect(result1ResolvedTime - start).toBeGreaterThanOrEqual(500 - TIME_ERROR)
+      expect(result1ResolvedTime - start).toBeLessThan(1000 - TIME_ERROR)
+      expect(result2ResolvedTime - start).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
     })
   })
 })

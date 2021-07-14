@@ -1,8 +1,8 @@
 import { Mutex } from '@classes/mutex'
-import '@blackglory/jest-matchers'
 import { TIME_ERROR } from '@test/utils'
-import 'jest-extended'
 import { go } from '@blackglory/go'
+import 'jest-extended'
+import '@blackglory/jest-matchers'
 
 describe('Mutex', () => {
   describe('not locked', () => {
@@ -16,12 +16,22 @@ describe('Mutex', () => {
       expect(proResult).toBeFunction()
     })
 
-    it('acquire(handler: () => void | Promise<void>): void', done => {
-      const mutex = new Mutex()
+    describe('acquire(handler: () => void | Promise<void>): Promise<void>', () => {
+      test('handler', done => {
+        const mutex = new Mutex()
 
-      const result = mutex.acquire(done)
+        mutex.acquire(done)
+      })
 
-      expect(result).toBeUndefined()
+      test('return value', async () => {
+        const mutex = new Mutex()
+
+        const result = mutex.acquire(() => {})
+        const proResult = await result
+
+        expect(result).toBePromise()
+        expect(proResult).toBeUndefined()
+      })
     })
   })
 
@@ -37,17 +47,33 @@ describe('Mutex', () => {
       expect(now() - start).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
     })
 
-    it('acquire(handler: (release: Release) => void): void', done => {
-      go(async () => {
+    describe('acquire(handler: (release: Release) => void): Promise<void>', () => {
+      test('handler', done => {
+        go(async () => {
+          const mutex = new Mutex()
+          const release = await mutex.acquire()
+
+          const start = now()
+          setTimeout(release, 1000)
+          mutex.acquire(() => {
+            expect(now() - start).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
+            done()
+          })
+        })
+      })
+
+      test('return value', async () => {
         const mutex = new Mutex()
         const release = await mutex.acquire()
 
         const start = now()
         setTimeout(release, 1000)
-        mutex.acquire(() => {
-          expect(now() - start).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
-          done()
-        })
+        const result = mutex.acquire(() => sleep(500))
+        const proResult = await result
+
+        expect(now() - start).toBeGreaterThanOrEqual(1500 - TIME_ERROR)
+        expect(result).toBePromise()
+        expect(proResult).toBeUndefined()
       })
     })
   })
@@ -55,4 +81,8 @@ describe('Mutex', () => {
 
 function now() {
   return Date.now()
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms))
 }
