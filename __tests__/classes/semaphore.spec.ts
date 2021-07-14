@@ -16,7 +16,7 @@ describe('Semaphore', () => {
       expect(proResult).toBeFunction()
     })
 
-    describe('acquire(handler: () => void | Promise<void>): Promise<void>', () => {
+    describe('acquire<T>(handler: () => T | PromiseLike<T>): Promise<T>', () => {
       test('handler', done => {
         const semaphore = new Semaphore(1)
 
@@ -26,11 +26,11 @@ describe('Semaphore', () => {
       test('return value', async () => {
         const semaphore = new Semaphore(1)
 
-        const result = semaphore.acquire(() => {})
+        const result = semaphore.acquire(() => true)
         const proResult = await result
 
         expect(result).toBePromise()
-        expect(proResult).toBeUndefined()
+        expect(proResult).toBe(true)
       })
     })
   })
@@ -51,7 +51,7 @@ describe('Semaphore', () => {
       expect(time3 - time2).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
     })
 
-    describe('acquire(handler: () => void | Promise<void>): Promise<void>', () => {
+    describe('acquire<T>(handler: () => T | PromiseLike<T>): Promise<T>', () => {
       test('handler', done => {
         go(async () => {
           const semaphore = new Semaphore(2)
@@ -83,8 +83,14 @@ describe('Semaphore', () => {
 
       const start = now()
       setTimeout(release, 1000)
-      const result1 = semaphore.acquire(() => sleep(500))
-      const result2 = semaphore.acquire(() => sleep(500))
+      const result1 = semaphore.acquire(async () => {
+        await sleep(500)
+        return 1
+      })
+      const result2 = semaphore.acquire(async () => {
+        await sleep(500)
+        return 2
+      })
       const proResult1 = await result1
       const result1ResolvedTime = now()
       const proResult2 = await result2
@@ -92,8 +98,8 @@ describe('Semaphore', () => {
 
       expect(result1).toBePromise()
       expect(result2).toBePromise()
-      expect(proResult1).toBeUndefined()
-      expect(proResult2).toBeUndefined()
+      expect(proResult1).toBe(1)
+      expect(proResult2).toBe(2)
       expect(result1ResolvedTime - start).toBeGreaterThanOrEqual(500 - TIME_ERROR)
       expect(result1ResolvedTime - start).toBeLessThan(1000 - TIME_ERROR)
       expect(result2ResolvedTime - start).toBeGreaterThanOrEqual(1000 - TIME_ERROR)

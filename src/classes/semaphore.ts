@@ -1,6 +1,7 @@
 import { Signal } from './signal'
 import { SignalGroup } from '@classes/signal-group'
 import { go } from '@blackglory/go'
+import once from 'lodash.once'
 
 type Release = () => void
 
@@ -14,7 +15,7 @@ export class Semaphore {
   }
 
   acquire(): Promise<Release>
-  acquire(handler: () => void | PromiseLike<void>): Promise<void>
+  acquire<T>(handler: () => T | PromiseLike<T>): Promise<T>
   acquire(...args:
   | []
   | [handler: () => void | PromiseLike<void>]
@@ -22,14 +23,15 @@ export class Semaphore {
     if (args.length === 0) {
       return new Promise(async resolve => {
         await this.lock()
-        resolve(oneShot(() => this.unlock()))
+        resolve(once(() => this.unlock()))
       })
     } else {
       const [handler] = args
       return go(async () => {
         await this.lock()
-        await handler()
+        const result = await handler()
         this.unlock()
+        return result
       })
     }
   }
@@ -51,15 +53,5 @@ export class Semaphore {
 
   private isLocked(): boolean {
     return this.#count - this.#locked === 0
-  }
-}
-
-function oneShot(fn: () => void) {
-  let used = false
-  return () => {
-    if (!used) {
-      used = true
-      fn()
-    }
   }
 }

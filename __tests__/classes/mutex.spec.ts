@@ -16,7 +16,7 @@ describe('Mutex', () => {
       expect(proResult).toBeFunction()
     })
 
-    describe('acquire(handler: () => void | Promise<void>): Promise<void>', () => {
+    describe('acquire<T>(handler: () => T | PromiseLike<T>): Promise<T>', () => {
       test('handler', done => {
         const mutex = new Mutex()
 
@@ -26,11 +26,11 @@ describe('Mutex', () => {
       test('return value', async () => {
         const mutex = new Mutex()
 
-        const result = mutex.acquire(() => {})
+        const result = mutex.acquire(() => true)
         const proResult = await result
 
         expect(result).toBePromise()
-        expect(proResult).toBeUndefined()
+        expect(proResult).toBe(true)
       })
     })
   })
@@ -47,7 +47,7 @@ describe('Mutex', () => {
       expect(now() - start).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
     })
 
-    describe('acquire(handler: (release: Release) => void): Promise<void>', () => {
+    describe('acquire(handler: () => T | PromiseLike<T>): Promise<T>', () => {
       test('handler', done => {
         go(async () => {
           const mutex = new Mutex()
@@ -68,12 +68,15 @@ describe('Mutex', () => {
 
         const start = now()
         setTimeout(release, 1000)
-        const result = mutex.acquire(() => sleep(500))
+        const result = mutex.acquire(async () => {
+          await sleep(500)
+          return true
+        })
         const proResult = await result
 
         expect(now() - start).toBeGreaterThanOrEqual(1500 - TIME_ERROR)
         expect(result).toBePromise()
-        expect(proResult).toBeUndefined()
+        expect(proResult).toBe(true)
       })
     })
   })

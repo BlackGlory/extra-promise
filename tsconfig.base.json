@@ -4,6 +4,7 @@
   , "module": "CommonJS"
   , "lib": ["DOM", "ES2019.Object"]
   , "strict": true
+  , "esModuleInterop": true
   , "noUnusedLocals": true
   , "noUnusedParameters": true
   , "experimentalDecorators": true
