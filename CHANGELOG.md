@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.18.1](https://github.com/BlackGlory/extra-promise/compare/v0.18.0...v0.18.1) (2021-07-14)
+
+
+### Features
+
+* improve Semaphore, Mutex ([950ab8b](https://github.com/BlackGlory/extra-promise/commit/950ab8bfc9f1caee5bceaaf2da81a105ba5e1587))
+
 ## [0.18.0](https://github.com/BlackGlory/extra-promise/compare/v0.17.6...v0.18.0) (2021-07-14)
 
 
