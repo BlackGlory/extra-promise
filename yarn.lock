@@ -1188,10 +1188,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.45.tgz#ec2dfb5566ff814d061aef7e141575aedba245cf"
   integrity sha512-DssMqTV9UnnoxDWu959sDLZzfvqCF0qDNRjaWeYSui9xkFe61kKo4l1TWNTQONpuXEm+gLMRvdlzvNHBamzmEw==
 
-"@types/node@^16.3.1":
-  version "16.3.1"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.3.1.tgz#24691fa2b0c3ec8c0d34bfcfd495edac5593ebb4"
-  integrity sha512-N87VuQi7HEeRJkhzovao/JviiqKjDKMVKxKMfUvSKw+MbkbW8R0nA3fi/MQhhlxV2fQ+2ReM+/Nt4efdrJx3zA==
+"@types/node@^16.3.2":
+  version "16.3.2"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.3.2.tgz#655432817f83b51ac869c2d51dd8305fb8342e16"
+  integrity sha512-jJs9ErFLP403I+hMLGnqDRWT0RYKSvArxuBVh2veudHV7ifEC1WAmjJADacZ7mRbA2nWgHtn8xyECMAot0SkAw==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -2691,17 +2691,18 @@ extra-filesystem@^0.3.3:
     extra-promise "^0.17.5"
     tmp-promise "^3.0.2"
 
+extra-generator@^0.2.10:
+  version "0.2.10"
+  resolved "https://registry.yarnpkg.com/extra-generator/-/extra-generator-0.2.10.tgz#952f074226eb78924fd462ab919aabdf71c3093f"
+  integrity sha512-yvFQVIqiIsL4rDfxlDCNGaFpAIbJtEAM0FEuv35yIt0s53rzCZtfWjXBon+276sXfWwYjcYUPW77EEKLvaRc5g==
+  dependencies:
+    "@blackglory/errors" "^1.1.2"
+    lodash.once "^4.1.1"
+
 extra-generator@^0.2.7:
   version "0.2.7"
   resolved "https://registry.yarnpkg.com/extra-generator/-/extra-generator-0.2.7.tgz#957a97d71646af87280f78175a1fddb3db8136ab"
   integrity sha512-fA0z42QX9Zbmxl3bgL0HiImBaTPnmgYUBNlFhsXorOFfsti+dDxb/91us0vsL+eiBi9x7GtPOEjA4TLnXc/JzA==
-  dependencies:
-    "@blackglory/errors" "^1.1.2"
-
-extra-generator@^0.2.8:
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/extra-generator/-/extra-generator-0.2.8.tgz#d17a9d6766859918515aa4b04672a2ddd5e5bf92"
-  integrity sha512-JrN7GdJulb/cM6M9Sc3XZzxKjczEj8D8zOYNQxyJanEygVqEdKBzHheckrwSD+/aCp8TiJAs6yTvNPRyYtEEdg==
   dependencies:
     "@blackglory/errors" "^1.1.2"
 
@@ -4377,6 +4378,11 @@ lodash.merge@^4.6.2:
   version "4.6.2"
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
   integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
+
+lodash.once@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.once/-/lodash.once-4.1.1.tgz#0dd3971213c7c56df880977d504c88fb471a97ac"
+  integrity sha1-DdOXEhPHxW34gJd9UEyI+0cal6w=
 
 lodash.sortby@^4.7.0:
   version "4.7.0"
