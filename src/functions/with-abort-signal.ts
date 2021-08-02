@@ -1,5 +1,8 @@
 import { CustomError } from '@blackglory/errors'
 
+/**
+ * @throws {AbortError} 
+ */
 export async function withAbortSignal<T>(
   signal: AbortSignal
 , fn: () => PromiseLike<T>

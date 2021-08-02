@@ -273,6 +273,8 @@ function withAbortSignal<T>(signal: AbortSignal, fn: () => PromiseLike<T>): Prom
 
 If `AbortSignal` is aborted, the promise will be rejected with `AbortError`.
 
+Note: `AbortError` is a custom error, not the `AbortError` of `fetch`.
+
 #### toExtraPromise
 
 ```ts
