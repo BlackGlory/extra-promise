@@ -2,7 +2,7 @@ import { raceAbortSignals } from '@functions/race-abort-signals'
 import { AbortController } from 'abort-controller'
 import 'jest-extended'
 
-describe('raceAbortSignals(abortSignals: AbortSignal[]): AbortSignal ', () => {
+describe('raceAbortSignals(abortSignals: Array<AbortSignal | Falsy>): AbortSignal ', () => {
   it('return an AbortSignal', () => {
     const controller = new AbortController()
 

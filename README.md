@@ -278,7 +278,7 @@ Note: `AbortError` is a custom error, not the `AbortError` of `fetch`.
 #### raceAbortSignals
 
 ```ts
-function raceAbortSignals(abortSignals: AbortSignal[]): AbortSignal
+function raceAbortSignals(abortSignals: Array<AbortSignal | Falsy>): AbortSignal
 ```
 
 The `Promise.race` function for `AbortSignal`.
