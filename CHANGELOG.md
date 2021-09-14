@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.18.3](https://github.com/BlackGlory/extra-promise/compare/v0.18.2...v0.18.3) (2021-09-14)
+
+
+### Features
+
+* add raceAbortSignals ([8c91d8a](https://github.com/BlackGlory/extra-promise/commit/8c91d8abbb06854aa23ef1d8e352dfaf7a3f1039))
+
 ### [0.18.2](https://github.com/BlackGlory/extra-promise/compare/v0.18.1...v0.18.2) (2021-08-02)
 
 ### [0.18.1](https://github.com/BlackGlory/extra-promise/compare/v0.18.0...v0.18.1) (2021-07-14)
