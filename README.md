@@ -275,6 +275,14 @@ If `AbortSignal` is aborted, the promise will be rejected with `AbortError`.
 
 Note: `AbortError` is a custom error, not the `AbortError` of `fetch`.
 
+#### raceAbortSignals
+
+```ts
+function raceAbortSignals(abortSignals: AbortSignal[]): AbortSignal
+```
+
+The `Promise.race` function for `AbortSignal`.
+
 #### toExtraPromise
 
 ```ts
