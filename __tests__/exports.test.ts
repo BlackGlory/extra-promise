@@ -25,6 +25,9 @@ test('exports', () => {
   , 'timeout'
   , 'TimeoutError'
   , 'timeoutSignal'
+  , 'queueConcurrency'
+  , 'throttleConcurrency'
+  , 'throttleUntilDone'
 
   , 'cascadify'
   , 'Cascadable'

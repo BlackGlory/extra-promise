@@ -299,6 +299,36 @@ A sugar for running the same task in parallel.
 
 The parameter `id` is from `1` to `num`.
 
+#### queueConcurrency
+
+```ts
+function queueConcurrency<T, Args extends any[]>(
+  concurrency: number
+, fn: (...args: Args) => PromiseLike<T>
+): (...args: Args) => Promise<T>
+```
+
+Limit the number of concurrency, calls that exceed the number of concurrency will be delayed in order.
+
+#### throttleConcurrency
+
+```ts
+function throttleConcurrency<T, Args extends any[]>(
+  concurrency: number
+, fn: (...args: Args) => PromiseLike<T>
+): (...args: Args) => Promise<T> | undefined
+```
+
+Limit the number of concurrency, calls that exceed the number of concurrency will not occur.
+
+#### throttleUntilDone
+
+```ts
+function throttleUntilDone<T>(fn: () => PromiseLike<T>): () => Promise<T>
+```
+
+Limit the number of concurrent to 1, calls that exceed the number of concurrency will return the same `Promise` of the currently executing call.
+
 ### Classes
 
 #### ExtraPromise
