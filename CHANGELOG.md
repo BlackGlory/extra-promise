@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.18.6](https://github.com/BlackGlory/extra-promise/compare/v0.18.5...v0.18.6) (2021-09-19)
+
+
+### Features
+
+* add queueConcurrency, throttleConcurrency, throttleUntilDone ([8726c3d](https://github.com/BlackGlory/extra-promise/commit/8726c3d817c065f690c1486632770de931bca154))
+
 ### [0.18.5](https://github.com/BlackGlory/extra-promise/compare/v0.18.4...v0.18.5) (2021-09-16)
 
 ### [0.18.4](https://github.com/BlackGlory/extra-promise/compare/v0.18.3...v0.18.4) (2021-09-14)
