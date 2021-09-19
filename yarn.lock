@@ -527,12 +527,13 @@
     "@blackglory/errors" "^1.1.2"
     justypes "^0.1.5"
 
-"@blackglory/structures@^0.2.3":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@blackglory/structures/-/structures-0.2.3.tgz#176e5ac8a8e475ce1b0e8b62f1958e00f5df1222"
-  integrity sha512-rja+KT++IK28fX631MvO0Hx16BeG/c8+Oh4oQ+K1+sn4YB+AAwYX7YLKbMl8D61VlwSB1cKI9Rn8gO3Zvrlnrg==
+"@blackglory/structures@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@blackglory/structures/-/structures-0.2.5.tgz#22076055c6591fd31a40afa3e1d687c22bc8d98a"
+  integrity sha512-t+G6M9XJlYPIcMZpOVpvkMimyCPcDkqoxiZY4xD7eRXFnkf4wLBtW18j3LbvtWJnFQqFE+0VHRuVK4X1EMrcdQ==
   dependencies:
     "@blackglory/errors" "^1.1.2"
+    extra-timers "^0.2.2"
     justypes "^0.1.5"
 
 "@blackglory/types@^0.4.3", "@blackglory/types@^0.4.6":
@@ -1216,10 +1217,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.45.tgz#ec2dfb5566ff814d061aef7e141575aedba245cf"
   integrity sha512-DssMqTV9UnnoxDWu959sDLZzfvqCF0qDNRjaWeYSui9xkFe61kKo4l1TWNTQONpuXEm+gLMRvdlzvNHBamzmEw==
 
-"@types/node@^16.9.1":
-  version "16.9.1"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.9.1.tgz#0611b37db4246c937feef529ddcc018cf8e35708"
-  integrity sha512-QpLcX9ZSsq3YYUUnD3nFDY8H7wctAhQj/TFKL8Ya8v5fMm3CFXxo8zStsLAl780ltoYoo1WvKUVGBQK+1ifr7g==
+"@types/node@^16.9.3":
+  version "16.9.3"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.9.3.tgz#92230abb80a66beb10236e78a51cd9e6396f4489"
+  integrity sha512-5UmMznRvrwKqisJ458JbNoq3AyXHxlAKMkGtNe143W1SkZ1BVgvCHYBzn7wD66J+smE+BolqA1mes5BeXlWY6w==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -2754,6 +2755,11 @@ extra-stream@^0.1.2:
   integrity sha512-jlD+eZ1IeHSWvP9Z/wwMIrcwi3fuKD6B9DlRoyIsn2HclcJL+HAJGtBNQcFyl3ys8pYcLAcx8E4WgF+QXDAcgw==
   dependencies:
     "@blackglory/types" "^0.4.6"
+
+extra-timers@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/extra-timers/-/extra-timers-0.2.2.tgz#d6a14e2ac1315ba8d61aa1ca9872fde127055323"
+  integrity sha512-n9J9fm8/myqOCg9yatwrL/x32N6HEY94KPUu2utg33DbTvpnwA6IKNvSnsDPaOvhMgzX5p1kZx43etsVgCJlWA==
 
 fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   version "3.1.3"
