@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.19.0](https://github.com/BlackGlory/extra-promise/compare/v0.18.7...v0.19.0) (2021-10-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* methods Semaphore.acquire and Mutx.acquire will unlock after throwing
+
+### Features
+
+* methods Semaphore.acquire and Mutx.acquire will unlock after throwing ([7b076f9](https://github.com/BlackGlory/extra-promise/commit/7b076f9b3b9871510b37de369b0a6729f8c5852c))
+
 ### [0.18.7](https://github.com/BlackGlory/extra-promise/compare/v0.18.6...v0.18.7) (2021-09-25)
 
 ### [0.18.6](https://github.com/BlackGlory/extra-promise/compare/v0.18.5...v0.18.6) (2021-09-19)
