@@ -1,6 +1,7 @@
 import { Semaphore } from '@classes/semaphore'
 import { TIME_ERROR } from '@test/utils'
 import { go } from '@blackglory/go'
+import { getErrorPromise } from 'return-style'
 import 'jest-extended'
 import '@blackglory/jest-matchers'
 
@@ -21,6 +22,18 @@ describe('Semaphore', () => {
         const semaphore = new Semaphore(1)
 
         semaphore.acquire(done)
+      })
+
+      test('throw error', async () => {
+        const customError = new Error('custom error')
+        const semaphore = new Semaphore(1)
+
+        const err = await getErrorPromise(semaphore.acquire(() => {
+          throw customError
+        }))
+        await semaphore.acquire(() => {})
+
+        expect(err).toBe(customError)
       })
 
       test('return value', async () => {

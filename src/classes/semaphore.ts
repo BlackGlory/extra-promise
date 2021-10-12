@@ -29,9 +29,12 @@ export class Semaphore {
       const [handler] = args
       return go(async () => {
         await this.lock()
-        const result = await handler()
-        this.unlock()
-        return result
+        try {
+          const result = await handler()
+          return result
+        } finally {
+          this.unlock()
+        }
       })
     }
   }

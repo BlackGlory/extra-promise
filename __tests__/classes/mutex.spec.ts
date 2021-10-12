@@ -1,6 +1,7 @@
 import { Mutex } from '@classes/mutex'
 import { TIME_ERROR } from '@test/utils'
 import { go } from '@blackglory/go'
+import { getErrorPromise } from 'return-style'
 import 'jest-extended'
 import '@blackglory/jest-matchers'
 
@@ -21,6 +22,18 @@ describe('Mutex', () => {
         const mutex = new Mutex()
 
         mutex.acquire(done)
+      })
+
+      test('throw error', async () => {
+        const customError = new Error('custom error')
+        const mutex = new Mutex()
+
+        const err = await getErrorPromise(mutex.acquire(() => {
+          throw customError
+        }))
+        await mutex.acquire(() => {})
+
+        expect(err).toBe(customError)
       })
 
       test('return value', async () => {
