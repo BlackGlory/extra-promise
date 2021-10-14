@@ -58,8 +58,8 @@
     }
   },
   "devDependencies": {
-    "@blackglory/jest-matchers": "^0.1.20",
-    "@blackglory/wait-for": "^0.3.3",
+    "@blackglory/jest-matchers": "^0.1.21",
+    "@blackglory/wait-for": "^0.3.4",
     "@commitlint/cli": "^13.2.1",
     "@commitlint/config-conventional": "^13.2.0",
     "@rollup/plugin-commonjs": "^21.0.0",
@@ -69,10 +69,10 @@
     "@rollup/plugin-typescript": "^8.2.5",
     "@types/jest": "^27.0.2",
     "@types/lodash.once": "^4.1.6",
-    "@types/node": "^16.10.3",
+    "@types/node": "^16.10.9",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
-    "eslint": "^8.0.0",
+    "eslint": "^8.0.1",
     "husky": "^4.3.8",
     "jest": "^27.2.5",
     "jest-extended": "^1.0.0",
@@ -85,21 +85,21 @@
     "ts-jest": "^27.0.5",
     "tscpaths": "^0.0.9",
     "tslib": "^2.3.1",
-    "typescript": "^4.4.3"
+    "typescript": "^4.4.4"
   },
   "dependencies": {
     "@blackglory/errors": "^1.1.2",
     "@blackglory/go": "^0.1.0",
-    "@blackglory/structures": "^0.2.5",
+    "@blackglory/structures": "^0.2.6",
     "@blackglory/types": "^0.5.1",
     "abort-controller": "^3.0.0",
-    "core-js": "^3.18.2",
+    "core-js": "^3.18.3",
     "eventemitter3": "^4.0.7",
-    "extra-generator": "^0.2.11",
-    "iterable-operator": "^0.14.3",
+    "extra-generator": "^0.2.12",
+    "iterable-operator": "^0.14.4",
     "justypes": "^0.1.6",
     "lodash.once": "^4.1.1",
     "reflect-metadata": "^0.1.13",
-    "return-style": "^0.12.3"
+    "return-style": "^0.12.4"
   }
 }
