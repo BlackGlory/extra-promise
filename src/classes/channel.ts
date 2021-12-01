@@ -4,6 +4,7 @@ import { SignalGroup } from '@classes/signal-group'
 import { ChannelClosedError } from '@errors'
 import { Mutex } from '@classes/mutex'
 import { IBlockingChannel } from '@utils/types'
+import { Queue } from '@blackglory/structures'
 
 // Technically, it is the `BufferedChannel(0)`
 export class Channel<T> implements IBlockingChannel<T> {
@@ -12,11 +13,8 @@ export class Channel<T> implements IBlockingChannel<T> {
   writeLock = new Mutex()
   writeSignalGroup = new SignalGroup()
   readSignalGroup = new SignalGroup()
-  box: T[] = []
+  box = new Queue<T>()
 
-  // signal的关键在于, 能够阻止以下两件事发生:
-  // 1. 撤销已经入列, 但还未出列的项目(需要有一个可以精准撤销项目的有序队列)
-  // 2. 撤销还未入列的项目(简单, 可在获取锁时通过事件决定取消)
   async send(value: T): Promise<void> {
     if (this.isClosed) throw new ChannelClosedError()
 
@@ -28,13 +26,12 @@ export class Channel<T> implements IBlockingChannel<T> {
       // 双重检查
       if (this.isClosed) throw new ChannelClosedError()
 
-      this.box.push(value)
+      this.box.enqueue(value)
       this.writeSignalGroup.emitAll()
 
       // 等待receive发出读取信号
       if (await isFailurePromise(readSignal)) {
-        // 删除值
-        this.box.pop()
+        this.box.empty()
         throw new ChannelClosedError()
       }
     } finally {
@@ -48,7 +45,7 @@ export class Channel<T> implements IBlockingChannel<T> {
       [Symbol.asyncIterator]: () => {
         return {
           next: async () => {
-            while (this.box.length === 0) {
+            while (this.box.size === 0) {
               // 如果通道关闭, 则停止接收
               if (this.isClosed) return { done: true, value: undefined }
 
@@ -65,7 +62,7 @@ export class Channel<T> implements IBlockingChannel<T> {
               }
             }
 
-            const value = this.box.pop()!
+            const value = this.box.dequeue()!
             this.readSignalGroup.emitAll()
             return { done: false, value }
           }
