@@ -491,6 +491,11 @@
   resolved "https://registry.yarnpkg.com/@blackglory/go/-/go-0.1.0.tgz#a145a98d17593549a91ed79766230f5c7719e1de"
   integrity sha512-p6kO5ThjCLRg3giGiaYhYcMZeA2akHAcCzjW7D5zz2YTJQ2JDKNzSk4WkKEFSpSiFcMzeNABN+tz1tasn4D2tg==
 
+"@blackglory/go@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@blackglory/go/-/go-0.1.1.tgz#c0c766a1381a72a1d1557f54e11208b4b287fb28"
+  integrity sha512-ikJEGmHmj+HLQRKQVEHL6bPRsJfTiuQBP3vZS7uH8VkWDHHCiat8VOi0xH2+2adTVNDCsXZ2zrqiMPa3Y8xbuw==
+
 "@blackglory/jest-matchers@^0.1.21":
   version "0.1.21"
   resolved "https://registry.yarnpkg.com/@blackglory/jest-matchers/-/jest-matchers-0.1.21.tgz#bae4803efc1e5afbe1d57481500bb82364e2f40f"
