@@ -1,9 +1,7 @@
 # extra-promise [![npm](https://img.shields.io/npm/v/extra-promise.svg?maxAge=86400)](https://www.npmjs.com/package/extra-promise) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/BlackGlory/extra-promise/master/LICENSE)
-
 Utilities for JavaScript Promise and AsyncFunction.
 
 ## Install
-
 ```sh
 npm install --save extra-promise
 # or
@@ -11,11 +9,8 @@ yarn add extra-promise
 ```
 
 ## API
-
 ### functions
-
 #### isPromise
-
 ```ts
 function isPromise<T>(val: any): val is Promise<T>
 ```
@@ -23,7 +18,6 @@ function isPromise<T>(val: any): val is Promise<T>
 Check if the `val` is a `Promise` instance.
 
 #### isPromiseLike
-
 ```ts
 function isPromiseLike<T>(val: any): val is PromiseLike<T>
 ```
@@ -31,7 +25,6 @@ function isPromiseLike<T>(val: any): val is PromiseLike<T>
 Check if the `val` has a `then` method.
 
 #### delay
-
 ```ts
 function delay(timeout: number): Promise<void>
 ```
@@ -39,7 +32,6 @@ function delay(timeout: number): Promise<void>
 A simple wrapper for `setTimeout`.
 
 #### timeout
-
 ```ts
 function timeout(ms: number): Promise<never>
 ```
@@ -58,7 +50,6 @@ try {
 ```
 
 #### timeoutSignal
-
 ```ts
 function timeoutSignal(ms: number): AbortSignal
 ```
@@ -70,7 +61,6 @@ await fetch('http://example.com', { signal: timeoutSignal(5000) })
 ```
 
 #### pad
-
 ```ts
 function pad<T>(ms: number, fn: () => T | PromiseLike<T>): Promise<T>
 ```
@@ -78,7 +68,6 @@ function pad<T>(ms: number, fn: () => T | PromiseLike<T>): Promise<T>
 Run a function, but wait at least `ms` milliseconds before returning.
 
 #### parallel
-
 ```ts
 function parallel(
   tasks: Iterable<() => unknown | PromiseLike<unknown>>
@@ -92,7 +81,6 @@ The value range of `concurrency` is [1, Infinity].
 Invalid values will throw `Error`.
 
 #### series
-
 ```ts
 function series(tasks: Iterable<() => unknown | PromiseLike<unknown>>): Promise<void>
 ```
@@ -101,7 +89,6 @@ Perform tasks in order.
 Equivalent to `parallel(tasks, 1)`.
 
 #### waterfall
-
 ```ts
 function waterfall<T>(
   tasks: Iterable<(result: unknown) => unknown | PromiseLike<unknown>>
@@ -111,7 +98,6 @@ function waterfall<T>(
 Perform tasks in order, the return value of the previous task will become the parameter of the next task. If `tasks` is empty, return `Promise<undefined>`.
 
 #### each
-
 ```ts
 function each(
   iterable: Iterable<T>
@@ -126,7 +112,6 @@ The value range of `concurrency` is [1, Infinity].
 Invalid values will throw `Error`.
 
 #### map
-
 ```ts
 function map<T, U>(
   iterable: Iterable<T>
@@ -141,7 +126,6 @@ The value range of `concurrency` is [1, Infinity].
 Invalid values will throw `Error`.
 
 #### filter
-
 ```ts
 function filter<T, U = T>(
   iterable: Iterable<T>
@@ -156,7 +140,6 @@ The value range of `concurrency` is [1, Infinity].
 Invalid values will throw `Error`.
 
 #### all
-
 ```ts
 function all<T extends { [key: string]: PromiseLike<unknown> }>(
   obj: T
@@ -174,7 +157,6 @@ const { task1, task2 } = await all({
 ```
 
 #### promisify
-
 ```ts
 type Callback<T> =(err: any, result?: T) => void
 
@@ -186,7 +168,6 @@ function promisify<Result, Args extends any[] = unknown[]>(
 The well-known `promisify` function.
 
 #### callbackify
-
 ```ts
 type Callback<T> = (err: any, result?: T) => void
 
@@ -198,7 +179,6 @@ function callbackify<Result, Args extends any[] = unknown[]>(
 The `callbackify` function, as opposed to `promisify`.
 
 #### asyncify
-
 ```ts
 function asyncify<T extends any[], U>(
   fn: (...args: T) => U | PromiseLike<U>
@@ -222,7 +202,6 @@ await addAsync(a, b) // Promise<3>
 ```
 
 #### cascadify
-
 ```ts
 function cascadify<T extends object>(target: T): Cascadify<T>
 ```
@@ -266,7 +245,6 @@ await cascadify(adder)
 ```
 
 #### withAbortSignal
-
 ```ts
 function withAbortSignal<T>(signal: AbortSignal, fn: () => PromiseLike<T>): Promise<T>
 ```
@@ -276,7 +254,6 @@ If `AbortSignal` is aborted, the promise will be rejected with `AbortError`.
 Note: `AbortError` is a custom error, not the `AbortError` of `fetch`.
 
 #### raceAbortSignals
-
 ```ts
 function raceAbortSignals(abortSignals: Array<AbortSignal | Falsy>): AbortSignal
 ```
@@ -284,13 +261,11 @@ function raceAbortSignals(abortSignals: Array<AbortSignal | Falsy>): AbortSignal
 The `Promise.race` function for `AbortSignal`.
 
 #### toExtraPromise
-
 ```ts
 function toExtraPromise<T>(promise: PromiseLike<T>): ExtraPromise<T>
 ```
 
 #### spawn
-
 ```ts
 function spawn(num: number, task: (id: number) => Promise<void>): Promise<void>
 ```
@@ -300,7 +275,6 @@ A sugar for running the same task in parallel.
 The parameter `id` is from `1` to `num`.
 
 #### queueConcurrency
-
 ```ts
 function queueConcurrency<T, Args extends any[]>(
   concurrency: number
@@ -311,7 +285,6 @@ function queueConcurrency<T, Args extends any[]>(
 Limit the number of concurrency, calls that exceed the number of concurrency will be delayed in order.
 
 #### throttleConcurrency
-
 ```ts
 function throttleConcurrency<T, Args extends any[]>(
   concurrency: number
@@ -322,7 +295,6 @@ function throttleConcurrency<T, Args extends any[]>(
 Limit the number of concurrency, calls that exceed the number of concurrency will not occur.
 
 #### throttleUntilDone
-
 ```ts
 function throttleUntilDone<T>(fn: () => PromiseLike<T>): () => Promise<T>
 ```
@@ -330,9 +302,7 @@ function throttleUntilDone<T>(fn: () => PromiseLike<T>): () => Promise<T>
 Limit the number of concurrent to 1, calls that exceed the number of concurrency will return the same `Promise` of the currently executing call.
 
 ### Classes
-
 #### ExtraPromise
-
 ```ts
 class ExtraPromise<T> extends Promise<T> {
   get pending(): boolean
@@ -349,7 +319,6 @@ A subclass of `Promise`.
 So the state of the `Promise` can be known without calling the `then` method.
 
 #### Channel
-
 ```ts
 class Channel<T> {
   send(value: T): Promise<void>
@@ -382,7 +351,6 @@ for await (const value of chan.receive()) {
 ```
 
 #### BufferedChannel
-
 ```ts
 class BufferedChannel {
   send(value: T): Promise<void>
@@ -419,7 +387,6 @@ for await (const value of chan.receive()) {
 ```
 
 #### UnlimitedChannel
-
 ```ts
 class UnlimitedChannel {
   send(value: T): void
@@ -456,7 +423,6 @@ for await (const value of chan.receive()) {
 ```
 
 #### Deferred
-
 ```ts
 class Deferred<T> implements PromiseLike<T> {
   then: PromiseLike<T>['then']
@@ -469,7 +435,6 @@ class Deferred<T> implements PromiseLike<T> {
 `Deferred` is a `Promise` that separates `resolve()` and `reject()` from the constructor.
 
 #### LazyPromise
-
 ```ts
 class LazyPromise<T> implements PromiseLike<T> {
   then: PromiseLike<T>['then']
@@ -483,7 +448,6 @@ class LazyPromise<T> implements PromiseLike<T> {
 The difference with `Promise` is that `LazyPromise` only performs `executor` after `then` method is called.
 
 #### Signal
-
 ```ts
 class Signal implements PromiseLike<void> {
   then: PromiseLike<void>['then']
@@ -498,7 +462,6 @@ The `emit()` make the internal Promise resolve.
 The `discard()` make the internal Promise reject `SignalDiscarded`.
 
 #### SignalGroup
-
 ```ts
 class SignalGroup {
   add(signal: Signal): void
@@ -510,7 +473,6 @@ class SignalGroup {
 ```
 
 #### Semaphore
-
 ```ts
 type Release = () => void
 
@@ -523,7 +485,6 @@ class Semaphore {
 ```
 
 #### Mutex
-
 ```ts
 type Release = () => void
 
@@ -534,7 +495,6 @@ class Mutex extends Semaphore {
 ```
 
 #### DebounceMicrotask
-
 ```ts
 class DebounceMicrotask {
   queue(fn: () => void): void
@@ -548,7 +508,6 @@ if the microtask is not executed, multiple calls will only queue it once.
 `cancel` can cancel microtasks before it is executed.
 
 #### TaskRunner
-
 ```ts
 type Task<T> = () => PromiseLike<T>
 
