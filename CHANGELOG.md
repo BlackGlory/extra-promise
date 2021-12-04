@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.19.3](https://github.com/BlackGlory/extra-promise/compare/v0.19.2...v0.19.3) (2021-12-04)
+
+
+### Features
+
+* add ReusableDeferred ([68641b3](https://github.com/BlackGlory/extra-promise/commit/68641b3113ab5afa227fd0780ff1c66e35c8937b))
+
 ### [0.19.2](https://github.com/BlackGlory/extra-promise/compare/v0.19.1...v0.19.2) (2021-12-01)
 
 ### [0.19.1](https://github.com/BlackGlory/extra-promise/compare/v0.19.0...v0.19.1) (2021-10-14)
