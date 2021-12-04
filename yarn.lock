@@ -512,6 +512,11 @@
     iterable-operator "^0.14.3"
     rxjs "^7.4.0"
 
+"@blackglory/pass@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@blackglory/pass/-/pass-0.1.0.tgz#c78c91c89d800bf4f2e3a16bbebd4116f5267d2f"
+  integrity sha512-zhCUS+Jcb87yHAgZjmFCG9qwX94UAVepy6eBKsvigC4RYJhpxhNCOmmls/gU6fR4iCtWHj0q1ucX4lY8RCdVtA==
+
 "@blackglory/structures@^0.2.5":
   version "0.2.5"
   resolved "https://registry.yarnpkg.com/@blackglory/structures/-/structures-0.2.5.tgz#22076055c6591fd31a40afa3e1d687c22bc8d98a"

@@ -4,6 +4,7 @@ import { go } from '@blackglory/go'
 import { getErrorPromise } from 'return-style'
 import 'jest-extended'
 import '@blackglory/jest-matchers'
+import { pass } from '@blackglory/pass'
 
 describe('Mutex', () => {
   describe('not locked', () => {
@@ -31,7 +32,7 @@ describe('Mutex', () => {
         const err = await getErrorPromise(mutex.acquire(() => {
           throw customError
         }))
-        await mutex.acquire(() => {})
+        await mutex.acquire(pass)
 
         expect(err).toBe(customError)
       })

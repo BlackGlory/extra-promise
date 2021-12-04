@@ -1,5 +1,6 @@
 import { CustomError } from '@blackglory/errors'
 import { Deferred } from './deferred'
+import { pass } from '@blackglory/pass'
 
 export class Signal implements PromiseLike<void> {
   #deferred = new Deferred<void>()
@@ -13,7 +14,7 @@ export class Signal implements PromiseLike<void> {
   }
 
   discard() {
-    Promise.resolve(this.#deferred).catch(() => {})
+    Promise.resolve(this.#deferred).catch(pass)
     this.#deferred.reject(new SignalDiscarded())
   }
 }

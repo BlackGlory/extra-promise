@@ -5,6 +5,7 @@ import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable }
   from '@test/utils'
 import '@blackglory/jest-matchers'
 import { toExtraPromise } from '@functions/to-extra-promise'
+import { pass } from '@blackglory/pass'
 
 describe(`
   map<T, U>(
@@ -15,7 +16,7 @@ describe(`
 `, () => {
   describe('iterable is empty', () => {
     it('return Promise<[]>', async () => {
-      const result = map([], () => {})
+      const result = map([], pass)
       const proResult = await result
 
       expect(result).toBePromise()

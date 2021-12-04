@@ -1,11 +1,12 @@
 import { LazyPromise } from '@classes/lazy-promise'
 import { getCalledTimes } from '@test/utils'
 import '@blackglory/jest-matchers'
+import { pass } from '@blackglory/pass'
 
 describe('LazyPromise<T>', () => {
   describe('constructor', () => {
     it('return PromiseLike<T>', () => {
-      const lazy = new LazyPromise(() => {})
+      const lazy = new LazyPromise(pass)
 
       expect(lazy).toBePromiseLike()
     })

@@ -4,6 +4,7 @@ import { go } from '@blackglory/go'
 import { getErrorPromise } from 'return-style'
 import 'jest-extended'
 import '@blackglory/jest-matchers'
+import { pass } from '@blackglory/pass'
 
 describe('Semaphore', () => {
   describe('not locked', () => {
@@ -31,7 +32,7 @@ describe('Semaphore', () => {
         const err = await getErrorPromise(semaphore.acquire(() => {
           throw customError
         }))
-        await semaphore.acquire(() => {})
+        await semaphore.acquire(pass)
 
         expect(err).toBe(customError)
       })

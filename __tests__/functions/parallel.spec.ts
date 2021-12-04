@@ -5,6 +5,7 @@ import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable }
 import { getErrorPromise } from 'return-style'
 import '@blackglory/jest-matchers'
 import { toExtraPromise } from '@functions/to-extra-promise'
+import { pass } from '@blackglory/pass'
 
 describe(`
   parallel(
@@ -81,8 +82,8 @@ describe(`
 
         const result = parallel([task1, task2, task3], 2)
         const promise = toExtraPromise(result)
-        result.catch(() => {}) // we will catch it later
-        promise.catch(() => {}) // we will catch it later
+        result.catch(pass) // we will catch it later
+        promise.catch(pass) // we will catch it later
 
         expect(result).toBePromise()
         expect(promise.pending).toBe(true)
