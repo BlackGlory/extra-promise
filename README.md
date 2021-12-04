@@ -434,6 +434,19 @@ class Deferred<T> implements PromiseLike<T> {
 
 `Deferred` is a `Promise` that separates `resolve()` and `reject()` from the constructor.
 
+#### ReusableDeferred
+```ts
+class ReusableDeferred<T> implements PromiseLike<T> {
+  then: PromiseLike<T>['then']
+
+  resolve(value: T): void
+  reject(reason: unknown): void
+}
+```
+
+`ReusableDeferred` is similar to `Deferred`,
+but its `resolve()` and `reject()` can be called multiple times to change the value.
+
 #### LazyPromise
 ```ts
 class LazyPromise<T> implements PromiseLike<T> {
