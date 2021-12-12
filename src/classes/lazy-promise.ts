@@ -7,7 +7,9 @@ export class LazyPromise<T> implements PromiseLike<T> {
   }
 
   get then() {
-    if (!this.#promise) this.#promise = new Promise<T>(this.#executor)
+    if (!this.#promise) {
+      this.#promise = new Promise<T>(this.#executor)
+    }
     return this.#promise.then.bind(this.#promise)
   }
 }

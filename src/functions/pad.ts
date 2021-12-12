@@ -7,7 +7,9 @@ export async function pad<T>(ms: number, fn: () => T | PromiseLike<T>): Promise<
   if (err) throw err
 
   const elapsed = Date.now() - start
-  if (elapsed < ms) await delay(ms)
+  if (elapsed < ms) {
+    await delay(ms)
+  }
 
   return res!
 }

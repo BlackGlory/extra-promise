@@ -45,13 +45,17 @@ export function parallel(
 
     function resolveGracefully() {
       promisePending = false
-      if (!done) iterator.return?.()
+      if (!done) {
+        iterator.return?.()
+      }
       resolve()
     }
 
     function rejectGracefully(reason: any) {
       promisePending = false
-      if (!done) iterator.return?.()
+      if (!done) {
+        iterator.return?.()
+      }
       reject(reason)
     }
   })

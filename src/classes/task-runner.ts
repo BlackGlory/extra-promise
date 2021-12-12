@@ -27,7 +27,9 @@ export class TaskRunner<T> extends EventEmitter {
     }
 
     this.#internalEvents.on('update', () => {
-      if (this.#running) this.#debounceMicrotask.queue(consume)
+      if (this.#running) {
+        this.#debounceMicrotask.queue(consume)
+      }
     })
 
     this.#internalEvents.on('start', (task: Task<T>) => {
@@ -36,7 +38,9 @@ export class TaskRunner<T> extends EventEmitter {
 
     this.#internalEvents.on('resolve', (task: Task<T>, result: T) => {
       this.emit('resolved', task, result)
-      if (this.#running) this.#debounceMicrotask.queue(consume)
+      if (this.#running) {
+        this.#debounceMicrotask.queue(consume)
+      }
     })
 
     this.#internalEvents.on('reject', (task: Task<T>, reason: unknown) => {
