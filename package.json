@@ -91,7 +91,7 @@
     "@blackglory/errors": "^1.1.2",
     "@blackglory/go": "^0.1.1",
     "@blackglory/pass": "^0.1.0",
-    "@blackglory/structures": "^0.2.8",
+    "@blackglory/structures": "^0.3.0",
     "@blackglory/types": "^0.5.2",
     "abort-controller": "^3.0.0",
     "core-js": "^3.19.3",
