@@ -13,7 +13,9 @@ export class Channel<T> implements IBlockingChannel<T> {
   writeLock = new Mutex()
   writeSignalGroup = new SignalGroup()
   readSignalGroup = new SignalGroup()
-  box = new Queue<T>()
+
+  // 此队列仅仅是一个值的容器, 可能的最长长度为1
+  queue = new Queue<T>()
 
   async send(value: T): Promise<void> {
     if (this.isClosed) throw new ChannelClosedError()
@@ -26,12 +28,12 @@ export class Channel<T> implements IBlockingChannel<T> {
       // 双重检查
       if (this.isClosed) throw new ChannelClosedError()
 
-      this.box.enqueue(value)
+      this.queue.enqueue(value)
       this.writeSignalGroup.emitAll()
 
       // 等待receive发出读取信号
       if (await isFailurePromise(readSignal)) {
-        this.box.empty()
+        this.queue.empty()
         throw new ChannelClosedError()
       }
     } finally {
@@ -45,7 +47,7 @@ export class Channel<T> implements IBlockingChannel<T> {
       [Symbol.asyncIterator]: () => {
         return {
           next: async () => {
-            while (this.box.size === 0) {
+            while (this.queue.size === 0) {
               // 如果通道关闭, 则停止接收
               if (this.isClosed) return { done: true, value: undefined }
 
@@ -62,7 +64,7 @@ export class Channel<T> implements IBlockingChannel<T> {
               }
             }
 
-            const value = this.box.dequeue()!
+            const value = this.queue.dequeue()!
             this.readSignalGroup.emitAll()
             return { done: false, value }
           }
