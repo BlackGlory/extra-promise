@@ -540,6 +540,15 @@
     extra-timers "^0.2.2"
     justypes "^0.1.6"
 
+"@blackglory/structures@^0.2.7":
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/@blackglory/structures/-/structures-0.2.7.tgz#aeed472b8eeae92be718c334ac2973d4e4740f05"
+  integrity sha512-rzpx3fxu2UBsf8umFQcjqb0mYjX0XCZ9zgb85eLVfyFZMFzjud2s8LwMMbWO08m4Hll82I+vwWo6BZEMJtaaKA==
+  dependencies:
+    "@blackglory/errors" "^1.1.2"
+    extra-timers "^0.2.4"
+    justypes "^0.1.6"
+
 "@blackglory/types@^0.4.6":
   version "0.4.6"
   resolved "https://registry.yarnpkg.com/@blackglory/types/-/types-0.4.6.tgz#5ec04d3539215e44737972045fd376a76b4d8e71"
@@ -2819,7 +2828,7 @@ extra-timers@^0.2.2:
   resolved "https://registry.yarnpkg.com/extra-timers/-/extra-timers-0.2.2.tgz#d6a14e2ac1315ba8d61aa1ca9872fde127055323"
   integrity sha512-n9J9fm8/myqOCg9yatwrL/x32N6HEY94KPUu2utg33DbTvpnwA6IKNvSnsDPaOvhMgzX5p1kZx43etsVgCJlWA==
 
-extra-timers@^0.2.3:
+extra-timers@^0.2.3, extra-timers@^0.2.4:
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/extra-timers/-/extra-timers-0.2.4.tgz#6cd6b14317df195d5be77624ae428239bc0d5a9b"
   integrity sha512-xOuQG6o9jcSF73Jfw/uOuPsQG8JOqR1gbpHyH0VmJOHnqO5Tt/+CRhb26aryKN8FX0ST7/myi8gLMleSwyVJJA==

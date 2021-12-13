@@ -1,3 +1,5 @@
+import { Box } from '@blackglory/structures'
+
 enum State {
   Pending
 , Fulfilled
@@ -40,21 +42,5 @@ export class ExtraPromise<T> extends Promise<T> {
     })
 
     this.state = state
-  }
-}
-
-class Box<T> {
-  #value: T
-
-  constructor(value: T) {
-    this.#value = value
-  }
-
-  set(value: T) {
-    this.#value = value
-  }
-
-  get() {
-    return this.#value
   }
 }
