@@ -1,46 +1,61 @@
-import { Box } from '@blackglory/structures'
+import { createMachine, interpret } from 'xstate'
 
 enum State {
-  Pending
-, Fulfilled
-, Rejected
+  Pending = 'pending'
+, Fulfilled = 'fulfilled'
+, Rejected = 'rejected'
 }
 
+type Event =
+| { type: 'DONE' }
+| { type: 'ERROR' }
+
+const machine = createMachine<{}, Event>({
+  strict: true
+, initial: State.Pending
+, states: {
+    [State.Pending]: {
+      on: {
+        DONE: { target: State.Fulfilled }
+      , ERROR: { target: State.Rejected }
+      }
+    }
+  , [State.Fulfilled]: { type: 'final' }
+  , [State.Rejected]: { type: 'final' }
+  }
+})
+
 export class ExtraPromise<T> extends Promise<T> {
-  private state: Box<State>
+  private fsm
 
   get pending() {
-    return this.state.get() === State.Pending
+    return this.fsm.state.matches(State.Pending)
   }
 
   get fulfilled() {
-    return this.state.get() === State.Fulfilled
+    return this.fsm.state.matches(State.Fulfilled)
   }
 
   get rejected() {
-    return this.state.get() === State.Rejected
+    return this.fsm.state.matches(State.Rejected)
   }
 
   constructor(executor: (resolve: (value: T) => void, reject: (reason: any) => void) => void) {
-    const state = new Box(State.Pending)
-
+    const fsm = interpret(machine).start()
+  
     super((resolve, reject) => {
       executor(
         value => {
-          if (state.get() === State.Pending) {
-            state.set(State.Fulfilled)
-            resolve(value)
-          }
+          fsm.send('DONE')
+          resolve(value)
         }
       , reason => {
-          if (state.get() === State.Pending) {
-            state.set(State.Rejected)
-            reject(reason)
-          }
+          fsm.send('ERROR')
+          reject(reason)
         }
       )
     })
 
-    this.state = state
+    this.fsm = fsm
   }
 }
