@@ -540,14 +540,15 @@
     extra-timers "^0.2.2"
     justypes "^0.1.6"
 
-"@blackglory/structures@^0.2.7":
-  version "0.2.7"
-  resolved "https://registry.yarnpkg.com/@blackglory/structures/-/structures-0.2.7.tgz#aeed472b8eeae92be718c334ac2973d4e4740f05"
-  integrity sha512-rzpx3fxu2UBsf8umFQcjqb0mYjX0XCZ9zgb85eLVfyFZMFzjud2s8LwMMbWO08m4Hll82I+vwWo6BZEMJtaaKA==
+"@blackglory/structures@^0.2.8":
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/@blackglory/structures/-/structures-0.2.8.tgz#055da70de9d08a9e065d76468749044472d709c2"
+  integrity sha512-cfxV5xNoLgv64U0gidn7DnECyC5ooz5mV3RUfmw1vyAv/1Jbv+Gv5X6bENr4Of92TNFgT05NeZvRBDD+q20fTw==
   dependencies:
     "@blackglory/errors" "^1.1.2"
+    "@blackglory/types" "^0.5.2"
     extra-timers "^0.2.4"
-    justypes "^0.1.6"
+    rxjs "^7.4.0"
 
 "@blackglory/types@^0.4.6":
   version "0.4.6"
