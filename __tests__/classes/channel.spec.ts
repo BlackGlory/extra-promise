@@ -3,6 +3,7 @@ import { getErrorPromise } from 'return-style'
 import { toArrayAsync } from 'iterable-operator'
 import { delay } from '@functions/delay'
 import { TIME_ERROR } from '@test/utils'
+import { setImmediate } from 'extra-timers'
 import 'jest-extended'
 
 describe('Channel', () => {

@@ -1,5 +1,4 @@
 import { timeoutSignal } from '@functions/timeout-signal'
-import { AbortSignal } from 'abort-controller'
 import { TIME_ERROR } from '@test/utils'
 import { waitForEventTarget } from '@blackglory/wait-for'
 

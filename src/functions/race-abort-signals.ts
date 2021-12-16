@@ -1,4 +1,3 @@
-import { AbortController } from '@utils/abort-controller'
 import { Falsy } from 'justypes'
 
 export function raceAbortSignals(abortSignals: Array<AbortSignal | Falsy>): AbortSignal {

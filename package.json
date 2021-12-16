@@ -32,6 +32,9 @@
   "repository": "git@github.com:BlackGlory/extra-promise.git",
   "author": "BlackGlory <woshenmedoubuzhidao@blackglory.me>",
   "license": "MIT",
+  "engines": {
+    "node": ">=16"
+  },
   "scripts": {
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --quiet src __tests__",
     "test": "jest --runInBand --no-cache --config jest.config.js",
@@ -69,10 +72,10 @@
     "@rollup/plugin-typescript": "^8.3.0",
     "@types/jest": "^27.0.3",
     "@types/lodash.once": "^4.1.6",
-    "@types/node": "^17.0.0",
     "@typescript-eslint/eslint-plugin": "^5.7.0",
     "@typescript-eslint/parser": "^5.7.0",
     "eslint": "^8.4.1",
+    "extra-timers": "^0.2.4",
     "husky": "^4.3.8",
     "jest": "^27.4.5",
     "jest-extended": "^1.2.0",
@@ -93,7 +96,6 @@
     "@blackglory/pass": "^0.1.0",
     "@blackglory/structures": "^0.3.1",
     "@blackglory/types": "^0.6.1",
-    "abort-controller": "^3.0.0",
     "core-js": "^3.20.0",
     "eventemitter3": "^4.0.7",
     "extra-generator": "^0.2.15",

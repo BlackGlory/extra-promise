@@ -1,5 +1,6 @@
 import { ExtraPromise } from '@classes/extra-promise'
 import { getErrorPromise } from 'return-style'
+import { setImmediate } from 'extra-timers'
 
 describe('ExtraPromise', () => {
   describe('sync', () => {
