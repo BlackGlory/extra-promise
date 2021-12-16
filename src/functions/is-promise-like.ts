@@ -1,5 +1,6 @@
-import { isRecord } from '@blackglory/types'
+import { isObject, isFunction } from '@blackglory/types'
 
 export function isPromiseLike<T>(val: any): val is PromiseLike<T> {
-  return isRecord(val) && typeof val.then === 'function'
+  return isObject(val)
+      && isFunction((val as any).then)
 }
