@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.20.0](https://github.com/BlackGlory/extra-promise/compare/v0.19.7...v0.20.0) (2021-12-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* - The minimum version is Node.js v16
+
+* upgrade Node.js version ([57975a3](https://github.com/BlackGlory/extra-promise/commit/57975a34020d782ecbaab9615b55a9ffb146c161))
+
 ### [0.19.7](https://github.com/BlackGlory/extra-promise/compare/v0.19.6...v0.19.7) (2021-12-16)
 
 ### [0.19.6](https://github.com/BlackGlory/extra-promise/compare/v0.19.5...v0.19.6) (2021-12-13)
