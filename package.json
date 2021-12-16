@@ -92,7 +92,7 @@
     "@blackglory/go": "^0.1.1",
     "@blackglory/pass": "^0.1.0",
     "@blackglory/structures": "^0.3.1",
-    "@blackglory/types": "^0.6.0",
+    "@blackglory/types": "^0.6.1",
     "abort-controller": "^3.0.0",
     "core-js": "^3.20.0",
     "eventemitter3": "^4.0.7",

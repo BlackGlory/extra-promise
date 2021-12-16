@@ -579,10 +579,10 @@
   dependencies:
     justypes "^0.1.6"
 
-"@blackglory/types@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@blackglory/types/-/types-0.6.0.tgz#74c41c63f88592e1a5f7a489e428768070fbd27a"
-  integrity sha512-lzKg5ybpiPT6FJ6g6YlmX/03oOWW+LjFO9HFxSLFsDHGmpe19d8o5bWmTKf0tsAifg/qXDsLTLO/E3EgGj+xvQ==
+"@blackglory/types@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@blackglory/types/-/types-0.6.1.tgz#b40f52839954d37a0219353c93a3c6434afe8a2e"
+  integrity sha512-XyNixYL6PbjA0KJNUgAL1K861oKtEiziR6X9G3iBxUMk8/QVh+mIlNRmtlpKcVFlZ0l6/EAtZpU7sz1FdcLVvQ==
   dependencies:
     justypes "^0.1.6"
 
