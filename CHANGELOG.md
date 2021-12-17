@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.21.0](https://github.com/BlackGlory/extra-promise/compare/v0.20.0...v0.21.0) (2021-12-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* - Remove `timeoutSignal`, `withAbortSignal`, `raceAbortSignals`
+
+### Features
+
+* remove timeoutSignal, withAbortSignal, raceAbortSignals ([d810f3c](https://github.com/BlackGlory/extra-promise/commit/d810f3c8ea5d0889f7029ad2c556dea317092961))
+
 ## [0.20.0](https://github.com/BlackGlory/extra-promise/compare/v0.19.7...v0.20.0) (2021-12-16)
 
 
