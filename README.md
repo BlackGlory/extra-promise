@@ -49,17 +49,6 @@ try {
 }
 ```
 
-#### timeoutSignal
-```ts
-function timeoutSignal(ms: number): AbortSignal
-```
-
-It will abort after `ms` milliseconds.
-
-```ts
-await fetch('http://example.com', { signal: timeoutSignal(5000) })
-```
-
 #### pad
 ```ts
 function pad<T>(ms: number, fn: () => T | PromiseLike<T>): Promise<T>
@@ -243,22 +232,6 @@ await cascadify(adder)
   .add(10)
   .value
 ```
-
-#### withAbortSignal
-```ts
-function withAbortSignal<T>(signal: AbortSignal, fn: () => PromiseLike<T>): Promise<T>
-```
-
-If `AbortSignal` is aborted, the promise will be rejected with `AbortError`.
-
-Note: `AbortError` is a custom error, not the `AbortError` of `fetch`.
-
-#### raceAbortSignals
-```ts
-function raceAbortSignals(abortSignals: Array<AbortSignal | Falsy>): AbortSignal
-```
-
-The `Promise.race` function for `AbortSignal`.
 
 #### toExtraPromise
 ```ts

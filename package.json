@@ -32,9 +32,6 @@
   "repository": "git@github.com:BlackGlory/extra-promise.git",
   "author": "BlackGlory <woshenmedoubuzhidao@blackglory.me>",
   "license": "MIT",
-  "engines": {
-    "node": ">=16"
-  },
   "scripts": {
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --quiet src __tests__",
     "test": "jest --runInBand --no-cache --config jest.config.js",
