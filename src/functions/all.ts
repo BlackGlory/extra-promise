@@ -1,7 +1,7 @@
 import { UnpackedPromiseLike } from 'justypes'
 import { map } from './map'
 import { go } from '@blackglory/go'
-import 'core-js/es/object/from-entries'
+import fromPairs from 'lodash.frompairs'
 
 export function all<T extends { [key: string]: PromiseLike<unknown> }>(
   obj: T
@@ -10,10 +10,10 @@ export function all<T extends { [key: string]: PromiseLike<unknown> }>(
     const entries = Object.entries(obj)
     const results = await map(
       entries
-    , async ([key, value]) => [key, await value] as const
+    , async ([key, value]) => [key, await value]
     )
 
-    return Object.fromEntries(results) as {
+    return fromPairs(results) as {
       [Key in keyof T]: UnpackedPromiseLike<T[Key]>
     }
   })

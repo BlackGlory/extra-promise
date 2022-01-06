@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
-    "target": "ES2019"
+    "target": "ES2018"
   , "module": "CommonJS"
-  , "lib": ["DOM", "ES2019.Object"]
   , "strict": true
   , "esModuleInterop": true
   , "noUnusedLocals": true
