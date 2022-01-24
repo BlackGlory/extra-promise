@@ -69,9 +69,25 @@ Perform tasks in parallel.
 The value range of `concurrency` is [1, Infinity].
 Invalid values will throw `Error`.
 
+#### parallelAsync
+```ts
+function parallelAsync(
+  tasks: AsyncIterable<() => unknown | PromiseLike<unknown>>
+, /**
+   * concurrency must be finite number
+   */
+  concurrency: number
+): Promise<void>
+```
+
+Same as `parallel`, but `tasks` is an `AsyncIterable`.
+
 #### series
 ```ts
-function series(tasks: Iterable<() => unknown | PromiseLike<unknown>>): Promise<void>
+function series(
+  tasks: Iterable<() => unknown | PromiseLike<unknown>>
+       | AsyncIterable<() => unknown | PromiseLike<unknown>>
+): Promise<void>
 ```
 
 Perform tasks in order.
@@ -81,6 +97,7 @@ Equivalent to `parallel(tasks, 1)`.
 ```ts
 function waterfall<T>(
   tasks: Iterable<(result: unknown) => unknown | PromiseLike<unknown>>
+       | AsyncIterable<(result: unknown) => unknown | PromiseLike<unknown>>
 ): Promise<T | undefined>
 ```
 
@@ -100,6 +117,20 @@ The async `each` operator for Iterable.
 The value range of `concurrency` is [1, Infinity].
 Invalid values will throw `Error`.
 
+#### eachAsync
+```ts
+function eachAsync<T>(
+  iterable: AsyncIterable<T>
+, fn: (element: T, i: number) => unknown | PromiseLike<unknown>
+, /**
+   * concurrency must be finite number
+   */
+  concurrency: number
+): Promise<void>
+```
+
+Same as `each`, but `iterable` is an `AsyncIterable`.
+
 #### map
 ```ts
 function map<T, U>(
@@ -114,6 +145,20 @@ The async `map` operator for Iterable.
 The value range of `concurrency` is [1, Infinity].
 Invalid values will throw `Error`.
 
+#### mapAsync
+```ts
+export function mapAsync<T, U>(
+  iterable: AsyncIterable<T>
+, fn: (element: T, i: number) => U | PromiseLike<U>
+, /**
+   * concurrency must be finite number
+   */
+  concurrency: number
+): Promise<U[]>
+```
+
+Same as `map`, but `iterable` is an `AsyncIterable`.
+
 #### filter
 ```ts
 function filter<T, U = T>(
@@ -127,6 +172,20 @@ The async `filter` operator for Iterable.
 
 The value range of `concurrency` is [1, Infinity].
 Invalid values will throw `Error`.
+
+#### filterAsync
+```ts
+function filterAsync<T, U = T>(
+  iterable: AsyncIterable<T>
+, fn: (element: T, i: number) => boolean | PromiseLike<boolean>
+, /**
+   * concurrency must be finite number
+   */
+  concurrency: number
+): Promise<U[]>
+```
+
+Same as `filter`, but `iterable` is an `AsyncIterable`.
 
 #### all
 ```ts
