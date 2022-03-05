@@ -2,11 +2,7 @@ import * as target from '@src/index'
 
 test('exports', () => {
   const expectedExports: string[] = [
-    'isPromise'
-  , 'isPromiseLike'
-  , 'isntPromise'
-  , 'isntPromiseLike'
-  , 'delay'
+    'delay'
   , 'parallel'
   , 'parallelAsync'
   , 'series'

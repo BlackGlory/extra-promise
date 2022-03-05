@@ -10,20 +10,6 @@ yarn add extra-promise
 
 ## API
 ### functions
-#### isPromise
-```ts
-function isPromise<T>(val: any): val is Promise<T>
-```
-
-Check if the `val` is a `Promise` instance.
-
-#### isPromiseLike
-```ts
-function isPromiseLike<T>(val: any): val is PromiseLike<T>
-```
-
-Check if the `val` has a `then` method.
-
 #### delay
 ```ts
 function delay(timeout: number): Promise<void>

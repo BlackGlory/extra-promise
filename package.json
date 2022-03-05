@@ -2,27 +2,7 @@
   "name": "extra-promise",
   "version": "0.21.2",
   "description": "Utilities for JavaScript Promise and AsyncFunction",
-  "keywords": [
-    "isPromise",
-    "isPromiseLike",
-    "delay",
-    "timeout",
-    "retry",
-    "parallel",
-    "series",
-    "waterfall",
-    "each",
-    "map",
-    "filter",
-    "promisify",
-    "callbackify",
-    "asyncify",
-    "cascadify",
-    "channel",
-    "deferred",
-    "lazy",
-    "signal"
-  ],
+  "keywords": [],
   "files": [
     "lib",
     "dist"
