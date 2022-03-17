@@ -2,7 +2,7 @@ import { DebounceMicrotask } from '@classes/debounce-microtask'
 import { Queue } from '@blackglory/structures'
 import { validateConcurrency } from '@utils/validate-concurrency'
 import { EventEmitter } from 'eventemitter3'
-import { toResultAsync, getError } from 'return-style'
+import { toResultAsync } from 'return-style'
 
 export type Task<T> = () => PromiseLike<T>
 
@@ -93,9 +93,9 @@ export class TaskRunner<T> extends EventEmitter {
 
     this.#pending--
     if (result.isOk()) {
-      this.#internalEvents.emit('resolve', task, result.get())
+      this.#internalEvents.emit('resolve', task, result.unwrap())
     } else {
-      this.#internalEvents.emit('reject', task, getError(() => result.get()))
+      this.#internalEvents.emit('reject', task, result.unwrapErr())
     }
   }
 }
