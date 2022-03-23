@@ -1,7 +1,7 @@
 import { UnpackedPromiseLike } from 'justypes'
 import { map } from './map'
 import { go } from '@blackglory/go'
-import fromPairs from 'lodash.frompairs'
+import fromPairs from 'lodash/fromPairs'
 
 export function all<T extends { [key: string]: PromiseLike<unknown> }>(
   obj: T

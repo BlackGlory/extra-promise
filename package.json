@@ -49,8 +49,7 @@
     "@rollup/plugin-replace": "^4.0.0",
     "@rollup/plugin-typescript": "^8.3.1",
     "@types/jest": "^27.4.1",
-    "@types/lodash.frompairs": "^4.0.6",
-    "@types/lodash.once": "^4.1.6",
+    "@types/lodash": "^4.14.180",
     "@typescript-eslint/eslint-plugin": "^5.16.0",
     "@typescript-eslint/parser": "^5.16.0",
     "eslint": "^8.11.0",
@@ -79,8 +78,7 @@
     "extra-generator": "^0.2.16",
     "iterable-operator": "^1.0.1",
     "justypes": "^2.0.0",
-    "lodash.frompairs": "^4.0.1",
-    "lodash.once": "^4.1.1",
+    "lodash": "^4.17.21",
     "reflect-metadata": "^0.1.13",
     "return-style": "^1.0.0"
   }

@@ -1,7 +1,7 @@
 import { Signal } from './signal'
 import { SignalGroup } from '@classes/signal-group'
 import { go } from '@blackglory/go'
-import once from 'lodash.once'
+import once from 'lodash/once'
 
 type Release = () => void
 
