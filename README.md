@@ -235,49 +235,6 @@ const addAsync = asyncify(add) // (a: number | PromiseLike<number>, b: number | 
 await addAsync(a, b) // Promise<3>
 ```
 
-#### cascadify
-```ts
-function cascadify<T extends object>(target: T): Cascadify<T>
-```
-
-Use the decorator `Cascadable` to mark the cascadable methods (the return value is `PromiseLike<this>`), transform the instance into a cascadify instance, and end with the non-cascadable member.
-
-```ts
-class Adder {
-  value: number
-
-  constructor(initialValue: number) {
-    this.value = initialValue
-  }
-
-  get() {
-    return this.value
-  }
-
-  async getAsync() {
-    return this.value
-  }
-
-  @Cascadable
-  async add(value: number) {
-    this.value += value
-    return this
-  }
-}
-
-await cascadify(adder)
-  .add(10)
-  .get()
-
-await cascadify(adder)
-  .add(10)
-  .getAsync()
-
-await cascadify(adder)
-  .add(10)
-  .value
-```
-
 #### toExtraPromise
 ```ts
 function toExtraPromise<T>(promise: PromiseLike<T>): ExtraPromise<T>

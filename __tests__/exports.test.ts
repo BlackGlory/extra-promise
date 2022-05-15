@@ -25,9 +25,6 @@ test('exports', () => {
   , 'throttleConcurrency'
   , 'throttleUntilDone'
 
-  , 'cascadify'
-  , 'Cascadable'
-
   , 'callbackify'
 
   , 'ExtraPromise'
