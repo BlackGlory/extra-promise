@@ -1,15 +1,17 @@
 export class LazyPromise<T> implements PromiseLike<T> {
-  #promise?: Promise<T>
-  #executor: (resolve: (value: T) => void, reject: (reason: any) => void) => void
+  private promise?: Promise<T>
 
-  constructor(executor: (resolve: (value: T) => void, reject: (reason: any) => void) => void) {
-    this.#executor = executor
-  }
+  constructor(
+    private executor: (
+      resolve: (value: T) => void
+    , reject: (reason: any) => void
+    ) => void
+  ) {}
 
   get then() {
-    if (!this.#promise) {
-      this.#promise = new Promise<T>(this.#executor)
+    if (!this.promise) {
+      this.promise = new Promise<T>(this.executor)
     }
-    return this.#promise.then.bind(this.#promise)
+    return this.promise.then.bind(this.promise)
   }
 }

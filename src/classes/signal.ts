@@ -3,19 +3,19 @@ import { Deferred } from './deferred'
 import { pass } from '@blackglory/pass'
 
 export class Signal implements PromiseLike<void> {
-  #deferred = new Deferred<void>()
+  private deferred = new Deferred<void>()
 
   get then() {
-    return this.#deferred.then.bind(this.#deferred)
+    return this.deferred.then.bind(this.deferred)
   }
 
   emit() {
-    this.#deferred.resolve()
+    this.deferred.resolve()
   }
 
   discard() {
-    Promise.resolve(this.#deferred).catch(pass)
-    this.#deferred.reject(new SignalDiscarded())
+    Promise.resolve(this.deferred).catch(pass)
+    this.deferred.reject(new SignalDiscarded())
   }
 }
 

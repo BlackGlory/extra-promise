@@ -7,56 +7,56 @@ import { toResultAsync } from 'return-style'
 export type Task<T> = () => PromiseLike<T>
 
 export class TaskRunner<T> extends EventEmitter {
-  #internalEvents = new EventEmitter()
-  #queue = new Queue<Task<T>>()
-  #pending: number = 0
-  #concurrency!: number
-  #running: boolean = true
-  #debounceMicrotask = new DebounceMicrotask()
+  private internalEvents = new EventEmitter()
+  private queue = new Queue<Task<T>>()
+  private pending: number = 0
+  private concurrency!: number
+  private running: boolean = true
+  private debounceMicrotask = new DebounceMicrotask()
 
   constructor(concurrency: number = Infinity) {
     super()
     this.setConcurrency(concurrency)
 
     const consume = () => {
-      if (!this.#running) return
-      while (this.#pending < this.#concurrency && this.#queue.size > 0) {
-        const task = this.#queue.dequeue()!
+      if (!this.running) return
+      while (this.pending < this.concurrency && this.queue.size > 0) {
+        const task = this.queue.dequeue()!
         this.run(task)
       }
     }
 
-    this.#internalEvents.on('update', () => {
-      if (this.#running) {
-        this.#debounceMicrotask.queue(consume)
+    this.internalEvents.on('update', () => {
+      if (this.running) {
+        this.debounceMicrotask.queue(consume)
       }
     })
 
-    this.#internalEvents.on('start', (task: Task<T>) => {
+    this.internalEvents.on('start', (task: Task<T>) => {
       this.emit('started', task)
     })
 
-    this.#internalEvents.on('resolve', (task: Task<T>, result: T) => {
+    this.internalEvents.on('resolve', (task: Task<T>, result: T) => {
       this.emit('resolved', task, result)
-      if (this.#running) {
-        this.#debounceMicrotask.queue(consume)
+      if (this.running) {
+        this.debounceMicrotask.queue(consume)
       }
     })
 
-    this.#internalEvents.on('reject', (task: Task<T>, reason: unknown) => {
-      this.#internalEvents.emit('pause')
+    this.internalEvents.on('reject', (task: Task<T>, reason: unknown) => {
+      this.internalEvents.emit('pause')
       this.emit('rejected', task, reason)
     })
 
-    this.#internalEvents.on('pause', () => {
-      this.#running = false
-      this.#debounceMicrotask.cancel(consume)
+    this.internalEvents.on('pause', () => {
+      this.running = false
+      this.debounceMicrotask.cancel(consume)
     })
 
-    this.#internalEvents.on('resume', () => {
-      if (!this.#running) {
-        this.#running = true
-        this.#debounceMicrotask.queue(consume)
+    this.internalEvents.on('resume', () => {
+      if (!this.running) {
+        this.running = true
+        this.debounceMicrotask.queue(consume)
       }
     })
   }
@@ -64,38 +64,38 @@ export class TaskRunner<T> extends EventEmitter {
   setConcurrency(concurrency: number): void {
     validateConcurrency('concurrency', concurrency)
 
-    this.#concurrency = concurrency
-    this.#internalEvents.emit('update')
+    this.concurrency = concurrency
+    this.internalEvents.emit('update')
   }
 
   push(...tasks: Task<T>[]): void {
-    this.#queue.enqueue(...tasks)
-    this.#internalEvents.emit('update')
+    this.queue.enqueue(...tasks)
+    this.internalEvents.emit('update')
   }
 
   pause(): void {
-    this.#internalEvents.emit('pause')
+    this.internalEvents.emit('pause')
   }
 
   resume(): void {
-    this.#internalEvents.emit('resume')
+    this.internalEvents.emit('resume')
   }
 
   clear(): void {
-    this.#queue.empty()
+    this.queue.empty()
   }
 
   private async run(task: Task<T>): Promise<void> {
-    this.#pending++
-    this.#internalEvents.emit('start', task)
+    this.pending++
+    this.internalEvents.emit('start', task)
 
     const result = await toResultAsync(task)
 
-    this.#pending--
+    this.pending--
     if (result.isOk()) {
-      this.#internalEvents.emit('resolve', task, result.unwrap())
+      this.internalEvents.emit('resolve', task, result.unwrap())
     } else {
-      this.#internalEvents.emit('reject', task, result.unwrapErr())
+      this.internalEvents.emit('reject', task, result.unwrapErr())
     }
   }
 }
