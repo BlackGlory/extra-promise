@@ -72,7 +72,7 @@
     "@blackglory/errors": "^2.2.1",
     "@blackglory/go": "^1.0.0",
     "@blackglory/pass": "^1.0.0",
-    "@blackglory/structures": "^0.4.0",
+    "@blackglory/structures": "^0.5.0",
     "@blackglory/types": "^1.1.0",
     "eventemitter3": "^4.0.7",
     "extra-generator": "^0.2.16",

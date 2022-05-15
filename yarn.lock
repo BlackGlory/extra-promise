@@ -762,10 +762,10 @@
     iterable-operator "^0.14.5"
     rxjs "^7.5.4"
 
-"@blackglory/structures@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@blackglory/structures/-/structures-0.4.0.tgz#76c73ed275fbc64a45a3779637c9b6a0ae64ad3d"
-  integrity sha512-qlo0jtSzkrQXfLh7TTjOyFVMBmA4eiyLWZJJ6E5TTCSb9qI00PxjXP8uRLn1tYPTrYFnE/qbk9VG/qeP3iMy5w==
+"@blackglory/structures@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@blackglory/structures/-/structures-0.5.0.tgz#32879893d1f4ca5ef347afd041a35d260852ed47"
+  integrity sha512-yxQvlD2DWhMi5clu6pMQJnDWphs8Jngi3WYcPS8r5563Q0b7WPmiMKtLCEA4Vm/fROaJdTAeTnd51P8+MrfHZA==
   dependencies:
     "@blackglory/errors" "^2.2.1"
     "@blackglory/types" "^1.1.0"
