@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/BlackGlory/extra-promise/compare/v1.0.2...v2.0.0) (2022-05-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* rewrite TaskRunner
+* `cascadify` removed
+
+### Features
+
+* remove `cascadify` ([08e94d8](https://github.com/BlackGlory/extra-promise/commit/08e94d8a25a2406b75298981f3abb41c6fccf5b1))
+* rewrite TaskRunner ([41f9295](https://github.com/BlackGlory/extra-promise/commit/41f9295ff97abcd50b794484330c741c30690471))
+
 ### [1.0.2](https://github.com/BlackGlory/extra-promise/compare/v1.0.1...v1.0.2) (2022-03-23)
 
 ### [1.0.1](https://github.com/BlackGlory/extra-promise/compare/v1.0.0...v1.0.1) (2022-03-17)
