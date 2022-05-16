@@ -4,12 +4,7 @@ import 'jest-extended'
 import '@blackglory/jest-matchers'
 import { TIME_ERROR } from '@test/utils'
 
-test(`
-  queueConcurrency<T, Args extends any[]>(
-    concurrency: number
-  , fn: (...args: Args) => PromiseLike<T>
-  ): (...args: Args) => Promise<T>
-`, async () => {
+test('queueConcurrency', async () => {
   async function fn(num: number) {
     await delay(500)
     return num

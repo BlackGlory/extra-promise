@@ -499,21 +499,18 @@ if the microtask is not executed, multiple calls will only queue it once.
 ```ts
 type Task<T> = () => PromiseLike<T>
 
-class TaskRunner<T> extends EventEmitter {
+class TaskRunner {
   constructor(concurrency: number = Infinity)
 
+  getConcurrency(): number
   setConcurrency(concurrency: number): void
-  push(...tasks: Task<T>[]): void
+
+  add(task: Task<T>): Promise<T>
   clear(): void
 
-  pause(): void
-  resume(): void
+  start(): void
+  stop(): void
 }
 ```
 
-A task runner, it will automatically execute tasks in FIFO order.
-
-TaskRunner provides theses events:
-- `started`: It will be triggered after a task is started, provide the parameter `task`.
-- `resolved`: It will be triggered after a task is resolved, provide the paramter `task` and `result`.
-- `rejected`: It will be triggered after a task is rejected, provide the paramters `task` and `reason`. At the same time, TaskRunner will pause.
+A task runner, it will execute tasks in FIFO order.

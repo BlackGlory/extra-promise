@@ -1,101 +1,87 @@
+import { Deferred } from '@classes/deferred'
 import { DebounceMicrotask } from '@classes/debounce-microtask'
-import { Queue } from '@blackglory/structures'
+import { Queue, FiniteStateMachine } from '@blackglory/structures'
 import { validateConcurrency } from '@utils/validate-concurrency'
-import { EventEmitter } from 'eventemitter3'
-import { toResultAsync } from 'return-style'
 
 export type Task<T> = () => PromiseLike<T>
 
-export class TaskRunner<T> extends EventEmitter {
-  private internalEvents = new EventEmitter()
-  private queue = new Queue<Task<T>>()
-  private pending: number = 0
-  private concurrency!: number
-  private running: boolean = true
-  private debounceMicrotask = new DebounceMicrotask()
-
-  constructor(concurrency: number = Infinity) {
-    super()
-    this.setConcurrency(concurrency)
-
-    const consume = () => {
-      if (!this.running) return
-      while (this.pending < this.concurrency && this.queue.size > 0) {
-        const task = this.queue.dequeue()!
-        this.run(task)
+export class TaskRunner {
+  private fsm = new FiniteStateMachine(
+    {
+      running: {
+        stop: 'stopped'
+      }
+    , stopped: {
+        start: 'running'
       }
     }
+  , 'stopped'
+  )
+  private queue = new Queue<[Task<unknown>, Deferred<any>]>()
+  private pending: number = 0
+  private debounceMicrotask = new DebounceMicrotask()
 
-    this.internalEvents.on('update', () => {
-      if (this.running) {
-        this.debounceMicrotask.queue(consume)
-      }
-    })
+  constructor(private concurrency: number = Infinity) {}
 
-    this.internalEvents.on('start', (task: Task<T>) => {
-      this.emit('started', task)
-    })
-
-    this.internalEvents.on('resolve', (task: Task<T>, result: T) => {
-      this.emit('resolved', task, result)
-      if (this.running) {
-        this.debounceMicrotask.queue(consume)
-      }
-    })
-
-    this.internalEvents.on('reject', (task: Task<T>, reason: unknown) => {
-      this.internalEvents.emit('pause')
-      this.emit('rejected', task, reason)
-    })
-
-    this.internalEvents.on('pause', () => {
-      this.running = false
-      this.debounceMicrotask.cancel(consume)
-    })
-
-    this.internalEvents.on('resume', () => {
-      if (!this.running) {
-        this.running = true
-        this.debounceMicrotask.queue(consume)
-      }
-    })
+  getConcurrency(): number {
+    return this.concurrency
   }
 
   setConcurrency(concurrency: number): void {
     validateConcurrency('concurrency', concurrency)
 
     this.concurrency = concurrency
-    this.internalEvents.emit('update')
   }
 
-  push(...tasks: Task<T>[]): void {
-    this.queue.enqueue(...tasks)
-    this.internalEvents.emit('update')
+  async add<T>(task: Task<T>): Promise<T> {
+    const deferred = new Deferred<T>()
+    this.queue.enqueue([task, deferred])
+    if (this.fsm.matches('running')) {
+      this.debounceMicrotask.queue(this.nextTick)
+    }
+    return await deferred
   }
 
-  pause(): void {
-    this.internalEvents.emit('pause')
+  start(): void {
+    this.fsm.send('start')
+
+    this.debounceMicrotask.queue(this.nextTick)
   }
 
-  resume(): void {
-    this.internalEvents.emit('resume')
+  stop(): void {
+    this.fsm.send('stop')
+
+    this.debounceMicrotask.cancel(this.nextTick)
   }
 
   clear(): void {
     this.queue.empty()
   }
 
-  private async run(task: Task<T>): Promise<void> {
-    this.pending++
-    this.internalEvents.emit('start', task)
+  private nextTick = () => {
+    while (
+      this.queue.size > 0 &&
+      this.pending < this.concurrency
+    ) {
+      const [task, deferred] = this.queue.dequeue()!
+      this.run(task, deferred)
+    }
+  }
 
-    const result = await toResultAsync(task)
+  private async run(task: Task<unknown>, deferred: Deferred<unknown>): Promise<void> {
+    this.pending++
+
+    try {
+      const result = await task()
+      deferred.resolve(result)
+    } catch (e) {
+      deferred.reject(e)
+    }
 
     this.pending--
-    if (result.isOk()) {
-      this.internalEvents.emit('resolve', task, result.unwrap())
-    } else {
-      this.internalEvents.emit('reject', task, result.unwrapErr())
+
+    if (this.fsm.matches('running')) {
+      this.debounceMicrotask.queue(this.nextTick)
     }
   }
 }
