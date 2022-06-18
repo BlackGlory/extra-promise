@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/BlackGlory/extra-promise/compare/v2.1.1...v2.2.0) (2022-06-18)
+
+
+### Features
+
+* improve promisify for an edge case ([03cbbb5](https://github.com/BlackGlory/extra-promise/commit/03cbbb5a56b04a2e6ce2ec845faa907fd0fd28a7))
+
+
+### Bug Fixes
+
+* callbackify for edge cases ([d630910](https://github.com/BlackGlory/extra-promise/commit/d630910ead656cdb3a698e09352e37f3101b629b))
+* callbackify for edge cases ([57c788b](https://github.com/BlackGlory/extra-promise/commit/57c788ba5822a12d521ab6216321f3e5d7ec8b8d))
+
 ### [2.1.1](https://github.com/BlackGlory/extra-promise/compare/v2.1.0...v2.1.1) (2022-06-18)
 
 
