@@ -2,11 +2,7 @@ import { runAllMicrotasks } from '@test/utils'
 import { callbackify } from '@functions/callbackify'
 import 'jest-extended'
 
-describe(`
-  callbackify<Result, Args extends any[] = unknown[]>(
-    fn: (...args: Args) => PromiseLike<Result>
-  ): (...args: [...args: Args, callback: Callback<Result>]) => void
-`, () => {
+describe('callbackify', () => {
   describe('Promise resolved', () => {
     it('call back', async () => {
       const value = 'value'
@@ -41,5 +37,40 @@ describe(`
         expect(cb).toBeCalledWith(error)
       })
     })
+  })
+
+  test('edge case: no args', async () => {
+    const value = 'value'
+    const fn = () => Promise.resolve(value)
+    const cb = jest.fn()
+
+    const callbackified = callbackify(fn)
+    const result = callbackified(cb)
+    await runAllMicrotasks()
+
+    expect(callbackified).toBeFunction()
+    expect(result).toBeUndefined()
+    expect(cb).toBeCalledTimes(1)
+    expect(cb).toBeCalledWith(null, value)
+  })
+
+  test('edge case: bind', async () => {
+    class Foo {
+      static value = 'value'
+
+      static async bar() {
+        return this.value
+      }
+    }
+    const cb = jest.fn()
+
+    const callbackified = callbackify(Foo.bar).bind(Foo)
+    const result = callbackified(cb)
+    await runAllMicrotasks()
+
+    expect(callbackified).toBeFunction()
+    expect(result).toBeUndefined()
+    expect(cb).toBeCalledTimes(1)
+    expect(cb).toBeCalledWith(null, Foo.value)
   })
 })
