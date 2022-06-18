@@ -192,10 +192,10 @@ const { task1, task2 } = await all({
 
 #### promisify
 ```ts
-type Callback<T> =(err: any, result?: T) => void
+type Callback<T> = (err: any, result?: T) => void
 
 function promisify<Result, Args extends any[] = unknown[]>(
-  fn: (...args: [...args: Args, callback: Callback<Result>]) => unknown
+  fn: (...args: [...args: Args, callback?: Callback<Result>]) => unknown
 ): (...args: Args) => Promise<Result>
 ```
 

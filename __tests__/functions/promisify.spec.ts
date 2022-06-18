@@ -41,4 +41,19 @@ describe(`
       expect(proResult).toBe(error)
     })
   })
+
+  test('edge case: optional callback', async () => {
+    const value = 'value'
+    const fn = (value: string, cb?: (err: unknown, result: string) => void) =>
+      queueMicrotask(() => cb?.(null, value))
+
+    const promisified = promisify(fn)
+    const isFunc = isFunction(promisified)
+    const result = promisified(value)
+    const proResult = await result
+
+    expect(isFunc).toBe(true)
+    expect(result).toBePromise()
+    expect(proResult).toBe(value)
+  })
 })
