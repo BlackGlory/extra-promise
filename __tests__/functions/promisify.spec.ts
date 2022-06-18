@@ -3,11 +3,7 @@ import { getErrorPromise } from 'return-style'
 import { promisify } from '@functions/promisify'
 import '@blackglory/jest-matchers'
 
-describe(`
-  promisify<Result, Args extends any[] = unknown[]>(
-    fn: (...args: [...args: Args, callback: Callback<Result>]) => unknown
-  ): (...args: Args) => Promise<Result>
-`, () => {
+describe('promisify', () => {
   describe('fn resolved', () => {
     it('return resovled Promise', async () => {
       const value = 'value'
@@ -55,5 +51,19 @@ describe(`
     expect(isFunc).toBe(true)
     expect(result).toBePromise()
     expect(proResult).toBe(value)
+  })
+
+  test('edge case: no args', async () => {
+    const fn = (cb: (err: unknown, result: string) => void) =>
+      queueMicrotask(() => cb(null, 'result'))
+
+    const promisified = promisify(fn)
+    const isFunc = isFunction(promisified)
+    const result = promisified()
+    const proResult = await result
+
+    expect(isFunc).toBe(true)
+    expect(result).toBePromise()
+    expect(proResult).toBe('result')
   })
 })

@@ -4,6 +4,9 @@
 
 type Callback<T> = (err: any, result?: T) => void
 
+export function promisify<Result>(
+  fn: (callback: Callback<Result>) => unknown
+): () => Promise<Result>
 export function promisify<Result, T1>(
   fn: (
     args1: T1
@@ -67,6 +70,9 @@ export function promisify<Result, T1, T2, T3, T4, T5, T6, T7>(
   , callback: Callback<Result>
   ) => unknown
 ): (args1: T1, args2: T2, args3: T3, args4: T4, args5: T5, args6: T6, args7: T7) => Promise<Result>
+export function promisify<Result>(
+  fn: (callback?: Callback<Result>) => unknown
+): () => Promise<Result>
 export function promisify<Result, T1>(
   fn: (
     args1: T1
