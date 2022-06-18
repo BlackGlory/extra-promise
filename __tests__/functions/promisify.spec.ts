@@ -66,4 +66,23 @@ describe('promisify', () => {
     expect(result).toBePromise()
     expect(proResult).toBe('result')
   })
+
+  test('edge case: bind', async () => {
+    class Foo {
+      static value = 'value'
+
+      static bar(cb: (err: unknown, result: string) => void) {
+        queueMicrotask(() => cb(null, this.value))
+      }
+    }
+
+    const promisified = promisify(Foo.bar).bind(Foo)
+    const isFunc = isFunction(promisified)
+    const result = promisified()
+    const proResult = await result
+
+    expect(isFunc).toBe(true)
+    expect(result).toBePromise()
+    expect(proResult).toBe(Foo.value)
+  })
 })

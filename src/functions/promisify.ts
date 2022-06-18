@@ -142,12 +142,15 @@ export function promisify<Result, Args extends any[] = unknown[]>(
 export function promisify<Result, Args extends any[] = unknown[]>(
   fn: (...args: any[]) => unknown
 ): (...args: Args) => Promise<Result> {
-  return function (...args: Args) {
+  return function (this: unknown, ...args: Args) {
     return new Promise<Result>((resolve, reject) => {
-      fn(...args, (err: any, result?: Result) => {
-        if (err) return reject(err)
-        resolve(result!)
-      })
+      Reflect.apply(fn, this, [
+        ...args
+      , (err: any, result?: Result) => {
+          if (err) return reject(err)
+          resolve(result!)
+        }
+      ])
     })
   }
 }
