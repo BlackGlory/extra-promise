@@ -206,7 +206,7 @@ The well-known `promisify` function.
 type Callback<T> = (err: any, result?: T) => void
 
 function callbackify<Result, Args extends any[] = unknown[]>(
-  fn: (...args: Args) => PromiseLike<Result>
+  fn: (...args: Args) => Awaitable<Result>
 ): (...args: [...args: Args, callback: Callback<Result>]) => void
 ```
 

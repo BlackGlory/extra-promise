@@ -73,4 +73,19 @@ describe('callbackify', () => {
     expect(cb).toBeCalledTimes(1)
     expect(cb).toBeCalledWith(null, Foo.value)
   })
+
+  test('edge case: sync', async () => {
+    const value = 'value'
+    const fn = (value: string) => value
+    const cb = jest.fn()
+
+    const callbackified = callbackify(fn)
+    const result = callbackified(value, cb)
+    await runAllMicrotasks()
+
+    expect(callbackified).toBeFunction()
+    expect(result).toBeUndefined()
+    expect(cb).toBeCalledTimes(1)
+    expect(cb).toBeCalledWith(null, value)
+  })
 })
