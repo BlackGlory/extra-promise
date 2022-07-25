@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.3.0](https://github.com/BlackGlory/extra-promise/compare/v2.2.0...v2.3.0) (2022-07-25)
+
+
+### Features
+
+* add reusePendingPromise ([cdcc61f](https://github.com/BlackGlory/extra-promise/commit/cdcc61fc4eb7846fa4d04819087ee603a82de34f))
+
 ## [2.2.0](https://github.com/BlackGlory/extra-promise/compare/v2.1.1...v2.2.0) (2022-06-18)
 
 
