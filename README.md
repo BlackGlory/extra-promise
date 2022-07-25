@@ -276,6 +276,15 @@ function throttleUntilDone<T>(fn: () => PromiseLike<T>): () => Promise<T>
 
 Limit the number of concurrent to 1, calls that exceed the number of concurrency will return the same `Promise` of the currently executing call.
 
+#### reusePendingPromise
+```ts
+function reusePendingPromise<T, Args extends any[]>(
+  fn: (...args: Args) => PromiseLike<T>
+): (...args: Args) => Promise<T>
+```
+
+Returns a function that will return the same `Promise` for calls with the same parameters if the `Promise` is pending.
+
 ### Classes
 #### ExtraPromise
 ```ts

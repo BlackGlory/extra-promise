@@ -24,6 +24,7 @@ test('exports', () => {
   , 'queueConcurrency'
   , 'throttleConcurrency'
   , 'throttleUntilDone'
+  , 'reusePendingPromise'
 
   , 'callbackify'
 
