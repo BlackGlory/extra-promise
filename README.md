@@ -267,7 +267,8 @@ function throttleConcurrency<T, Args extends any[]>(
 ): (...args: Args) => Promise<T> | undefined
 ```
 
-Limit the number of concurrency, calls that exceed the number of concurrency will not occur.
+Limit the number of concurrency, calls that exceed the number of concurrency will not occur and return `undefined`.
+
 
 #### throttleUntilDone
 ```ts
