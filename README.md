@@ -278,9 +278,28 @@ Limit the number of concurrent to 1, calls that exceed the number of concurrency
 
 #### reusePendingPromise
 ```ts
+type VerboseResult<T> = [value: T, isReuse: boolean]
+
+interface IReusePendingPromiseOptions {
+  verbose?: true
+}
+
 function reusePendingPromise<T, Args extends any[]>(
   fn: (...args: Args) => PromiseLike<T>
+, options: IReusePendingPromiseOptions & { verbose: true }
+): (...args: Args) => Promise<VerboseResult<T>>
+function reusePendingPromise<T, Args extends any[]>(
+  fn: (...args: Args) => PromiseLike<T>
+, options: IReusePendingPromiseOptions & { verbose: false }
 ): (...args: Args) => Promise<T>
+function reusePendingPromise<T, Args extends any[]>(
+  fn: (...args: Args) => PromiseLike<T>
+, options: Omit<IReusePendingPromiseOptions, 'verbose'>
+): (...args: Args) => Promise<T>
+function reusePendingPromise<T, Args extends any[]>(
+  fn: (...args: Args) => PromiseLike<T>
+, options?: IReusePendingPromiseOptions
+): (...args: Args) => Promise<T | VerboseResult<T>>
 ```
 
 Returns a function that will return the same `Promise` for calls with the same parameters if the `Promise` is pending.
