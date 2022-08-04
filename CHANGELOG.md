@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.4.0](https://github.com/BlackGlory/extra-promise/compare/v2.3.0...v2.4.0) (2022-08-04)
+
+
+### Features
+
+* add options for `reusePendingPromise` ([475fca5](https://github.com/BlackGlory/extra-promise/commit/475fca50bd4920f95a5c8a630bec3c250e132651))
+
 ## [2.3.0](https://github.com/BlackGlory/extra-promise/compare/v2.2.0...v2.3.0) (2022-07-25)
 
 
