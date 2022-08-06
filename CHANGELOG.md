@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.1](https://github.com/BlackGlory/extra-promise/compare/v2.4.0...v2.4.1) (2022-08-06)
+
+
+### Bug Fixes
+
+* function signautre overloads ([c9a521b](https://github.com/BlackGlory/extra-promise/commit/c9a521b16e2c4888defb7627f9eaf858a9c41c7d))
+
 ## [2.4.0](https://github.com/BlackGlory/extra-promise/compare/v2.3.0...v2.4.0) (2022-08-04)
 
 
