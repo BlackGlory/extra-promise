@@ -298,8 +298,7 @@ function reusePendingPromise<T, Args extends any[]>(
 ): (...args: Args) => Promise<T>
 function reusePendingPromise<T, Args extends any[]>(
   fn: (...args: Args) => PromiseLike<T>
-, options?: IReusePendingPromiseOptions
-): (...args: Args) => Promise<T | VerboseResult<T>>
+): (...args: Args) => Promise<T>
 ```
 
 Returns a function that will return the same `Promise` for calls with the same parameters if the `Promise` is pending.

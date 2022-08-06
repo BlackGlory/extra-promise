@@ -21,8 +21,7 @@ export function reusePendingPromise<T, Args extends any[]>(
 ): (...args: Args) => Promise<T>
 export function reusePendingPromise<T, Args extends any[]>(
   fn: (...args: Args) => PromiseLike<T>
-, options?: IReusePendingPromiseOptions
-): (...args: Args) => Promise<T | VerboseResult<T>>
+): (...args: Args) => Promise<T>
 export function reusePendingPromise<T, Args extends any[]>(
   fn: (...args: Args) => PromiseLike<T>
 , options?: IReusePendingPromiseOptions
