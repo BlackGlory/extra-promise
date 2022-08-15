@@ -472,6 +472,8 @@ class Signal implements PromiseLike<void> {
 }
 ```
 
+A one-time signal.
+
 The `emit()` make the internal Promise resolve.
 
 The `discard()` make the internal Promise reject `SignalDiscarded`.
