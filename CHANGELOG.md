@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.1](https://github.com/BlackGlory/extra-promise/compare/v3.1.0...v3.1.1) (2022-08-27)
+
+
+### Bug Fixes
+
+* error handling ([770b45e](https://github.com/BlackGlory/extra-promise/commit/770b45e0c7f9c2d722b39f641c7d744441af777e))
+
 ## [3.1.0](https://github.com/BlackGlory/extra-promise/compare/v3.0.0...v3.1.0) (2022-08-27)
 
 
