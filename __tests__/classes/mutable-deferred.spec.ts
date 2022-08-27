@@ -37,6 +37,13 @@ describe('MutableDeferred<T>', () => {
     })
   })
 
+  test('edge: rejected', () => {
+    const reason = new Error('CustomError')
+    const defer = new MutableDeferred()
+
+    defer.reject(reason)
+  })
+
   describe('mutable', () => {
     test('resolved, resolved', async () => {
       const defer = new MutableDeferred()

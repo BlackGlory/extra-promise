@@ -35,6 +35,13 @@ describe('ReusableDeferred<T>', () => {
     })
   })
 
+  test('edge: rejected', () => {
+    const reason = new Error('CustomError')
+    const defer = new ReusableDeferred()
+
+    defer.reject(reason)
+  })
+
   describe('reusable', () => {
     test('resolved, resolved', async () => {
       const defer = new ReusableDeferred()

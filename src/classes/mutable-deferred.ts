@@ -1,7 +1,8 @@
 import { Deferred } from '@classes/deferred'
+import { pass } from '@blackglory/pass'
 
 export class MutableDeferred<T> implements PromiseLike<T> {
-  private deferred: Deferred<T> = new Deferred<T>()
+  private deferred: Deferred<T> = this.createDeferred()
   private isFirstRun = true
 
   get then() {
@@ -14,7 +15,7 @@ export class MutableDeferred<T> implements PromiseLike<T> {
       this.deferred.resolve(value)
     } else {
       // 用新的Deferred覆盖, 下一个MutableDeferred的调用者会获得新值.
-      const deferred = new Deferred<T>()
+      const deferred = this.createDeferred()
       deferred.resolve(value)
       this.deferred = deferred
     }
@@ -26,9 +27,15 @@ export class MutableDeferred<T> implements PromiseLike<T> {
       this.deferred.reject(reason)
     } else {
       // 用新的Deferred覆盖, 下一个MutableDeferred的调用者会获得新值.
-      const deferred = new Deferred<T>()
+      const deferred = this.createDeferred()
       deferred.reject(reason)
       this.deferred = deferred
     }
+  }
+
+  private createDeferred() {
+    const deferred = new Deferred<T>()
+    Promise.resolve(deferred).catch(pass)
+    return deferred
   }
 }
