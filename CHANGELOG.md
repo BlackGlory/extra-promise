@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/BlackGlory/extra-promise/compare/v2.4.1...v3.0.0) (2022-08-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* Renamed `ReusableDeferred` to `MutableDeferred`
+
+### Features
+
+* add ReusableDeferred ([a44d9ca](https://github.com/BlackGlory/extra-promise/commit/a44d9ca399a25a0caab3b8d72a4d9bf466fb687f))
+
+
+* rename `ReusableDeferred` to `MutableDeferred` ([6f1937e](https://github.com/BlackGlory/extra-promise/commit/6f1937ed15c72f3eb8f37d32218addf818b1172b))
+
 ### [2.4.1](https://github.com/BlackGlory/extra-promise/compare/v2.4.0...v2.4.1) (2022-08-06)
 
 
