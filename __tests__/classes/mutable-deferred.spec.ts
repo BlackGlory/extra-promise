@@ -42,6 +42,7 @@ describe('MutableDeferred<T>', () => {
     const defer = new MutableDeferred()
 
     defer.reject(reason)
+    defer.reject(reason)
   })
 
   describe('mutable', () => {

@@ -40,6 +40,7 @@ describe('ReusableDeferred<T>', () => {
     const defer = new ReusableDeferred()
 
     defer.reject(reason)
+    defer.reject(reason)
   })
 
   describe('reusable', () => {
