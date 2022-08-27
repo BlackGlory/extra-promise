@@ -449,6 +449,35 @@ class MutableDeferred<T> implements PromiseLike<T> {
 `MutableDeferred` is similar to `Deferred`,
 but its `resolve()` and `reject()` can be called multiple times to change the value.
 
+```ts
+const deferred = new MutableDeferred()
+deferred.resolve(1)
+deferred.resolve(2)
+
+await deferred // resolved(2)
+```
+
+#### ReusableDeferred
+```ts
+class ReusableDeferred<T> implements PromiseLike<T> {
+  then: PromiseLike<T>['then']
+
+  resolve(value: T): void
+  reject(reason: unknown): void
+}
+```
+
+`ReusableDeferred` is similar to `MutableDeferred`,
+but its internal `Deferred` will be overwritten with a new pending `Deferred` after each call.
+
+```ts
+const deferred = new ReusableDeferred()
+deferred.resolve(1)
+queueMicrotask(() => deferred.resolve(2))
+
+await deferred // pending, resolved(2)
+```
+
 #### LazyPromise
 ```ts
 class LazyPromise<T> implements PromiseLike<T> {

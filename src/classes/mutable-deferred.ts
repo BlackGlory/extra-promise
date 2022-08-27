@@ -10,21 +10,25 @@ export class MutableDeferred<T> implements PromiseLike<T> {
 
   resolve(value: T): void {
     if (this.isFirstRun) {
-      this.deferred.resolve(value)
       this.isFirstRun = false
-    } else {
-      this.deferred = new Deferred<T>()
       this.deferred.resolve(value)
+    } else {
+      // 用新的Deferred覆盖, 下一个MutableDeferred的调用者会获得新值.
+      const deferred = new Deferred<T>()
+      deferred.resolve(value)
+      this.deferred = deferred
     }
   }
 
   reject(reason: unknown): void {
     if (this.isFirstRun) {
-      this.deferred.reject(reason)
       this.isFirstRun = false
-    } else {
-      this.deferred = new Deferred<T>()
       this.deferred.reject(reason)
+    } else {
+      // 用新的Deferred覆盖, 下一个MutableDeferred的调用者会获得新值.
+      const deferred = new Deferred<T>()
+      deferred.reject(reason)
+      this.deferred = deferred
     }
   }
 }

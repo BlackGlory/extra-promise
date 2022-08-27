@@ -32,6 +32,7 @@ test('exports', () => {
 
   , 'Deferred'
   , 'MutableDeferred'
+  , 'ReusableDeferred'
   , 'LazyPromise'
 
   , 'Channel'

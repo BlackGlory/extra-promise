@@ -1,11 +1,11 @@
-import { MutableDeferred } from '@classes/mutable-deferred'
+import { ReusableDeferred } from '@classes/reusable-deferred'
 import { getErrorPromise } from 'return-style'
 import '@blackglory/jest-matchers'
 
-describe('MutableDeferred<T>', () => {
+describe('ReusableDeferred<T>', () => {
   describe('constructor', () => {
     it('return PromiseLike<T>', () => {
-      const defer = new MutableDeferred()
+      const defer = new ReusableDeferred()
 
       expect(defer).toBePromiseLike()
     })
@@ -14,12 +14,11 @@ describe('MutableDeferred<T>', () => {
   describe('resolve(value: T): void', () => {
     it('resolved', async () => {
       const value = 'resolved'
-      const defer = new MutableDeferred()
+      const defer = new ReusableDeferred()
 
-      const result = defer.resolve(value)
+      queueMicrotask(() => defer.resolve(value))
       const proResult = await defer
 
-      expect(result).toBeUndefined()
       expect(proResult).toBe(value)
     })
   })
@@ -27,23 +26,22 @@ describe('MutableDeferred<T>', () => {
   describe('reject(reason: any): void', () => {
     it('rejected', async () => {
       const reason = new Error('CustomError')
-      const defer = new MutableDeferred()
+      const defer = new ReusableDeferred()
 
-      const result = defer.reject(reason)
+      queueMicrotask(() => defer.reject(reason))
       const err = await getErrorPromise(defer)
 
-      expect(result).toBeUndefined()
       expect(err).toBe(reason)
     })
   })
 
-  describe('mutable', () => {
+  describe('reusable', () => {
     test('resolved, resolved', async () => {
-      const defer = new MutableDeferred()
+      const defer = new ReusableDeferred()
 
-      defer.resolve('foo')
+      queueMicrotask(() => defer.resolve('foo'))
       const result1 = await defer
-      defer.resolve('bar')
+      queueMicrotask(() => defer.resolve('bar'))
       const result2 = await defer
 
       expect(result1).toBe('foo')
@@ -51,11 +49,11 @@ describe('MutableDeferred<T>', () => {
     })
 
     test('resolved, rejected', async () => {
-      const defer = new MutableDeferred()
+      const defer = new ReusableDeferred()
 
-      defer.resolve('foo')
+      queueMicrotask(() => defer.resolve('foo'))
       const result = await defer
-      defer.reject('bar')
+      queueMicrotask(() => defer.reject('bar'))
       const err = await getErrorPromise(defer)
 
       expect(result).toBe('foo')
@@ -63,11 +61,11 @@ describe('MutableDeferred<T>', () => {
     })
 
     test('rejected, rejected', async () => {
-      const defer = new MutableDeferred()
+      const defer = new ReusableDeferred()
 
-      defer.reject('foo')
+      queueMicrotask(() => defer.reject('foo'))
       const err1 = await getErrorPromise(defer)
-      defer.reject('bar')
+      queueMicrotask(() => defer.reject('bar'))
       const err2 = await getErrorPromise(defer)
 
       expect(err1).toBe('foo')
@@ -75,11 +73,11 @@ describe('MutableDeferred<T>', () => {
     })
 
     test('rejected, resolved', async () => {
-      const defer = new MutableDeferred()
+      const defer = new ReusableDeferred()
 
-      defer.reject('foo')
+      queueMicrotask(() => defer.reject('foo'))
       const err = await getErrorPromise(defer)
-      defer.resolve('bar')
+      queueMicrotask(() => defer.resolve('bar'))
       const result = await defer
 
       expect(err).toBe('foo')
