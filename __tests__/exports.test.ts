@@ -31,7 +31,7 @@ test('exports', () => {
   , 'ExtraPromise'
 
   , 'Deferred'
-  , 'ReusableDeferred'
+  , 'MutableDeferred'
   , 'LazyPromise'
 
   , 'Channel'

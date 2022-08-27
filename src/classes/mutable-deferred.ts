@@ -1,6 +1,6 @@
 import { Deferred } from '@classes/deferred'
 
-export class ReusableDeferred<T> implements PromiseLike<T> {
+export class MutableDeferred<T> implements PromiseLike<T> {
   private deferred: Deferred<T> = new Deferred<T>()
   private isFirstRun = true
 

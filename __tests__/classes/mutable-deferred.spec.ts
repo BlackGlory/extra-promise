@@ -1,11 +1,11 @@
-import { ReusableDeferred } from '@classes/reusable-deferred'
+import { MutableDeferred } from '@classes/mutable-deferred'
 import { getErrorPromise } from 'return-style'
 import '@blackglory/jest-matchers'
 
-describe('ReusableDeferred<T>', () => {
+describe('MutableDeferred<T>', () => {
   describe('constructor', () => {
     it('return PromiseLike<T>', () => {
-      const defer = new ReusableDeferred()
+      const defer = new MutableDeferred()
 
       expect(defer).toBePromiseLike()
     })
@@ -14,7 +14,7 @@ describe('ReusableDeferred<T>', () => {
   describe('resolve(value: T): void', () => {
     it('resolved', async () => {
       const value = 'resolved'
-      const defer = new ReusableDeferred()
+      const defer = new MutableDeferred()
 
       const result = defer.resolve(value)
       const proResult = await defer
@@ -27,7 +27,7 @@ describe('ReusableDeferred<T>', () => {
   describe('reject(reason: any): void', () => {
     it('rejected', async () => {
       const reason = new Error('CustomError')
-      const defer = new ReusableDeferred()
+      const defer = new MutableDeferred()
 
       const result = defer.reject(reason)
       const err = await getErrorPromise(defer)
@@ -39,7 +39,7 @@ describe('ReusableDeferred<T>', () => {
 
   describe('reuse', () => {
     test('resolved, resolved', async () => {
-      const defer = new ReusableDeferred()
+      const defer = new MutableDeferred()
 
       defer.resolve('foo')
       const result1 = await defer
@@ -51,7 +51,7 @@ describe('ReusableDeferred<T>', () => {
     })
 
     test('resolved, rejected', async () => {
-      const defer = new ReusableDeferred()
+      const defer = new MutableDeferred()
 
       defer.resolve('foo')
       const result = await defer
@@ -63,7 +63,7 @@ describe('ReusableDeferred<T>', () => {
     })
 
     test('rejected, rejected', async () => {
-      const defer = new ReusableDeferred()
+      const defer = new MutableDeferred()
 
       defer.reject('foo')
       const err1 = await getErrorPromise(defer)
@@ -75,7 +75,7 @@ describe('ReusableDeferred<T>', () => {
     })
 
     test('rejected, resolved', async () => {
-      const defer = new ReusableDeferred()
+      const defer = new MutableDeferred()
 
       defer.reject('foo')
       const err = await getErrorPromise(defer)

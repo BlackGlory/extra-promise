@@ -1,6 +1,6 @@
 export * from '@classes/extra-promise'
 export * from '@classes/deferred'
-export * from '@classes/reusable-deferred'
+export * from '@classes/mutable-deferred'
 export * from '@classes/lazy-promise'
 export * from '@classes/signal'
 export * from '@classes/signal-group'
