@@ -1,6 +1,6 @@
-import { CustomError } from '@blackglory/errors'
 import { Deferred } from './deferred'
 import { pass } from '@blackglory/pass'
+import { SignalDiscarded } from '@errors'
 
 export class Signal implements PromiseLike<void> {
   private deferred = new Deferred<void>()
@@ -19,4 +19,4 @@ export class Signal implements PromiseLike<void> {
   }
 }
 
-export class SignalDiscarded extends CustomError {}
+export { SignalDiscarded } from '@errors'

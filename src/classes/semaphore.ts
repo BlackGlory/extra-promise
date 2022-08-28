@@ -7,7 +7,7 @@ type Release = () => void
 
 export class Semaphore {
   private locked: number = 0
-  private readonly awaiting = new SignalGroup()
+  private readonly awaitings = new SignalGroup()
 
   constructor(private readonly count: number) {}
 
@@ -39,16 +39,16 @@ export class Semaphore {
   private async lock() {
     while (this.isLocked()) {
       const unlockSignal = new Signal()
-      this.awaiting.add(unlockSignal)
+      this.awaitings.add(unlockSignal)
       await unlockSignal
-      this.awaiting.remove(unlockSignal)
+      this.awaitings.remove(unlockSignal)
     }
     this.locked++
   }
 
   private unlock() {
     this.locked--
-    this.awaiting.emitAll()
+    this.awaitings.emitAll()
   }
 
   private isLocked(): boolean {

@@ -78,4 +78,4 @@ export class BufferedChannel<T> implements IBlockingChannel<T> {
   }
 }
 
-export { ChannelClosedError }
+export { ChannelClosedError } from '@errors'
