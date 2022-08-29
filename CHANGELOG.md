@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.2.0](https://github.com/BlackGlory/extra-promise/compare/v3.1.1...v3.2.0) (2022-08-29)
+
+
+### Features
+
+* **ExtraPromise:** add `state` getter ([a18fb41](https://github.com/BlackGlory/extra-promise/commit/a18fb41e06473cf17f54f0226b8b9044a3636ac5))
+
 ### [3.1.1](https://github.com/BlackGlory/extra-promise/compare/v3.1.0...v3.1.1) (2022-08-27)
 
 
