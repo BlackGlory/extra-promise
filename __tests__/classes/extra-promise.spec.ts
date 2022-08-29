@@ -38,31 +38,33 @@ describe('ExtraPromise', () => {
     describe('sync', () => {
       test('fulfilled', async () => {
         const value = 'value'
-
         const result = new ExtraPromise(resolve => resolve(value))
 
-        expect(result).toBeInstanceOf(Promise)
-        expect(result.pending).toBe(false)
-        expect(result.fulfilled).toBe(true)
-        expect(result.rejected).toBe(false)
-
+        const pending = result.pending
+        const fulfilled = result.fulfilled
+        const rejected = result.rejected
         const proResult = await result
 
+        expect(result).toBeInstanceOf(Promise)
+        expect(pending).toBe(false)
+        expect(fulfilled).toBe(true)
+        expect(rejected).toBe(false)
         expect(proResult).toBe(value)
       })
 
       test('rejected', async () => {
         const reason = new Error('reason')
-
         const result = new ExtraPromise((_, reject) => reject(reason))
 
-        expect(result).toBeInstanceOf(Promise)
-        expect(result.pending).toBe(false)
-        expect(result.fulfilled).toBe(false)
-        expect(result.rejected).toBe(true)
-
+        const pending = result.pending
+        const fulfilled = result.fulfilled
+        const rejected = result.rejected
         const err = await getErrorPromise(result)
 
+        expect(result).toBeInstanceOf(Promise)
+        expect(pending).toBe(false)
+        expect(fulfilled).toBe(false)
+        expect(rejected).toBe(true)
         expect(err).toBe(reason)
       })
     })
@@ -70,38 +72,48 @@ describe('ExtraPromise', () => {
     describe('async', () => {
       test('fulfilled', async () => {
         const value = 'value'
-
         const result = new ExtraPromise(resolve => setImmediate(() => resolve(value)))
 
-        expect(result).toBeInstanceOf(Promise)
-        expect(result.pending).toBe(true)
-        expect(result.fulfilled).toBe(false)
-        expect(result.rejected).toBe(false)
-
+        const pending1 = result.pending
+        const fulfilled1 = result.fulfilled
+        const rejected1 = result.rejected
         const proResult = await result
+        const pending2 = result.pending
+        const fulfilled2 = result.fulfilled
+        const rejected2 = result.rejected
 
+        expect(result).toBeInstanceOf(Promise)
+        expect(pending1).toBe(true)
+        expect(fulfilled1).toBe(false)
+        expect(rejected1).toBe(false)
         expect(proResult).toBe(value)
-        expect(result.pending).toBe(false)
-        expect(result.fulfilled).toBe(true)
-        expect(result.rejected).toBe(false)
+        expect(pending2).toBe(false)
+        expect(fulfilled2).toBe(true)
+        expect(rejected2).toBe(false)
       })
 
       test('rejected', async () => {
         const reason = new Error('reason')
+        const result = new ExtraPromise((_, reject) => {
+          setImmediate(() => reject(reason))
+        })
 
-        const result = new ExtraPromise((_, reject) => setImmediate(() => reject(reason)))
+        const pending1 = result.pending
+        const fulfilled1 = result.fulfilled
+        const rejected1 = result.rejected
+        const err = await getErrorPromise(result)
+        const pending2 = result.pending
+        const fulfilled2 = result.fulfilled
+        const rejected2 = result.rejected
 
         expect(result).toBeInstanceOf(Promise)
-        expect(result.pending).toBe(true)
-        expect(result.fulfilled).toBe(false)
-        expect(result.rejected).toBe(false)
-
-        const err = await getErrorPromise(result)
-
+        expect(pending1).toBe(true)
+        expect(fulfilled1).toBe(false)
+        expect(rejected1).toBe(false)
         expect(err).toBe(reason)
-        expect(result.pending).toBe(false)
-        expect(result.fulfilled).toBe(false)
-        expect(result.rejected).toBe(true)
+        expect(pending2).toBe(false)
+        expect(fulfilled2).toBe(false)
+        expect(rejected2).toBe(true)
       })
     })
   })
