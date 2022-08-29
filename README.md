@@ -306,10 +306,17 @@ Returns a function that will return the same `Promise` for calls with the same p
 ### Classes
 #### ExtraPromise
 ```ts
+enum ExtraPromiseState {
+  Pending = 'pending'
+, Fulfilled = 'fulfilled'
+, Rejected = 'rejected'
+}
+
 class ExtraPromise<T> extends Promise<T> {
   get pending(): boolean
   get fulfilled(): boolean
   get rejected(): boolean
+  get state(): ExtraPromiseState
 
   constructor(executor: (resolve: (value: T) => void, reject: (reason: any) => void) => void)
 }

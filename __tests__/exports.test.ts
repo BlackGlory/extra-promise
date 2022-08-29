@@ -29,6 +29,7 @@ test('exports', () => {
   , 'callbackify'
 
   , 'ExtraPromise'
+  , 'ExtraPromiseState'
 
   , 'Deferred'
   , 'MutableDeferred'

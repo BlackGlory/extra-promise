@@ -1,6 +1,6 @@
 import { FiniteStateMachine } from '@blackglory/structures'
 
-enum State {
+export enum ExtraPromiseState {
   Pending = 'pending'
 , Fulfilled = 'fulfilled'
 , Rejected = 'rejected'
@@ -9,29 +9,33 @@ enum State {
 type Event = 'resolve' | 'reject'
 
 export class ExtraPromise<T> extends Promise<T> {
-  private fsm: FiniteStateMachine<State, Event>
+  private fsm: FiniteStateMachine<ExtraPromiseState, Event>
 
   get pending() {
-    return this.fsm.matches(State.Pending)
+    return this.fsm.matches(ExtraPromiseState.Pending)
   }
 
   get fulfilled() {
-    return this.fsm.matches(State.Fulfilled)
+    return this.fsm.matches(ExtraPromiseState.Fulfilled)
   }
 
   get rejected() {
-    return this.fsm.matches(State.Rejected)
+    return this.fsm.matches(ExtraPromiseState.Rejected)
+  }
+
+  get state(): ExtraPromiseState {
+    return this.fsm.state
   }
 
   constructor(executor: (resolve: (value: T) => void, reject: (reason: any) => void) => void) {
-    const fsm = new FiniteStateMachine<State, Event>({
-      [State.Pending]: {
-        resolve: State.Fulfilled
-      , reject: State.Rejected
+    const fsm = new FiniteStateMachine<ExtraPromiseState, Event>({
+      [ExtraPromiseState.Pending]: {
+        resolve: ExtraPromiseState.Fulfilled
+      , reject: ExtraPromiseState.Rejected
       }
-    , [State.Fulfilled]: {}
-    , [State.Rejected]: {}
-    }, State.Pending)
+    , [ExtraPromiseState.Fulfilled]: {}
+    , [ExtraPromiseState.Rejected]: {}
+    }, ExtraPromiseState.Pending)
 
     super((resolve, reject) => {
       executor(
