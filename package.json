@@ -1,6 +1,6 @@
 {
   "name": "extra-promise",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "Utilities for JavaScript Promise and AsyncFunction",
   "keywords": [],
   "files": [
