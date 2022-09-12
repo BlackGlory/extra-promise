@@ -75,7 +75,7 @@
     "@blackglory/structures": "^0.10.14",
     "@blackglory/types": "^1.3.0",
     "extra-generator": "^0.2.17",
-    "fast-json-stable-stringify": "^2.1.0",
+    "extra-json-stable-stringify": "^0.1.1",
     "iterable-operator": "^1.2.1",
     "justypes": "^2.2.0",
     "lodash": "^4.17.21",

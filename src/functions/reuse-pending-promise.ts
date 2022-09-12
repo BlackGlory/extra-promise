@@ -1,4 +1,4 @@
-import stringify from 'fast-json-stable-stringify'
+import { stringify } from 'extra-json-stable-stringify'
 import { HashMap } from '@blackglory/structures'
 
 type VerboseResult<T> = [value: T, isReuse: boolean]
