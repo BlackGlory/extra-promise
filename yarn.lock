@@ -753,10 +753,10 @@
   resolved "https://registry.yarnpkg.com/@blackglory/pass/-/pass-1.0.0.tgz#3b464433c0744c2dfa40ecbeaf6ab5fde1d13f83"
   integrity sha512-+R6qGmCrls+swn00S/BKbC8NNoIeG3eGOi4P6i8YOQGaBKNpu4GqufmclYqlGMKYNjl3rbye1k/OMy8eppSfjw==
 
-"@blackglory/pass@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@blackglory/pass/-/pass-1.0.1.tgz#bbb7b6ac48ff23a06415bd0fe9fb1d713b194860"
-  integrity sha512-uR857ZFp7QSzwYd8rV3N4sxtTNXXjcdSnIxGv/Krf/pwPCXRQVAwb5z2lpsS68XUS0utWTGZKseYs0AvcmFoRw==
+"@blackglory/pass@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@blackglory/pass/-/pass-1.1.0.tgz#f281b7647bf542f98ede594338742ab406f97afc"
+  integrity sha512-J8epu3YVtfzP+VHJE5RR42bI0tAGBZ4nK8+0zAOfY8amw58ykWb2tUJD+N4l6SCpGZ/fQ5S6tQDl+qyNoOIhzg==
 
 "@blackglory/prelude@^0.1.0":
   version "0.1.0"
@@ -3648,6 +3648,11 @@ hosted-git-info@^3.0.6:
   dependencies:
     lru-cache "^6.0.0"
 
+hotypes@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/hotypes/-/hotypes-0.5.0.tgz#4d7530364047308eb380e7b2b42fc817bbb83bb8"
+  integrity sha512-7Gfhv381b/5FkYspmHd32opvVUeMhPrLP1ypX8qPP1lDW4BFUphdiLBPEq8GKc+fb7DaLVyQgDO4mjz1RBT17w==
+
 html-encoding-sniffer@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/html-encoding-sniffer/-/html-encoding-sniffer-2.0.1.tgz#42a6dc4fd33f00281176e8b23759ca4e4fa185f3"
@@ -4701,6 +4706,11 @@ justypes@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/justypes/-/justypes-2.2.0.tgz#a0389bb8c554fdcd0ffde9ef2ed00a729f76a737"
   integrity sha512-jm7hyDCqgZ67JXtrLC3ZODiqdN+xsXIMKiNl/40xt7DjSFUMcVVPIIgmDbJ1IOsfu3i/lKLGa0zA+YcIcOMxoA==
+
+justypes@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/justypes/-/justypes-3.0.0.tgz#9a1af89a2945330e54685b4de50dee818f445c92"
+  integrity sha512-jWTevPLEfcoiIwNdLGuVMPNX7cGoOlMfWkgflPuppG4kCfqbp2P1Dj4YLUif34bjagrHMXa9CpHzY21LP+PNyQ==
 
 kind-of@^3.0.2, kind-of@^3.0.3, kind-of@^3.2.0:
   version "3.2.2"

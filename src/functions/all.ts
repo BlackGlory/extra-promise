@@ -1,4 +1,4 @@
-import { UnpackedPromiseLike } from 'justypes'
+import { UnpackedPromiseLike } from 'hotypes'
 import { map } from './map'
 import { go } from '@blackglory/go'
 import fromPairs from 'lodash/fromPairs'
