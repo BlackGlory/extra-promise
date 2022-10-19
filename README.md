@@ -254,16 +254,6 @@ function queueConcurrency<T, Args extends any[]>(
 
 Limit the number of concurrency, calls that exceed the number of concurrency will be delayed in order.
 
-#### throttleConcurrency
-```ts
-function throttleConcurrency<T, Args extends any[]>(
-  concurrency: number
-, fn: (...args: Args) => PromiseLike<T>
-): (...args: Args) => Promise<T> | undefined
-```
-
-Limit the number of concurrency, calls that exceed the number of concurrency will not occur and return `undefined`.
-
 #### reusePendingPromise
 ```ts
 type VerboseResult<T> = [value: T, isReuse: boolean]
