@@ -3,15 +3,13 @@ import { Signal, SignalDiscarded } from '@classes/signal'
 import '@blackglory/jest-matchers'
 
 describe('Signal', () => {
-  describe('constructor', () => {
-    it('return PromiseLike<void>', () => {
-      const signal = new Signal()
+  test('constructor', () => {
+    const signal = new Signal()
 
-      expect(signal).toBePromiseLike()
-    })
+    expect(signal).toBePromiseLike()
   })
 
-  describe('emit(): void', () => {
+  describe('emit', () => {
     it('The promise resolved', async () => {
       const signal = new Signal()
 
@@ -27,7 +25,7 @@ describe('Signal', () => {
     })
   })
 
-  describe('discard(): void', () => {
+  describe('discard', () => {
     it('The promise rejected SignalDiscarded', async () => {
       const signal = new Signal()
 

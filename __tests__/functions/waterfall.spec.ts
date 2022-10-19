@@ -7,7 +7,7 @@ import { go } from '@blackglory/go'
 describe('waterfall', () => {
   describe('tasks is Iterable', () => {
     describe('tasks is empty', () => {
-      it('return Promise<undefined>', async () => {
+      it('returns Promise<undefined>', async () => {
         const result = waterfall([])
         const proResult = await result
 
@@ -17,7 +17,7 @@ describe('waterfall', () => {
     })
 
     describe('resolve', () => {
-      it('return Promise<T>', async () => {
+      it('returns Promise<T>', async () => {
         const value1 = 'value1'
         const value2 = 'value2'
         const task1 = jest.fn().mockReturnValue(Promise.resolve(value1))
@@ -36,7 +36,7 @@ describe('waterfall', () => {
     })
 
     describe('reject', () => {
-      it('return rejected Promise', async () => {
+      it('returns rejected Promise', async () => {
         const error = new Error('CustomError')
         const value = 'value'
         const task1 = jest.fn().mockReturnValue(Promise.reject(error))
@@ -55,7 +55,7 @@ describe('waterfall', () => {
 
   describe('tasks is AsyncIterable', () => {
     describe('tasks is empty', () => {
-      it('return Promise<undefined>', async () => {
+      it('returns Promise<undefined>', async () => {
         const result = waterfall(go(async function* () {
           pass()
         }))
@@ -67,7 +67,7 @@ describe('waterfall', () => {
     })
 
     describe('resolve', () => {
-      it('return Promise<T>', async () => {
+      it('returns Promise<T>', async () => {
         const value1 = 'value1'
         const value2 = 'value2'
         const task1 = jest.fn().mockReturnValue(Promise.resolve(value1))
@@ -89,7 +89,7 @@ describe('waterfall', () => {
     })
 
     describe('reject', () => {
-      it('return rejected Promise', async () => {
+      it('returns rejected Promise', async () => {
         const error = new Error('CustomError')
         const value = 'value'
         const task1 = jest.fn().mockReturnValue(Promise.reject(error))

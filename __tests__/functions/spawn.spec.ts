@@ -4,8 +4,8 @@ import { TIME_ERROR } from '@test/utils'
 import '@blackglory/jest-matchers'
 import 'jest-extended'
 
-describe('spawn(num: number, task: (id: number) => Promise<void>): Promise<void>', () => {
-  it('return Promise<void>', async () => {
+describe('spawn', () => {
+  it('returns Promise<void>', async () => {
     const task = jest.fn(() => delay(500))
 
     const startTime = Date.now()

@@ -8,7 +8,7 @@ import { pass } from '@blackglory/pass'
 
 describe('Semaphore', () => {
   describe('not locked', () => {
-    it('acquire(): Promise<Release>', async () => {
+    it('without handler', async () => {
       const semaphore = new Semaphore(1)
 
       const result = semaphore.acquire()
@@ -18,14 +18,14 @@ describe('Semaphore', () => {
       expect(proResult).toBeFunction()
     })
 
-    describe('acquire<T>(handler: () => T | PromiseLike<T>): Promise<T>', () => {
-      test('handler', done => {
+    describe('with handler', () => {
+      it('calls handler', done => {
         const semaphore = new Semaphore(1)
 
         semaphore.acquire(done)
       })
 
-      test('throw error', async () => {
+      it('throws error', async () => {
         const customError = new Error('custom error')
         const semaphore = new Semaphore(1)
 
@@ -37,7 +37,7 @@ describe('Semaphore', () => {
         expect(err).toBe(customError)
       })
 
-      test('return value', async () => {
+      it('returns value', async () => {
         const semaphore = new Semaphore(1)
 
         const result = semaphore.acquire(() => true)
@@ -50,7 +50,7 @@ describe('Semaphore', () => {
   })
 
   describe('locked', () => {
-    it('acquire(): Promise<Release>', async () => {
+    it('without handler', async () => {
       const semaphore = new Semaphore(2)
 
       const release = await semaphore.acquire()
@@ -65,8 +65,8 @@ describe('Semaphore', () => {
       expect(time3 - time2).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
     })
 
-    describe('acquire<T>(handler: () => T | PromiseLike<T>): Promise<T>', () => {
-      test('handler', done => {
+    describe('with handler', () => {
+      it('calls handler', done => {
         go(async () => {
           const semaphore = new Semaphore(2)
 
@@ -91,7 +91,7 @@ describe('Semaphore', () => {
       })
     })
 
-    test('return value', async () => {
+    it('returns value', async () => {
       const semaphore = new Semaphore(2)
       const release = await semaphore.acquire()
 

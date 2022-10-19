@@ -1,9 +1,9 @@
 import { getErrorPromise } from 'return-style'
 import { timeout, TimeoutError } from '@functions/timeout'
 
-describe('timeout(ms: number): Promise<never>', () => {
+describe('timeout', () => {
   describe('promise did not timed out', () => {
-    it('Promise.race return promise result', async () => {
+    test('Promise.race return promise result', async () => {
       const value = 'value'
       const promise = Promise.resolve(value)
       const ms = 500
@@ -15,7 +15,7 @@ describe('timeout(ms: number): Promise<never>', () => {
   })
 
   describe('promise timed out', () => {
-    it('Promise.race throw TimeoutError', async () => {
+    test('Promise.race throw TimeoutError', async () => {
       const value = 'value'
       const promise = new Promise(resolve => setTimeout(() => resolve(value), 1000))
       const ms = 500

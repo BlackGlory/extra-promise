@@ -5,7 +5,7 @@ import '@blackglory/jest-matchers'
 
 describe('promisify', () => {
   describe('fn resolved', () => {
-    it('return resovled Promise', async () => {
+    it('returns resovled Promise', async () => {
       const value = 'value'
       const fn = (value: string, cb: (err: unknown, result: string) => void) =>
         queueMicrotask(() => cb(null, value))
@@ -22,7 +22,7 @@ describe('promisify', () => {
   })
 
   describe('fn rejected', () => {
-    it('return rejected Promise', async () => {
+    it('returns rejected Promise', async () => {
       const error = new Error('CustomError')
       const fn = (value: Error, cb: (err: Error) => void) =>
         queueMicrotask(() => cb(value))

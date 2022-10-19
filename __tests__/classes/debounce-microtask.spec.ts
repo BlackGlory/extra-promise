@@ -1,7 +1,7 @@
 import { DebounceMicrotask } from '@classes/debounce-microtask'
 
 describe('DebounceMicrotask', () => {
-  describe('queue(fn: () => void): void', () => {
+  describe('queue', () => {
     it('fn called once', async () => {
       const dm = new DebounceMicrotask()
       const fn = jest.fn()
@@ -14,7 +14,7 @@ describe('DebounceMicrotask', () => {
     })
   })
 
-  describe('cancelMicrotask(fn: () => void): void', () => {
+  describe('cancelMicrotask', () => {
     it('fn not called', async () => {
       const dm = new DebounceMicrotask()
       const fn = jest.fn()

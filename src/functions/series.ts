@@ -1,8 +1,9 @@
 import { isIterable } from '@blackglory/types'
+import { Awaitable } from 'justypes'
 
 export async function series(
-  tasks: Iterable<() => unknown | PromiseLike<unknown>>
-       | AsyncIterable<() => unknown | PromiseLike<unknown>>
+  tasks: Iterable<() => Awaitable<unknown>>
+       | AsyncIterable<() => Awaitable<unknown>>
 ): Promise<void> {
   if (isIterable(tasks)) {
     for (const task of tasks) {

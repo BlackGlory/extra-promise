@@ -7,90 +7,92 @@ import '@blackglory/jest-matchers'
 import { pass } from '@blackglory/pass'
 
 describe('Mutex', () => {
-  describe('not locked', () => {
-    it('acquire(): Promise<Release>', async () => {
-      const mutex = new Mutex()
-
-      const result = mutex.acquire()
-      const proResult = await result
-
-      expect(result).toBePromise()
-      expect(proResult).toBeFunction()
-    })
-
-    describe('acquire<T>(handler: () => T | PromiseLike<T>): Promise<T>', () => {
-      test('handler', done => {
+  describe('acquire', () => {
+    describe('not locked', () => {
+      it('without handler', async () => {
         const mutex = new Mutex()
 
-        mutex.acquire(done)
-      })
-
-      test('throw error', async () => {
-        const customError = new Error('custom error')
-        const mutex = new Mutex()
-
-        const err = await getErrorPromise(mutex.acquire(() => {
-          throw customError
-        }))
-        await mutex.acquire(pass)
-
-        expect(err).toBe(customError)
-      })
-
-      test('return value', async () => {
-        const mutex = new Mutex()
-
-        const result = mutex.acquire(() => true)
+        const result = mutex.acquire()
         const proResult = await result
 
         expect(result).toBePromise()
-        expect(proResult).toBe(true)
+        expect(proResult).toBeFunction()
       })
-    })
-  })
 
-  describe('locked', () => {
-    it('acquire(): Promise<Release>', async () => {
-      const mutex = new Mutex()
-      const release = await mutex.acquire()
-
-      const start = now()
-      setTimeout(release, 1000)
-      await mutex.acquire()
-
-      expect(now() - start).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
-    })
-
-    describe('acquire(handler: () => T | PromiseLike<T>): Promise<T>', () => {
-      test('handler', done => {
-        go(async () => {
+      describe('with handler', () => {
+        it('calls handler', done => {
           const mutex = new Mutex()
-          const release = await mutex.acquire()
 
-          const start = now()
-          setTimeout(release, 1000)
-          mutex.acquire(() => {
-            expect(now() - start).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
-            done()
-          })
+          mutex.acquire(done)
+        })
+
+        test('throws error', async () => {
+          const customError = new Error('custom error')
+          const mutex = new Mutex()
+
+          const err = await getErrorPromise(mutex.acquire(() => {
+            throw customError
+          }))
+          await mutex.acquire(pass)
+
+          expect(err).toBe(customError)
+        })
+
+        test('returns value', async () => {
+          const mutex = new Mutex()
+
+          const result = mutex.acquire(() => true)
+          const proResult = await result
+
+          expect(result).toBePromise()
+          expect(proResult).toBe(true)
         })
       })
+    })
 
-      test('return value', async () => {
+    describe('locked', () => {
+      it('without handler', async () => {
         const mutex = new Mutex()
         const release = await mutex.acquire()
 
         const start = now()
         setTimeout(release, 1000)
-        const result = mutex.acquire(async () => {
-          await sleep(500)
-          return true
-        })
-        const proResult = await result
+        await mutex.acquire()
 
-        expect(now() - start).toBeGreaterThanOrEqual(1500 - TIME_ERROR)
-        expect(result).toBePromise()
-        expect(proResult).toBe(true)
+        expect(now() - start).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
+      })
+
+      describe('with handler', () => {
+        it('calls handler', done => {
+          go(async () => {
+            const mutex = new Mutex()
+            const release = await mutex.acquire()
+
+            const start = now()
+            setTimeout(release, 1000)
+            mutex.acquire(() => {
+              expect(now() - start).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
+              done()
+            })
+          })
+        })
+
+        it('returns value', async () => {
+          const mutex = new Mutex()
+          const release = await mutex.acquire()
+
+          const start = now()
+          setTimeout(release, 1000)
+          const result = mutex.acquire(async () => {
+            await sleep(500)
+            return true
+          })
+          const proResult = await result
+
+          expect(now() - start).toBeGreaterThanOrEqual(1500 - TIME_ERROR)
+          expect(result).toBePromise()
+          expect(proResult).toBe(true)
+        })
       })
     })
   })

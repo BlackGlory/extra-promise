@@ -4,9 +4,9 @@ import { TIME_ERROR } from '@test/utils'
 import '@blackglory/jest-matchers'
 import 'jest-extended'
 
-describe('pad<T>(ms: number, fn: () => T | PromiseLike<T>): Promise<T>', () => {
+describe('pad', () => {
   describe('need padding', () => {
-    it('pad resolving', async () => {
+    test('pad resolving', async () => {
       const value = 'value'
 
       const start = Date.now()
@@ -19,7 +19,7 @@ describe('pad<T>(ms: number, fn: () => T | PromiseLike<T>): Promise<T>', () => {
       expect(elapsed).toBeGreaterThanOrEqual(500 - TIME_ERROR)
     })
 
-    it('not pad rejecting', async () => {
+    test('not pad rejecting', async () => {
       const error = new Error('custom error')
 
       const start = Date.now()
@@ -34,7 +34,7 @@ describe('pad<T>(ms: number, fn: () => T | PromiseLike<T>): Promise<T>', () => {
   })
 
   describe('not need padding', () => {
-    it('not pad resolving', async () => {
+    test('not pad resolving', async () => {
       const value = 'value'
 
       const start = Date.now()
@@ -47,7 +47,7 @@ describe('pad<T>(ms: number, fn: () => T | PromiseLike<T>): Promise<T>', () => {
       expect(elapsed).toBeWithin(500 - TIME_ERROR, 1000 - TIME_ERROR)
     })
 
-    it('not pad rejecting', async () => {
+    test('not pad rejecting', async () => {
       const error = new Error('custom error')
 
       const start = Date.now()

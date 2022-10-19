@@ -1,9 +1,9 @@
 import { asyncify } from '@functions/asyncify'
 import '@blackglory/jest-matchers'
 
-describe('asyncify<T extends any[], U>(fn: (...args: T) => U | PromiseLike<U>): (...args: Promisify<T>) => Promise<U>', () => {
+describe('asyncify', () => {
   describe('fn does not accept promises', () => {
-    it('return asyncified fn', async () => {
+    it('returns asyncified fn', async () => {
       const add = (a: number, b: number) => a + b
       const a = 1
       const b = 2
@@ -21,7 +21,7 @@ describe('asyncify<T extends any[], U>(fn: (...args: T) => U | PromiseLike<U>): 
   })
 
   describe('fn accepts promises', () => {
-    it('return asyncified fn', async () => {
+    it('returns asyncified fn', async () => {
       const addAsync = async (a: number, b: PromiseLike<number>) => a + await b
       const a = 1
       const b = Promise.resolve(2)

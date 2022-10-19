@@ -1,14 +1,12 @@
 import { eachAsync } from '@functions/each-async'
 import { validateConcurrency } from '@utils/validate-concurrency'
 import { go } from '@blackglory/go'
+import { Awaitable } from 'justypes'
 
 export function filterAsync<T, U = T>(
   iterable: AsyncIterable<T>
-, fn: (element: T, i: number) => boolean | PromiseLike<boolean>
-, /**
-   * concurrency must be finite number
-   */
-  concurrency: number
+, fn: (element: T, i: number) => Awaitable<boolean>
+, concurrency: number // concurrency must be finite number
 ): Promise<U[]> {
   validateConcurrency('concurrency', concurrency)
 

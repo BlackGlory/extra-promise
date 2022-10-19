@@ -2,14 +2,12 @@ import { eachAsync } from './each-async'
 import { validateConcurrency } from '@utils/validate-concurrency'
 import { go } from '@blackglory/go'
 import { assert } from '@blackglory/errors'
+import { Awaitable } from 'justypes'
 
 export function mapAsync<T, U>(
   iterable: AsyncIterable<T>
-, fn: (element: T, i: number) => U | PromiseLike<U>
-, /**
-   * concurrency must be finite number
-   */
-  concurrency: number
+, fn: (element: T, i: number) => Awaitable<U>
+, concurrency: number // concurrency must be finite number
 ): Promise<U[]> {
   validateConcurrency('concurrency', concurrency)
   assert(Number.isFinite(concurrency), 'concurrency must be finite number')

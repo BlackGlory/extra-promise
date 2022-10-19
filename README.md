@@ -37,7 +37,7 @@ try {
 
 #### pad
 ```ts
-function pad<T>(ms: number, fn: () => T | PromiseLike<T>): Promise<T>
+function pad<T>(ms: number, fn: () => Awaitable<T>): Promise<T>
 ```
 
 Run a function, but wait at least `ms` milliseconds before returning.
@@ -45,7 +45,7 @@ Run a function, but wait at least `ms` milliseconds before returning.
 #### parallel
 ```ts
 function parallel(
-  tasks: Iterable<() => unknown | PromiseLike<unknown>>
+  tasks: Iterable<() => Awaitable<unknown>>
 , concurrency: number = Infinity
 ): Promise<void>
 ```
@@ -58,11 +58,8 @@ Invalid values will throw `Error`.
 #### parallelAsync
 ```ts
 function parallelAsync(
-  tasks: AsyncIterable<() => unknown | PromiseLike<unknown>>
-, /**
-   * concurrency must be finite number
-   */
-  concurrency: number
+  tasks: AsyncIterable<() => Awaitable<unknown>>
+, concurrency: number // concurrency must be finite number
 ): Promise<void>
 ```
 
@@ -71,8 +68,8 @@ Same as `parallel`, but `tasks` is an `AsyncIterable`.
 #### series
 ```ts
 function series(
-  tasks: Iterable<() => unknown | PromiseLike<unknown>>
-       | AsyncIterable<() => unknown | PromiseLike<unknown>>
+  tasks: Iterable<() => Awaitable<unknown>>
+       | AsyncIterable<() => Awaitable<unknown>>
 ): Promise<void>
 ```
 
@@ -82,8 +79,8 @@ Equivalent to `parallel(tasks, 1)`.
 #### waterfall
 ```ts
 function waterfall<T>(
-  tasks: Iterable<(result: unknown) => unknown | PromiseLike<unknown>>
-       | AsyncIterable<(result: unknown) => unknown | PromiseLike<unknown>>
+  tasks: Iterable<(result: unknown) => Awatiable<unknown>>
+       | AsyncIterable<(result: unknown) => Awaitable<unknown>>
 ): Promise<T | undefined>
 ```
 
@@ -93,7 +90,7 @@ Perform tasks in order, the return value of the previous task will become the pa
 ```ts
 function each(
   iterable: Iterable<T>
-, fn: (element: T, i: number) => unknown | PromiseLike<unknown>
+, fn: (element: T, i: number) => Awaitable<unknown>
 , concurrency: number = Infinity
 ): Promise<void>
 ```
@@ -107,11 +104,8 @@ Invalid values will throw `Error`.
 ```ts
 function eachAsync<T>(
   iterable: AsyncIterable<T>
-, fn: (element: T, i: number) => unknown | PromiseLike<unknown>
-, /**
-   * concurrency must be finite number
-   */
-  concurrency: number
+, fn: (element: T, i: number) => Awaitable<unknown>
+, concurrency: number // concurrency must be finite number
 ): Promise<void>
 ```
 
@@ -121,7 +115,7 @@ Same as `each`, but `iterable` is an `AsyncIterable`.
 ```ts
 function map<T, U>(
   iterable: Iterable<T>
-, fn: (element: T, i: number) => U | PromiseLike<U>
+, fn: (element: T, i: number) => Awaitable<U>
 , concurrency: number = Infinity
 ): Promise<U[]>
 ```
@@ -135,11 +129,8 @@ Invalid values will throw `Error`.
 ```ts
 export function mapAsync<T, U>(
   iterable: AsyncIterable<T>
-, fn: (element: T, i: number) => U | PromiseLike<U>
-, /**
-   * concurrency must be finite number
-   */
-  concurrency: number
+, fn: (element: T, i: number) => Awaitable<U>
+, concurrency: number // concurrency must be finite number
 ): Promise<U[]>
 ```
 
@@ -149,7 +140,7 @@ Same as `map`, but `iterable` is an `AsyncIterable`.
 ```ts
 function filter<T, U = T>(
   iterable: Iterable<T>
-, fn: (element: T, i: number) => boolean | PromiseLike<boolean>
+, fn: (element: T, i: number) => Awaitable<boolean>
 , concurrency: number = Infinity
 ): Promise<U[]>
 ```
@@ -163,11 +154,8 @@ Invalid values will throw `Error`.
 ```ts
 function filterAsync<T, U = T>(
   iterable: AsyncIterable<T>
-, fn: (element: T, i: number) => boolean | PromiseLike<boolean>
-, /**
-   * concurrency must be finite number
-   */
-  concurrency: number
+, fn: (element: T, i: number) => Awaitable<boolean>
+, concurrency: number // concurrency must be finite number
 ): Promise<U[]>
 ```
 
@@ -182,7 +170,6 @@ function all<T extends { [key: string]: PromiseLike<unknown> }>(
 
 It is similar to `Promise.all`, but the first parameter is an object.
 
-Example:
 ```ts
 const { task1, task2 } = await all({
   task1: invokeTask1()
@@ -215,7 +202,7 @@ The `callbackify` function, as opposed to `promisify`.
 #### asyncify
 ```ts
 function asyncify<T extends any[], U>(
-  fn: (...args: T) => U | PromiseLike<U>
+  fn: (...args: T) => Awaitable<U>
 ): (...args: Promisify<T>) => Promise<U>
 ```
 
@@ -237,7 +224,7 @@ await addAsync(a, b) // Promise<3>
 
 #### spawn
 ```ts
-function spawn(num: number, task: (id: number) => Promise<void>): Promise<void>
+function spawn(num: number, task: (id: number) => PromiseLike<void>): Promise<void>
 ```
 
 A sugar for running the same task in parallel.
@@ -473,7 +460,10 @@ await deferred // pending, resolved(2)
 class LazyPromise<T> implements PromiseLike<T> {
   then: PromiseLike<T>['then']
 
-  constructor(executor: (resolve: (value: T) => void, reject: (reason: any) => void) => void)
+  constructor(
+    executor: (resolve: (value: T) => void
+  , reject: (reason: any) => void) => void
+  )
 }
 ```
 
@@ -516,7 +506,7 @@ class Semaphore {
   constructor(count: number)
 
   acquire(): Promise<Release>
-  acquire<T>(handler: () => T | PromiseLike<T>): Promise<T>
+  acquire<T>(handler: () => Awaitable<T>): Promise<T>
 }
 ```
 
@@ -526,7 +516,7 @@ type Release = () => void
 
 class Mutex extends Semaphore {
   acquire(): Promise<Release>
-  acquire<T>(handler: () => T | PromiseLike<T>): Promise<T>
+  acquire<T>(handler: () => Awaitable<T>): Promise<T>
 }
 ```
 

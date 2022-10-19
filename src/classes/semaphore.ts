@@ -2,6 +2,7 @@ import { Signal } from './signal'
 import { SignalGroup } from '@classes/signal-group'
 import { go } from '@blackglory/go'
 import once from 'lodash/once'
+import { Awaitable } from 'justypes'
 
 type Release = () => void
 
@@ -12,10 +13,10 @@ export class Semaphore {
   constructor(private readonly count: number) {}
 
   acquire(): Promise<Release>
-  acquire<T>(handler: () => T | PromiseLike<T>): Promise<T>
+  acquire<T>(handler: () => Awaitable<T>): Promise<T>
   acquire(...args:
   | []
-  | [handler: () => void | PromiseLike<void>]
+  | [handler: () => Awaitable<void>]
   ) {
     if (args.length === 0) {
       return new Promise(async resolve => {

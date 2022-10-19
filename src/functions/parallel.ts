@@ -1,7 +1,8 @@
 import { validateConcurrency } from '@utils/validate-concurrency'
+import { Awaitable } from 'justypes'
 
 export function parallel(
-  tasks: Iterable<() => unknown | PromiseLike<unknown>>
+  tasks: Iterable<() => Awaitable<unknown>>
 , concurrency: number = Infinity
 ): Promise<void> {
   validateConcurrency('concurrency', concurrency)
@@ -21,7 +22,7 @@ export function parallel(
       if (!promisePending) return
       if (done && running === 0) return resolveGracefully()
 
-      let value: () => unknown | PromiseLike<unknown>
+      let value: () => Awaitable<unknown>
       try {
         ({ value, done } = iterator.next())
       } catch (e) {

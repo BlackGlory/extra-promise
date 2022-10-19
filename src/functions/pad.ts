@@ -1,7 +1,8 @@
 import { delay } from './delay'
 import { getErrorResultAsync } from 'return-style'
+import { Awaitable } from 'justypes'
 
-export async function pad<T>(ms: number, fn: () => T | PromiseLike<T>): Promise<T> {
+export async function pad<T>(ms: number, fn: () => Awaitable<T>): Promise<T> {
   const start = Date.now()
   const [err, res]= await getErrorResultAsync(async () => fn())
   if (err) throw err

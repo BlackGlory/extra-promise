@@ -8,15 +8,9 @@ import { StatefulPromise } from '@classes/stateful-promise'
 import { pass } from '@blackglory/pass'
 import { go } from '@blackglory/go'
 
-describe(`
-  filterAsync<T, U = T>(
-    iterable: AsyncIterable<T>
-  , fn: (element: T, i: number) => boolean | PromiseLike<boolean>
-  , concurrency: number = Infinity
-  ): Promise<U[]>
-`, () => {
+describe('filterAsync', () => {
   describe('iterable is empty', () => {
-    it('return Promise<[]>', async () => {
+    it('returns Promise<[]>', async () => {
       const result = filterAsync(go(async function* () {
         pass()
       }), () => true, 100)
@@ -29,7 +23,7 @@ describe(`
 
   describe('iterable isnt empty', () => {
     describe('resolve', () => {
-      it('return resolved Promise<U[]>', async () => {
+      it('returns resolved Promise<U[]>', async () => {
         const task1 = jest.fn(async () => {
           await delay(500)
           return 1
@@ -74,7 +68,7 @@ describe(`
     })
 
     describe('reject', () => {
-      it('return rejected Promise<U[]>', async () => {
+      it('returns rejected Promise<U[]>', async () => {
         const error = new Error('CustomError')
         const fn = jest.fn(() => Promise.reject(error))
 

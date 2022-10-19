@@ -2,13 +2,9 @@ import { all } from '@functions/all'
 import { getErrorPromise } from 'return-style'
 import '@blackglory/jest-matchers'
 
-describe(`
-  all<T extends { [key: string]: PromiseLike<unknown> }>(
-    obj: T
-  ): Promise<{ [Key in keyof T]: UnpackedPromiseLike<T[Key]> }>
-`, () => {
+describe('all', () => {
   describe('resolve', () => {
-    it('return resolved Promise', async () => {
+    it('returns resolved Promise', async () => {
       jest.useFakeTimers()
       const value1 = 1
       const value2 = 2
@@ -30,7 +26,7 @@ describe(`
   })
 
   describe('rejected', () => {
-    it('return rejected Promise', async () => {
+    it('returns rejected Promise', async () => {
       const error = new Error('CustomError')
       const promise1 = Promise.reject(error)
       const promise2 = Promise.resolve()

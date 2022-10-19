@@ -1,12 +1,10 @@
 import { validateConcurrency } from '@utils/validate-concurrency'
 import { assert } from '@blackglory/errors'
+import { Awaitable } from 'justypes'
 
 export function parallelAsync(
-  tasks: AsyncIterable<() => unknown | PromiseLike<unknown>>
-, /**
-   * concurrency must be finite number
-   */
-  concurrency: number
+  tasks: AsyncIterable<() => Awaitable<unknown>>
+, concurrency: number // concurrency must be finite number
 ): Promise<void> {
   validateConcurrency('concurrency', concurrency)
   assert(Number.isFinite(concurrency), 'concurrency must be finite number')
@@ -26,7 +24,7 @@ export function parallelAsync(
       if (!promisePending) return
       if (done && running === 0) return resolveGracefully()
 
-      let value: () => unknown | PromiseLike<unknown>
+      let value: () => Awaitable<unknown>
       try {
         ({ value, done } = await iterator.next())
       } catch (e) {

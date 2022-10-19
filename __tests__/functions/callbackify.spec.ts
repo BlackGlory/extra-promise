@@ -4,7 +4,7 @@ import 'jest-extended'
 
 describe('callbackify', () => {
   describe('Promise resolved', () => {
-    it('call back', async () => {
+    it('calls back', async () => {
       const value = 'value'
       const fn = (value: string) => Promise.resolve(value)
       const cb = jest.fn()
@@ -22,7 +22,7 @@ describe('callbackify', () => {
 
   describe('Promise rejected', () => {
     describe('rejected truthy', () => {
-      it('call back', async () => {
+      it('calls back', async () => {
         const error = new Error('CustomError')
         const fn = (error: Error) => Promise.reject(error)
         const cb = jest.fn()

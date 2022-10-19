@@ -3,8 +3,8 @@ import { advanceTimersByTime } from '@test/utils'
 import '@blackglory/jest-matchers'
 import { StatefulPromise } from '@classes/stateful-promise'
 
-describe('delay(timeout: number): Promise<void>', () => {
-  it('call setTimeout', () => {
+describe('delay', () => {
+  it('calls setTimeout', () => {
     const setTimeout = jest.spyOn(globalThis, 'setTimeout')
     const ms = 1000
 
@@ -14,7 +14,7 @@ describe('delay(timeout: number): Promise<void>', () => {
     expect(setTimeout).toBeCalledWith(expect.any(Function), ms)
   })
 
-  it('return Promise<void>', async () => {
+  it('returns Promise<void>', async () => {
     const ms = 500
 
     const result = delay(ms)

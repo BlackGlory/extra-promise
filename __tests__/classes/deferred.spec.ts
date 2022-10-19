@@ -2,16 +2,14 @@ import { getErrorPromise } from 'return-style'
 import { Deferred } from '@classes/deferred'
 import '@blackglory/jest-matchers'
 
-describe('Deferred<T>', () => {
-  describe('constructor', () => {
-    it('return PromiseLike<T>', () => {
-      const defer = new Deferred()
+describe('Deferred', () => {
+  test('constructor', () => {
+    const defer = new Deferred()
 
-      expect(defer).toBePromiseLike()
-    })
+    expect(defer).toBePromiseLike()
   })
 
-  describe('resolve(value: T): void', () => {
+  describe('resolve', () => {
     it('resolved', async () => {
       const value = 'resolved'
       const defer = new Deferred()
@@ -24,7 +22,7 @@ describe('Deferred<T>', () => {
     })
   })
 
-  describe('reject(reason: any): void', () => {
+  describe('reject', () => {
     it('rejected', async () => {
       const reason = new Error('CustomError')
       const defer = new Deferred()

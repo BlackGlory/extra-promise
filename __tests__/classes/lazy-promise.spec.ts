@@ -3,16 +3,14 @@ import { getCalledTimes } from '@test/utils'
 import '@blackglory/jest-matchers'
 import { pass } from '@blackglory/pass'
 
-describe('LazyPromise<T>', () => {
-  describe('constructor', () => {
-    it('return PromiseLike<T>', () => {
-      const lazy = new LazyPromise(pass)
+describe('LazyPromise', () => {
+  test('constructor', () => {
+    const lazy = new LazyPromise(pass)
 
-      expect(lazy).toBePromiseLike()
-    })
+    expect(lazy).toBePromiseLike()
   })
 
-  describe('get then(): Promise.prototype.then', () => {
+  describe('then', () => {
     it('call executor', async () => {
       const value = 'value'
       const executor = jest.fn().mockImplementation(resolve => resolve(value))

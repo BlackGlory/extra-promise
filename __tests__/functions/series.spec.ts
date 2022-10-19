@@ -9,7 +9,7 @@ import { go } from '@blackglory/go'
 describe('series', () => {
   describe('tasks is Iterable', () => {
     describe('tasks is empty', () => {
-      it('return Promise<void>', async () => {
+      it('returns Promise<void>', async () => {
         const result = series([])
         const proResult = await result
 
@@ -19,7 +19,7 @@ describe('series', () => {
     })
 
     describe('tasks isnt empty', () => {
-      it('return Promise<void>', async () => {
+      it('returns Promise<void>', async () => {
         const task1 = jest.fn().mockImplementation(async () => {
           await delay(500)
           return 1
@@ -53,7 +53,7 @@ describe('series', () => {
 
   describe('tasks is AsyncIterable', () => {
     describe('tasks is empty', () => {
-      it('return Promise<void>', async () => {
+      it('returns Promise<void>', async () => {
         const result = series(go(async function *() {
           pass()
         }))
@@ -65,7 +65,7 @@ describe('series', () => {
     })
 
     describe('tasks isnt empty', () => {
-      it('return Promise<void>', async () => {
+      it('returns Promise<void>', async () => {
         const task1 = jest.fn().mockImplementation(async () => {
           await delay(500)
           return 1

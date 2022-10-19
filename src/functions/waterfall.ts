@@ -1,6 +1,8 @@
+import { Awaitable } from 'justypes'
+
 export async function waterfall<T>(
-  tasks: Iterable<(result: any) => unknown | PromiseLike<unknown>>
-       | AsyncIterable<(result: any) => unknown | PromiseLike<unknown>>
+  tasks: Iterable<(result: any) => Awaitable<unknown>>
+       | AsyncIterable<(result: any) => Awaitable<unknown>>
 ): Promise<T | undefined> {
   let result: any
   for await (const task of tasks) {

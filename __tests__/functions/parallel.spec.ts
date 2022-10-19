@@ -7,14 +7,9 @@ import '@blackglory/jest-matchers'
 import { StatefulPromise } from '@classes/stateful-promise'
 import { pass } from '@blackglory/pass'
 
-describe(`
-  parallel(
-    tasks: Iterable<() => unknown | PromiseLike<unknown>>
-  , concurrency: number = Infinity
-  ): Promise<void>
-`, () => {
+describe('parallel', () => {
   describe('tasks is empty iterable', () => {
-    it('return Promise<void>', async () => {
+    it('returns Promise<void>', async () => {
       const result = parallel([])
       const proResult = await result
 
@@ -25,7 +20,7 @@ describe(`
 
   describe('tasks isnt empty iterable', () => {
     describe('resolve', () => {
-      it('return resolved Promise<void>', async () => {
+      it('returns resolved Promise<void>', async () => {
         const task1 = jest.fn(async () => {
           await delay(500)
           return 1
@@ -68,7 +63,7 @@ describe(`
     })
 
     describe('reject', () => {
-      it('return rejected Promise<void>', async () => {
+      it('returns rejected Promise<void>', async () => {
         const error = new Error('CustomError')
         const task1 = jest.fn(async () => {
           await delay(500)

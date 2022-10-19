@@ -2,16 +2,14 @@ import { MutableDeferred } from '@classes/mutable-deferred'
 import { getErrorPromise } from 'return-style'
 import '@blackglory/jest-matchers'
 
-describe('MutableDeferred<T>', () => {
-  describe('constructor', () => {
-    it('return PromiseLike<T>', () => {
-      const defer = new MutableDeferred()
+describe('MutableDeferred', () => {
+  test('constructor', () => {
+    const defer = new MutableDeferred()
 
-      expect(defer).toBePromiseLike()
-    })
+    expect(defer).toBePromiseLike()
   })
 
-  describe('resolve(value: T): void', () => {
+  describe('resolve', () => {
     it('resolved', async () => {
       const value = 'resolved'
       const defer = new MutableDeferred()
@@ -24,7 +22,7 @@ describe('MutableDeferred<T>', () => {
     })
   })
 
-  describe('reject(reason: any): void', () => {
+  describe('reject', () => {
     it('rejected', async () => {
       const reason = new Error('CustomError')
       const defer = new MutableDeferred()

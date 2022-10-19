@@ -7,7 +7,7 @@ import 'jest-extended'
 
 describe('BufferedChannel', () => {
   describe('close, send, receive', () => {
-    it('throw ChannelClosedError', async () => {
+    it('throws ChannelClosedError', async () => {
       const bufferSize = 1
       const value = 'value'
 
@@ -22,7 +22,7 @@ describe('BufferedChannel', () => {
   })
 
   describe('close, receive', () => {
-    it('return empty AsyncIterable', async () => {
+    it('returns empty AsyncIterable', async () => {
       const bufferSize = 1
 
       const channel = new BufferedChannel<string>(bufferSize)
@@ -34,7 +34,7 @@ describe('BufferedChannel', () => {
   })
 
   describe('send, close, receive', () => {
-    it('return AsyncIterable', async () => {
+    it('returns AsyncIterable', async () => {
       const bufferSize = 1
       const value = 'value'
 
@@ -48,7 +48,7 @@ describe('BufferedChannel', () => {
   })
 
   describe('multiple-producer, single-consumer', () => {
-    it('return AsyncIterable', async () => {
+    it('returns AsyncIterable', async () => {
       // This is why the case uses real time:
       // jest.useFakeTimers('modern') - cannot work
       // jest.useFakeTimers() - Date.now() return wrong value
@@ -96,7 +96,7 @@ describe('BufferedChannel', () => {
   })
 
   describe('multiple-producer, multiple-consumer', () => {
-    it('return AsyncIterable', async () => {
+    it('returns AsyncIterable', async () => {
       const channel = new BufferedChannel<number>(1)
       const iter = channel.receive()[Symbol.asyncIterator]()
 

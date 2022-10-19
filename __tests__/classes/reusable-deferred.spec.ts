@@ -2,16 +2,14 @@ import { ReusableDeferred } from '@classes/reusable-deferred'
 import { getErrorPromise } from 'return-style'
 import '@blackglory/jest-matchers'
 
-describe('ReusableDeferred<T>', () => {
-  describe('constructor', () => {
-    it('return PromiseLike<T>', () => {
-      const defer = new ReusableDeferred()
+describe('ReusableDeferred', () => {
+  test('constructor', () => {
+    const defer = new ReusableDeferred()
 
-      expect(defer).toBePromiseLike()
-    })
+    expect(defer).toBePromiseLike()
   })
 
-  describe('resolve(value: T): void', () => {
+  describe('resolve', () => {
     it('resolved', async () => {
       const value = 'resolved'
       const defer = new ReusableDeferred()
@@ -23,7 +21,7 @@ describe('ReusableDeferred<T>', () => {
     })
   })
 
-  describe('reject(reason: any): void', () => {
+  describe('reject', () => {
     it('rejected', async () => {
       const reason = new Error('CustomError')
       const defer = new ReusableDeferred()

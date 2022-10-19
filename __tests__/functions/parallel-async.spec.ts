@@ -8,14 +8,9 @@ import { StatefulPromise } from '@classes/stateful-promise'
 import { pass } from '@blackglory/pass'
 import { go } from '@blackglory/go'
 
-describe(`
-  parallelAsync(
-    tasks: AsyncIterable<() => unknown | PromiseLike<unknown>>
-  , concurrency: number
-  ): Promise<void>
-`, () => {
+describe('parallelAsync', () => {
   describe('tasks is empty', () => {
-    it('return Promise<void>', async () => {
+    it('returns Promise<void>', async () => {
       const result = parallelAsync(go(async function* () {
         pass()
       }), 100)
@@ -28,7 +23,7 @@ describe(`
 
   describe('tasks isnt empty', () => {
     describe('resolve', () => {
-      it('return resolved Promise<void>', async () => {
+      it('returns resolved Promise<void>', async () => {
         const task1 = jest.fn(async () => {
           await delay(500)
           return 1
@@ -72,7 +67,7 @@ describe(`
     })
 
     describe('reject', () => {
-      it('return rejected Promise<void>', async () => {
+      it('returns rejected Promise<void>', async () => {
         const error = new Error('CustomError')
         const task1 = jest.fn(async () => {
           await delay(500)

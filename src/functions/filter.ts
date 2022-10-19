@@ -1,10 +1,11 @@
 import { each } from '@functions/each'
 import { validateConcurrency } from '@utils/validate-concurrency'
 import { go } from '@blackglory/go'
+import { Awaitable } from 'justypes'
 
 export function filter<T, U = T>(
   iterable: Iterable<T>
-, fn: (element: T, i: number) => boolean | PromiseLike<boolean>
+, fn: (element: T, i: number) => Awaitable<boolean>
 , concurrency: number = Infinity
 ): Promise<U[]> {
   validateConcurrency('concurrency', concurrency)

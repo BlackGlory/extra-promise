@@ -7,15 +7,9 @@ import '@blackglory/jest-matchers'
 import { StatefulPromise } from '@classes/stateful-promise'
 import { pass } from '@blackglory/pass'
 
-describe(`
-  map<T, U>(
-    iterable: Iterable<T>
-  , fn: (element: T, i: number) => U | PromiseLike<U>
-  , concurrency: number = Infinity
-  ): Promise<U[]>
-`, () => {
+describe('map', () => {
   describe('iterable is empty', () => {
-    it('return Promise<[]>', async () => {
+    it('returns Promise<[]>', async () => {
       const result = map([], pass)
       const proResult = await result
 
@@ -26,7 +20,7 @@ describe(`
 
   describe('iterable isnt empty', () => {
     describe('resolve', () => {
-      it('return resolved Promise<U[]>', async () => {
+      it('returns resolved Promise<U[]>', async () => {
         const task1 = jest.fn(async () => {
           await delay(500)
           return 1
@@ -69,7 +63,7 @@ describe(`
     })
 
     describe('reject', () => {
-      it('return rejected Promise<U[]>', async () => {
+      it('returns rejected Promise<U[]>', async () => {
         const error = new Error('CustomError')
         const element1 = Promise.reject(error)
         const element2 = Promise.resolve()

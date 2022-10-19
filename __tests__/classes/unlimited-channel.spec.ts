@@ -5,7 +5,7 @@ import 'jest-extended'
 
 describe('UnlimitedChannel', () => {
   describe('close, send, receive', () => {
-    it('throw ChannelClosedError', async () => {
+    it('throws ChannelClosedError', async () => {
       const value = 'value'
 
       const channel = new UnlimitedChannel<string>()
@@ -19,7 +19,7 @@ describe('UnlimitedChannel', () => {
   })
 
   describe('close, receive', () => {
-    it('return empty AsyncIterable', async () => {
+    it('returns an empty AsyncIterable', async () => {
       const channel = new UnlimitedChannel<string>()
       channel.close()
       const result = await toArrayAsync(channel.receive())
@@ -29,7 +29,7 @@ describe('UnlimitedChannel', () => {
   })
 
   describe('send, close, receive', () => {
-    it('return AsyncIterable', async () => {
+    it('returns AsyncIterable', async () => {
       const value = 'value'
 
       const channel = new UnlimitedChannel<string>()
@@ -42,7 +42,7 @@ describe('UnlimitedChannel', () => {
   })
 
   describe('multiple-producer, single-consumer', () => {
-    it('return AsyncIterable', async () => {
+    it('returns AsyncIterable', async () => {
       const channel = new UnlimitedChannel<number>()
 
       queueMicrotask(() => {
@@ -59,7 +59,7 @@ describe('UnlimitedChannel', () => {
   })
 
   describe('multiple-producer, multiple-consumer', () => {
-    it('return AsyncIterable', async () => {
+    it('returns AsyncIterable', async () => {
       const channel = new UnlimitedChannel<number>()
       const iter = channel.receive()[Symbol.asyncIterator]()
 
