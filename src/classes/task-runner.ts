@@ -3,38 +3,29 @@ import { DebounceMicrotask } from '@classes/debounce-microtask'
 import { Queue } from '@blackglory/structures'
 import { FiniteStateMachine } from 'extra-fsm'
 import { validateConcurrency } from '@utils/validate-concurrency'
-
-export type Task<T> = () => PromiseLike<T>
+import { Awaitable } from 'justypes'
 
 export class TaskRunner {
   private fsm = new FiniteStateMachine(
     {
       running: {
-        stop: 'stopped'
+        destroy: 'destroyed'
       }
-    , stopped: {
-        start: 'running'
-      }
+    , destroyed: {}
     }
-  , 'stopped'
+  , 'running'
   )
-  private queue = new Queue<[Task<unknown>, Deferred<any>]>()
+  private queue = new Queue<[() => Awaitable<unknown>, Deferred<any>]>()
   private pending: number = 0
   private debounceMicrotask = new DebounceMicrotask()
 
-  constructor(private concurrency: number = Infinity) {}
-
-  getConcurrency(): number {
-    return this.concurrency
-  }
-
-  setConcurrency(concurrency: number): void {
+  constructor(private concurrency: number = Infinity) {
     validateConcurrency('concurrency', concurrency)
-
-    this.concurrency = concurrency
   }
 
-  async add<T>(task: Task<T>): Promise<T> {
+  async run<T>(task: () => Awaitable<T>): Promise<T> {
+    if (this.fsm.matches('destroyed')) throw new Error('TaskRunner has been destroyed.')
+
     const deferred = new Deferred<T>()
     this.queue.enqueue([task, deferred])
     if (this.fsm.matches('running')) {
@@ -43,19 +34,10 @@ export class TaskRunner {
     return await deferred
   }
 
-  start(): void {
-    this.fsm.send('start')
-
-    this.debounceMicrotask.queue(this.nextTick)
-  }
-
-  stop(): void {
-    this.fsm.send('stop')
+  destroy(): void {
+    this.fsm.send('destroy')
 
     this.debounceMicrotask.cancel(this.nextTick)
-  }
-
-  clear(): void {
     this.queue.empty()
   }
 
@@ -65,11 +47,14 @@ export class TaskRunner {
       this.pending < this.concurrency
     ) {
       const [task, deferred] = this.queue.dequeue()!
-      this.run(task, deferred)
+      this.process(task, deferred)
     }
   }
 
-  private async run(task: Task<unknown>, deferred: Deferred<unknown>): Promise<void> {
+  private async process<T>(
+    task: () => Awaitable<T>
+  , deferred: Deferred<T>
+  ): Promise<void> {
     this.pending++
 
     try {

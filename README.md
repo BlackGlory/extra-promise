@@ -545,19 +545,11 @@ if the microtask is not executed, multiple calls will only queue it once.
 
 #### TaskRunner
 ```ts
-type Task<T> = () => PromiseLike<T>
-
 class TaskRunner {
   constructor(concurrency: number = Infinity)
 
-  getConcurrency(): number
-  setConcurrency(concurrency: number): void
-
-  add(task: Task<T>): Promise<T>
-  clear(): void
-
-  start(): void
-  stop(): void
+  run(task: () => Awaitable<T>): Promise<T>
+  destroy(): void
 }
 ```
 

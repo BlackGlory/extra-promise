@@ -5,9 +5,8 @@ export function queueConcurrency<T, Args extends any[]>(
 , fn: (...args: Args) => PromiseLike<T>
 ): (...args: Args) => Promise<T> {
   const runner = new TaskRunner(concurrency)
-  runner.start()
 
   return async function (this: unknown, ...args: Args): Promise<T> {
-    return await runner.add(() => fn.apply(this, args))
+    return await runner.run(() => fn.apply(this, args))
   }
 }
