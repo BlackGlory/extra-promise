@@ -18,7 +18,6 @@ test('exports', () => {
   , 'promisify'
   , 'asyncify'
   , 'pad'
-  , 'toExtraPromise'
   , 'timeout'
   , 'TimeoutError'
   , 'queueConcurrency'

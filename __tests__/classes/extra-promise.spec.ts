@@ -3,6 +3,17 @@ import { getErrorPromise } from 'return-style'
 import { setImmediate } from 'extra-timers'
 
 describe('ExtraPromise', () => {
+  test('from', async () => {
+    const value = 'value'
+    const promise = Promise.resolve(value)
+
+    const result = ExtraPromise.from(promise)
+    const proResult = await result
+
+    expect(result).toBeInstanceOf(ExtraPromise)
+    expect(proResult).toBe(value)
+  })
+
   describe('state', () => {
     test('pending', async () => {
       const value = 'value'

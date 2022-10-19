@@ -2,7 +2,7 @@ import { series } from '@functions/series'
 import { delay } from '@functions/delay'
 import { getCalledTimes, advanceTimersByTime } from '@test/utils'
 import '@blackglory/jest-matchers'
-import { toExtraPromise } from '@functions/to-extra-promise'
+import { ExtraPromise } from '@classes/extra-promise'
 import { pass } from '@blackglory/pass'
 import { go } from '@blackglory/go'
 
@@ -30,7 +30,7 @@ describe('series', () => {
         })
 
         const result = series([task1, task2])
-        const promise = toExtraPromise(result)
+        const promise = ExtraPromise.from(result)
 
         expect(result).toBePromise()
         expect(promise.pending).toBe(true)
@@ -79,7 +79,7 @@ describe('series', () => {
           yield task1
           yield task2
         }))
-        const promise = toExtraPromise(result)
+        const promise = ExtraPromise.from(result)
 
         expect(result).toBePromise()
         expect(promise.pending).toBe(true)

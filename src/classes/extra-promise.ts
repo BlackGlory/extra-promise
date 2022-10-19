@@ -9,6 +9,16 @@ export enum ExtraPromiseState {
 type Event = 'resolve' | 'reject'
 
 export class ExtraPromise<T> extends Promise<T> {
+  static from<T>(promise: PromiseLike<T>): ExtraPromise<T> {
+    return new ExtraPromise(async (resolve, reject) => {
+      try {
+        resolve(await promise)
+      } catch (e) {
+        reject(e)
+      }
+    })
+  }
+
   private fsm: FiniteStateMachine<ExtraPromiseState, Event>
 
   get pending() {
@@ -27,7 +37,12 @@ export class ExtraPromise<T> extends Promise<T> {
     return this.fsm.state
   }
 
-  constructor(executor: (resolve: (value: T) => void, reject: (reason: any) => void) => void) {
+  constructor(
+    executor: (
+      resolve: (value: T) => void
+    , reject: (reason: any) => void
+    ) => void
+  ) {
     const fsm = new FiniteStateMachine<ExtraPromiseState, Event>({
       [ExtraPromiseState.Pending]: {
         resolve: ExtraPromiseState.Fulfilled

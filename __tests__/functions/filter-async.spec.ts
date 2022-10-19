@@ -4,7 +4,7 @@ import { delay } from '@functions/delay'
 import { getCalledTimes, advanceTimersByTime, MockIterable }
   from '@test/utils'
 import '@blackglory/jest-matchers'
-import { toExtraPromise } from '@functions/to-extra-promise'
+import { ExtraPromise } from '@classes/extra-promise'
 import { pass } from '@blackglory/pass'
 import { go } from '@blackglory/go'
 
@@ -48,7 +48,7 @@ describe(`
         const result = filterAsync(go(async function* () {
           yield* iter
         }), callTaskAndResultIsEven, 2)
-        const promise = toExtraPromise(result)
+        const promise = ExtraPromise.from(result)
 
         expect(result).toBePromise()
         expect(promise.pending).toBe(true)

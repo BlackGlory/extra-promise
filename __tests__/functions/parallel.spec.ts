@@ -4,7 +4,7 @@ import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable }
   from '@test/utils'
 import { getErrorPromise } from 'return-style'
 import '@blackglory/jest-matchers'
-import { toExtraPromise } from '@functions/to-extra-promise'
+import { ExtraPromise } from '@classes/extra-promise'
 import { pass } from '@blackglory/pass'
 
 describe(`
@@ -41,7 +41,7 @@ describe(`
         const iter = new MockIterable([task1, task2, task3])
 
         const result = parallel(iter, 2)
-        const promise = toExtraPromise(result)
+        const promise = ExtraPromise.from(result)
 
         expect(result).toBePromise()
         expect(promise.pending).toBe(true)
@@ -81,7 +81,7 @@ describe(`
         const task3 = jest.fn()
 
         const result = parallel([task1, task2, task3], 2)
-        const promise = toExtraPromise(result)
+        const promise = ExtraPromise.from(result)
         result.catch(pass) // we will catch it later
         promise.catch(pass) // we will catch it later
 

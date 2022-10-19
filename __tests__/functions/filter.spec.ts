@@ -4,7 +4,7 @@ import { delay } from '@functions/delay'
 import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable }
   from '@test/utils'
 import '@blackglory/jest-matchers'
-import { toExtraPromise } from '@functions/to-extra-promise'
+import { ExtraPromise } from '@classes/extra-promise'
 
 describe(`
   filter<T, U = T>(
@@ -42,7 +42,7 @@ describe(`
         const callTaskAndResultIsEven = jest.fn(async x => await x() % 2 === 0)
 
         const result = filter(iter, callTaskAndResultIsEven, 2)
-        const promise = toExtraPromise(result)
+        const promise = ExtraPromise.from(result)
 
         expect(result).toBePromise()
         expect(promise.pending).toBe(true)

@@ -4,7 +4,7 @@ import { delay } from '@functions/delay'
 import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable }
   from '@test/utils'
 import '@blackglory/jest-matchers'
-import { toExtraPromise } from '@functions/to-extra-promise'
+import { ExtraPromise } from '@classes/extra-promise'
 import { pass } from '@blackglory/pass'
 
 describe(`
@@ -43,7 +43,7 @@ describe(`
         const callTask = jest.fn(x => x())
 
         const result = map(iter, callTask, 2)
-        const promise = toExtraPromise(result)
+        const promise = ExtraPromise.from(result)
 
         expect(result).toBePromise()
         expect(promise.pending).toBe(true)

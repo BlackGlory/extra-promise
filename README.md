@@ -235,11 +235,6 @@ const addAsync = asyncify(add) // (a: number | PromiseLike<number>, b: number | 
 await addAsync(a, b) // Promise<3>
 ```
 
-#### toExtraPromise
-```ts
-function toExtraPromise<T>(promise: PromiseLike<T>): ExtraPromise<T>
-```
-
 #### spawn
 ```ts
 function spawn(num: number, task: (id: number) => Promise<void>): Promise<void>
@@ -306,12 +301,19 @@ enum ExtraPromiseState {
 }
 
 class ExtraPromise<T> extends Promise<T> {
+  static from<T>(promise: PromiseLike<T>): ExtraPromise<T> 
+
   get pending(): boolean
   get fulfilled(): boolean
   get rejected(): boolean
   get state(): ExtraPromiseState
 
-  constructor(executor: (resolve: (value: T) => void, reject: (reason: any) => void) => void)
+  constructor(
+    executor: (
+      resolve: (value: T) => void
+    , reject: (reason: any) => void
+    ) => void
+  )
 }
 ```
 

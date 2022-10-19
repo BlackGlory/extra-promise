@@ -1,7 +1,7 @@
 import { delay } from '@functions/delay'
 import { advanceTimersByTime } from '@test/utils'
 import '@blackglory/jest-matchers'
-import { toExtraPromise } from '@functions/to-extra-promise'
+import { ExtraPromise } from '@classes/extra-promise'
 
 describe('delay(timeout: number): Promise<void>', () => {
   it('call setTimeout', () => {
@@ -18,7 +18,7 @@ describe('delay(timeout: number): Promise<void>', () => {
     const ms = 500
 
     const result = delay(ms)
-    const promise = toExtraPromise(result)
+    const promise = ExtraPromise.from(result)
 
     expect(result).toBePromise()
     expect(promise.pending).toBe(true)
