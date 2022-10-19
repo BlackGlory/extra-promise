@@ -1,4 +1,4 @@
-import { FiniteStateMachine } from '@blackglory/structures'
+import { FiniteStateMachine } from 'extra-fsm'
 
 export enum ExtraPromiseState {
   Pending = 'pending'

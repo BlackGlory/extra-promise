@@ -1,6 +1,7 @@
 import { Deferred } from '@classes/deferred'
 import { DebounceMicrotask } from '@classes/debounce-microtask'
-import { Queue, FiniteStateMachine } from '@blackglory/structures'
+import { Queue } from '@blackglory/structures'
+import { FiniteStateMachine } from 'extra-fsm'
 import { validateConcurrency } from '@utils/validate-concurrency'
 
 export type Task<T> = () => PromiseLike<T>
