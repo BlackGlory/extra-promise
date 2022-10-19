@@ -2,7 +2,7 @@ import { series } from '@functions/series'
 import { delay } from '@functions/delay'
 import { getCalledTimes, advanceTimersByTime } from '@test/utils'
 import '@blackglory/jest-matchers'
-import { ExtraPromise } from '@classes/extra-promise'
+import { StatefulPromise } from '@classes/stateful-promise'
 import { pass } from '@blackglory/pass'
 import { go } from '@blackglory/go'
 
@@ -30,22 +30,22 @@ describe('series', () => {
         })
 
         const result = series([task1, task2])
-        const promise = ExtraPromise.from(result)
+        const promise = StatefulPromise.from(result)
 
         expect(result).toBePromise()
-        expect(promise.pending).toBe(true)
+        expect(promise.isPending()).toBe(true)
 
         await advanceTimersByTime(0) // 0ms: task1 start
-        expect(promise.pending).toBe(true)
+        expect(promise.isPending()).toBe(true)
         expect(getCalledTimes(task1)).toBe(1)
         expect(getCalledTimes(task2)).toBe(0)
 
         await advanceTimersByTime(500) // 500ms: task1 done, task2 start
-        expect(promise.pending).toBe(true)
+        expect(promise.isPending()).toBe(true)
         expect(getCalledTimes(task2)).toBe(1)
 
         await advanceTimersByTime(500) // 1000ms: task2 done
-        expect(promise.fulfilled).toBe(true)
+        expect(promise.isFulfilled()).toBe(true)
         expect(await result).toBeUndefined()
       })
     })
@@ -79,22 +79,22 @@ describe('series', () => {
           yield task1
           yield task2
         }))
-        const promise = ExtraPromise.from(result)
+        const promise = StatefulPromise.from(result)
 
         expect(result).toBePromise()
-        expect(promise.pending).toBe(true)
+        expect(promise.isPending()).toBe(true)
 
         await advanceTimersByTime(0) // 0ms: task1 start
-        expect(promise.pending).toBe(true)
+        expect(promise.isPending()).toBe(true)
         expect(getCalledTimes(task1)).toBe(1)
         expect(getCalledTimes(task2)).toBe(0)
 
         await advanceTimersByTime(500) // 500ms: task1 done, task2 start
-        expect(promise.pending).toBe(true)
+        expect(promise.isPending()).toBe(true)
         expect(getCalledTimes(task2)).toBe(1)
 
         await advanceTimersByTime(500) // 1000ms: task2 done
-        expect(promise.fulfilled).toBe(true)
+        expect(promise.isFulfilled()).toBe(true)
         expect(await result).toBeUndefined()
       })
     })

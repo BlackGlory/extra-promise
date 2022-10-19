@@ -4,7 +4,7 @@ import { getCalledTimes, advanceTimersByTime, MockIterable }
   from '@test/utils'
 import { getErrorPromise } from 'return-style'
 import '@blackglory/jest-matchers'
-import { ExtraPromise } from '@classes/extra-promise'
+import { StatefulPromise } from '@classes/stateful-promise'
 import { pass } from '@blackglory/pass'
 import { go } from '@blackglory/go'
 
@@ -46,10 +46,10 @@ describe(`
         const result = parallelAsync(go(async function* () {
           yield* iter
         }), 2)
-        const promise = ExtraPromise.from(result)
+        const promise = StatefulPromise.from(result)
 
         expect(result).toBePromise()
-        expect(promise.pending).toBe(true)
+        expect(promise.isPending()).toBe(true)
 
         await advanceTimersByTime(0) // 0ms: task1, task2 start
         expect(getCalledTimes(task1)).toBe(1)
@@ -58,15 +58,15 @@ describe(`
         expect(iter.nextIndex).toBe(2) // iterable is lazy, it should be 2: task3
 
         await advanceTimersByTime(500) // 500ms: task1 done, task3 start
-        expect(promise.pending).toBe(true)
+        expect(promise.isPending()).toBe(true)
         expect(getCalledTimes(task3)).toBe(1)
-        expect(promise.pending).toBe(true)
+        expect(promise.isPending()).toBe(true)
 
         await advanceTimersByTime(500) // 1000ms: task2 done
-        expect(promise.pending).toBe(true)
+        expect(promise.isPending()).toBe(true)
 
         await advanceTimersByTime(500) // 1500ms: task3 done
-        expect(promise.fulfilled).toBe(true)
+        expect(promise.isFulfilled()).toBe(true)
         expect(await result).toBeUndefined()
       })
     })
@@ -89,21 +89,21 @@ describe(`
           yield task2
           yield task3
         }), 2)
-        const promise = ExtraPromise.from(result)
+        const promise = StatefulPromise.from(result)
         result.catch(pass) // we will catch it later
         promise.catch(pass) // we will catch it later
 
         expect(result).toBePromise()
-        expect(promise.pending).toBe(true)
+        expect(promise.isPending()).toBe(true)
 
         await advanceTimersByTime(0) // 0ms: task1, task2 start
-        expect(promise.pending).toBe(true)
+        expect(promise.isPending()).toBe(true)
         expect(getCalledTimes(task1)).toBe(1)
         expect(getCalledTimes(task2)).toBe(1)
         expect(getCalledTimes(task3)).toBe(0)
 
         await advanceTimersByTime(500) // 500ms: task1 throw, task2 done
-        expect(promise.rejected).toBe(true)
+        expect(promise.isRejected()).toBe(true)
         expect(await getErrorPromise(result)).toBe(error)
         expect(task3).not.toBeCalled()
       })

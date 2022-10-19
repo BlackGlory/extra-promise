@@ -1,4 +1,4 @@
-export * from '@classes/extra-promise'
+export * from '@classes/stateful-promise'
 export * from '@classes/deferred'
 export * from '@classes/mutable-deferred'
 export * from '@classes/reusable-deferred'

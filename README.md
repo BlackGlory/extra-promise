@@ -292,20 +292,17 @@ function reusePendingPromise<T, Args extends any[]>(
 Returns a function that will return the same `Promise` for calls with the same parameters if the `Promise` is pending.
 
 ### Classes
-#### ExtraPromise
+#### StatefulPromise
 ```ts
-enum ExtraPromiseState {
+enum StatefulPromiseState {
   Pending = 'pending'
 , Fulfilled = 'fulfilled'
 , Rejected = 'rejected'
 }
 
-class ExtraPromise<T> extends Promise<T> {
+class StatefulPromise<T> extends Promise<T> {
   static from<T>(promise: PromiseLike<T>): ExtraPromise<T> 
 
-  get pending(): boolean
-  get fulfilled(): boolean
-  get rejected(): boolean
   get state(): ExtraPromiseState
 
   constructor(
@@ -314,13 +311,14 @@ class ExtraPromise<T> extends Promise<T> {
     , reject: (reason: any) => void
     ) => void
   )
+
+  isPending(): boolean
+  isFulfilled(): boolean
+  isRejected(): boolean
 }
 ```
 
-A subclass of `Promise`.
-
-`ExtraPromise` has 3 readonly properties: `pending`, `fulfilled`, and `rejected`.
-So the state of the `Promise` can be known without calling the `then` method.
+A subclass of `Promise` used for testing, helps you understand the state of `Promise`.
 
 #### Channel
 ```ts

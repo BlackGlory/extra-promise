@@ -1,7 +1,7 @@
 import { delay } from '@functions/delay'
 import { advanceTimersByTime } from '@test/utils'
 import '@blackglory/jest-matchers'
-import { ExtraPromise } from '@classes/extra-promise'
+import { StatefulPromise } from '@classes/stateful-promise'
 
 describe('delay(timeout: number): Promise<void>', () => {
   it('call setTimeout', () => {
@@ -18,13 +18,13 @@ describe('delay(timeout: number): Promise<void>', () => {
     const ms = 500
 
     const result = delay(ms)
-    const promise = ExtraPromise.from(result)
+    const promise = StatefulPromise.from(result)
 
     expect(result).toBePromise()
-    expect(promise.pending).toBe(true)
+    expect(promise.isPending()).toBe(true)
 
     await advanceTimersByTime(500)
-    expect(promise.fulfilled).toBe(true)
+    expect(promise.isFulfilled()).toBe(true)
     expect(await result).toBeUndefined()
   })
 })
