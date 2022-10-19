@@ -1,6 +1,6 @@
 import { TaskRunner } from '@classes/task-runner'
 
-export function queueConcurrency<T, Args extends any[]>(
+export function limitConcurrencyByQueue<T, Args extends any[]>(
   concurrency: number
 , fn: (...args: Args) => PromiseLike<T>
 ): (...args: Args) => Promise<T> {

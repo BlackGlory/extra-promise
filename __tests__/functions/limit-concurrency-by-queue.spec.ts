@@ -1,17 +1,17 @@
-import { queueConcurrency } from '@functions/queue-concurrency'
+import { limitConcurrencyByQueue } from '@functions/limit-concurrency-by-queue'
 import { delay } from '@functions/delay'
 import 'jest-extended'
 import '@blackglory/jest-matchers'
 import { TIME_ERROR } from '@test/utils'
 
-test('queueConcurrency', async () => {
+test('limitConcurrencyByQueue', async () => {
   async function fn(num: number) {
     await delay(500)
     return num
   }
 
   const startTime = Date.now()
-  const queuedFn = queueConcurrency(2, fn)
+  const queuedFn = limitConcurrencyByQueue(2, fn)
   const result1 = queuedFn(1)
   const result2 = queuedFn(2)
   const result3 = queuedFn(3)

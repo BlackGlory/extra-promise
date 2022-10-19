@@ -20,7 +20,7 @@ test('exports', () => {
   , 'pad'
   , 'timeout'
   , 'TimeoutError'
-  , 'queueConcurrency'
+  , 'limitConcurrencyByQueue'
   , 'reusePendingPromise'
 
   , 'callbackify'

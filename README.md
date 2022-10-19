@@ -231,9 +231,9 @@ A sugar for running the same task in parallel.
 
 The parameter `id` is from `1` to `num`.
 
-#### queueConcurrency
+#### limitConcurrencyByQueue
 ```ts
-function queueConcurrency<T, Args extends any[]>(
+function limitConcurrencyByQueue<T, Args extends any[]>(
   concurrency: number
 , fn: (...args: Args) => PromiseLike<T>
 ): (...args: Args) => Promise<T>
