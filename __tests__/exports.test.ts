@@ -23,7 +23,6 @@ test('exports', () => {
   , 'TimeoutError'
   , 'queueConcurrency'
   , 'throttleConcurrency'
-  , 'throttleUntilDone'
   , 'reusePendingPromise'
 
   , 'callbackify'
