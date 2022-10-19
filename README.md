@@ -241,27 +241,27 @@ function limitConcurrencyByQueue<T, Args extends any[]>(
 
 Limit the number of concurrency, calls that exceed the number of concurrency will be delayed in order.
 
-#### reusePendingPromise
+#### reusePendingPromises
 ```ts
 type VerboseResult<T> = [value: T, isReuse: boolean]
 
-interface IReusePendingPromiseOptions {
+interface IReusePendingPromisesOptions {
   verbose?: true
 }
 
-function reusePendingPromise<T, Args extends any[]>(
+function reusePendingPromises<T, Args extends any[]>(
   fn: (...args: Args) => PromiseLike<T>
 , options: IReusePendingPromiseOptions & { verbose: true }
 ): (...args: Args) => Promise<VerboseResult<T>>
-function reusePendingPromise<T, Args extends any[]>(
+function reusePendingPromises<T, Args extends any[]>(
   fn: (...args: Args) => PromiseLike<T>
 , options: IReusePendingPromiseOptions & { verbose: false }
 ): (...args: Args) => Promise<T>
-function reusePendingPromise<T, Args extends any[]>(
+function reusePendingPromises<T, Args extends any[]>(
   fn: (...args: Args) => PromiseLike<T>
 , options: Omit<IReusePendingPromiseOptions, 'verbose'>
 ): (...args: Args) => Promise<T>
-function reusePendingPromise<T, Args extends any[]>(
+function reusePendingPromises<T, Args extends any[]>(
   fn: (...args: Args) => PromiseLike<T>
 ): (...args: Args) => Promise<T>
 ```

@@ -3,28 +3,28 @@ import { HashMap } from '@blackglory/structures'
 
 type VerboseResult<T> = [value: T, isReuse: boolean]
 
-interface IReusePendingPromiseOptions {
+interface IReusePendingPromisesOptions {
   verbose?: true
 }
 
-export function reusePendingPromise<T, Args extends any[]>(
+export function reusePendingPromises<T, Args extends any[]>(
   fn: (...args: Args) => PromiseLike<T>
-, options: IReusePendingPromiseOptions & { verbose: true }
+, options: IReusePendingPromisesOptions & { verbose: true }
 ): (...args: Args) => Promise<VerboseResult<T>>
-export function reusePendingPromise<T, Args extends any[]>(
+export function reusePendingPromises<T, Args extends any[]>(
   fn: (...args: Args) => PromiseLike<T>
-, options: IReusePendingPromiseOptions & { verbose: false }
+, options: IReusePendingPromisesOptions & { verbose: false }
 ): (...args: Args) => Promise<T>
-export function reusePendingPromise<T, Args extends any[]>(
+export function reusePendingPromises<T, Args extends any[]>(
   fn: (...args: Args) => PromiseLike<T>
-, options: Omit<IReusePendingPromiseOptions, 'verbose'>
+, options: Omit<IReusePendingPromisesOptions, 'verbose'>
 ): (...args: Args) => Promise<T>
-export function reusePendingPromise<T, Args extends any[]>(
+export function reusePendingPromises<T, Args extends any[]>(
   fn: (...args: Args) => PromiseLike<T>
 ): (...args: Args) => Promise<T>
-export function reusePendingPromise<T, Args extends any[]>(
+export function reusePendingPromises<T, Args extends any[]>(
   fn: (...args: Args) => PromiseLike<T>
-, options?: IReusePendingPromiseOptions
+, options?: IReusePendingPromisesOptions
 ): (...args: Args) => Promise<T | VerboseResult<T>> {
   const pendings = new HashMap<Args, Promise<T>>(args => stringify(args))
 

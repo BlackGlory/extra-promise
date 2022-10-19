@@ -21,7 +21,7 @@ test('exports', () => {
   , 'timeout'
   , 'TimeoutError'
   , 'limitConcurrencyByQueue'
-  , 'reusePendingPromise'
+  , 'reusePendingPromises'
 
   , 'callbackify'
 

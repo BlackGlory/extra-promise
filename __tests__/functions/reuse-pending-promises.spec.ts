@@ -1,10 +1,10 @@
-import { reusePendingPromise } from '@functions/reuse-pending-promise'
+import { reusePendingPromises } from '@functions/reuse-pending-promises'
 import { delay } from '@src/functions/delay'
 
-describe('reusePendingPromise', () => {
+describe('reusePendingPromises', () => {
   describe.each([
     ['verbose', reusePendingPromiseVerbose, toVerboseResult]
-  , ['not verbose', reusePendingPromise, toValue]
+  , ['not verbose', reusePendingPromises, toValue]
   ])('%s', (_, reusePendingPromise, createResult) => {
     describe('reuse pending promise', () => {
       it('reuses Promsie when pass in same parameters', async () => {
@@ -62,7 +62,7 @@ describe('reusePendingPromise', () => {
 function reusePendingPromiseVerbose<T, Args extends any[]>(
   fn: (...args: Args) => PromiseLike<T>
 ): (...args: Args) => Promise<[value: T, isReuse: boolean]>{
-  return reusePendingPromise(fn, { verbose: true })
+  return reusePendingPromises(fn, { verbose: true })
 }
 
 function toVerboseResult<T>(
