@@ -20,26 +20,26 @@ export class Channel<T> implements IBlockingChannel<T> {
   async send(value: T): Promise<void> {
     if (this.isClosed) throw new ChannelClosedError()
 
-    const release = await this.writeLock.acquire()
-    const readDeferred = new Deferred<void>()
-    this.readDeferredGroup.add(readDeferred)
-
-    try {
+    await this.writeLock.acquire(async () => {
       // 双重检查
       if (this.isClosed) throw new ChannelClosedError()
+
+      const readDeferred = new Deferred<void>()
+      this.readDeferredGroup.add(readDeferred)
 
       this.queue.enqueue(value)
       this.writeDeferredGroup.resolve()
 
-      // 等待receive发出读取信号
-      if (await isFailurePromise(readDeferred)) {
+      try {
+        // 等待receive发出读取信号
+        await readDeferred
+      } catch {
         this.queue.empty()
         throw new ChannelClosedError()
+      } finally {
+        this.readDeferredGroup.remove(readDeferred)
       }
-    } finally {
-      this.readDeferredGroup.remove(readDeferred)
-      release()
-    }
+    })
   }
 
   receive(): AsyncIterable<T> {
