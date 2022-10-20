@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0](https://github.com/BlackGlory/extra-promise/compare/v3.2.2...v4.0.0) (2022-10-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* Changed behaviors of `Channel`, `BufferChannel`, `UnlimitedChannel`.
+* Removed `Signal`, `SignalGroup`
+* renamed `reusePendingPromise` to `reusePendingPromises`
+* Renamed `queueConcurrency` to `limitConcurrencyByQueue`
+* Rewrote `TaskRunner`
+* Removed `throttleConcurrency` because it has a terrible name.
+* `ExtraPromise` now is `StatefulPromise`.
+* `toExtraPromise` is now `ExtraPromise.from`.
+* Removed `throttleUntilDone`, because other functions
+can replace it
+
+### Features
+
+* merge `toExtraPromise` into `ExtraPromise` ([b3f902f](https://github.com/BlackGlory/extra-promise/commit/b3f902f4d943ad67f466c5beaac2dd1f143b13fc))
+* remove `Signal`, rewrite `SignalGroup` to `DeferredGroup` ([e6368e0](https://github.com/BlackGlory/extra-promise/commit/e6368e06201222dbf48ab8d715447af733f7eb04))
+* remove `throttleConcurrency` ([a54fc56](https://github.com/BlackGlory/extra-promise/commit/a54fc561993432ea8062ca0a7967d8352a8dd2f7))
+* remove `throttleUntilDone` ([8b21dff](https://github.com/BlackGlory/extra-promise/commit/8b21dff09087e151cfb1b218926aca53613a9b75))
+
+
+* improve behaviors ([5a41bf8](https://github.com/BlackGlory/extra-promise/commit/5a41bf8bc356d8b1bf7f531c7009d396bbc40e8c))
+* rename `queueConcurrency` to `limitConcurrencyByQueue` ([6ab8e18](https://github.com/BlackGlory/extra-promise/commit/6ab8e18768d573c39a6038309ba725dc6a390917))
+* rename `reusePendingPromise` to `reusePendingPromises` ([8b8378b](https://github.com/BlackGlory/extra-promise/commit/8b8378bb97f2d90f790b9a606b94853611b95e82))
+* rewrite `ExtraPromise` to `StatefulPromise` ([3614a37](https://github.com/BlackGlory/extra-promise/commit/3614a372f53c8fc76b293f7a3f1e9c387245ecb1))
+* rewrite `TaskRunner` ([24cb19e](https://github.com/BlackGlory/extra-promise/commit/24cb19ea3f30ad7a280c17173dc51bc63cb8bef7))
+
 ### [3.2.2](https://github.com/BlackGlory/extra-promise/compare/v3.2.1...v3.2.2) (2022-09-13)
 
 ### [3.2.1](https://github.com/BlackGlory/extra-promise/compare/v3.2.0...v3.2.1) (2022-09-12)
