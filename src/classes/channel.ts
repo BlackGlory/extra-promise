@@ -1,4 +1,3 @@
-import { isFailurePromise } from 'return-style'
 import { Deferred } from '@classes/deferred'
 import { DeferredGroup } from '@classes/deferred-group'
 import { ChannelClosedError } from '@errors'
@@ -60,9 +59,9 @@ export class Channel<T> implements IBlockingChannel<T> {
 
               try {
                 // 等待send发出写入信号, 如果通道关闭, 则停止接收
-                if (await isFailurePromise(writeDeferred)) {
-                  return { done: true, value: undefined }
-                }
+                await writeDeferred
+              } catch {
+                return { done: true, value: undefined }
               } finally {
                 this.writeDeferredGroup.remove(writeDeferred)
               }
