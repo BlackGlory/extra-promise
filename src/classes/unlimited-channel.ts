@@ -1,18 +1,22 @@
-import { isFailurePromise } from 'return-style'
 import { DeferredGroup } from '@classes/deferred-group'
 import { Deferred } from '@classes/deferred'
 import { Queue } from '@blackglory/structures'
 import { ChannelClosedError } from '@errors'
 import { INonBlockingChannel } from '@utils/types'
+import { FiniteStateMachine } from 'extra-fsm'
 
 export class UnlimitedChannel<T> implements INonBlockingChannel<T> {
-  isClosed = false
+  private fsm = new FiniteStateMachine({
+    opened: { close: 'closed' }
+  , closed: {}
+  }, 'opened')
 
-  enqueueDeferredGroup = new DeferredGroup<void>()
-  buffer = new Queue<T>()
+  private enqueueDeferredGroup = new DeferredGroup<void>()
+  private buffer = new Queue<T>()
 
   send(value: T): void {
-    if (this.isClosed) throw new ChannelClosedError()
+    if (this.fsm.matches('closed')) throw new ChannelClosedError()
+
     this.buffer.enqueue(value)
     this.enqueueDeferredGroup.resolve(undefined)
   }
@@ -24,16 +28,16 @@ export class UnlimitedChannel<T> implements INonBlockingChannel<T> {
           next: async () => {
             // 缓冲区队列为空, 则等待入列信号
             while (this.buffer.size === 0) {
-              if (this.isClosed) return { done: true, value: undefined }
+              if (this.fsm.matches('closed')) return { done: true, value: undefined }
 
               const enqueueDeferred = new Deferred<void>()
               this.enqueueDeferredGroup.add(enqueueDeferred)
 
               try {
                 // 等待入列信号, 如果通道关闭, 则停止接收
-                if (await isFailurePromise(enqueueDeferred)) {
-                  return { done: true, value: undefined }
-                }
+                await enqueueDeferred
+              } catch {
+                return { done: true, value: undefined }
               } finally {
                 this.enqueueDeferredGroup.remove(enqueueDeferred)
               }
@@ -52,8 +56,9 @@ export class UnlimitedChannel<T> implements INonBlockingChannel<T> {
   }
 
   close() {
-    if (!this.isClosed) {
-      this.isClosed = true
+    if (this.fsm.matches('opened')) {
+      this.fsm.send('close')
+
       this.enqueueDeferredGroup.reject(new ChannelClosedError())
     }
   }
