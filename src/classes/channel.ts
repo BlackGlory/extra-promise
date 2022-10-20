@@ -9,17 +9,17 @@ import { FiniteStateMachine } from 'extra-fsm'
 
 // Technically, it is the `BufferedChannel(0)`
 export class Channel<T> implements IBlockingChannel<T> {
-  fsm = new FiniteStateMachine({
+  private fsm = new FiniteStateMachine({
     opened: { close: 'closed' }
   , closed: {}
   }, 'opened')
 
-  writeLock = new Mutex()
-  writeDeferredGroup = new DeferredGroup<void>()
-  readDeferredGroup = new DeferredGroup<void>()
+  private writeLock = new Mutex()
+  private writeDeferredGroup = new DeferredGroup<void>()
+  private readDeferredGroup = new DeferredGroup<void>()
 
   // 此队列仅仅是一个值的容器, 可能的最长长度为1
-  queue = new Queue<T>()
+  private queue = new Queue<T>()
 
   async send(value: T): Promise<void> {
     if (this.fsm.matches('closed')) throw new ChannelClosedError()
