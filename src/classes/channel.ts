@@ -5,10 +5,14 @@ import { ChannelClosedError } from '@errors'
 import { Mutex } from '@classes/mutex'
 import { IBlockingChannel } from '@utils/types'
 import { Queue } from '@blackglory/structures'
+import { FiniteStateMachine } from 'extra-fsm'
 
 // Technically, it is the `BufferedChannel(0)`
 export class Channel<T> implements IBlockingChannel<T> {
-  isClosed = false
+  fsm = new FiniteStateMachine({
+    opened: { close: 'closed' }
+  , closed: {}
+  }, 'opened')
 
   writeLock = new Mutex()
   writeDeferredGroup = new DeferredGroup<void>()
@@ -18,11 +22,11 @@ export class Channel<T> implements IBlockingChannel<T> {
   queue = new Queue<T>()
 
   async send(value: T): Promise<void> {
-    if (this.isClosed) throw new ChannelClosedError()
+    if (this.fsm.matches('closed')) throw new ChannelClosedError()
 
     await this.writeLock.acquire(async () => {
       // 双重检查
-      if (this.isClosed) throw new ChannelClosedError()
+      if (this.fsm.matches('closed')) throw new ChannelClosedError()
 
       const readDeferred = new Deferred<void>()
       this.readDeferredGroup.add(readDeferred)
@@ -49,7 +53,7 @@ export class Channel<T> implements IBlockingChannel<T> {
           next: async () => {
             while (this.queue.size === 0) {
               // 如果通道关闭, 则停止接收
-              if (this.isClosed) return { done: true, value: undefined }
+              if (this.fsm.matches('closed')) return { done: true, value: undefined }
 
               const writeDeferred = new Deferred<void>()
               this.writeDeferredGroup.add(writeDeferred)
@@ -78,11 +82,10 @@ export class Channel<T> implements IBlockingChannel<T> {
   }
 
   close() {
-    if (!this.isClosed) {
-      this.isClosed = true
-      this.writeDeferredGroup.reject(new ChannelClosedError())
-      this.readDeferredGroup.reject(new ChannelClosedError())
-    }
+    this.fsm.send('close')
+
+    this.writeDeferredGroup.reject(new ChannelClosedError())
+    this.readDeferredGroup.reject(new ChannelClosedError())
   }
 }
 
