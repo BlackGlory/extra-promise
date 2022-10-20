@@ -1,21 +1,25 @@
-import { isFailurePromise } from 'return-style'
 import { Deferred } from '@classes/deferred'
 import { DeferredGroup } from '@classes/deferred-group'
 import { Queue } from '@blackglory/structures'
 import { ChannelClosedError } from '@errors'
 import { IBlockingChannel } from '@utils/types'
+import { FiniteStateMachine } from 'extra-fsm'
 
 export class BufferedChannel<T> implements IBlockingChannel<T> {
-  isClosed = false
+  private fsm = new FiniteStateMachine({
+    opened: { close: 'closed' }
+  , closed: {}
+  }, 'opened')
 
-  enqueueDeferredGroup = new DeferredGroup<void>()
-  dequeueDeferredGroup = new DeferredGroup<void>()
-  buffer = new Queue<T>()
+  private buffer = new Queue<T>()
+  private enqueueDeferredGroup = new DeferredGroup<void>()
+  private dequeueDeferredGroup = new DeferredGroup<void>()
 
   constructor(private bufferSize: number) {}
 
   async send(value: T): Promise<void> {
-    if (this.isClosed) throw new ChannelClosedError()
+    if (this.fsm.matches('closed')) throw new ChannelClosedError()
+
     // 若缓冲区队列已满, 则等待出列信号
     while (this.buffer.size === this.bufferSize) {
       const dequeueDeferred = new Deferred<void>()
@@ -23,13 +27,12 @@ export class BufferedChannel<T> implements IBlockingChannel<T> {
 
       try {
         // 等待出列信号, 如果通道关闭, 则抛出错误
-        if (await isFailurePromise(dequeueDeferred)) throw new ChannelClosedError()
+        await dequeueDeferred
       } finally {
         this.dequeueDeferredGroup.remove(dequeueDeferred)
       }
-      // 对通道关闭的双重检查
-      if (this.isClosed) throw new ChannelClosedError()
     }
+
     this.buffer.enqueue(value)
     this.enqueueDeferredGroup.resolve()
   }
@@ -37,20 +40,22 @@ export class BufferedChannel<T> implements IBlockingChannel<T> {
   receive(): AsyncIterable<T> {
     return {
       [Symbol.asyncIterator]: () => {
+        if (this.fsm.matches('closed')) throw new ChannelClosedError()
+
         return {
           next: async () => {
+            if (this.fsm.matches('closed')) return { done: true, value: undefined }
+  
             // 缓冲区队列为空, 则等待入列信号
             while (this.buffer.size === 0) {
-              if (this.isClosed) return { done: true, value: undefined }
-
               const enqueueDeferred = new Deferred<void>()
               this.enqueueDeferredGroup.add(enqueueDeferred)
 
               try {
                 // 等待入列信号, 如果通道关闭, 则停止接收
-                if (await isFailurePromise(enqueueDeferred)) {
-                  return { done: true, value: undefined }
-                }
+                await enqueueDeferred
+              } catch {
+                return { done: true, value: undefined }
               } finally {
                 this.enqueueDeferredGroup.remove(enqueueDeferred)
               }
@@ -70,8 +75,10 @@ export class BufferedChannel<T> implements IBlockingChannel<T> {
   }
 
   close() {
-    if (!this.isClosed) {
-      this.isClosed = true
+    if (this.fsm.matches('opened')) {
+      this.fsm.send('close')
+
+      this.buffer.empty()
       this.enqueueDeferredGroup.reject(new ChannelClosedError())
       this.dequeueDeferredGroup.reject(new ChannelClosedError())
     }

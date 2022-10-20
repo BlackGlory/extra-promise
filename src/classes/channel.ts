@@ -36,9 +36,6 @@ export class Channel<T> implements IBlockingChannel<T> {
       try {
         // 等待receive发出读取信号
         await readDeferred
-      } catch {
-        this.queue.empty()
-        throw new ChannelClosedError()
       } finally {
         this.readDeferredGroup.remove(readDeferred)
       }
@@ -48,12 +45,13 @@ export class Channel<T> implements IBlockingChannel<T> {
   receive(): AsyncIterable<T> {
     return {
       [Symbol.asyncIterator]: () => {
+        if (this.fsm.matches('closed')) throw new ChannelClosedError()
+
         return {
           next: async () => {
-            while (this.queue.size === 0) {
-              // 如果通道关闭, 则停止接收
-              if (this.fsm.matches('closed')) return { done: true, value: undefined }
+            if (this.fsm.matches('closed')) return { done: true, value: undefined }
 
+            while (this.queue.size === 0) {
               const writeDeferred = new Deferred<void>()
               this.writeDeferredGroup.add(writeDeferred)
 
@@ -83,6 +81,7 @@ export class Channel<T> implements IBlockingChannel<T> {
   close() {
     this.fsm.send('close')
 
+    this.queue.empty()
     this.writeDeferredGroup.reject(new ChannelClosedError())
     this.readDeferredGroup.reject(new ChannelClosedError())
   }

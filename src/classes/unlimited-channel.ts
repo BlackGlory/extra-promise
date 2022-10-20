@@ -24,11 +24,14 @@ export class UnlimitedChannel<T> implements INonBlockingChannel<T> {
   receive(): AsyncIterable<T> {
     return {
       [Symbol.asyncIterator]: () => {
+        if (this.fsm.matches('closed')) throw new ChannelClosedError()
+
         return {
           next: async () => {
+            if (this.fsm.matches('closed')) return { done: true, value: undefined }
+
             // 缓冲区队列为空, 则等待入列信号
             while (this.buffer.size === 0) {
-              if (this.fsm.matches('closed')) return { done: true, value: undefined }
 
               const enqueueDeferred = new Deferred<void>()
               this.enqueueDeferredGroup.add(enqueueDeferred)
@@ -59,6 +62,7 @@ export class UnlimitedChannel<T> implements INonBlockingChannel<T> {
     if (this.fsm.matches('opened')) {
       this.fsm.send('close')
 
+      this.buffer.empty()
       this.enqueueDeferredGroup.reject(new ChannelClosedError())
     }
   }

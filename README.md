@@ -328,9 +328,9 @@ Implement MPMC(multi-producer, multi-consumer) FIFO queue communication with `Pr
 - `receive`
   Receive value from the channel.
 - `close`
-  Close the channel, no more values can be sent.
+  Close the channel.
 
-If the channel closed, `send` will throw `ChannelClosedError`.
+If the channel closed, `send` and `receive` will throw `ChannelClosedError`.
 
 ```ts
 const chan = new Channel<string>()
@@ -360,9 +360,9 @@ When the amount of data sent exceeds `bufferSize`, `send` will block until data 
 - `receive`
   Receive value from the channel.
 - `close`
-  Close channel, no more values can be sent.
+  Close the channel.
 
-If the channel closed, `send` will throw `ChannelClosedError`.
+If the channel closed, `send` and `receive` will throw `ChannelClosedError`.
 
 ```ts
 const chan = new BufferedChannel<string>(1)
@@ -392,9 +392,9 @@ Implement MPMC(multi-producer, multi-consumer) FIFO queue communication with `Pr
 - `receive`
   Receive value from the channel.
 - `close`
-  close the channel, no more values can be sent.
+  Close the channel.
 
-If the channel closed, `send` will throw `ChannelClosedError`.
+If the channel closed, `send` and `receive` will throw `ChannelClosedError`.
 
 ```ts
 const chan = new UnlimitedChannel<string>()

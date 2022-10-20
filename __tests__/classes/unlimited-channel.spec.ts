@@ -1,43 +1,43 @@
 import { UnlimitedChannel, ChannelClosedError } from '@classes/unlimited-channel'
-import { getError } from 'return-style'
+import { getError, getErrorAsyncIterable } from 'return-style'
 import { toArrayAsync } from 'iterable-operator'
+import { setImmediate } from 'extra-timers'
 import 'jest-extended'
 
 describe('UnlimitedChannel', () => {
-  describe('close, send, receive', () => {
+  describe('close, send', () => {
     it('throws ChannelClosedError', async () => {
       const value = 'value'
-
       const channel = new UnlimitedChannel<string>()
+
       channel.close()
       const err = getError(() => channel.send(value))
-      const result = await toArrayAsync(channel.receive())
 
       expect(err).toBeInstanceOf(ChannelClosedError)
-      expect(result).toEqual([])
     })
   })
 
   describe('close, receive', () => {
-    it('returns an empty AsyncIterable', async () => {
+    it('throws ChannelClosedError', async () => {
       const channel = new UnlimitedChannel<string>()
-      channel.close()
-      const result = await toArrayAsync(channel.receive())
 
-      expect(result).toEqual([])
+      channel.close()
+      const result = await getErrorAsyncIterable(channel.receive())
+
+      expect(result).toBeInstanceOf(ChannelClosedError)
     })
   })
 
   describe('send, close, receive', () => {
-    it('returns AsyncIterable', async () => {
+    it('throws ChannelClosedError', async () => {
       const value = 'value'
-
       const channel = new UnlimitedChannel<string>()
+
       channel.send(value)
       channel.close()
-      const result = await toArrayAsync(channel.receive())
+      const err = await getErrorAsyncIterable(channel.receive())
 
-      expect(result).toEqual([value])
+      expect(err).toBeInstanceOf(ChannelClosedError)
     })
   })
 
@@ -50,7 +50,8 @@ describe('UnlimitedChannel', () => {
       })
       queueMicrotask(() => {
         channel.send(2)
-        queueMicrotask(() => channel.close())
+
+        setImmediate(() => channel.close())
       })
       const result = await toArrayAsync(channel.receive())
 

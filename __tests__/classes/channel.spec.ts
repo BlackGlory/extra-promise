@@ -1,47 +1,46 @@
 import { Channel, ChannelClosedError } from '@classes/channel'
-import { getErrorPromise } from 'return-style'
-import { toArrayAsync } from 'iterable-operator'
+import { getErrorPromise, getErrorAsyncIterable } from 'return-style'
 import { delay } from '@functions/delay'
-import { TIME_ERROR } from '@test/utils'
 import { setImmediate } from 'extra-timers'
+import { TIME_ERROR } from '@test/utils'
 import 'jest-extended'
 
 describe('Channel', () => {
-  describe('close, send, receive', () => {
+  describe('close, send', () => {
     it('throws ChannelClosedError', async () => {
       const value = 'value'
-
       const channel = new Channel<string>()
+
       channel.close()
       const err = await getErrorPromise(channel.send(value))
-      const result = await toArrayAsync(channel.receive())
 
       expect(err).toBeInstanceOf(ChannelClosedError)
-      expect(result).toEqual([])
     })
   })
 
   describe('close, receive', () => {
-    it('returns empty AsyncIterable', async () => {
+    it('throws ChannelClosedError', async () => {
       const channel = new Channel<string>()
-      channel.close()
-      const result = await toArrayAsync(channel.receive())
 
-      expect(result).toEqual([])
+      channel.close()
+      const err = await getErrorAsyncIterable(channel.receive())
+
+      expect(err).toBeInstanceOf(ChannelClosedError)
     })
   })
 
   describe('send, close, receive', () => {
-    it('throws ChannelClosedError, returns an empty AsyncIterable', async () => {
+    it('throws ChannelClosedError', async () => {
       const value = 'value'
-
       const channel = new Channel<string>()
-      setImmediate(() => channel.close())
-      const err = await getErrorPromise(channel.send(value))
-      const result = await toArrayAsync(channel.receive())
 
-      expect(err).toBeInstanceOf(ChannelClosedError)
-      expect(result).toEqual([])
+      const promise = channel.send(value)
+      channel.close()
+      const receiveError = await getErrorAsyncIterable(channel.receive())
+      const sendError = await getErrorPromise(promise)
+
+      expect(receiveError).toBeInstanceOf(ChannelClosedError)
+      expect(sendError).toBeInstanceOf(ChannelClosedError)
     })
   })
 
@@ -57,20 +56,23 @@ describe('Channel', () => {
       const consumeTiming: number[] = []
       queueMicrotask(async () => {
         // #1
-        produceTiming[0] = getNow(start) // 0ms
+        produceTiming[0] = getElapsedTime(start) // 0ms
         await channel.send()
-        consumeTiming[0] = getNow(start) // 500ms
+        consumeTiming[0] = getElapsedTime(start) // 500ms
       })
       queueMicrotask(async () => {
         // #2
-        produceTiming[1] = getNow(start) // 0ms
+        produceTiming[1] = getElapsedTime(start) // 0ms
         await channel.send()
-        consumeTiming[1] = getNow(start) // 1000ms
-        queueMicrotask(() => channel.close())
+        consumeTiming[1] = getElapsedTime(start) // 1000ms
+
+        setImmediate(() => channel.close())
       })
 
       await delay(500)
-      for await (const _ of channel.receive()) await delay(500)
+      for await (const _ of channel.receive()) {
+        await delay(500)
+      }
 
       expect(produceTiming[0]).toBeWithin(0 - TIME_ERROR, 500 - TIME_ERROR) // 0ms
       expect(consumeTiming[0]).toBeWithin(500 - TIME_ERROR, 1000 - TIME_ERROR) // 500ms
@@ -105,6 +107,6 @@ describe('Channel', () => {
   })
 })
 
-function getNow(start: number) {
-  return Date.now() - start
+function getElapsedTime(startTime: number): number {
+  return Date.now() - startTime
 }
