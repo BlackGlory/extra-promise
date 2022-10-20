@@ -9,6 +9,25 @@ yarn add extra-promise
 ```
 
 ## API
+```ts
+interface INonBlockingChannel<T> {
+  send(value: T): void
+  receive(): AsyncIterable<T>
+  close: () => void
+}
+
+interface IBlockingChannel<T> {
+  send(value: T): Promise<void>
+  receive(): AsyncIterable<T>
+  close: () => void
+}
+
+interface IDeferred<T> {
+  resolve(value: T): void
+  reject(reason: unknown): void
+}
+```
+
 ### functions
 #### delay
 ```ts
@@ -299,11 +318,7 @@ A subclass of `Promise` used for testing, helps you understand the state of `Pro
 
 #### Channel
 ```ts
-class Channel<T> {
-  send(value: T): Promise<void>
-  receive(): AsyncIterable<T>
-  close: () => void
-}
+class Channel<T> implements IBlockingChannel<T>
 ```
 
 Implement MPMC(multi-producer, multi-consumer) FIFO queue communication with `Promise` and `AsyncIterable`.
@@ -331,10 +346,8 @@ for await (const value of chan.receive()) {
 
 #### BufferedChannel
 ```ts
-class BufferedChannel {
-  send(value: T): Promise<void>
-  receive(): AsyncIterable<T>
-  close: () => void
+class BufferedChannel<T> implements IBlockingChannel<T> {
+  constructor(bufferSize: number)
 }
 ```
 
@@ -367,11 +380,7 @@ for await (const value of chan.receive()) {
 
 #### UnlimitedChannel
 ```ts
-class UnlimitedChannel {
-  send(value: T): void
-  receive(): AsyncIterable<T>
-  close: () => void
-}
+class UnlimitedChannel<T> implements INonBlockingChannel<T>
 ```
 
 Implement MPMC(multi-producer, multi-consumer) FIFO queue communication with `Promise` and `AsyncIterable`.
@@ -403,24 +412,14 @@ for await (const value of chan.receive()) {
 
 #### Deferred
 ```ts
-class Deferred<T> implements PromiseLike<T> {
-  then: PromiseLike<T>['then']
-
-  resolve(value: T): void
-  reject(reason: unknown): void
-}
+class Deferred<T> implements PromiseLike<T>, IDeferred<T>
 ```
 
 `Deferred` is a `Promise` that separates `resolve()` and `reject()` from the constructor.
 
 #### MutableDeferred
 ```ts
-class MutableDeferred<T> implements PromiseLike<T> {
-  then: PromiseLike<T>['then']
-
-  resolve(value: T): void
-  reject(reason: unknown): void
-}
+class MutableDeferred<T> implements PromiseLike<T>, IDefrred<T>
 ```
 
 `MutableDeferred` is similar to `Deferred`,
@@ -436,12 +435,7 @@ await deferred // resolved(2)
 
 #### ReusableDeferred
 ```ts
-class ReusableDeferred<T> implements PromiseLike<T> {
-  then: PromiseLike<T>['then']
-
-  resolve(value: T): void
-  reject(reason: unknown): void
-}
+class ReusableDeferred<T> implements PromiseLike<T>, IDeferred<T>
 ```
 
 `ReusableDeferred` is similar to `MutableDeferred`,
@@ -453,6 +447,15 @@ deferred.resolve(1)
 queueMicrotask(() => deferred.resolve(2))
 
 await deferred // pending, resolved(2)
+```
+
+#### DeferredGroup
+```ts
+class DeferredGroup<T> implements IDeferred<T> {
+  add(deferred: IDeferred<T>): void
+  remove(deferred: IDeferred<T>): void
+  clear(): void
+}
 ```
 
 #### LazyPromise
@@ -470,33 +473,6 @@ class LazyPromise<T> implements PromiseLike<T> {
 `LazyPromise` constructor is the same as `Promise`.
 
 The difference with `Promise` is that `LazyPromise` only performs `executor` after `then` method is called.
-
-#### Signal
-```ts
-class Signal implements PromiseLike<void> {
-  then: PromiseLike<void>['then']
-
-  emit(): void
-  discard(): void
-}
-```
-
-A one-time signal.
-
-The `emit()` make the internal Promise resolve.
-
-The `discard()` make the internal Promise reject `SignalDiscarded`.
-
-#### SignalGroup
-```ts
-class SignalGroup {
-  add(signal: Signal): void
-  remove(signal: Signal): void
-
-  emitAll(): void
-  discardAll(): void
-}
-```
 
 #### Semaphore
 ```ts

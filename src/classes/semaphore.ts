@@ -1,5 +1,5 @@
-import { Signal } from './signal'
-import { SignalGroup } from '@classes/signal-group'
+import { Deferred } from './deferred'
+import { DeferredGroup } from '@classes/deferred-group'
 import { go } from '@blackglory/go'
 import once from 'lodash/once'
 import { Awaitable } from 'justypes'
@@ -8,7 +8,7 @@ type Release = () => void
 
 export class Semaphore {
   private locked: number = 0
-  private readonly awaitings = new SignalGroup()
+  private readonly awaitings = new DeferredGroup()
 
   constructor(private readonly count: number) {}
 
@@ -39,17 +39,17 @@ export class Semaphore {
 
   private async lock() {
     while (this.isLocked()) {
-      const unlockSignal = new Signal()
-      this.awaitings.add(unlockSignal)
-      await unlockSignal
-      this.awaitings.remove(unlockSignal)
+      const unlockDeferred = new Deferred()
+      this.awaitings.add(unlockDeferred)
+      await unlockDeferred
+      this.awaitings.remove(unlockDeferred)
     }
     this.locked++
   }
 
   private unlock() {
     this.locked--
-    this.awaitings.emitAll()
+    this.awaitings.resolve(undefined)
   }
 
   private isLocked(): boolean {

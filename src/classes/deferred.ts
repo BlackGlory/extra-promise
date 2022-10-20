@@ -1,4 +1,6 @@
-export class Deferred<T> implements PromiseLike<T> {
+import { IDeferred } from '@utils/types'
+
+export class Deferred<T> implements PromiseLike<T>, IDeferred<T> {
   private _resolve!: (value: T) => void
   private _reject!: (reason: any) => void
   private promise: Promise<T>

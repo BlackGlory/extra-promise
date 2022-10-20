@@ -1,20 +1,20 @@
 import { isFailurePromise } from 'return-style'
-import { Signal } from '@classes/signal'
-import { SignalGroup } from '@classes/signal-group'
+import { DeferredGroup } from '@classes/deferred-group'
+import { Deferred } from '@classes/deferred'
 import { Queue } from '@blackglory/structures'
 import { ChannelClosedError } from '@errors'
-import { IChannel } from '@utils/types'
+import { INonBlockingChannel } from '@utils/types'
 
-export class UnlimitedChannel<T> implements IChannel<T> {
+export class UnlimitedChannel<T> implements INonBlockingChannel<T> {
   isClosed = false
 
-  enqueueSignalGroup = new SignalGroup()
+  enqueueDeferredGroup = new DeferredGroup<void>()
   buffer = new Queue<T>()
 
   send(value: T): void {
     if (this.isClosed) throw new ChannelClosedError()
     this.buffer.enqueue(value)
-    this.enqueueSignalGroup.emitAll()
+    this.enqueueDeferredGroup.resolve(undefined)
   }
 
   receive(): AsyncIterable<T> {
@@ -26,16 +26,16 @@ export class UnlimitedChannel<T> implements IChannel<T> {
             while (this.buffer.size === 0) {
               if (this.isClosed) return { done: true, value: undefined }
 
-              const enqueueSignal = new Signal()
-              this.enqueueSignalGroup.add(enqueueSignal)
+              const enqueueDeferred = new Deferred<void>()
+              this.enqueueDeferredGroup.add(enqueueDeferred)
 
               try {
                 // 等待入列信号, 如果通道关闭, 则停止接收
-                if (await isFailurePromise(enqueueSignal)) {
+                if (await isFailurePromise(enqueueDeferred)) {
                   return { done: true, value: undefined }
                 }
               } finally {
-                this.enqueueSignalGroup.remove(enqueueSignal)
+                this.enqueueDeferredGroup.remove(enqueueDeferred)
               }
             }
 
@@ -54,7 +54,7 @@ export class UnlimitedChannel<T> implements IChannel<T> {
   close() {
     if (!this.isClosed) {
       this.isClosed = true
-      this.enqueueSignalGroup.discardAll()
+      this.enqueueDeferredGroup.reject(new ChannelClosedError())
     }
   }
 }

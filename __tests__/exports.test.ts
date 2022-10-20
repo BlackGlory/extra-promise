@@ -17,13 +17,12 @@ test('exports', () => {
   , 'all'
   , 'promisify'
   , 'asyncify'
+  , 'callbackify'
   , 'pad'
   , 'timeout'
   , 'TimeoutError'
   , 'limitConcurrencyByQueue'
   , 'reusePendingPromises'
-
-  , 'callbackify'
 
   , 'StatefulPromise'
   , 'StatefulPromiseState'
@@ -31,16 +30,13 @@ test('exports', () => {
   , 'Deferred'
   , 'MutableDeferred'
   , 'ReusableDeferred'
+  , 'DeferredGroup'
   , 'LazyPromise'
 
   , 'Channel'
   , 'BufferedChannel'
   , 'UnlimitedChannel'
   , 'ChannelClosedError'
-
-  , 'Signal'
-  , 'SignalDiscarded'
-  , 'SignalGroup'
 
   , 'Semaphore'
   , 'Mutex'

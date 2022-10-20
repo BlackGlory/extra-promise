@@ -1,7 +1,8 @@
 import { Deferred } from '@classes/deferred'
 import { pass } from '@blackglory/pass'
+import { IDeferred } from '@utils/types'
 
-export class MutableDeferred<T> implements PromiseLike<T> {
+export class MutableDeferred<T> implements PromiseLike<T>, IDeferred<T> {
   private deferred: Deferred<T> = this.createDeferred()
   private isFirstRun = true
 
