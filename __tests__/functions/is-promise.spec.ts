@@ -1,7 +1,7 @@
-import { isPromise } from '@functions/is-promise'
+import { isPromise, isntPromise } from '@functions/is-promise'
 
-describe('isPromise<T>(val: any): boolean', () => {
-  describe('val is Promise<T>', () => {
+describe('isPromise', () => {
+  describe('val is Promise', () => {
     it('return true', () => {
       const obj = Promise.resolve()
 
@@ -11,13 +11,35 @@ describe('isPromise<T>(val: any): boolean', () => {
     })
   })
 
-  describe('val isnt Promise<T>', () => {
+  describe('val isnt Promise', () => {
     it('return false', () => {
       const obj = null
 
       const result = isPromise(obj)
 
       expect(result).toBe(false)
+    })
+  })
+})
+
+describe('isntPromise', () => {
+  describe('val is Promise', () => {
+    it('return false', () => {
+      const obj = Promise.resolve()
+
+      const result = isntPromise(obj)
+
+      expect(result).toBe(false)
+    })
+  })
+
+  describe('val isnt Promise', () => {
+    it('return true', () => {
+      const obj = null
+
+      const result = isntPromise(obj)
+
+      expect(result).toBe(true)
     })
   })
 })

@@ -1,4 +1,4 @@
-import { isPromiseLike } from '@functions/is-promise-like'
+import { isPromiseLike, isntPromiseLike } from '@functions/is-promise-like'
 import { pass } from '@blackglory/pass'
 
 describe('isPromiseLike', () => {
@@ -19,6 +19,28 @@ describe('isPromiseLike', () => {
       const result = isPromiseLike(obj)
 
       expect(result).toBe(false)
+    })
+  })
+})
+
+describe('isntPromiseLike', () => {
+  describe('val is PromiseLike', () => {
+    it('return false', () => {
+      const obj = { then: pass }
+
+      const result = isntPromiseLike(obj)
+
+      expect(result).toBe(false)
+    })
+  })
+
+  describe('val isnt PromiseLike', () => {
+    it('return true', () => {
+      const obj = null
+
+      const result = isntPromiseLike(obj)
+
+      expect(result).toBe(true)
     })
   })
 })
