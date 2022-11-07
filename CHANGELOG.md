@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.0](https://github.com/BlackGlory/extra-promise/compare/v4.0.0...v4.1.0) (2022-11-07)
+
+
+### Features
+
+* add `isPromise`, `isPromiseLike` ([8ab8c7a](https://github.com/BlackGlory/extra-promise/commit/8ab8c7ae6ff15c64697e704019a86bdcdd278d13))
+
 ## [4.0.0](https://github.com/BlackGlory/extra-promise/compare/v3.2.2...v4.0.0) (2022-10-20)
 
 
