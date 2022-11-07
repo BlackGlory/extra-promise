@@ -29,6 +29,18 @@ interface IDeferred<T> {
 ```
 
 ### functions
+#### isPromise
+```ts
+function isPromise<T>(val: unknown): val is Promise<T>
+function isntPromise<T>(val: T): val is Exclude<T, Promise<unknown>>
+```
+
+#### isPromiseLike
+```ts
+function isPromiseLike<T>(val: unknown): val is PromiseLike<T>
+function isntPromiseLike<T>(val: T): val is Exclude<T, PromiseLike<unknown>>
+```
+
 #### delay
 ```ts
 function delay(timeout: number): Promise<void>
