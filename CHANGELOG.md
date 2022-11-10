@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.2.0](https://github.com/BlackGlory/extra-promise/compare/v4.1.0...v4.2.0) (2022-11-10)
+
+
+### Features
+
+* improve `asyncify` ([9c69644](https://github.com/BlackGlory/extra-promise/commit/9c69644d113b1fdadbac9c899ff4dad67fe24688))
+
+
+### Bug Fixes
+
+* **asyncify:** the function signature ([9837302](https://github.com/BlackGlory/extra-promise/commit/9837302aab36e04e2185c95b9bb4ea97c5b4374a))
+
 ## [4.1.0](https://github.com/BlackGlory/extra-promise/compare/v4.0.0...v4.1.0) (2022-11-07)
 
 
