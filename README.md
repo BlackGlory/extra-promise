@@ -232,9 +232,9 @@ The `callbackify` function, as opposed to `promisify`.
 
 #### asyncify
 ```ts
-function asyncify<T extends any[], U>(
-  fn: (...args: T) => Awaitable<U>
-): (...args: Promisify<T>) => Promise<U>
+function asyncify<Args extends any[], Result, This = unknown>(
+  fn: (this: This, ...args: Args) => Awaitable<Result>
+): (...args: Promisify<Args>) => Promise<Result>
 ```
 
 Turn sync functions into async functions.
@@ -253,9 +253,31 @@ const addAsync = asyncify(add) // (a: number | PromiseLike<number>, b: number | 
 await addAsync(a, b) // Promise<3>
 ```
 
+It can also be used to eliminate the call stack:
+```ts
+// OLD
+function count(n: number, i: number = 0): number {
+  if (i < n) return count(n, i + 1)
+  return i
+}
+
+count(10000) // RangeError: Maximum call stack size exceeded
+
+// NEW
+const countAsync = asyncify((n: number, i: number = 0): Awaitable<number> => {
+  if (i < n) return countAsync(n, i + 1)
+  return i
+})
+
+await countAsync(10000) // 10000
+```
+
 #### spawn
 ```ts
-function spawn(num: number, task: (id: number) => PromiseLike<void>): Promise<void>
+function spawn(
+  num: number
+, task: (id: number) => PromiseLike<void>
+): Promise<void>
 ```
 
 A sugar for running the same task in parallel.

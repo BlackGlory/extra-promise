@@ -1,4 +1,5 @@
 import { asyncify } from '@functions/asyncify'
+import { Awaitable } from 'justypes'
 import '@blackglory/jest-matchers'
 
 describe('asyncify', () => {
@@ -35,5 +36,16 @@ describe('asyncify', () => {
       expect(result).toBePromise()
       expect(proResult).toBe(expected)
     })
+  })
+
+  test('eliminate the call stack', async () => {
+    const countAsync = asyncify((n: number, i: number = 0): Awaitable<number> => {
+      if (i < n) return countAsync(n, i + 1)
+      return i
+    })
+
+    const result = await countAsync(10000)
+
+    expect(result).toBe(10000)
   })
 })
