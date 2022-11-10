@@ -8,7 +8,7 @@ type Promisify<Args extends unknown[]> = {
 
 export function asyncify<Args extends any[], Result, This = unknown>(
   fn: (this: This, ...args: Args) => Awaitable<Result>
-): (...args: Promisify<Args>) => Promise<Result> {
+): (this: This, ...args: Promisify<Args>) => Promise<Result> {
   return async function (
     this: This
   , ...args: Promisify<Args>
