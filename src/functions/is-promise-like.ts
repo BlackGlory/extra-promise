@@ -1,4 +1,4 @@
-import { isObject, isFunction } from '@blackglory/types'
+import { isObject, isFunction } from 'extra-utils'
 
 export function isPromiseLike<T>(val: unknown): val is PromiseLike<T> {
   return isObject(val)

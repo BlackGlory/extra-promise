@@ -1,4 +1,4 @@
-import { isIterable } from '@blackglory/types'
+import { isIterable } from 'iterable-operator'
 import { Awaitable } from 'justypes'
 
 export async function series(

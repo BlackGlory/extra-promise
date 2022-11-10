@@ -3,7 +3,9 @@
   "version": "4.1.0",
   "description": "Utilities for JavaScript Promise and AsyncFunction",
   "keywords": [],
-  "files": ["lib"],
+  "files": [
+    "lib"
+  ],
   "main": "lib/es2018/index.js",
   "types": "lib/es2018/index.d.ts",
   "sideEffects": false,
@@ -60,10 +62,10 @@
     "@blackglory/go": "^1.1.2",
     "@blackglory/pass": "^1.1.0",
     "@blackglory/structures": "^0.11.4",
-    "@blackglory/types": "^1.4.0",
     "extra-fsm": "^0.1.1",
     "extra-generator": "^0.2.17",
     "extra-json-stable-stringify": "^0.1.1",
+    "extra-utils": "^3.3.0",
     "hotypes": "^0.5.0",
     "iterable-operator": "^2.3.0",
     "justypes": "^3.0.0",

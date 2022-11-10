@@ -1,4 +1,4 @@
-import { isFunction } from '@blackglory/types'
+import { isFunction } from 'extra-utils'
 import { getErrorPromise } from 'return-style'
 import { promisify } from '@functions/promisify'
 import '@blackglory/jest-matchers'
