@@ -371,7 +371,6 @@ const chan = new Channel<string>()
 queueMicrotask(() => {
   await chan.send('hello')
   await chan.send('world')
-  chan.close()
 })
 for await (const value of chan.receive()) {
   console.log(value)
@@ -404,7 +403,6 @@ const chan = new BufferedChannel<string>(1)
 queueMicrotask(() => {
   await chan.send('hello')
   await chan.send('world')
-  chan.close()
 })
 
 for await (const value of chan.receive()) {
@@ -436,7 +434,6 @@ const chan = new UnlimitedChannel<string>()
 queueMicrotask(() => {
   chan.send('hello')
   chan.send('world')
-  chan.close()
 })
 
 for await (const value of chan.receive()) {
