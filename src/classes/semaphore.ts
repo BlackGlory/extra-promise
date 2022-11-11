@@ -20,13 +20,23 @@ export class Semaphore {
   ) {
     if (args.length === 0) {
       return new Promise(async resolve => {
-        await this.lock()
+        // 此处的`tryLock`和`waitForUnlock`组合不能被封装成一个`lock`函数,
+        // 因为`await lock()`会导致引擎等待下一个microtask, 造成无锁情况下任务被延迟执行.
+        while (!this.tryLock()) {
+          await this.waitForUnlock()
+        }
+
         resolve(once(() => this.unlock()))
       })
     } else {
       const [handler] = args
       return go(async () => {
-        await this.lock()
+        // 此处的`tryLock`和`waitForUnlock`组合不能被封装成一个`lock`函数,
+        // 因为`await lock()`会导致引擎等待下一个microtask, 造成在无锁情况下任务被延迟执行.
+        while (!this.tryLock()) {
+          await this.waitForUnlock()
+        }
+
         try {
           const result = await handler()
           return result
@@ -37,22 +47,28 @@ export class Semaphore {
     }
   }
 
-  private async lock() {
-    while (this.isLocked()) {
-      const unlockDeferred = new Deferred()
-      this.awaitings.add(unlockDeferred)
-      await unlockDeferred
-      this.awaitings.remove(unlockDeferred)
+  private tryLock(): boolean {
+    if (this.isLocked()) {
+      return false
+    } else {
+      this.locked++
+      return true
     }
-    this.locked++
   }
 
-  private unlock() {
+  private async waitForUnlock(): Promise<void> {
+    const unlockDeferred = new Deferred()
+    this.awaitings.add(unlockDeferred)
+    await unlockDeferred
+    this.awaitings.remove(unlockDeferred)
+  }
+
+  private unlock(): void {
     this.locked--
     this.awaitings.resolve(undefined)
   }
 
   private isLocked(): boolean {
-    return this.count - this.locked === 0
+    return this.locked === this.count
   }
 }

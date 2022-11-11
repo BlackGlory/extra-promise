@@ -44,6 +44,23 @@ describe('Channel', () => {
     })
   })
 
+  test('the created iterator does not throw ChannelClosedError', async () => {
+    const value = 'value'
+    const channel = new Channel<string>()
+
+    const promise = getErrorPromise(channel.send(value))
+    const iter = channel.receive()[Symbol.asyncIterator]()
+    channel.close()
+    const result = await iter.next()
+    const err = await promise
+
+    expect(err).toBeInstanceOf(ChannelClosedError)
+    expect(result).toStrictEqual({
+      done: true
+    , value: undefined
+    })
+  })
+
   describe('multiple-producer, single-consumer', () => {
     it('handles send and next one by one', async () => {
       // This is why the case uses real time:

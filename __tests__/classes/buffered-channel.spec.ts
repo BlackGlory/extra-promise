@@ -45,6 +45,22 @@ describe('BufferedChannel', () => {
     })
   })
 
+  test('the created iterator does not throw ChannelClosedError', async () => {
+    const bufferSize = 1
+    const value = 'value'
+    const channel = new BufferedChannel<string>(bufferSize)
+
+    await channel.send(value)
+    const iter = channel.receive()[Symbol.asyncIterator]()
+    channel.close()
+    const result = await iter.next()
+
+    expect(result).toStrictEqual({
+      done: true
+    , value: undefined
+    })
+  })
+
   describe('multiple-producer, single-consumer', () => {
     it('returns AsyncIterable', async () => {
       // This is why the case uses real time:

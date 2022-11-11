@@ -22,6 +22,9 @@ export class BufferedChannel<T> implements IBlockingChannel<T> {
 
     // 若缓冲区队列已满, 则等待出列信号
     while (this.buffer.size === this.bufferSize) {
+      // 双重检查
+      if (this.fsm.matches('closed')) throw new ChannelClosedError()
+
       const dequeueDeferred = new Deferred<void>()
       this.dequeueDeferredGroup.add(dequeueDeferred)
 

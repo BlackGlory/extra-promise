@@ -41,6 +41,21 @@ describe('UnlimitedChannel', () => {
     })
   })
 
+  test('the created iterator does not throw ChannelClosedError', async () => {
+    const value = 'value'
+    const channel = new UnlimitedChannel<string>()
+
+    channel.send(value)
+    const iter = channel.receive()[Symbol.asyncIterator]()
+    channel.close()
+    const result = await iter.next()
+
+    expect(result).toStrictEqual({
+      done: true
+    , value: undefined
+    })
+  })
+
   describe('multiple-producer, single-consumer', () => {
     it('returns AsyncIterable', async () => {
       const channel = new UnlimitedChannel<number>()
