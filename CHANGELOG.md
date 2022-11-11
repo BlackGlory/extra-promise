@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.3.0](https://github.com/BlackGlory/extra-promise/compare/v4.2.0...v4.3.0) (2022-11-11)
+
+
+### Features
+
+* specify behaviors of channels after they are closed ([7ca4bbb](https://github.com/BlackGlory/extra-promise/commit/7ca4bbbc90706c6e6061659b083f30558ba84023))
+
 ## [4.2.0](https://github.com/BlackGlory/extra-promise/compare/v4.1.0...v4.2.0) (2022-11-10)
 
 
