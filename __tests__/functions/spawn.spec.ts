@@ -5,20 +5,23 @@ import '@blackglory/jest-matchers'
 import 'jest-extended'
 
 describe('spawn', () => {
-  it('returns Promise<void>', async () => {
-    const task = jest.fn(() => delay(500))
+  it('returns Promise<T>', async () => {
+    const create = jest.fn(async id => {
+      await delay(500)
+      return id
+    })
 
     const startTime = Date.now()
-    const result = spawn(3, task)
+    const result = spawn(3, create)
     const proResult = await result
     const elapsed = Date.now() - startTime
 
     expect(result).toBePromise()
-    expect(proResult).toBeUndefined()
+    expect(proResult).toStrictEqual([1, 2, 3])
     expect(elapsed).toBeWithin(500 - TIME_ERROR, 1000)
-    expect(task).toBeCalledTimes(3)
-    expect(task).nthCalledWith(1, 1)
-    expect(task).nthCalledWith(2, 2)
-    expect(task).nthCalledWith(3, 3)
+    expect(create).toBeCalledTimes(3)
+    expect(create).nthCalledWith(1, 1)
+    expect(create).nthCalledWith(2, 2)
+    expect(create).nthCalledWith(3, 3)
   })
 })

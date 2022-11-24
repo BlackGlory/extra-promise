@@ -274,13 +274,13 @@ await countAsync(10000) // 10000
 
 #### spawn
 ```ts
-function spawn(
+function spawn<T>(
   num: number
-, task: (id: number) => PromiseLike<void>
-): Promise<void>
+, create: (id: number) => Awaitable<T>
+): Promise<T[]>
 ```
 
-A sugar for running the same task in parallel.
+A sugar for create multiple values in parallel.
 
 The parameter `id` is from `1` to `num`.
 

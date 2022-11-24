@@ -1,9 +1,10 @@
-import { each } from './each'
+import { map } from './map'
 import { countup } from 'extra-generator'
+import { Awaitable } from 'justypes'
 
-export async function spawn(
+export async function spawn<T>(
   num: number
-, task: (id: number) => PromiseLike<void>
-): Promise<void> {
-  await each(countup(1, num), val => task(val))
+, create: (id: number) => Awaitable<T>
+): Promise<T[]> {
+  return await map(countup(1, num), id => create(id))
 }
