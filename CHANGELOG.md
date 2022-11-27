@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.4.0](https://github.com/BlackGlory/extra-promise/compare/v4.3.1...v4.4.0) (2022-11-27)
+
+
+### Features
+
+* add `DebounceMacrotask` ([a2d45d1](https://github.com/BlackGlory/extra-promise/commit/a2d45d1126f42a7e128cc50a17f852784fef474c))
+
 ### [4.3.1](https://github.com/BlackGlory/extra-promise/compare/v4.3.0...v4.3.1) (2022-11-24)
 
 ## [4.3.0](https://github.com/BlackGlory/extra-promise/compare/v4.2.0...v4.3.0) (2022-11-11)
