@@ -1,11 +1,13 @@
-export class DebounceMicrotask {
+import { setImmediate } from 'extra-timers'
+
+export class DebounceMacrotask {
   private registry = new Set<() => void>()
-  private queued = false
+  private cancelMacrotask?: () => void
 
   tick = () => {
     const registry = this.registry
 
-    this.queued = false
+    delete this.cancelMacrotask
     this.registry = new Set()
 
     for (const fn of registry) {
@@ -16,10 +18,8 @@ export class DebounceMicrotask {
   queue(fn: () => void): void {
     this.registry.add(fn)
 
-    if (!this.queued) {
-      this.queued = true
-
-      queueMicrotask(this.tick)
+    if (!this.cancelMacrotask) {
+      this.cancelMacrotask = setImmediate(this.tick)
     }
   }
 

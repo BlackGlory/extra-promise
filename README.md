@@ -541,10 +541,23 @@ class DebounceMicrotask {
 }
 ```
 
-`queue` can create microtasks,
+`queue` can create a microtask,
 if the microtask is not executed, multiple calls will only queue it once.
 
-`cancel` can cancel microtasks before it is executed.
+`cancel` can cancel a microtask before it is executed.
+
+#### DebounceMacrotask
+```ts
+class DebounceMicrotask {
+  queue(fn: () => void): void
+  cancel(fn: () => void): boolean
+}
+```
+
+`queue` can create a macrotask,
+if the macrotask is not executed, multiple calls will only queue it once.
+
+`cancel` can cancel a macrotask before it is executed.
 
 #### TaskRunner
 ```ts

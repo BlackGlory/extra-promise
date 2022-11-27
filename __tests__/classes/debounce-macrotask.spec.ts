@@ -1,14 +1,15 @@
-import { DebounceMicrotask } from '@classes/debounce-microtask'
+import { DebounceMacrotask } from '@classes/debounce-macrotask'
+import { delay } from '@functions/delay'
 
-describe('DebounceMicrotask', () => {
+describe('DebounceMacrotask', () => {
   describe('queue', () => {
     it('fn called once', async () => {
-      const dm = new DebounceMicrotask()
+      const dm = new DebounceMacrotask()
       const fn = jest.fn()
 
       dm.queue(fn)
       dm.queue(fn)
-      await Promise.resolve()
+      await delay(0)
 
       expect(fn).toBeCalledTimes(1)
     })
@@ -16,13 +17,13 @@ describe('DebounceMicrotask', () => {
 
   describe('cancel', () => {
     it('fn not called', async () => {
-      const dm = new DebounceMicrotask()
+      const dm = new DebounceMacrotask()
       const fn = jest.fn()
 
       dm.queue(fn)
       dm.queue(fn)
       dm.cancel(fn)
-      await Promise.resolve()
+      await delay(0)
 
       expect(fn).not.toBeCalled()
     })

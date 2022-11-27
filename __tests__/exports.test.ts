@@ -46,6 +46,7 @@ test('exports', () => {
   , 'Mutex'
 
   , 'DebounceMicrotask'
+  , 'DebounceMacrotask'
 
   , 'TaskRunner'
   ].sort()
