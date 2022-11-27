@@ -548,7 +548,7 @@ if the microtask is not executed, multiple calls will only queue it once.
 
 #### DebounceMacrotask
 ```ts
-class DebounceMicrotask {
+class DebounceMacrotask {
   queue(fn: () => void): void
   cancel(fn: () => void): boolean
 }
