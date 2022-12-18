@@ -3,18 +3,15 @@ import { each } from '@functions/each'
 import { delay } from '@functions/delay'
 import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable }
   from '@test/utils'
-import '@blackglory/jest-matchers'
 import { StatefulPromise } from '@classes/stateful-promise'
 import { pass } from '@blackglory/pass'
 
 describe('each', () => {
   describe('iterable is empty', () => {
     it('returns Promise<[]>', async () => {
-      const result = each([], pass)
-      const proResult = await result
+      const result = await each([], pass)
 
-      expect(result).toBePromise()
-      expect(proResult).toBeUndefined()
+      expect(result).toBeUndefined()
     })
   })
 
@@ -30,7 +27,6 @@ describe('each', () => {
         const result = each(iter, callTask, 2)
         const promise = StatefulPromise.from(result)
 
-        expect(result).toBePromise()
         expect(promise.isPending()).toBe(true)
 
         await runAllMicrotasks() // 0ms: task1, task2 start
@@ -64,7 +60,6 @@ describe('each', () => {
         const result = each([element1, element2, element3], fn, 2)
         const err = await getErrorPromise(result)
 
-        expect(result).toBePromise()
         expect(fn).toBeCalledTimes(2)
         expect(err).toBe(error)
       })

@@ -1,12 +1,13 @@
 import { ReusableDeferred } from '@classes/reusable-deferred'
 import { getErrorPromise } from 'return-style'
-import '@blackglory/jest-matchers'
+import { isPromiseLike } from '@src/functions/is-promise-like'
+import { assert } from '@blackglory/errors'
 
 describe('ReusableDeferred', () => {
   test('constructor', () => {
     const defer = new ReusableDeferred()
 
-    expect(defer).toBePromiseLike()
+    assert(isPromiseLike(defer), 'defer is not PromiseLike')
   })
 
   describe('resolve', () => {
@@ -15,9 +16,9 @@ describe('ReusableDeferred', () => {
       const defer = new ReusableDeferred()
 
       queueMicrotask(() => defer.resolve(value))
-      const proResult = await defer
+      const result = await defer
 
-      expect(proResult).toBe(value)
+      expect(result).toBe(value)
     })
   })
 

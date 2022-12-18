@@ -3,7 +3,6 @@ import { getErrorPromise, getErrorAsyncIterable } from 'return-style'
 import { delay } from '@functions/delay'
 import { TIME_ERROR } from '@test/utils'
 import { setImmediate } from 'extra-timers'
-import 'jest-extended'
 
 describe('BufferedChannel', () => {
   describe('close, send', () => {
@@ -102,12 +101,18 @@ describe('BufferedChannel', () => {
         await delay(500)
       }
 
-      expect(enqueueTiming[0]).toBeWithin(0 - TIME_ERROR, 500 - TIME_ERROR) // 0ms
-      expect(enqueueTiming[1]).toBeWithin(0 - TIME_ERROR, 500 - TIME_ERROR) // 0ms
-      expect(enqueueTiming[2]).toBeWithin(0 - TIME_ERROR, 500 - TIME_ERROR) // 0ms
-      expect(enqueueTiming[3]).toBeWithin(500 - TIME_ERROR, 1000 - TIME_ERROR) // 500ms
-      expect(enqueueTiming[4]).toBeWithin(1000 - TIME_ERROR, 1500 - TIME_ERROR) // 1000ms
-      expect(enqueueTiming[5]).toBeWithin(1500 - TIME_ERROR, 2000 - TIME_ERROR) // 1500ms
+      expect(enqueueTiming[0]).toBeGreaterThanOrEqual(0 - TIME_ERROR) // 0ms
+      expect(enqueueTiming[0]).toBeLessThan(500 - TIME_ERROR)
+      expect(enqueueTiming[1]).toBeGreaterThanOrEqual(0 - TIME_ERROR) // 0ms
+      expect(enqueueTiming[1]).toBeLessThan(500 - TIME_ERROR)
+      expect(enqueueTiming[2]).toBeGreaterThanOrEqual(0 - TIME_ERROR) // 0ms
+      expect(enqueueTiming[2]).toBeLessThan(500 - TIME_ERROR)
+      expect(enqueueTiming[3]).toBeGreaterThanOrEqual(500 - TIME_ERROR) // 500ms
+      expect(enqueueTiming[3]).toBeLessThan(1000 - TIME_ERROR)
+      expect(enqueueTiming[4]).toBeGreaterThanOrEqual(1000 - TIME_ERROR) // 1000ms
+      expect(enqueueTiming[4]).toBeLessThan(1500 - TIME_ERROR)
+      expect(enqueueTiming[5]).toBeGreaterThanOrEqual(1500 - TIME_ERROR) // 1500ms
+      expect(enqueueTiming[5]).toBeLessThan(2000 - TIME_ERROR)
     })
   })
 

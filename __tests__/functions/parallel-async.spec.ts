@@ -3,7 +3,6 @@ import { parallelAsync } from '@functions/parallel-async'
 import { getCalledTimes, advanceTimersByTime, MockIterable }
   from '@test/utils'
 import { getErrorPromise } from 'return-style'
-import '@blackglory/jest-matchers'
 import { StatefulPromise } from '@classes/stateful-promise'
 import { pass } from '@blackglory/pass'
 import { go } from '@blackglory/go'
@@ -11,13 +10,11 @@ import { go } from '@blackglory/go'
 describe('parallelAsync', () => {
   describe('tasks is empty', () => {
     it('returns Promise<void>', async () => {
-      const result = parallelAsync(go(async function* () {
+      const result = await parallelAsync(go(async function* () {
         pass()
       }), 100)
-      const proResult = await result
 
-      expect(result).toBePromise()
-      expect(proResult).toBeUndefined()
+      expect(result).toBeUndefined()
     })
   })
 
@@ -43,7 +40,6 @@ describe('parallelAsync', () => {
         }), 2)
         const promise = StatefulPromise.from(result)
 
-        expect(result).toBePromise()
         expect(promise.isPending()).toBe(true)
 
         await advanceTimersByTime(0) // 0ms: task1, task2 start
@@ -88,7 +84,6 @@ describe('parallelAsync', () => {
         result.catch(pass) // we will catch it later
         promise.catch(pass) // we will catch it later
 
-        expect(result).toBePromise()
         expect(promise.isPending()).toBe(true)
 
         await advanceTimersByTime(0) // 0ms: task1, task2 start
@@ -108,14 +103,12 @@ describe('parallelAsync', () => {
       const fn1 = jest.fn()
       const fn2 = jest.fn()
 
-      const result = parallelAsync(go(async function* () {
+      const result = await parallelAsync(go(async function* () {
         yield fn1
         yield fn2
       }), 1)
-      expect(result).toBePromise()
 
-      const proResult = await result
-      expect(proResult).toBeUndefined()
+      expect(result).toBeUndefined()
     })
   })
 })

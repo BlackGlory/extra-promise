@@ -1,8 +1,6 @@
 import { pad } from '@functions/pad'
 import { getErrorPromise } from 'return-style'
 import { TIME_ERROR } from '@test/utils'
-import '@blackglory/jest-matchers'
-import 'jest-extended'
 
 describe('pad', () => {
   describe('need padding', () => {
@@ -10,12 +8,10 @@ describe('pad', () => {
       const value = 'value'
 
       const start = Date.now()
-      const result = pad(500, () => Promise.resolve(value))
-      const proResult = await result
+      const result = await pad(500, () => Promise.resolve(value))
       const elapsed = Date.now() - start
 
-      expect(result).toBePromise()
-      expect(proResult).toBe(value)
+      expect(result).toBe(value)
       expect(elapsed).toBeGreaterThanOrEqual(500 - TIME_ERROR)
     })
 
@@ -23,12 +19,10 @@ describe('pad', () => {
       const error = new Error('custom error')
 
       const start = Date.now()
-      const result = pad(500, () => Promise.reject(error))
-      const proResult = await getErrorPromise(result)
+      const result = await getErrorPromise(pad(500, () => Promise.reject(error)))
       const elapsed = Date.now() - start
 
-      expect(result).toBePromise()
-      expect(proResult).toBe(error)
+      expect(result).toBe(error)
       expect(elapsed).toBeLessThan(500 + TIME_ERROR)
     })
   })
@@ -38,25 +32,22 @@ describe('pad', () => {
       const value = 'value'
 
       const start = Date.now()
-      const result = pad(500, () => resolveAfter(500, value))
-      const proResult = await result
+      const result = await pad(500, () => resolveAfter(500, value))
       const elapsed = Date.now() - start
 
-      expect(result).toBePromise()
-      expect(proResult).toBe(value)
-      expect(elapsed).toBeWithin(500 - TIME_ERROR, 1000 - TIME_ERROR)
+      expect(result).toBe(value)
+      expect(elapsed).toBeGreaterThanOrEqual(500 - TIME_ERROR)
+      expect(elapsed).toBeLessThan(1000 - TIME_ERROR)
     })
 
     test('not pad rejecting', async () => {
       const error = new Error('custom error')
 
       const start = Date.now()
-      const result = pad(500, () => rejectAfter(500, error))
-      const proResult = await getErrorPromise(result)
+      const result = await getErrorPromise(pad(500, () => rejectAfter(500, error)))
       const elapsed = Date.now() - start
 
-      expect(result).toBePromise()
-      expect(proResult).toBe(error)
+      expect(result).toBe(error)
       expect(elapsed).toBeGreaterThanOrEqual(500 - TIME_ERROR)
     })
   })

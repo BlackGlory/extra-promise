@@ -1,6 +1,5 @@
 import { asyncify } from '@functions/asyncify'
 import { Awaitable } from 'justypes'
-import '@blackglory/jest-matchers'
 
 describe('asyncify', () => {
   describe('fn does not accept promises', () => {
@@ -13,11 +12,9 @@ describe('asyncify', () => {
       const promiseB = Promise.resolve(b)
 
       const addAsync = asyncify(add)
-      const result = addAsync(promiseA, promiseB)
-      const proResult = await result
+      const result = await addAsync(promiseA, promiseB)
 
-      expect(result).toBePromise()
-      expect(proResult).toBe(expected)
+      expect(result).toBe(expected)
     })
   })
 
@@ -30,11 +27,9 @@ describe('asyncify', () => {
       const promiseA = Promise.resolve(a)
 
       const newAddAsync = asyncify(addAsync)
-      const result = newAddAsync(promiseA, b)
-      const proResult = await result
+      const result = await newAddAsync(promiseA, b)
 
-      expect(result).toBePromise()
-      expect(proResult).toBe(expected)
+      expect(result).toBe(expected)
     })
   })
 

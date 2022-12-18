@@ -1,6 +1,5 @@
 import { delay } from '@functions/delay'
 import { advanceTimersByTime } from '@test/utils'
-import '@blackglory/jest-matchers'
 import { StatefulPromise } from '@classes/stateful-promise'
 
 describe('delay', () => {
@@ -20,7 +19,6 @@ describe('delay', () => {
     const result = delay(ms)
     const promise = StatefulPromise.from(result)
 
-    expect(result).toBePromise()
     expect(promise.isPending()).toBe(true)
 
     await advanceTimersByTime(500)

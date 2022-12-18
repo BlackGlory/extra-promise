@@ -3,7 +3,6 @@ import { getCalledTimes, runAllMicrotasks, advanceTimersByTime } from '@test/uti
 import { TaskRunner } from '@classes/task-runner'
 import { getErrorPromise } from 'return-style'
 import { passAsync } from '@blackglory/pass'
-import '@blackglory/jest-matchers'
 
 describe('TaskRunner', () => {
   test('resolved', async () => {
@@ -12,11 +11,9 @@ describe('TaskRunner', () => {
       return 'result'
     })
 
-    const result = runner.run(task)
-    const proResult = await result
+    const result = await runner.run(task)
 
-    expect(result).toBePromise()
-    expect(proResult).toBe('result')
+    expect(result).toBe('result')
   })
 
   test('rejected', async () => {
@@ -25,11 +22,9 @@ describe('TaskRunner', () => {
       throw new Error('custom error')
     })
 
-    const result = runner.run(task)
-    const proResult = await getErrorPromise(result)
+    const result = await getErrorPromise(runner.run(task))
 
-    expect(result).toBePromise()
-    expect(proResult).toBeInstanceOf(Error)
+    expect(result).toBeInstanceOf(Error)
   })
 
   test('destroy', async () => {

@@ -2,7 +2,6 @@ import { UnlimitedChannel, ChannelClosedError } from '@classes/unlimited-channel
 import { getError, getErrorAsyncIterable } from 'return-style'
 import { toArrayAsync } from 'iterable-operator'
 import { setImmediate } from 'extra-timers'
-import 'jest-extended'
 
 describe('UnlimitedChannel', () => {
   describe('close, send', () => {

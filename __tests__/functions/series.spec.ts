@@ -1,7 +1,6 @@
 import { series } from '@functions/series'
 import { delay } from '@functions/delay'
 import { getCalledTimes, advanceTimersByTime } from '@test/utils'
-import '@blackglory/jest-matchers'
 import { StatefulPromise } from '@classes/stateful-promise'
 import { pass } from '@blackglory/pass'
 import { go } from '@blackglory/go'
@@ -10,11 +9,9 @@ describe('series', () => {
   describe('tasks is Iterable', () => {
     describe('tasks is empty', () => {
       it('returns Promise<void>', async () => {
-        const result = series([])
-        const proResult = await result
+        const result = await series([])
 
-        expect(result).toBePromise()
-        expect(proResult).toBeUndefined()
+        expect(result).toBeUndefined()
       })
     })
 
@@ -32,7 +29,6 @@ describe('series', () => {
         const result = series([task1, task2])
         const promise = StatefulPromise.from(result)
 
-        expect(result).toBePromise()
         expect(promise.isPending()).toBe(true)
 
         await advanceTimersByTime(0) // 0ms: task1 start
@@ -54,13 +50,11 @@ describe('series', () => {
   describe('tasks is AsyncIterable', () => {
     describe('tasks is empty', () => {
       it('returns Promise<void>', async () => {
-        const result = series(go(async function *() {
+        const result = await series(go(async function *() {
           pass()
         }))
-        const proResult = await result
 
-        expect(result).toBePromise()
-        expect(proResult).toBeUndefined()
+        expect(result).toBeUndefined()
       })
     })
 
@@ -81,7 +75,6 @@ describe('series', () => {
         }))
         const promise = StatefulPromise.from(result)
 
-        expect(result).toBePromise()
         expect(promise.isPending()).toBe(true)
 
         await advanceTimersByTime(0) // 0ms: task1 start

@@ -1,6 +1,5 @@
 import { all } from '@functions/all'
 import { getErrorPromise } from 'return-style'
-import '@blackglory/jest-matchers'
 
 describe('all', () => {
   describe('resolve', () => {
@@ -11,14 +10,12 @@ describe('all', () => {
       const promise1 = Promise.resolve(value1)
       const promise2 = Promise.resolve(value2)
 
-      const result = all({
+      const result = await all({
         result1: promise1
       , result2: promise2
       })
-      const proResult = await result
 
-      expect(result).toBePromise()
-      expect(proResult).toStrictEqual({
+      expect(result).toStrictEqual({
         result1: value1
       , result2: value2
       })
@@ -31,13 +28,11 @@ describe('all', () => {
       const promise1 = Promise.reject(error)
       const promise2 = Promise.resolve()
 
-      const result = all({
+      const err = await getErrorPromise(all({
         promise1
       , promise2
-      })
-      const err = await getErrorPromise(result)
+      }))
 
-      expect(result).toBePromise()
       expect(err).toBe(error)
     })
   })

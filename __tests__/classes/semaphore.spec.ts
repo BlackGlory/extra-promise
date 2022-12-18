@@ -2,20 +2,18 @@ import { Semaphore } from '@classes/semaphore'
 import { TIME_ERROR } from '@test/utils'
 import { go } from '@blackglory/go'
 import { getErrorPromise } from 'return-style'
-import 'jest-extended'
-import '@blackglory/jest-matchers'
 import { pass } from '@blackglory/pass'
+import { assert } from '@blackglory/errors'
+import { isFunction } from 'extra-utils'
 
 describe('Semaphore', () => {
   describe('not locked', () => {
     it('without handler', async () => {
       const semaphore = new Semaphore(1)
 
-      const result = semaphore.acquire()
-      const proResult = await result
+      const result = await semaphore.acquire()
 
-      expect(result).toBePromise()
-      expect(proResult).toBeFunction()
+      assert(isFunction(result), 'result is not a function')
     })
 
     describe('with handler', () => {
@@ -40,11 +38,9 @@ describe('Semaphore', () => {
       it('returns value', async () => {
         const semaphore = new Semaphore(1)
 
-        const result = semaphore.acquire(() => true)
-        const proResult = await result
+        const result = await semaphore.acquire(() => true)
 
-        expect(result).toBePromise()
-        expect(proResult).toBe(true)
+        expect(result).toBe(true)
       })
     })
   })
@@ -97,26 +93,24 @@ describe('Semaphore', () => {
 
       const start = now()
       setTimeout(release, 1000)
-      const result1 = semaphore.acquire(async () => {
+      const promise1 = semaphore.acquire(async () => {
         await sleep(500)
         return 1
       })
-      const result2 = semaphore.acquire(async () => {
+      const promise2 = semaphore.acquire(async () => {
         await sleep(500)
         return 2
       })
-      const proResult1 = await result1
-      const result1ResolvedTime = now()
-      const proResult2 = await result2
-      const result2ResolvedTime = now()
+      const result1 = await promise1
+      const promise1ResolvedTime = now()
+      const result2 = await promise2
+      const promise2ResolvedTime = now()
 
-      expect(result1).toBePromise()
-      expect(result2).toBePromise()
-      expect(proResult1).toBe(1)
-      expect(proResult2).toBe(2)
-      expect(result1ResolvedTime - start).toBeGreaterThanOrEqual(500 - TIME_ERROR)
-      expect(result1ResolvedTime - start).toBeLessThan(1000 - TIME_ERROR)
-      expect(result2ResolvedTime - start).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
+      expect(result1).toBe(1)
+      expect(result2).toBe(2)
+      expect(promise1ResolvedTime - start).toBeGreaterThanOrEqual(500 - TIME_ERROR)
+      expect(promise1ResolvedTime - start).toBeLessThan(1000 - TIME_ERROR)
+      expect(promise2ResolvedTime - start).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
     })
   })
 })

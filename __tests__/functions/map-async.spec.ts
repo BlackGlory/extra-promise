@@ -2,7 +2,6 @@ import { getErrorPromise } from 'return-style'
 import { mapAsync } from '@functions/map-async'
 import { delay } from '@functions/delay'
 import { getCalledTimes, advanceTimersByTime, MockIterable } from '@test/utils'
-import '@blackglory/jest-matchers'
 import { StatefulPromise } from '@classes/stateful-promise'
 import { pass } from '@blackglory/pass'
 import { go } from '@blackglory/go'
@@ -10,13 +9,11 @@ import { go } from '@blackglory/go'
 describe('mapAsync', () => {
   describe('iterable is empty', () => {
     it('returns Promise<[]>', async () => {
-      const result = mapAsync(go(async function* () {
+      const result = await mapAsync(go(async function* () {
         pass()
       }), pass, 100)
-      const proResult = await result
 
-      expect(result).toBePromise()
-      expect(proResult).toEqual([])
+      expect(result).toEqual([])
     })
   })
 
@@ -43,7 +40,6 @@ describe('mapAsync', () => {
         }), callTask, 2)
         const promise = StatefulPromise.from(result)
 
-        expect(result).toBePromise()
         expect(promise.isPending()).toBe(true)
 
         await advanceTimersByTime(0) // 0ms: task1, task2 start
@@ -78,7 +74,6 @@ describe('mapAsync', () => {
         }), fn, 2)
         const err = await getErrorPromise(result)
 
-        expect(result).toBePromise()
         expect(fn).toBeCalledTimes(1)
         expect(err).toBe(error)
       })

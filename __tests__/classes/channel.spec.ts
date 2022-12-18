@@ -3,7 +3,6 @@ import { getErrorPromise, getErrorAsyncIterable } from 'return-style'
 import { delay } from '@functions/delay'
 import { setImmediate } from 'extra-timers'
 import { TIME_ERROR } from '@test/utils'
-import 'jest-extended'
 
 describe('Channel', () => {
   describe('close, send', () => {
@@ -91,10 +90,14 @@ describe('Channel', () => {
         await delay(500)
       }
 
-      expect(produceTiming[0]).toBeWithin(0 - TIME_ERROR, 500 - TIME_ERROR) // 0ms
-      expect(consumeTiming[0]).toBeWithin(500 - TIME_ERROR, 1000 - TIME_ERROR) // 500ms
-      expect(produceTiming[1]).toBeWithin(0 - TIME_ERROR, 500 - TIME_ERROR) // 0ms
-      expect(consumeTiming[1]).toBeWithin(1000 - TIME_ERROR, 1500 - TIME_ERROR) // 1000ms
+      expect(produceTiming[0]).toBeGreaterThanOrEqual(0 - TIME_ERROR) // 0ms
+      expect(produceTiming[0]).toBeLessThan(500 - TIME_ERROR)
+      expect(consumeTiming[0]).toBeGreaterThanOrEqual(500 - TIME_ERROR) // 500ms
+      expect(consumeTiming[0]).toBeLessThan(1000 - TIME_ERROR)
+      expect(produceTiming[1]).toBeGreaterThanOrEqual(0 - TIME_ERROR) // 0ms
+      expect(produceTiming[1]).toBeLessThan(500 - TIME_ERROR)
+      expect(consumeTiming[1]).toBeGreaterThanOrEqual(1000 - TIME_ERROR) // 1000ms
+      expect(consumeTiming[1]).toBeLessThan(1500 - TIME_ERROR)
     })
   })
 

@@ -5,13 +5,12 @@ import { setImmediate } from 'extra-timers'
 describe('ExtraPromise', () => {
   test('from', async () => {
     const value = 'value'
-    const promise = Promise.resolve(value)
 
-    const result = StatefulPromise.from(promise)
-    const proResult = await result
+    const promise = StatefulPromise.from(Promise.resolve(value))
+    const result = await promise
 
-    expect(result).toBeInstanceOf(StatefulPromise)
-    expect(proResult).toBe(value)
+    expect(promise).toBeInstanceOf(StatefulPromise)
+    expect(result).toBe(value)
   })
 
   describe('state', () => {
@@ -49,18 +48,18 @@ describe('ExtraPromise', () => {
     describe('sync', () => {
       test('fulfilled', async () => {
         const value = 'value'
-        const result = new StatefulPromise(resolve => resolve(value))
+        const promise = new StatefulPromise(resolve => resolve(value))
 
-        const isPending = result.isPending()
-        const isFulfilled = result.isFulfilled()
-        const isRejected = result.isRejected()
-        const proResult = await result
+        const isPending = promise.isPending()
+        const isFulfilled = promise.isFulfilled()
+        const isRejected = promise.isRejected()
+        const result = await promise
 
-        expect(result).toBeInstanceOf(Promise)
+        expect(promise).toBeInstanceOf(Promise)
         expect(isPending).toBe(false)
         expect(isFulfilled).toBe(true)
         expect(isRejected).toBe(false)
-        expect(proResult).toBe(value)
+        expect(result).toBe(value)
       })
 
       test('rejected', async () => {
@@ -83,21 +82,21 @@ describe('ExtraPromise', () => {
     describe('async', () => {
       test('fulfilled', async () => {
         const value = 'value'
-        const result = new StatefulPromise(resolve => setImmediate(() => resolve(value)))
+        const promise = new StatefulPromise(resolve => setImmediate(() => resolve(value)))
 
-        const isPending1 = result.isPending()
-        const isFulfilled1 = result.isFulfilled()
-        const isRejected1 = result.isRejected()
-        const proResult = await result
-        const isPending2 = result.isPending()
-        const isFulfilled2 = result.isFulfilled()
-        const isRejected2 = result.isRejected()
+        const isPending1 = promise.isPending()
+        const isFulfilled1 = promise.isFulfilled()
+        const isRejected1 = promise.isRejected()
+        const result = await promise
+        const isPending2 = promise.isPending()
+        const isFulfilled2 = promise.isFulfilled()
+        const isRejected2 = promise.isRejected()
 
-        expect(result).toBeInstanceOf(Promise)
+        expect(promise).toBeInstanceOf(Promise)
         expect(isPending1).toBe(true)
         expect(isFulfilled1).toBe(false)
         expect(isRejected1).toBe(false)
-        expect(proResult).toBe(value)
+        expect(result).toBe(value)
         expect(isPending2).toBe(false)
         expect(isFulfilled2).toBe(true)
         expect(isRejected2).toBe(false)

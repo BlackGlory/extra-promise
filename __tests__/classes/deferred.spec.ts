@@ -1,12 +1,13 @@
 import { getErrorPromise } from 'return-style'
 import { Deferred } from '@classes/deferred'
-import '@blackglory/jest-matchers'
+import { isPromiseLike } from '@src/functions/is-promise-like'
+import { assert } from '@blackglory/errors'
 
 describe('Deferred', () => {
   test('constructor', () => {
     const defer = new Deferred()
 
-    expect(defer).toBePromiseLike()
+    assert(isPromiseLike(defer), 'defer is not PromiseLike')
   })
 
   describe('resolve', () => {
@@ -14,11 +15,10 @@ describe('Deferred', () => {
       const value = 'resolved'
       const defer = new Deferred()
 
-      const result = defer.resolve(value)
-      const proResult = await defer
+      defer.resolve(value)
+      const result = await defer
 
-      expect(result).toBeUndefined()
-      expect(proResult).toBe(value)
+      expect(result).toBe(value)
     })
   })
 
@@ -27,10 +27,9 @@ describe('Deferred', () => {
       const reason = new Error('CustomError')
       const defer = new Deferred()
 
-      const result = defer.reject(reason)
+      defer.reject(reason)
       const err = await getErrorPromise(defer)
 
-      expect(result).toBeUndefined()
       expect(err).toBe(reason)
     })
   })

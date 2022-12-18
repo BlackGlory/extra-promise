@@ -2,9 +2,9 @@ import { Mutex } from '@classes/mutex'
 import { TIME_ERROR } from '@test/utils'
 import { go } from '@blackglory/go'
 import { getErrorPromise } from 'return-style'
-import 'jest-extended'
-import '@blackglory/jest-matchers'
 import { pass } from '@blackglory/pass'
+import { isFunction } from 'extra-utils'
+import { assert } from '@blackglory/errors'
 
 describe('Mutex', () => {
   describe('acquire', () => {
@@ -12,11 +12,9 @@ describe('Mutex', () => {
       it('without handler', async () => {
         const mutex = new Mutex()
 
-        const result = mutex.acquire()
-        const proResult = await result
+        const result = await mutex.acquire()
 
-        expect(result).toBePromise()
-        expect(proResult).toBeFunction()
+        assert(isFunction(result), 'result is not a function')
       })
 
       describe('with handler', () => {
@@ -41,11 +39,9 @@ describe('Mutex', () => {
         test('returns value', async () => {
           const mutex = new Mutex()
 
-          const result = mutex.acquire(() => true)
-          const proResult = await result
+          const result = await mutex.acquire(() => true)
 
-          expect(result).toBePromise()
-          expect(proResult).toBe(true)
+          expect(result).toBe(true)
         })
       })
     })
@@ -83,15 +79,13 @@ describe('Mutex', () => {
 
           const start = now()
           setTimeout(release, 1000)
-          const result = mutex.acquire(async () => {
+          const result = await mutex.acquire(async () => {
             await sleep(500)
             return true
           })
-          const proResult = await result
 
           expect(now() - start).toBeGreaterThanOrEqual(1500 - TIME_ERROR)
-          expect(result).toBePromise()
-          expect(proResult).toBe(true)
+          expect(result).toBe(true)
         })
       })
     })

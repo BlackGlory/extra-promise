@@ -1,7 +1,6 @@
 import { isFunction } from 'extra-utils'
 import { getErrorPromise } from 'return-style'
 import { promisify } from '@functions/promisify'
-import '@blackglory/jest-matchers'
 
 describe('promisify', () => {
   describe('fn resolved', () => {
@@ -12,12 +11,10 @@ describe('promisify', () => {
 
       const promisified = promisify(fn)
       const isFunc = isFunction(promisified)
-      const result = promisified(value)
-      const proResult = await result
+      const result = await promisified(value)
 
       expect(isFunc).toBe(true)
-      expect(result).toBePromise()
-      expect(proResult).toBe(value)
+      expect(result).toBe(value)
     })
   })
 
@@ -29,12 +26,10 @@ describe('promisify', () => {
 
       const promisified = promisify(fn)
       const isFunc = isFunction(promisified)
-      const result = promisified(error)
-      const proResult = await getErrorPromise(result)
+      const result = await getErrorPromise(promisified(error))
 
       expect(isFunc).toBe(true)
-      expect(result).toBePromise()
-      expect(proResult).toBe(error)
+      expect(result).toBe(error)
     })
   })
 
@@ -45,12 +40,10 @@ describe('promisify', () => {
 
     const promisified = promisify(fn)
     const isFunc = isFunction(promisified)
-    const result = promisified(value)
-    const proResult = await result
+    const result = await promisified(value)
 
     expect(isFunc).toBe(true)
-    expect(result).toBePromise()
-    expect(proResult).toBe(value)
+    expect(result).toBe(value)
   })
 
   test('edge case: no args', async () => {
@@ -59,12 +52,10 @@ describe('promisify', () => {
 
     const promisified = promisify(fn)
     const isFunc = isFunction(promisified)
-    const result = promisified()
-    const proResult = await result
+    const result = await promisified()
 
     expect(isFunc).toBe(true)
-    expect(result).toBePromise()
-    expect(proResult).toBe('result')
+    expect(result).toBe('result')
   })
 
   test('edge case: bind', async () => {
@@ -78,11 +69,9 @@ describe('promisify', () => {
 
     const promisified = promisify(Foo.bar).bind(Foo)
     const isFunc = isFunction(promisified)
-    const result = promisified()
-    const proResult = await result
+    const result = await promisified()
 
     expect(isFunc).toBe(true)
-    expect(result).toBePromise()
-    expect(proResult).toBe(Foo.value)
+    expect(result).toBe(Foo.value)
   })
 })

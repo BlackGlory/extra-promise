@@ -1,8 +1,6 @@
 import { spawn } from '@functions/spawn'
 import { delay } from '@functions/delay'
 import { TIME_ERROR } from '@test/utils'
-import '@blackglory/jest-matchers'
-import 'jest-extended'
 
 describe('spawn', () => {
   it('returns Promise<T>', async () => {
@@ -12,13 +10,12 @@ describe('spawn', () => {
     })
 
     const startTime = Date.now()
-    const result = spawn(3, create)
-    const proResult = await result
+    const result = await spawn(3, create)
     const elapsed = Date.now() - startTime
 
-    expect(result).toBePromise()
-    expect(proResult).toStrictEqual([1, 2, 3])
-    expect(elapsed).toBeWithin(500 - TIME_ERROR, 1000)
+    expect(result).toStrictEqual([1, 2, 3])
+    expect(elapsed).toBeGreaterThanOrEqual(500 - TIME_ERROR)
+    expect(elapsed).toBeLessThan(1000)
     expect(create).toBeCalledTimes(3)
     expect(create).nthCalledWith(1, 1)
     expect(create).nthCalledWith(2, 2)

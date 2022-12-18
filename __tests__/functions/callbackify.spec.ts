@@ -1,6 +1,5 @@
 import { runAllMicrotasks } from '@test/utils'
 import { callbackify } from '@functions/callbackify'
-import 'jest-extended'
 
 describe('callbackify', () => {
   describe('Promise resolved', () => {
@@ -13,7 +12,6 @@ describe('callbackify', () => {
       const result = callbackified(value, cb)
       await runAllMicrotasks()
 
-      expect(callbackified).toBeFunction()
       expect(result).toBeUndefined()
       expect(cb).toBeCalledTimes(1)
       expect(cb).toBeCalledWith(null, value)
@@ -31,7 +29,6 @@ describe('callbackify', () => {
         const result = callbackified(error, cb)
         await runAllMicrotasks()
 
-        expect(callbackified).toBeFunction()
         expect(result).toBeUndefined()
         expect(cb).toBeCalledTimes(1)
         expect(cb).toBeCalledWith(error)
@@ -48,7 +45,6 @@ describe('callbackify', () => {
     const result = callbackified(cb)
     await runAllMicrotasks()
 
-    expect(callbackified).toBeFunction()
     expect(result).toBeUndefined()
     expect(cb).toBeCalledTimes(1)
     expect(cb).toBeCalledWith(null, value)
@@ -68,7 +64,6 @@ describe('callbackify', () => {
     const result = callbackified(cb)
     await runAllMicrotasks()
 
-    expect(callbackified).toBeFunction()
     expect(result).toBeUndefined()
     expect(cb).toBeCalledTimes(1)
     expect(cb).toBeCalledWith(null, Foo.value)
@@ -83,7 +78,6 @@ describe('callbackify', () => {
     const result = callbackified(value, cb)
     await runAllMicrotasks()
 
-    expect(callbackified).toBeFunction()
     expect(result).toBeUndefined()
     expect(cb).toBeCalledTimes(1)
     expect(cb).toBeCalledWith(null, value)

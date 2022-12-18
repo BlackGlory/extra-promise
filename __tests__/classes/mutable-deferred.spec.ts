@@ -1,12 +1,13 @@
 import { MutableDeferred } from '@classes/mutable-deferred'
 import { getErrorPromise } from 'return-style'
-import '@blackglory/jest-matchers'
+import { isPromiseLike } from '@src/functions/is-promise-like'
+import { assert } from '@blackglory/errors'
 
 describe('MutableDeferred', () => {
   test('constructor', () => {
     const defer = new MutableDeferred()
 
-    expect(defer).toBePromiseLike()
+    assert(isPromiseLike(defer), 'defer is not PromiseLike')
   })
 
   describe('resolve', () => {
@@ -14,11 +15,10 @@ describe('MutableDeferred', () => {
       const value = 'resolved'
       const defer = new MutableDeferred()
 
-      const result = defer.resolve(value)
-      const proResult = await defer
+      defer.resolve(value)
+      const result = await defer
 
-      expect(result).toBeUndefined()
-      expect(proResult).toBe(value)
+      expect(result).toBe(value)
     })
   })
 
