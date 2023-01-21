@@ -1,5 +1,5 @@
-import { parallel } from './parallel'
-import { validateConcurrency } from '@utils/validate-concurrency'
+import { parallel } from './parallel.js'
+import { validateConcurrency } from '@utils/validate-concurrency.js'
 import { map } from 'iterable-operator'
 import { go } from '@blackglory/go'
 import { Awaitable } from 'justypes'

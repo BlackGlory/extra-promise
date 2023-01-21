@@ -1,10 +1,12 @@
-import { Deferred } from '@classes/deferred'
-import { DeferredGroup } from '@classes/deferred-group'
-import { ChannelClosedError } from '@errors'
-import { Mutex } from '@classes/mutex'
-import { IBlockingChannel } from '@utils/types'
+import { Deferred } from '@classes/deferred.js'
+import { DeferredGroup } from '@classes/deferred-group.js'
+import { ChannelClosedError } from '@utils/errors.js'
+import { Mutex } from '@classes/mutex.js'
+import { IBlockingChannel } from '@utils/types.js'
 import { Queue } from '@blackglory/structures'
 import { FiniteStateMachine } from 'extra-fsm'
+
+export { ChannelClosedError } from '@utils/errors.js'
 
 // Technically, it is the `BufferedChannel(0)`
 export class Channel<T> implements IBlockingChannel<T> {
@@ -86,5 +88,3 @@ export class Channel<T> implements IBlockingChannel<T> {
     this.readDeferredGroup.reject(new ChannelClosedError())
   }
 }
-
-export { ChannelClosedError } from '@errors'

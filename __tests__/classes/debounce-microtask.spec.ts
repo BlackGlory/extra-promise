@@ -1,4 +1,4 @@
-import { DebounceMicrotask } from '@classes/debounce-microtask'
+import { DebounceMicrotask } from '@classes/debounce-microtask.js'
 
 describe('DebounceMicrotask', () => {
   describe('queue', () => {

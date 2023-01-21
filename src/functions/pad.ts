@@ -1,4 +1,4 @@
-import { delay } from './delay'
+import { delay } from './delay.js'
 import { getErrorResultAsync } from 'return-style'
 import { Awaitable } from 'justypes'
 

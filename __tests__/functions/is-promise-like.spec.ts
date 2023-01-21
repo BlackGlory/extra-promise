@@ -1,4 +1,4 @@
-import { isPromiseLike, isntPromiseLike } from '@functions/is-promise-like'
+import { isPromiseLike, isntPromiseLike } from '@functions/is-promise-like.js'
 import { pass } from '@blackglory/pass'
 
 describe('isPromiseLike', () => {

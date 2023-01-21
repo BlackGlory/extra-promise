@@ -1,5 +1,5 @@
-import { eachAsync } from './each-async'
-import { validateConcurrency } from '@utils/validate-concurrency'
+import { eachAsync } from './each-async.js'
+import { validateConcurrency } from '@utils/validate-concurrency.js'
 import { go } from '@blackglory/go'
 import { assert } from '@blackglory/errors'
 import { Awaitable } from 'justypes'

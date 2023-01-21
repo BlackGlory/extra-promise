@@ -1,9 +1,9 @@
 import { getErrorPromise } from 'return-style'
-import { filterAsync } from '@functions/filter-async'
-import { delay } from '@functions/delay'
+import { filterAsync } from '@functions/filter-async.js'
+import { delay } from '@functions/delay.js'
 import { getCalledTimes, advanceTimersByTime, MockIterable }
-  from '@test/utils'
-import { StatefulPromise } from '@classes/stateful-promise'
+  from '@test/utils.js'
+import { StatefulPromise } from '@classes/stateful-promise.js'
 import { pass } from '@blackglory/pass'
 import { go } from '@blackglory/go'
 

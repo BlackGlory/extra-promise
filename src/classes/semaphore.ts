@@ -1,7 +1,7 @@
-import { Deferred } from './deferred'
-import { DeferredGroup } from '@classes/deferred-group'
+import { Deferred } from './deferred.js'
+import { DeferredGroup } from '@classes/deferred-group.js'
 import { go } from '@blackglory/go'
-import once from 'lodash/once'
+import once from 'lodash/once.js'
 import { Awaitable } from 'justypes'
 
 type Release = () => void

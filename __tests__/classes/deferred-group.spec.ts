@@ -1,5 +1,5 @@
-import { DeferredGroup } from '@classes/deferred-group'
-import { IDeferred } from '@utils/types'
+import { DeferredGroup } from '@classes/deferred-group.js'
+import { IDeferred } from '@utils/types.js'
 
 describe('DeferredGroup', () => {
   test('add', () => {

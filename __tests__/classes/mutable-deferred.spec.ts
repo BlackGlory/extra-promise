@@ -1,6 +1,6 @@
-import { MutableDeferred } from '@classes/mutable-deferred'
+import { MutableDeferred } from '@classes/mutable-deferred.js'
 import { getErrorPromise } from 'return-style'
-import { isPromiseLike } from '@src/functions/is-promise-like'
+import { isPromiseLike } from '@src/functions/is-promise-like.js'
 import { assert } from '@blackglory/errors'
 
 describe('MutableDeferred', () => {

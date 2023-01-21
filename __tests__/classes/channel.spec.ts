@@ -1,8 +1,8 @@
-import { Channel, ChannelClosedError } from '@classes/channel'
+import { Channel, ChannelClosedError } from '@classes/channel.js'
 import { getErrorPromise, getErrorAsyncIterable } from 'return-style'
-import { delay } from '@functions/delay'
+import { delay } from '@functions/delay.js'
 import { setImmediate } from 'extra-timers'
-import { TIME_ERROR } from '@test/utils'
+import { TIME_ERROR } from '@test/utils.js'
 
 describe('Channel', () => {
   describe('close, send', () => {

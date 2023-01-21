@@ -1,4 +1,4 @@
-import { asyncify } from '@functions/asyncify'
+import { asyncify } from '@functions/asyncify.js'
 import { Awaitable } from 'justypes'
 
 describe('asyncify', () => {

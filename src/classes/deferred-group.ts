@@ -1,4 +1,4 @@
-import { IDeferred } from '@utils/types'
+import { IDeferred } from '@utils/types.js'
 
 export class DeferredGroup<T> implements IDeferred<T> {
   private group = new Set<IDeferred<T>>()

@@ -1,4 +1,4 @@
-import { waterfall } from '@functions/waterfall'
+import { waterfall } from '@functions/waterfall.js'
 import { getErrorPromise } from 'return-style'
 import { pass } from '@blackglory/pass'
 import { go } from '@blackglory/go'

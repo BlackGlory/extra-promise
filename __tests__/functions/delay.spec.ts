@@ -1,6 +1,6 @@
-import { delay } from '@functions/delay'
-import { advanceTimersByTime } from '@test/utils'
-import { StatefulPromise } from '@classes/stateful-promise'
+import { delay } from '@functions/delay.js'
+import { advanceTimersByTime } from '@test/utils.js'
+import { StatefulPromise } from '@classes/stateful-promise.js'
 
 describe('delay', () => {
   it('calls setTimeout', () => {

@@ -1,5 +1,5 @@
-import { runAllMicrotasks } from '@test/utils'
-import { callbackify } from '@functions/callbackify'
+import { runAllMicrotasks } from '@test/utils.js'
+import { callbackify } from '@functions/callbackify.js'
 
 describe('callbackify', () => {
   describe('Promise resolved', () => {

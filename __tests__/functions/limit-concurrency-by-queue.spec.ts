@@ -1,6 +1,6 @@
-import { limitConcurrencyByQueue } from '@functions/limit-concurrency-by-queue'
-import { delay } from '@functions/delay'
-import { TIME_ERROR } from '@test/utils'
+import { limitConcurrencyByQueue } from '@functions/limit-concurrency-by-queue.js'
+import { delay } from '@functions/delay.js'
+import { TIME_ERROR } from '@test/utils.js'
 
 test('limitConcurrencyByQueue', async () => {
   async function fn(num: number) {

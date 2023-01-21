@@ -1,4 +1,4 @@
-import { map } from './map'
+import { map } from './map.js'
 import { countup } from 'extra-generator'
 import { Awaitable } from 'justypes'
 

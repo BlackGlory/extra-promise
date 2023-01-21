@@ -1,9 +1,9 @@
-import { delay } from '@functions/delay'
-import { parallel } from '@functions/parallel'
+import { delay } from '@functions/delay.js'
+import { parallel } from '@functions/parallel.js'
 import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable }
-  from '@test/utils'
+  from '@test/utils.js'
 import { getErrorPromise } from 'return-style'
-import { StatefulPromise } from '@classes/stateful-promise'
+import { StatefulPromise } from '@classes/stateful-promise.js'
 import { pass } from '@blackglory/pass'
 
 describe('parallel', () => {

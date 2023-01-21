@@ -1,4 +1,4 @@
-import { all } from '@functions/all'
+import { all } from '@functions/all.js'
 import { getErrorPromise } from 'return-style'
 
 describe('all', () => {

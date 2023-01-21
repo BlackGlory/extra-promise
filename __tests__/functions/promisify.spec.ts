@@ -1,6 +1,6 @@
 import { isFunction } from 'extra-utils'
 import { getErrorPromise } from 'return-style'
-import { promisify } from '@functions/promisify'
+import { promisify } from '@functions/promisify.js'
 
 describe('promisify', () => {
   describe('fn resolved', () => {

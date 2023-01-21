@@ -1,7 +1,7 @@
-import { series } from '@functions/series'
-import { delay } from '@functions/delay'
-import { getCalledTimes, advanceTimersByTime } from '@test/utils'
-import { StatefulPromise } from '@classes/stateful-promise'
+import { series } from '@functions/series.js'
+import { delay } from '@functions/delay.js'
+import { getCalledTimes, advanceTimersByTime } from '@test/utils.js'
+import { StatefulPromise } from '@classes/stateful-promise.js'
 import { pass } from '@blackglory/pass'
 import { go } from '@blackglory/go'
 

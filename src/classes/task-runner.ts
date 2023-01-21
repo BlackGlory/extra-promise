@@ -1,8 +1,8 @@
-import { Deferred } from '@classes/deferred'
-import { DebounceMicrotask } from '@classes/debounce-microtask'
+import { Deferred } from '@classes/deferred.js'
+import { DebounceMicrotask } from '@classes/debounce-microtask.js'
 import { Queue } from '@blackglory/structures'
 import { FiniteStateMachine } from 'extra-fsm'
-import { validateConcurrency } from '@utils/validate-concurrency'
+import { validateConcurrency } from '@utils/validate-concurrency.js'
 import { Awaitable } from 'justypes'
 
 export class TaskRunner {

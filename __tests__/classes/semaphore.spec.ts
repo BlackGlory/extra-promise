@@ -1,5 +1,5 @@
-import { Semaphore } from '@classes/semaphore'
-import { TIME_ERROR } from '@test/utils'
+import { Semaphore } from '@classes/semaphore.js'
+import { TIME_ERROR } from '@test/utils.js'
 import { go } from '@blackglory/go'
 import { getErrorPromise } from 'return-style'
 import { pass } from '@blackglory/pass'

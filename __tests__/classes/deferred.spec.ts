@@ -1,6 +1,6 @@
 import { getErrorPromise } from 'return-style'
-import { Deferred } from '@classes/deferred'
-import { isPromiseLike } from '@src/functions/is-promise-like'
+import { Deferred } from '@classes/deferred.js'
+import { isPromiseLike } from '@src/functions/is-promise-like.js'
 import { assert } from '@blackglory/errors'
 
 describe('Deferred', () => {

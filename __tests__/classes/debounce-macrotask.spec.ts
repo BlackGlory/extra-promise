@@ -1,5 +1,5 @@
-import { DebounceMacrotask } from '@classes/debounce-macrotask'
-import { delay } from '@functions/delay'
+import { DebounceMacrotask } from '@classes/debounce-macrotask.js'
+import { delay } from '@functions/delay.js'
 
 describe('DebounceMacrotask', () => {
   describe('queue', () => {

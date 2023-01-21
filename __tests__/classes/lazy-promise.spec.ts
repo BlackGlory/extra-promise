@@ -1,7 +1,7 @@
-import { LazyPromise } from '@classes/lazy-promise'
-import { getCalledTimes } from '@test/utils'
+import { LazyPromise } from '@classes/lazy-promise.js'
+import { getCalledTimes } from '@test/utils.js'
 import { pass } from '@blackglory/pass'
-import { isPromiseLike } from '@src/functions/is-promise-like'
+import { isPromiseLike } from '@src/functions/is-promise-like.js'
 import { assert } from '@blackglory/errors'
 
 describe('LazyPromise', () => {

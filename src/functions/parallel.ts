@@ -1,4 +1,4 @@
-import { validateConcurrency } from '@utils/validate-concurrency'
+import { validateConcurrency } from '@utils/validate-concurrency.js'
 import { Awaitable } from 'justypes'
 
 export function parallel(

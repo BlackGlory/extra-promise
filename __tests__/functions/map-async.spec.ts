@@ -1,8 +1,8 @@
 import { getErrorPromise } from 'return-style'
-import { mapAsync } from '@functions/map-async'
-import { delay } from '@functions/delay'
-import { getCalledTimes, advanceTimersByTime, MockIterable } from '@test/utils'
-import { StatefulPromise } from '@classes/stateful-promise'
+import { mapAsync } from '@functions/map-async.js'
+import { delay } from '@functions/delay.js'
+import { getCalledTimes, advanceTimersByTime, MockIterable } from '@test/utils.js'
+import { StatefulPromise } from '@classes/stateful-promise.js'
 import { pass } from '@blackglory/pass'
 import { go } from '@blackglory/go'
 

@@ -1,6 +1,6 @@
-import { spawn } from '@functions/spawn'
-import { delay } from '@functions/delay'
-import { TIME_ERROR } from '@test/utils'
+import { spawn } from '@functions/spawn.js'
+import { delay } from '@functions/delay.js'
+import { TIME_ERROR } from '@test/utils.js'
 
 describe('spawn', () => {
   it('returns Promise<T>', async () => {

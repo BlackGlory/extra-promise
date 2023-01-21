@@ -1,4 +1,4 @@
-import { isPromise, isntPromise } from '@functions/is-promise'
+import { isPromise, isntPromise } from '@functions/is-promise.js'
 
 describe('isPromise', () => {
   describe('val is Promise', () => {

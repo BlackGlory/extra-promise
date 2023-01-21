@@ -1,6 +1,6 @@
-import { ReusableDeferred } from '@classes/reusable-deferred'
+import { ReusableDeferred } from '@classes/reusable-deferred.js'
 import { getErrorPromise } from 'return-style'
-import { isPromiseLike } from '@src/functions/is-promise-like'
+import { isPromiseLike } from '@src/functions/is-promise-like.js'
 import { assert } from '@blackglory/errors'
 
 describe('ReusableDeferred', () => {

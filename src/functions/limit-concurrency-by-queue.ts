@@ -1,4 +1,4 @@
-import { TaskRunner } from '@classes/task-runner'
+import { TaskRunner } from '@classes/task-runner.js'
 
 export function limitConcurrencyByQueue<T, Args extends any[]>(
   concurrency: number

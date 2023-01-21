@@ -1,7 +1,7 @@
-import { BufferedChannel, ChannelClosedError } from '@classes/buffered-channel'
+import { BufferedChannel, ChannelClosedError } from '@classes/buffered-channel.js'
 import { getErrorPromise, getErrorAsyncIterable } from 'return-style'
-import { delay } from '@functions/delay'
-import { TIME_ERROR } from '@test/utils'
+import { delay } from '@functions/delay.js'
+import { TIME_ERROR } from '@test/utils.js'
 import { setImmediate } from 'extra-timers'
 
 describe('BufferedChannel', () => {

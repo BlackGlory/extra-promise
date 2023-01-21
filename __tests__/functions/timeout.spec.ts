@@ -1,5 +1,5 @@
 import { getErrorPromise } from 'return-style'
-import { timeout, TimeoutError } from '@functions/timeout'
+import { timeout, TimeoutError } from '@functions/timeout.js'
 
 describe('timeout', () => {
   describe('promise did not timed out', () => {

@@ -1,9 +1,9 @@
 import { getErrorPromise } from 'return-style'
-import { filter } from '@functions/filter'
-import { delay } from '@functions/delay'
+import { filter } from '@functions/filter.js'
+import { delay } from '@functions/delay.js'
 import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable }
-  from '@test/utils'
-import { StatefulPromise } from '@classes/stateful-promise'
+  from '@test/utils.js'
+import { StatefulPromise } from '@classes/stateful-promise.js'
 
 describe('filter', () => {
   describe('iterable is empty', () => {

@@ -1,4 +1,4 @@
-import { StatefulPromise, StatefulPromiseState } from '@classes/stateful-promise'
+import { StatefulPromise, StatefulPromiseState } from '@classes/stateful-promise.js'
 import { getErrorPromise } from 'return-style'
 import { setImmediate } from 'extra-timers'
 

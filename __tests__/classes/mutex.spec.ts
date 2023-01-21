@@ -1,5 +1,5 @@
-import { Mutex } from '@classes/mutex'
-import { TIME_ERROR } from '@test/utils'
+import { Mutex } from '@classes/mutex.js'
+import { TIME_ERROR } from '@test/utils.js'
 import { go } from '@blackglory/go'
 import { getErrorPromise } from 'return-style'
 import { pass } from '@blackglory/pass'

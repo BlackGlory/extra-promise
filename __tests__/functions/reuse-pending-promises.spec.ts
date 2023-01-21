@@ -1,5 +1,5 @@
-import { reusePendingPromises } from '@functions/reuse-pending-promises'
-import { delay } from '@src/functions/delay'
+import { reusePendingPromises } from '@functions/reuse-pending-promises.js'
+import { delay } from '@src/functions/delay.js'
 
 describe('reusePendingPromises', () => {
   describe.each([

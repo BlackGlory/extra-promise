@@ -1,4 +1,4 @@
-import { UnlimitedChannel, ChannelClosedError } from '@classes/unlimited-channel'
+import { UnlimitedChannel, ChannelClosedError } from '@classes/unlimited-channel.js'
 import { getError, getErrorAsyncIterable } from 'return-style'
 import { toArrayAsync } from 'iterable-operator'
 import { setImmediate } from 'extra-timers'

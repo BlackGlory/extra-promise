@@ -1,4 +1,4 @@
-import { IDeferred } from '@utils/types'
+import { IDeferred } from '@utils/types.js'
 
 export class Deferred<T> implements PromiseLike<T>, IDeferred<T> {
   private _resolve!: (value: T) => void

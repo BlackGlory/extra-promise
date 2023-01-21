@@ -1,5 +1,5 @@
-import { parallelAsync } from './parallel-async'
-import { validateConcurrency } from '@utils/validate-concurrency'
+import { parallelAsync } from './parallel-async.js'
+import { validateConcurrency } from '@utils/validate-concurrency.js'
 import { mapAsync } from 'iterable-operator'
 import { go } from '@blackglory/go'
 import { assert } from '@blackglory/errors'

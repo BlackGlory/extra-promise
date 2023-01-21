@@ -1,6 +1,6 @@
-import { delay } from '@functions/delay'
-import { getCalledTimes, runAllMicrotasks, advanceTimersByTime } from '@test/utils'
-import { TaskRunner } from '@classes/task-runner'
+import { delay } from '@functions/delay.js'
+import { getCalledTimes, runAllMicrotasks, advanceTimersByTime } from '@test/utils.js'
+import { TaskRunner } from '@classes/task-runner.js'
 import { getErrorPromise } from 'return-style'
 import { passAsync } from '@blackglory/pass'
 

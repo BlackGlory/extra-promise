@@ -1,6 +1,6 @@
-import { Deferred } from '@classes/deferred'
+import { Deferred } from '@classes/deferred.js'
 import { pass } from '@blackglory/pass'
-import { IDeferred } from '@utils/types'
+import { IDeferred } from '@utils/types.js'
 
 export class MutableDeferred<T> implements PromiseLike<T>, IDeferred<T> {
   private deferred: Deferred<T> = this.createDeferred()

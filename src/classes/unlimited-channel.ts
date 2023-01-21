@@ -1,9 +1,11 @@
-import { DeferredGroup } from '@classes/deferred-group'
-import { Deferred } from '@classes/deferred'
+import { DeferredGroup } from '@classes/deferred-group.js'
+import { Deferred } from '@classes/deferred.js'
 import { Queue } from '@blackglory/structures'
-import { ChannelClosedError } from '@errors'
-import { INonBlockingChannel } from '@utils/types'
+import { ChannelClosedError } from '@utils/errors.js'
+import { INonBlockingChannel } from '@utils/types.js'
 import { FiniteStateMachine } from 'extra-fsm'
+
+export { ChannelClosedError } from '@utils/errors.js'
 
 export class UnlimitedChannel<T> implements INonBlockingChannel<T> {
   private fsm = new FiniteStateMachine({
@@ -67,5 +69,3 @@ export class UnlimitedChannel<T> implements INonBlockingChannel<T> {
     }
   }
 }
-
-export { ChannelClosedError } from '@errors'
