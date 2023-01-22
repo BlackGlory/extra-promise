@@ -3,6 +3,7 @@ import { getCalledTimes, runAllMicrotasks, advanceTimersByTime } from '@test/uti
 import { TaskRunner } from '@classes/task-runner.js'
 import { getErrorPromise } from 'return-style'
 import { passAsync } from '@blackglory/pass'
+import { jest } from '@jest/globals'
 
 describe('TaskRunner', () => {
   test('resolved', async () => {

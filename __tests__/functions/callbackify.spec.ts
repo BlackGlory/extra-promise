@@ -1,5 +1,6 @@
 import { runAllMicrotasks } from '@test/utils.js'
 import { callbackify } from '@functions/callbackify.js'
+import { jest } from '@jest/globals'
 
 describe('callbackify', () => {
   describe('Promise resolved', () => {

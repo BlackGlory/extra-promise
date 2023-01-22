@@ -1,6 +1,7 @@
 import { delay } from '@functions/delay.js'
 import { advanceTimersByTime } from '@test/utils.js'
 import { StatefulPromise } from '@classes/stateful-promise.js'
+import { jest } from '@jest/globals'
 
 describe('delay', () => {
   it('calls setTimeout', () => {

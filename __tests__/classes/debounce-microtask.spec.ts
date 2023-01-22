@@ -1,4 +1,5 @@
 import { DebounceMicrotask } from '@classes/debounce-microtask.js'
+import { jest } from '@jest/globals'
 
 describe('DebounceMicrotask', () => {
   describe('queue', () => {

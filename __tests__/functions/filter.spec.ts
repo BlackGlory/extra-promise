@@ -4,6 +4,7 @@ import { delay } from '@functions/delay.js'
 import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable }
   from '@test/utils.js'
 import { StatefulPromise } from '@classes/stateful-promise.js'
+import { jest } from '@jest/globals'
 
 describe('filter', () => {
   describe('iterable is empty', () => {
@@ -30,7 +31,9 @@ describe('filter', () => {
           return 3
         })
         const iter = new MockIterable([task1, task2, task3])
-        const callTaskAndResultIsEven = jest.fn(async x => await x() % 2 === 0)
+        const callTaskAndResultIsEven = jest.fn(
+          async (x: any) => await x() % 2 === 0
+        )
 
         const result = filter(iter, callTaskAndResultIsEven, 2)
         const promise = StatefulPromise.from(result)
@@ -63,7 +66,7 @@ describe('filter', () => {
         const element1 = Promise.reject(error)
         const element2 = Promise.resolve()
         const element3 = Promise.resolve()
-        const fn = jest.fn(x => x)
+        const fn = jest.fn((x: any) => x)
 
         const result = filter([element1, element2, element3], fn, 2)
         const err = await getErrorPromise(result)

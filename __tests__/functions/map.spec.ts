@@ -5,6 +5,7 @@ import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable }
   from '@test/utils.js'
 import { StatefulPromise } from '@classes/stateful-promise.js'
 import { pass } from '@blackglory/pass'
+import { jest } from '@jest/globals'
 
 describe('map', () => {
   describe('iterable is empty', () => {
@@ -31,7 +32,7 @@ describe('map', () => {
           return 3
         })
         const iter = new MockIterable([task1, task2, task3])
-        const callTask = jest.fn(x => x())
+        const callTask = jest.fn((x: any) => x())
 
         const result = map(iter, callTask, 2)
         const promise = StatefulPromise.from(result)

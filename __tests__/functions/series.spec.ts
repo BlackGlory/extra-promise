@@ -4,6 +4,7 @@ import { getCalledTimes, advanceTimersByTime } from '@test/utils.js'
 import { StatefulPromise } from '@classes/stateful-promise.js'
 import { pass } from '@blackglory/pass'
 import { go } from '@blackglory/go'
+import { jest } from '@jest/globals'
 
 describe('series', () => {
   describe('tasks is Iterable', () => {

@@ -1,5 +1,6 @@
 import { all } from '@functions/all.js'
 import { getErrorPromise } from 'return-style'
+import { jest } from '@jest/globals'
 
 describe('all', () => {
   describe('resolve', () => {

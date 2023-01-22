@@ -6,6 +6,7 @@ import { getErrorPromise } from 'return-style'
 import { StatefulPromise } from '@classes/stateful-promise.js'
 import { pass } from '@blackglory/pass'
 import { go } from '@blackglory/go'
+import { jest } from '@jest/globals'
 
 describe('parallelAsync', () => {
   describe('tasks is empty', () => {

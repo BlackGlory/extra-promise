@@ -1,5 +1,6 @@
 import { reusePendingPromises } from '@functions/reuse-pending-promises.js'
 import { delay } from '@src/functions/delay.js'
+import { jest } from '@jest/globals'
 
 describe('reusePendingPromises', () => {
   describe.each([

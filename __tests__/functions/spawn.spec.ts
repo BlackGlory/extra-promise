@@ -1,6 +1,7 @@
 import { spawn } from '@functions/spawn.js'
 import { delay } from '@functions/delay.js'
 import { TIME_ERROR } from '@test/utils.js'
+import { jest } from '@jest/globals'
 
 describe('spawn', () => {
   it('returns Promise<T>', async () => {

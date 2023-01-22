@@ -5,6 +5,7 @@ import { getCalledTimes, advanceTimersByTime, MockIterable } from '@test/utils.j
 import { StatefulPromise } from '@classes/stateful-promise.js'
 import { pass } from '@blackglory/pass'
 import { go } from '@blackglory/go'
+import { jest } from '@jest/globals'
 
 describe('eachAsync', () => {
   describe('iterable is empty', () => {
@@ -24,7 +25,7 @@ describe('eachAsync', () => {
         const task2 = jest.fn(() => delay(1000))
         const task3 = jest.fn(() => delay(1000))
         const iter = new MockIterable([task1, task2, task3])
-        const callTask = jest.fn(x => x())
+        const callTask = jest.fn((x: any) => x())
 
         const result = eachAsync(go(async function* () {
           yield* iter

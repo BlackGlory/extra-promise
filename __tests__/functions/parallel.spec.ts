@@ -5,6 +5,7 @@ import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable }
 import { getErrorPromise } from 'return-style'
 import { StatefulPromise } from '@classes/stateful-promise.js'
 import { pass } from '@blackglory/pass'
+import { jest } from '@jest/globals'
 
 describe('parallel', () => {
   describe('tasks is empty iterable', () => {

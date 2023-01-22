@@ -5,6 +5,7 @@ import { getCalledTimes, advanceTimersByTime, MockIterable } from '@test/utils.j
 import { StatefulPromise } from '@classes/stateful-promise.js'
 import { pass } from '@blackglory/pass'
 import { go } from '@blackglory/go'
+import { jest } from '@jest/globals'
 
 describe('mapAsync', () => {
   describe('iterable is empty', () => {

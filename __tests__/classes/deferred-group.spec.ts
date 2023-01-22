@@ -1,5 +1,6 @@
 import { DeferredGroup } from '@classes/deferred-group.js'
 import { IDeferred } from '@utils/types.js'
+import { jest } from '@jest/globals'
 
 describe('DeferredGroup', () => {
   test('add', () => {

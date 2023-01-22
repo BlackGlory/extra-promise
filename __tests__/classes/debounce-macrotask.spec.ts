@@ -1,5 +1,6 @@
 import { DebounceMacrotask } from '@classes/debounce-macrotask.js'
 import { delay } from '@functions/delay.js'
+import { jest } from '@jest/globals'
 
 describe('DebounceMacrotask', () => {
   describe('queue', () => {
