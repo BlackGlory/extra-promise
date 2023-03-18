@@ -63,7 +63,7 @@
     "@blackglory/pass": "^1.1.0",
     "@blackglory/structures": "^0.13.1",
     "extra-fsm": "^0.1.1",
-    "extra-generator": "^0.3.3",
+    "extra-generator": "^0.4.0",
     "extra-json-stable-stringify": "^0.1.1",
     "extra-timers": "^0.2.5",
     "extra-utils": "^5.1.0",
