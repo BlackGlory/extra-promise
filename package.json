@@ -68,7 +68,7 @@
     "extra-utils": "4",
     "hotypes": "^0.5.1",
     "iterable-operator": "^2.5.0",
-    "justypes": "^3.1.2",
+    "justypes": "^4.2.0",
     "lodash": "^4.17.21",
     "return-style": "^1.0.0"
   }
