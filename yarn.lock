@@ -2545,6 +2545,14 @@ extra-timers@^0.2.5:
   dependencies:
     extra-rand "^0.1.1"
 
+extra-utils@4, extra-utils@^4.0.0, extra-utils@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/extra-utils/-/extra-utils-4.0.1.tgz#a21870b3d468032b51f933779cfbf2f17a9a0498"
+  integrity sha512-rNht7xtADQSspKJ2bPJImdrBBWcgUiVSYz9j9jecRBxpNNwQ6DJize5CV0aKgkhsF04xdLPLGQPqcM9yFYGaNw==
+  dependencies:
+    justypes "^4.0.0"
+    lodash "^4.17.21"
+
 extra-utils@^3.3.0, extra-utils@^3.4.0:
   version "3.7.0"
   resolved "https://registry.yarnpkg.com/extra-utils/-/extra-utils-3.7.0.tgz#eed4cd1efeb1260bcd611e9294660f003d394793"
@@ -2559,14 +2567,6 @@ extra-utils@^3.3.1:
   integrity sha512-NvvXg+MW/AqsOq+HaD5/mOZ5QWG8vX0oil7gtlU/wMyxym2tm5ea5ApTaLF7AChhrlvS5pqonpX4kG4mpI1I+Q==
   dependencies:
     justypes "^3.1.1"
-    lodash "^4.17.21"
-
-extra-utils@^4.0.0, extra-utils@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/extra-utils/-/extra-utils-4.0.1.tgz#a21870b3d468032b51f933779cfbf2f17a9a0498"
-  integrity sha512-rNht7xtADQSspKJ2bPJImdrBBWcgUiVSYz9j9jecRBxpNNwQ6DJize5CV0aKgkhsF04xdLPLGQPqcM9yFYGaNw==
-  dependencies:
-    justypes "^4.0.0"
     lodash "^4.17.21"
 
 fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
