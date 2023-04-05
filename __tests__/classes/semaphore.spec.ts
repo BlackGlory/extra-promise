@@ -1,6 +1,5 @@
 import { Semaphore } from '@classes/semaphore.js'
 import { TIME_ERROR } from '@test/utils.js'
-import { go } from '@blackglory/go'
 import { getErrorPromise } from 'return-style'
 import { pass } from '@blackglory/pass'
 import { assert } from '@blackglory/errors'
@@ -17,10 +16,10 @@ describe('Semaphore', () => {
     })
 
     describe('with handler', () => {
-      it('calls handler', done => {
+      it('calls handler', async () => {
         const semaphore = new Semaphore(1)
 
-        semaphore.acquire(done)
+        await new Promise<void>(resolve => semaphore.acquire(resolve))
       })
 
       it('throws error', async () => {
@@ -62,28 +61,24 @@ describe('Semaphore', () => {
     })
 
     describe('with handler', () => {
-      it('calls handler', done => {
-        go(async () => {
-          const semaphore = new Semaphore(2)
+      it('calls handler', async () => {
+        const semaphore = new Semaphore(2)
 
-          let time1: number
-            , time2: number
-            , time3: number
-          semaphore.acquire(async () => {
-            time1 = now()
-            await sleep(1000)
-          })
-          semaphore.acquire(async () => {
-            time2 = now()
-            await sleep(1000)
-          })
-          semaphore.acquire(async () => {
-            time3 = now()
-            expect(time3 - time1).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
-            expect(time3 - time2).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
-            done()
-          })
+        let time1: number
+          , time2: number
+        semaphore.acquire(async () => {
+          time1 = now()
+          await sleep(1000)
         })
+        semaphore.acquire(async () => {
+          time2 = now()
+          await sleep(1000)
+        })
+        await new Promise<void>(resolve => semaphore.acquire(resolve))
+        const time3 = now()
+
+        expect(time3 - time1!).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
+        expect(time3 - time2!).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
       })
     })
 

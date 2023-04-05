@@ -1,13 +1,12 @@
 import { runAllMicrotasks } from '@test/utils.js'
 import { callbackify } from '@functions/callbackify.js'
-import { jest } from '@jest/globals'
 
 describe('callbackify', () => {
   describe('Promise resolved', () => {
     it('calls back', async () => {
       const value = 'value'
       const fn = (value: string) => Promise.resolve(value)
-      const cb = jest.fn()
+      const cb = vi.fn()
 
       const callbackified = callbackify(fn)
       const result = callbackified(value, cb)
@@ -24,7 +23,7 @@ describe('callbackify', () => {
       it('calls back', async () => {
         const error = new Error('CustomError')
         const fn = (error: Error) => Promise.reject(error)
-        const cb = jest.fn()
+        const cb = vi.fn()
 
         const callbackified = callbackify(fn)
         const result = callbackified(error, cb)
@@ -40,7 +39,7 @@ describe('callbackify', () => {
   test('edge case: no args', async () => {
     const value = 'value'
     const fn = () => Promise.resolve(value)
-    const cb = jest.fn()
+    const cb = vi.fn()
 
     const callbackified = callbackify(fn)
     const result = callbackified(cb)
@@ -59,7 +58,7 @@ describe('callbackify', () => {
         return this.value
       }
     }
-    const cb = jest.fn()
+    const cb = vi.fn()
 
     const callbackified = callbackify(Foo.bar).bind(Foo)
     const result = callbackified(cb)
@@ -73,7 +72,7 @@ describe('callbackify', () => {
   test('edge case: sync', async () => {
     const value = 'value'
     const fn = (value: string) => value
-    const cb = jest.fn()
+    const cb = vi.fn()
 
     const callbackified = callbackify(fn)
     const result = callbackified(value, cb)

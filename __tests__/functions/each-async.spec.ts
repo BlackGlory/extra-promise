@@ -5,7 +5,6 @@ import { getCalledTimes, advanceTimersByTime, MockIterable } from '@test/utils.j
 import { StatefulPromise } from '@classes/stateful-promise.js'
 import { pass } from '@blackglory/pass'
 import { go } from '@blackglory/go'
-import { jest } from '@jest/globals'
 
 describe('eachAsync', () => {
   describe('iterable is empty', () => {
@@ -21,11 +20,11 @@ describe('eachAsync', () => {
   describe('iterable isnt empty', () => {
     describe('resolve', () => {
       it('returns resolved Promise<void>', async () => {
-        const task1 = jest.fn(() => delay(500))
-        const task2 = jest.fn(() => delay(1000))
-        const task3 = jest.fn(() => delay(1000))
+        const task1 = vi.fn(() => delay(500))
+        const task2 = vi.fn(() => delay(1000))
+        const task3 = vi.fn(() => delay(1000))
         const iter = new MockIterable([task1, task2, task3])
-        const callTask = jest.fn((x: any) => x())
+        const callTask = vi.fn((x: any) => x())
 
         const result = eachAsync(go(async function* () {
           yield* iter
@@ -57,7 +56,7 @@ describe('eachAsync', () => {
     describe('reject', () => {
       it('returns rejected Promise<void>', async () => {
         const error = new Error('CustomError')
-        const fn = jest.fn(() => Promise.reject(error))
+        const fn = vi.fn(() => Promise.reject(error))
 
         const result = eachAsync(go(async function* () {
           yield delay(0)

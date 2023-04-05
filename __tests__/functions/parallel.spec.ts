@@ -5,7 +5,6 @@ import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, MockIterable }
 import { getErrorPromise } from 'return-style'
 import { StatefulPromise } from '@classes/stateful-promise.js'
 import { pass } from '@blackglory/pass'
-import { jest } from '@jest/globals'
 
 describe('parallel', () => {
   describe('tasks is empty iterable', () => {
@@ -19,15 +18,15 @@ describe('parallel', () => {
   describe('tasks isnt empty iterable', () => {
     describe('resolve', () => {
       it('returns resolved Promise<void>', async () => {
-        const task1 = jest.fn(async () => {
+        const task1 = vi.fn(async () => {
           await delay(500)
           return 1
         })
-        const task2 = jest.fn(async () => {
+        const task2 = vi.fn(async () => {
           await delay(1000)
           return 2
         })
-        const task3 = jest.fn(async () => {
+        const task3 = vi.fn(async () => {
           await delay (1000)
           return 3
         })
@@ -62,15 +61,15 @@ describe('parallel', () => {
     describe('reject', () => {
       it('returns rejected Promise<void>', async () => {
         const error = new Error('CustomError')
-        const task1 = jest.fn(async () => {
+        const task1 = vi.fn(async () => {
           await delay(500)
           throw error
         })
-        const task2 = jest.fn(async () => {
+        const task2 = vi.fn(async () => {
           await delay(500)
           return 1
         })
-        const task3 = jest.fn()
+        const task3 = vi.fn()
 
         const result = parallel([task1, task2, task3], 2)
         const promise = StatefulPromise.from(result)
@@ -93,8 +92,8 @@ describe('parallel', () => {
     })
 
     test('edge: concurrency = 1', async () => {
-      const fn1 = jest.fn()
-      const fn2 = jest.fn()
+      const fn1 = vi.fn()
+      const fn2 = vi.fn()
 
       const result = await parallel([fn1, fn2], 1)
 

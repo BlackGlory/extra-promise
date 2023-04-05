@@ -1,11 +1,10 @@
 import { spawn } from '@functions/spawn.js'
 import { delay } from '@functions/delay.js'
 import { TIME_ERROR } from '@test/utils.js'
-import { jest } from '@jest/globals'
 
 describe('spawn', () => {
   it('returns Promise<T>', async () => {
-    const create = jest.fn(async id => {
+    const create = vi.fn(async id => {
       await delay(500)
       return id
     })

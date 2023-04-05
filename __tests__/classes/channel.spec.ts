@@ -62,9 +62,6 @@ describe('Channel', () => {
 
   describe('multiple-producer, single-consumer', () => {
     it('handles send and next one by one', async () => {
-      // This is why the case uses real time:
-      // jest.useFakeTimers('modern') - cannot work
-      // jest.useFakeTimers() - Date.now() return wrong value
       const channel = new Channel<void>()
 
       const start = Date.now()

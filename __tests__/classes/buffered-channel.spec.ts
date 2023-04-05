@@ -62,9 +62,6 @@ describe('BufferedChannel', () => {
 
   describe('multiple-producer, single-consumer', () => {
     it('returns AsyncIterable', async () => {
-      // This is why the case uses real time:
-      // jest.useFakeTimers('modern') - cannot work
-      // jest.useFakeTimers() - Date.now() return wrong value
       const channel = new BufferedChannel<void>(2)
 
       const start = Date.now()

@@ -1,6 +1,5 @@
 import { DeferredGroup } from '@classes/deferred-group.js'
 import { IDeferred } from '@utils/types.js'
-import { jest } from '@jest/globals'
 
 describe('DeferredGroup', () => {
   test('add', () => {
@@ -66,7 +65,7 @@ describe('DeferredGroup', () => {
 
 function createDeferred<T>(): IDeferred<T> {
   return {
-    resolve: jest.fn()
-  , reject: jest.fn()
+    resolve: vi.fn()
+  , reject: vi.fn()
   }
 }

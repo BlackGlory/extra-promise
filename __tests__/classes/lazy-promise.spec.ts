@@ -3,7 +3,6 @@ import { getCalledTimes } from '@test/utils.js'
 import { pass } from '@blackglory/pass'
 import { isPromiseLike } from '@src/functions/is-promise-like.js'
 import { assert } from '@blackglory/errors'
-import { jest } from '@jest/globals'
 
 describe('LazyPromise', () => {
   test('constructor', () => {
@@ -15,7 +14,7 @@ describe('LazyPromise', () => {
   describe('then', () => {
     it('call executor', async () => {
       const value = 'value'
-      const executor = jest.fn((resolve: any) => resolve(value))
+      const executor = vi.fn((resolve: any) => resolve(value))
 
       const lazy = new LazyPromise(executor)
       const calledTimesBefore = getCalledTimes(executor)

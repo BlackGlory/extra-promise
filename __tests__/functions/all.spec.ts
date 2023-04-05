@@ -1,11 +1,10 @@
 import { all } from '@functions/all.js'
 import { getErrorPromise } from 'return-style'
-import { jest } from '@jest/globals'
 
 describe('all', () => {
   describe('resolve', () => {
     it('returns resolved Promise', async () => {
-      jest.useFakeTimers()
+      vi.useFakeTimers()
       const value1 = 1
       const value2 = 2
       const promise1 = Promise.resolve(value1)

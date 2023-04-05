@@ -1,12 +1,11 @@
 import { DebounceMacrotask } from '@classes/debounce-macrotask.js'
 import { delay } from '@functions/delay.js'
-import { jest } from '@jest/globals'
 
 describe('DebounceMacrotask', () => {
   describe('queue', () => {
     it('fn called once', async () => {
       const dm = new DebounceMacrotask()
-      const fn = jest.fn()
+      const fn = vi.fn()
 
       dm.queue(fn)
       dm.queue(fn)
@@ -19,7 +18,7 @@ describe('DebounceMacrotask', () => {
   describe('cancel', () => {
     it('fn not called', async () => {
       const dm = new DebounceMacrotask()
-      const fn = jest.fn()
+      const fn = vi.fn()
 
       dm.queue(fn)
       dm.queue(fn)

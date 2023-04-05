@@ -4,7 +4,6 @@ import { getCalledTimes, advanceTimersByTime } from '@test/utils.js'
 import { StatefulPromise } from '@classes/stateful-promise.js'
 import { pass } from '@blackglory/pass'
 import { go } from '@blackglory/go'
-import { jest } from '@jest/globals'
 
 describe('series', () => {
   describe('tasks is Iterable', () => {
@@ -18,11 +17,11 @@ describe('series', () => {
 
     describe('tasks isnt empty', () => {
       it('returns Promise<void>', async () => {
-        const task1 = jest.fn().mockImplementation(async () => {
+        const task1 = vi.fn().mockImplementation(async () => {
           await delay(500)
           return 1
         })
-        const task2 = jest.fn().mockImplementation(async () => {
+        const task2 = vi.fn().mockImplementation(async () => {
           await delay(500)
           return 2
         })
@@ -61,11 +60,11 @@ describe('series', () => {
 
     describe('tasks isnt empty', () => {
       it('returns Promise<void>', async () => {
-        const task1 = jest.fn().mockImplementation(async () => {
+        const task1 = vi.fn().mockImplementation(async () => {
           await delay(500)
           return 1
         })
-        const task2 = jest.fn().mockImplementation(async () => {
+        const task2 = vi.fn().mockImplementation(async () => {
           await delay(500)
           return 2
         })

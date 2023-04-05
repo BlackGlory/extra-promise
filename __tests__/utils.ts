@@ -1,6 +1,6 @@
 export const TIME_ERROR = 1
 
-export function getCalledTimes(fn: jest.Mock): number {
+export function getCalledTimes(fn: vi.Mock): number {
   return fn.mock.calls.length
 }
 

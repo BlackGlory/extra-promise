@@ -1,6 +1,5 @@
 import { reusePendingPromises } from '@functions/reuse-pending-promises.js'
 import { delay } from '@src/functions/delay.js'
-import { jest } from '@jest/globals'
 
 describe('reusePendingPromises', () => {
   describe.each([
@@ -9,7 +8,7 @@ describe('reusePendingPromises', () => {
   ])('%s', (_, reusePendingPromise, createResult) => {
     describe('reuse pending promise', () => {
       it('reuses Promsie when pass in same parameters', async () => {
-        const fn = jest.fn(async (timeout: number) => {
+        const fn = vi.fn(async (timeout: number) => {
           await delay(timeout)
           return timeout
         })
@@ -26,7 +25,7 @@ describe('reusePendingPromises', () => {
       })
 
       it('does not reuse Promise when pass in different parameters', async () => {
-        const fn = jest.fn(async (timeout: number) => {
+        const fn = vi.fn(async (timeout: number) => {
           await delay(timeout)
           return timeout
         })
@@ -43,7 +42,7 @@ describe('reusePendingPromises', () => {
       })
 
       it('does not reuse Promise when it is resolved or rejected', async () => {
-        const fn = jest.fn(async (timeout: number) => {
+        const fn = vi.fn(async (timeout: number) => {
           await delay(timeout)
           return timeout
         })

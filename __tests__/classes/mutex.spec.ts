@@ -18,10 +18,10 @@ describe('Mutex', () => {
       })
 
       describe('with handler', () => {
-        it('calls handler', done => {
+        it('calls handler', async () => {
           const mutex = new Mutex()
 
-          mutex.acquire(done)
+          await new Promise<void>(resolve => mutex.acquire(resolve))
         })
 
         test('throws error', async () => {
@@ -59,18 +59,15 @@ describe('Mutex', () => {
       })
 
       describe('with handler', () => {
-        it('calls handler', done => {
-          go(async () => {
-            const mutex = new Mutex()
-            const release = await mutex.acquire()
+        it('calls handler', async () => {
+          const mutex = new Mutex()
+          const release = await mutex.acquire()
 
-            const start = now()
-            setTimeout(release, 1000)
-            mutex.acquire(() => {
-              expect(now() - start).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
-              done()
-            })
-          })
+          const start = now()
+          setTimeout(release, 1000)
+          await new Promise<void>(resolve => mutex.acquire(resolve))
+
+          expect(now() - start).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
         })
 
         it('returns value', async () => {

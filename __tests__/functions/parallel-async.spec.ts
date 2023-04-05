@@ -6,7 +6,6 @@ import { getErrorPromise } from 'return-style'
 import { StatefulPromise } from '@classes/stateful-promise.js'
 import { pass } from '@blackglory/pass'
 import { go } from '@blackglory/go'
-import { jest } from '@jest/globals'
 
 describe('parallelAsync', () => {
   describe('tasks is empty', () => {
@@ -22,15 +21,15 @@ describe('parallelAsync', () => {
   describe('tasks isnt empty', () => {
     describe('resolve', () => {
       it('returns resolved Promise<void>', async () => {
-        const task1 = jest.fn(async () => {
+        const task1 = vi.fn(async () => {
           await delay(500)
           return 1
         })
-        const task2 = jest.fn(async () => {
+        const task2 = vi.fn(async () => {
           await delay(1000)
           return 2
         })
-        const task3 = jest.fn(async () => {
+        const task3 = vi.fn(async () => {
           await delay (1000)
           return 3
         })
@@ -66,15 +65,15 @@ describe('parallelAsync', () => {
     describe('reject', () => {
       it('returns rejected Promise<void>', async () => {
         const error = new Error('CustomError')
-        const task1 = jest.fn(async () => {
+        const task1 = vi.fn(async () => {
           await delay(500)
           throw error
         })
-        const task2 = jest.fn(async () => {
+        const task2 = vi.fn(async () => {
           await delay(500)
           return 1
         })
-        const task3 = jest.fn()
+        const task3 = vi.fn()
 
         const result = parallelAsync(go(async function* () {
           yield task1
@@ -101,8 +100,8 @@ describe('parallelAsync', () => {
     })
 
     test('edge: concurrency = 1', async () => {
-      const fn1 = jest.fn()
-      const fn2 = jest.fn()
+      const fn1 = vi.fn()
+      const fn2 = vi.fn()
 
       const result = await parallelAsync(go(async function* () {
         yield fn1

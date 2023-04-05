@@ -3,12 +3,11 @@ import { getCalledTimes, runAllMicrotasks, advanceTimersByTime } from '@test/uti
 import { TaskRunner } from '@classes/task-runner.js'
 import { getErrorPromise } from 'return-style'
 import { passAsync } from '@blackglory/pass'
-import { jest } from '@jest/globals'
 
 describe('TaskRunner', () => {
   test('resolved', async () => {
     const runner = new TaskRunner(1)
-    const task = jest.fn(async () => {
+    const task = vi.fn(async () => {
       return 'result'
     })
 
@@ -19,7 +18,7 @@ describe('TaskRunner', () => {
 
   test('rejected', async () => {
     const runner = new TaskRunner(1)
-    const task = jest.fn(async () => {
+    const task = vi.fn(async () => {
       throw new Error('custom error')
     })
 
@@ -30,10 +29,10 @@ describe('TaskRunner', () => {
 
   test('destroy', async () => {
     const runner = new TaskRunner(1)
-    const task1 = jest.fn(async () => {
+    const task1 = vi.fn(async () => {
       runner.destroy()
     })
-    const task2 = jest.fn(passAsync)
+    const task2 = vi.fn(passAsync)
 
     runner.run(task1)
     runner.run(task2)
@@ -45,15 +44,15 @@ describe('TaskRunner', () => {
 
   test('consume and run tasks', async () => {
     const runner = new TaskRunner(2)
-    const task1 = jest.fn(async () => {
+    const task1 = vi.fn(async () => {
       await delay(500)
       return 1
     })
-    const task2 = jest.fn(async () => {
+    const task2 = vi.fn(async () => {
       await delay(1000)
       return 2
     })
-    const task3 = jest.fn(async () => {
+    const task3 = vi.fn(async () => {
       await delay (1000)
       return 3
     })
