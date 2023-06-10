@@ -4,7 +4,8 @@
   "description": "Utilities for JavaScript Promise and AsyncFunction",
   "keywords": [],
   "files": [
-    "lib"
+    "lib",
+    "src"
   ],
   "type": "module",
   "main": "lib/index.js",
