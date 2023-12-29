@@ -299,7 +299,7 @@ Limit the number of concurrency, calls that exceed the number of concurrency wil
 type VerboseResult<T> = [value: T, isReuse: boolean]
 
 interface IReusePendingPromisesOptions<Args> {
-  createKey?: (key: Args) => unknown
+  createKey?: (args: Args) => unknown
   verbose?: true
 }
 
