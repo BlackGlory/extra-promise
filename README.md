@@ -158,7 +158,7 @@ Invalid values will throw `Error`.
 
 #### mapAsync
 ```ts
-export function mapAsync<T, U>(
+function mapAsync<T, U>(
   iterable: AsyncIterable<T>
 , fn: (element: T, i: number) => Awaitable<U>
 , concurrency: number // concurrency must be finite number
@@ -303,19 +303,19 @@ interface IReusePendingPromisesOptions<Args> {
   verbose?: true
 }
 
-export function reusePendingPromises<T, Args extends any[]>(
+function reusePendingPromises<T, Args extends any[]>(
   fn: (...args: Args) => PromiseLike<T>
 , options: IReusePendingPromisesOptions<Args> & { verbose: true }
 ): (...args: Args) => Promise<VerboseResult<T>>
-export function reusePendingPromises<T, Args extends any[]>(
+function reusePendingPromises<T, Args extends any[]>(
   fn: (...args: Args) => PromiseLike<T>
 , options: IReusePendingPromisesOptions<Args> & { verbose: false }
 ): (...args: Args) => Promise<T>
-export function reusePendingPromises<T, Args extends any[]>(
+function reusePendingPromises<T, Args extends any[]>(
   fn: (...args: Args) => PromiseLike<T>
 , options: Omit<IReusePendingPromisesOptions<Args>, 'verbose'>
 ): (...args: Args) => Promise<T>
-export function reusePendingPromises<T, Args extends any[]>(
+function reusePendingPromises<T, Args extends any[]>(
   fn: (...args: Args) => PromiseLike<T>
 ): (...args: Args) => Promise<T>
 ```
