@@ -298,28 +298,32 @@ Limit the number of concurrency, calls that exceed the number of concurrency wil
 ```ts
 type VerboseResult<T> = [value: T, isReuse: boolean]
 
-interface IReusePendingPromisesOptions {
+interface IReusePendingPromisesOptions<Args> {
+  createKey?: (key: Args) => unknown
   verbose?: true
 }
 
-function reusePendingPromises<T, Args extends any[]>(
+export function reusePendingPromises<T, Args extends any[]>(
   fn: (...args: Args) => PromiseLike<T>
-, options: IReusePendingPromiseOptions & { verbose: true }
+, options: IReusePendingPromisesOptions<Args> & { verbose: true }
 ): (...args: Args) => Promise<VerboseResult<T>>
-function reusePendingPromises<T, Args extends any[]>(
+export function reusePendingPromises<T, Args extends any[]>(
   fn: (...args: Args) => PromiseLike<T>
-, options: IReusePendingPromiseOptions & { verbose: false }
+, options: IReusePendingPromisesOptions<Args> & { verbose: false }
 ): (...args: Args) => Promise<T>
-function reusePendingPromises<T, Args extends any[]>(
+export function reusePendingPromises<T, Args extends any[]>(
   fn: (...args: Args) => PromiseLike<T>
-, options: Omit<IReusePendingPromiseOptions, 'verbose'>
+, options: Omit<IReusePendingPromisesOptions<Args>, 'verbose'>
 ): (...args: Args) => Promise<T>
-function reusePendingPromises<T, Args extends any[]>(
+export function reusePendingPromises<T, Args extends any[]>(
   fn: (...args: Args) => PromiseLike<T>
 ): (...args: Args) => Promise<T>
 ```
 
 Returns a function that will return the same `Promise` for calls with the same parameters if the `Promise` is pending.
+
+It generates cache keys based on the `options.createKey` function,
+The default value of `options.createKey` is a stable `JSON.stringify` implementation.
 
 ### Classes
 #### StatefulPromise
