@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.1.0](https://github.com/BlackGlory/extra-promise/compare/v6.0.8...v6.1.0) (2023-12-29)
+
+
+### Features
+
+* **reusePendingPromises:** add `options.createKey` support ([336331a](https://github.com/BlackGlory/extra-promise/commit/336331a5f08b278f99e6f23890788ad9fdd7fdc1))
+
 ### [6.0.8](https://github.com/BlackGlory/extra-promise/compare/v6.0.7...v6.0.8) (2023-08-02)
 
 ### [6.0.7](https://github.com/BlackGlory/extra-promise/compare/v6.0.6...v6.0.7) (2023-06-10)
