@@ -1883,6 +1883,17 @@ extra-abort@^0.3.6:
     iterable-operator "^4.0.5"
     justypes "^4.2.0"
 
+extra-abort@^0.3.9:
+  version "0.3.9"
+  resolved "https://registry.yarnpkg.com/extra-abort/-/extra-abort-0.3.9.tgz#3ed4f63e9a39bd8ca5a4410a508ec1beb4bc3a00"
+  integrity sha512-vs6PnLHk0A/1YNDkCaeFuHReB9CGoCiBQc4AaunAcOXAa0Wx8viML575T48XNnxx+clsp9yvKQ00Q6TWrN/vPA==
+  dependencies:
+    "@blackglory/errors" "^3.0.3"
+    "@blackglory/go" "^1.1.3"
+    "@blackglory/pass" "^1.1.1"
+    iterable-operator "^4.0.6"
+    justypes "^4.2.1"
+
 extra-compatible@^0.1.0:
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/extra-compatible/-/extra-compatible-0.1.6.tgz#6fa2896c44d480801106d0a0f2ccc10257d4992d"

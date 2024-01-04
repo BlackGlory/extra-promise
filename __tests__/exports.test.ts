@@ -49,6 +49,7 @@ test('exports', () => {
   , 'DebounceMacrotask'
 
   , 'TaskRunner'
+  , 'TaskRunnerDestroyedError'
   ].sort()
 
   const actualExports = Object.keys(target).sort()

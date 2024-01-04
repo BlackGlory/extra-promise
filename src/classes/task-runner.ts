@@ -4,6 +4,16 @@ import { Queue } from '@blackglory/structures'
 import { FiniteStateMachine } from 'extra-fsm'
 import { validateConcurrency } from '@utils/validate-concurrency.js'
 import { Awaitable } from 'justypes'
+import { LinkedAbortController, AbortController } from 'extra-abort'
+import { CustomError } from '@blackglory/errors'
+
+interface ITask {
+  fn: (signal: AbortSignal) => Awaitable<unknown>
+  deferred: Deferred<any>
+  controller: AbortController
+}
+
+export class TaskRunnerDestroyedError extends CustomError {}
 
 export class TaskRunner {
   private fsm = new FiniteStateMachine(
@@ -15,22 +25,40 @@ export class TaskRunner {
     }
   , 'running'
   )
-  private queue = new Queue<[() => Awaitable<unknown>, Deferred<any>]>()
-  private pending: number = 0
+  private queue = new Queue<ITask>()
+  private runningTasks = new Set<ITask>()
   private debounceMicrotask = new DebounceMicrotask()
 
   constructor(private concurrency: number = Infinity) {
     validateConcurrency('concurrency', concurrency)
   }
 
-  async run<T>(task: () => Awaitable<T>): Promise<T> {
-    if (this.fsm.matches('destroyed')) throw new Error('TaskRunner has been destroyed.')
+  /**
+   * @throws {TaskRunnerDestroyedError}
+   */
+  async run<T>(fn: (signal: AbortSignal) => Awaitable<T>, signal?: AbortSignal): Promise<T> {
+    if (this.fsm.matches('destroyed')) throw new TaskRunnerDestroyedError()
+    if (signal?.aborted) throw signal.reason
 
     const deferred = new Deferred<T>()
-    this.queue.enqueue([task, deferred])
+    const controller = signal
+      ? new LinkedAbortController(signal)
+      : new AbortController()
+    const task: ITask = {
+      fn
+    , deferred
+    , controller
+    }
+    this.queue.enqueue(task)
+    signal?.addEventListener('abort', () => {
+      deferred.reject(signal.reason)
+      this.queue.remove(task)
+    })
+
     if (this.fsm.matches('running')) {
       this.debounceMicrotask.queue(this.nextTick)
     }
+
     return await deferred
   }
 
@@ -38,33 +66,41 @@ export class TaskRunner {
     this.fsm.send('destroy')
 
     this.debounceMicrotask.cancel(this.nextTick)
-    this.queue.empty()
+
+    const error = new TaskRunnerDestroyedError()
+
+    this.runningTasks.forEach(task => {
+      task.controller.abort(error)
+    })
+
+    let task: ITask | undefined
+    while (task = this.queue.dequeue()) {
+      task.deferred.reject(error)
+    }
   }
 
   private nextTick = () => {
     while (
       this.queue.size > 0 &&
-      this.pending < this.concurrency
+      this.runningTasks.size < this.concurrency
     ) {
-      const [task, deferred] = this.queue.dequeue()!
-      this.process(task, deferred)
+      const item = this.queue.dequeue()!
+      this.process(item)
     }
   }
 
-  private async process<T>(
-    task: () => Awaitable<T>
-  , deferred: Deferred<T>
-  ): Promise<void> {
-    this.pending++
+  private async process(task: ITask): Promise<void> {
+    this.runningTasks.add(task)
 
     try {
-      const result = await task()
-      deferred.resolve(result)
+      if (task.controller.signal.aborted) throw task.controller.signal.reason
+      const result = await task.fn(task.controller.signal)
+      task.deferred.resolve(result)
     } catch (e) {
-      deferred.reject(e)
+      task.deferred.reject(e)
     }
 
-    this.pending--
+    this.runningTasks.delete(task)
 
     if (this.fsm.matches('running')) {
       this.debounceMicrotask.queue(this.nextTick)

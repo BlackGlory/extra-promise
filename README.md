@@ -565,10 +565,16 @@ if the macrotask is not executed, multiple calls will only queue it once.
 
 #### TaskRunner
 ```ts
+class TaskRunnerDestroyedError extends CustomError {}
+
 class TaskRunner {
   constructor(concurrency: number = Infinity)
 
-  run(task: () => Awaitable<T>): Promise<T>
+  /**
+   * @throws {TaskRunnerDestroyedError}
+   */
+  run(task: (signal: AbortSignal) => Awaitable<T>, signal?: AbortSignal): Promise<T>
+
   destroy(): void
 }
 ```

@@ -1,8 +1,9 @@
 import { delay } from '@functions/delay.js'
 import { getCalledTimes, runAllMicrotasks, advanceTimersByTime } from '@test/utils.js'
-import { TaskRunner } from '@classes/task-runner.js'
+import { TaskRunner, TaskRunnerDestroyedError } from '@classes/task-runner.js'
 import { getErrorPromise } from 'return-style'
 import { passAsync } from '@blackglory/pass'
+import { AbortController, AbortError } from 'extra-abort'
 
 describe('TaskRunner', () => {
   test('resolved', async () => {
@@ -22,24 +23,29 @@ describe('TaskRunner', () => {
       throw new Error('custom error')
     })
 
-    const result = await getErrorPromise(runner.run(task))
+    const err = await getErrorPromise(runner.run(task))
 
-    expect(result).toBeInstanceOf(Error)
+    expect(err).toBeInstanceOf(Error)
   })
 
   test('destroy', async () => {
     const runner = new TaskRunner(1)
-    const task1 = vi.fn(async () => {
+    const task1 = vi.fn(async (_: AbortSignal) => {
       runner.destroy()
+      return 'result'
     })
     const task2 = vi.fn(passAsync)
 
-    runner.run(task1)
-    runner.run(task2)
+    const promise1 = runner.run(task1)
+    const promise2 = getErrorPromise(runner.run(task2))
     await advanceTimersByTime(0)
 
     expect(task1).toBeCalled()
+    expect(task1.mock.calls[0][0].aborted).toBe(true)
+    expect(task1.mock.calls[0][0].reason).toBeInstanceOf(TaskRunnerDestroyedError)
     expect(task2).not.toBeCalled()
+    expect(await promise1).toBe('result')
+    expect(await promise2).toBeInstanceOf(TaskRunnerDestroyedError)
   })
 
   test('consume and run tasks', async () => {
@@ -73,5 +79,52 @@ describe('TaskRunner', () => {
     expect(task2CalledStep1).toBe(1)
     expect(task3CalledStep1).toBe(0)
     expect(task3CalledStep2).toBe(1)
+  })
+
+  describe('signal', () => {
+    test('aborted', async () => {
+      const controller = new AbortController()
+      controller.abort()
+      const runner = new TaskRunner(1)
+      const task = vi.fn(async (_: AbortSignal) => {
+        return 'result'
+      })
+
+      const err = await getErrorPromise(runner.run(task, controller.signal))
+
+      expect(task).not.toBeCalled()
+      expect(err).toBeInstanceOf(AbortError)
+    })
+
+    test('will be aborted', async () => {
+      const controller = new AbortController()
+      const runner = new TaskRunner(1)
+      const task = vi.fn(async (signal: AbortSignal) => {
+        await delay(1000)
+        signal.throwIfAborted()
+        return 'result'
+      })
+
+      setTimeout(() => controller.abort(), 500)
+      const err = await getErrorPromise(runner.run(task, controller.signal))
+
+      expect(task).toBeCalled()
+      expect(err).toBeInstanceOf(AbortError)
+    })
+
+    test('will not be aborted', async () => {
+      const controller = new AbortController()
+      const runner = new TaskRunner(1)
+      const task = vi.fn(async (signal: AbortSignal) => {
+        await delay(500)
+        signal.throwIfAborted()
+        return 'result'
+      })
+
+      const result = await runner.run(task, controller.signal)
+
+      expect(task).toBeCalled()
+      expect(result).toBe('result')
+    })
   })
 })
