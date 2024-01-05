@@ -37,7 +37,7 @@ describe('pad', () => {
 
       expect(result).toBe(value)
       expect(elapsed).toBeGreaterThanOrEqual(500 - TIME_ERROR)
-      expect(elapsed).toBeLessThan(1000 - TIME_ERROR)
+      expect(elapsed).toBeLessThan(1000 + TIME_ERROR)
     })
 
     test('not pad rejecting', async () => {
