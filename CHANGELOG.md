@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.2.0](https://github.com/BlackGlory/extra-promise/compare/v6.1.0...v6.2.0) (2024-01-05)
+
+
+### Features
+
+* **TaskRunner:** add AbortSignal support ([2263d3a](https://github.com/BlackGlory/extra-promise/commit/2263d3a507f6dc897fcfe8ba2a2060ce64108076))
+* **TaskRunner:** add rate limiting support ([40e229a](https://github.com/BlackGlory/extra-promise/commit/40e229ab2e23eded266b49019c0ca3ae1ecfa68e))
+
 ## [6.1.0](https://github.com/BlackGlory/extra-promise/compare/v6.0.8...v6.1.0) (2023-12-29)
 
 
