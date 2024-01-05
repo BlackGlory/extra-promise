@@ -1,5 +1,5 @@
 import { delay } from '@functions/delay.js'
-import { getCalledTimes, runAllMicrotasks, advanceTimersByTime } from '@test/utils.js'
+import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, TIME_ERROR } from '@test/utils.js'
 import { TaskRunner, TaskRunnerDestroyedError } from '@classes/task-runner.js'
 import { getErrorPromise } from 'return-style'
 import { passAsync } from '@blackglory/pass'
@@ -125,6 +125,40 @@ describe('TaskRunner', () => {
 
       expect(task).toBeCalled()
       expect(result).toBe('result')
+    })
+  })
+
+  describe('rate limiting', () => {
+    test('count < limit', async () => {
+      const duration = 500
+      const runner = new TaskRunner(Infinity, {
+        duration
+      , limit: 1
+      })
+      const task = vi.fn(async () => {
+        return Date.now()
+      })
+
+      const startTime = Date.now()
+      const time = await runner.run(task)
+
+      expect(time - startTime).toBeLessThan(duration + TIME_ERROR)
+    })
+
+    test('count = limit', async () => {
+      const duration = 500
+      const runner = new TaskRunner(Infinity, {
+        duration
+      , limit: 1
+      })
+      const task = vi.fn(async () => {
+        return Date.now()
+      })
+
+      const time1 = await runner.run(task)
+      const time2 = await runner.run(task)
+
+      expect(time2 - time1).toBeGreaterThanOrEqual(duration - TIME_ERROR)
     })
   })
 })

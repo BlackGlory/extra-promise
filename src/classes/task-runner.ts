@@ -1,11 +1,13 @@
 import { Deferred } from '@classes/deferred.js'
-import { DebounceMicrotask } from '@classes/debounce-microtask.js'
 import { Queue } from '@blackglory/structures'
 import { FiniteStateMachine } from 'extra-fsm'
 import { validateConcurrency } from '@utils/validate-concurrency.js'
 import { Awaitable } from 'justypes'
-import { LinkedAbortController, AbortController } from 'extra-abort'
-import { CustomError } from '@blackglory/errors'
+import { LinkedAbortController, AbortController, withAbortSignal, AbortError } from 'extra-abort'
+import { assert, CustomError } from '@blackglory/errors'
+import { isUndefined, isFinite } from 'extra-utils'
+import { delay } from '@src/functions/delay.js'
+import { pass } from '@blackglory/pass'
 
 interface ITask {
   fn: (signal: AbortSignal) => Awaitable<unknown>
@@ -27,12 +29,32 @@ export class TaskRunner {
   )
   private queue = new Queue<ITask>()
   private runningTasks = new Set<ITask>()
-  private debounceMicrotask = new DebounceMicrotask()
-
-  constructor(private concurrency: number = Infinity) {
-    validateConcurrency('concurrency', concurrency)
+  private window?: {
+    startTime: number
+    count: number
   }
+  private scheduleController?: AbortController
 
+  constructor(
+    private concurrency: number = Infinity
+  , private rateLimit?: {
+      duration: number
+      limit: number
+    }
+  ) {
+    validateConcurrency('concurrency', concurrency)
+
+    if (rateLimit) {
+      assert(
+        isFinite(rateLimit.duration) && rateLimit.duration > 0
+      , 'The parameter rateLimit.duration must be greater than zero'
+      )
+      assert(
+        isFinite(rateLimit.limit) && rateLimit.limit > 0
+      , 'The parameter rateLimit.limit must be greater than zero'
+      )
+    }
+  }
   /**
    * @throws {TaskRunnerDestroyedError}
    */
@@ -55,9 +77,7 @@ export class TaskRunner {
       this.queue.remove(task)
     })
 
-    if (this.fsm.matches('running')) {
-      this.debounceMicrotask.queue(this.nextTick)
-    }
+    this.schedule()
 
     return await deferred
   }
@@ -65,7 +85,7 @@ export class TaskRunner {
   destroy(): void {
     this.fsm.send('destroy')
 
-    this.debounceMicrotask.cancel(this.nextTick)
+    this.scheduleController?.abort()
 
     const error = new TaskRunnerDestroyedError()
 
@@ -79,14 +99,60 @@ export class TaskRunner {
     }
   }
 
-  private nextTick = () => {
+  private schedule = async (): Promise<void> => {
+    if (this.scheduleController) return
+
+    const controller = new AbortController()
+    this.scheduleController = controller
     while (
+      this.fsm.matches('running') &&
+      !this.scheduleController.signal.aborted &&
       this.queue.size > 0 &&
       this.runningTasks.size < this.concurrency
     ) {
-      const item = this.queue.dequeue()!
-      this.process(item)
+      if (this.rateLimit) {
+        if (
+          isUndefined(this.window) ||
+          (Date.now() - this.window.startTime) >= this.rateLimit.duration
+        ) {
+          this.window = {
+            startTime: Date.now()
+          , count: 0
+          }
+        }
+
+        if (this.window.count < this.rateLimit.limit) {
+          this.window.count++
+          const item = this.queue.dequeue()!
+          this.process(item)
+        } else {
+          try {
+            await this.waitForNextWindow(controller.signal)
+          } catch (e) {
+            if (e instanceof AbortError) {
+              pass()
+            } else {
+              throw e
+            }
+          }
+        }
+      } else {
+        const item = this.queue.dequeue()!
+        this.process(item)
+      }
     }
+    this.scheduleController = undefined
+  }
+
+  /**
+   * @throws {AbortError}
+   */
+  private async waitForNextWindow(signal: AbortSignal): Promise<void> {
+    assert(this.window)
+    assert(this.rateLimit)
+
+    const timeout = Math.max(this.rateLimit.duration - (Date.now() - this.window.startTime), 0)
+    await withAbortSignal(signal, () => delay(timeout))
   }
 
   private async process(task: ITask): Promise<void> {
@@ -102,8 +168,6 @@ export class TaskRunner {
 
     this.runningTasks.delete(task)
 
-    if (this.fsm.matches('running')) {
-      this.debounceMicrotask.queue(this.nextTick)
-    }
+    this.schedule()
   }
 }

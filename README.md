@@ -568,7 +568,13 @@ if the macrotask is not executed, multiple calls will only queue it once.
 class TaskRunnerDestroyedError extends CustomError {}
 
 class TaskRunner {
-  constructor(concurrency: number = Infinity)
+  constructor(
+    concurrency: number = Infinity
+  , rateLimit?: {
+      duration: number
+      limit: number
+    }
+  )
 
   /**
    * @throws {TaskRunnerDestroyedError}
