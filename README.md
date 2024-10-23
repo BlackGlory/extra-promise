@@ -335,9 +335,9 @@ enum StatefulPromiseState {
 }
 
 class StatefulPromise<T> extends Promise<T> {
-  static from<T>(promise: PromiseLike<T>): ExtraPromise<T> 
+  static from<T>(promise: PromiseLike<T>): StatefulPromise<T>
 
-  get state(): ExtraPromiseState
+  get state(): StatefulPromiseState
 
   constructor(
     executor: (
