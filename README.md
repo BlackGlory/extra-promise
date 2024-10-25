@@ -43,14 +43,14 @@ function isntPromiseLike<T>(val: T): val is Exclude<T, PromiseLike<unknown>>
 
 #### delay
 ```ts
-function delay(timeout: number): Promise<void>
+function delay(timeout: number, signal?: AbortSignal): Promise<void>
 ```
 
 A simple wrapper for `setTimeout`.
 
 #### timeout
 ```ts
-function timeout(ms: number): Promise<never>
+function timeout(ms: number, signal?: AbortSignal): Promise<never>
 ```
 
 It throws a `TimeoutError` after `ms` milliseconds.
