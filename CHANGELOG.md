@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.0.0](https://github.com/BlackGlory/extra-promise/compare/v6.2.0...v7.0.0) (2024-10-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* Node.js v16 => Node.js v18.17.0
+
+### Features
+
+* add an optional `signal` parameter to `delay`, `timeout` ([c0e9147](https://github.com/BlackGlory/extra-promise/commit/c0e91476e6e13044930e369d099a312cee84a5cd))
+
+
+* upgrade dependencies ([36cba61](https://github.com/BlackGlory/extra-promise/commit/36cba61b152a55a8f43db832bfe3b8d132a38edb))
+
 ## [6.2.0](https://github.com/BlackGlory/extra-promise/compare/v6.1.0...v6.2.0) (2024-01-05)
 
 
