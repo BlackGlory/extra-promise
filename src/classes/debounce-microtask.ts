@@ -3,14 +3,12 @@ export class DebounceMicrotask {
   private queued = false
 
   tick = () => {
-    const registry = this.registry
-
-    this.queued = false
-    this.registry = new Set()
-
-    for (const fn of registry) {
+    for (const fn of this.registry) {
       fn()
     }
+
+    this.registry = new Set()
+    this.queued = false
   }
 
   queue(fn: () => void): void {
