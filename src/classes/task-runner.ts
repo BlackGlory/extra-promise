@@ -1,5 +1,5 @@
 import { Deferred } from '@classes/deferred.js'
-import { Queue } from '@blackglory/structures'
+import { UniqueQueue } from '@blackglory/structures'
 import { FiniteStateMachine } from 'extra-fsm'
 import { validateConcurrency } from '@utils/validate-concurrency.js'
 import { Awaitable } from 'justypes'
@@ -27,7 +27,7 @@ export class TaskRunner {
     }
   , 'running'
   )
-  private queue = new Queue<ITask>()
+  private queue = new UniqueQueue<ITask>()
   private runningTasks = new Set<ITask>()
   private window?: {
     startTime: number

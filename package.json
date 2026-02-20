@@ -57,7 +57,7 @@
     "@blackglory/errors": "^3.0.3",
     "@blackglory/go": "^2.0.0",
     "@blackglory/pass": "^1.1.1",
-    "@blackglory/structures": "^0.14.9",
+    "@blackglory/structures": "^0.14.12",
     "extra-abort": "^0.3.9",
     "extra-fsm": "^0.2.1",
     "extra-generator": "^0.5.9",
