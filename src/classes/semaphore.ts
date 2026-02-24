@@ -11,27 +11,13 @@ export class Semaphore {
 
   constructor(private readonly count: number) {}
 
-  acquire(): Promise<Release>
   acquire<T>(handler: () => Awaitable<T>): Promise<T>
-  acquire(...args:
-  | []
-  | [handler: () => Awaitable<void>]
-  ) {
-    if (args.length === 0) {
-      return new Promise(async resolve => {
-        // 此处的`tryLock`和`waitForUnlock`组合不能被封装成一个`lock`函数,
-        // 因为`await lock()`会导致引擎等待下一个microtask, 造成在无锁情况下任务被延迟执行.
-        while (!this.tryLock()) {
-          await this.waitForUnlock()
-        }
-
-        resolve(once(() => this.unlock()))
-      })
-    } else {
-      const [handler] = args
+  acquire(): Promise<Release>
+  acquire(handler?: () => Awaitable<void>) {
+    if (handler) {
       return go(async () => {
-        // 此处的`tryLock`和`waitForUnlock`组合不能被封装成一个`lock`函数,
-        // 因为`await lock()`会导致引擎等待下一个microtask, 造成在无锁情况下任务被延迟执行.
+        // 此处的`tryLock`和`waitForUnlock`组合不能被组合封装成一个`lock`函数,
+        // 因为最外侧的`await lock()`会导致在无锁情况下取得锁时, 任务延迟执行.
         while (!this.tryLock()) {
           await this.waitForUnlock()
         }
@@ -42,6 +28,14 @@ export class Semaphore {
         } finally {
           this.unlock()
         }
+      })
+    } else {
+      return new Promise(async resolve => {
+        while (!this.tryLock()) {
+          await this.waitForUnlock()
+        }
+
+        resolve(once(() => this.unlock()))
       })
     }
   }
