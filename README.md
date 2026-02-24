@@ -520,7 +520,7 @@ The difference with `Promise` is that `LazyPromise` only performs `executor` aft
 type Release = () => void
 
 class Semaphore {
-  constructor(count: number)
+  constructor(permits: number)
 
   acquire(): Promise<Release>
   acquire<T>(handler: () => Awaitable<T>): Promise<T>

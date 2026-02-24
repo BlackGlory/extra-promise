@@ -1,7 +1,6 @@
 import { Mutex } from '@classes/mutex.js'
 import { TIME_ERROR } from '@test/utils.js'
 import { getErrorPromise } from 'return-style'
-import { pass } from '@blackglory/pass'
 
 class TestMutex extends Mutex {
   isLocked(): boolean {
@@ -12,16 +11,18 @@ class TestMutex extends Mutex {
 describe('Mutex', () => {
   describe('acquire', () => {
     describe('not locked', () => {
-      test('without handler', async () => {
-        const mutex = new TestMutex()
+      describe('without handler', () => {
+        test('general', async () => {
+          const mutex = new TestMutex()
 
-        const release = await mutex.acquire()
-        const isLocked1 = mutex.isLocked()
-        release()
-        const isLocked2 = mutex.isLocked()
+          const release = await mutex.acquire()
+          const isLocked1 = mutex.isLocked()
+          release()
+          const isLocked2 = mutex.isLocked()
 
-        expect(isLocked1).toBe(true)
-        expect(isLocked2).toBe(false)
+          expect(isLocked1).toBe(true)
+          expect(isLocked2).toBe(false)
+        })
       })
 
       describe('with handler', () => {
@@ -48,7 +49,10 @@ describe('Mutex', () => {
           })
 
           const err = await getErrorPromise(mutex.acquire(fn))
-          await mutex.acquire(pass)
+          // 出错后仍能够再次获取锁.
+          await mutex.acquire(() => {
+            expect(mutex.isLocked()).toBe(true)
+          })
 
           expect(fn).toBeCalledTimes(1)
           expect(err).toBe(customError)
@@ -131,12 +135,18 @@ describe('Mutex', () => {
           const isLocked1 = mutex.isLocked()
           const err = await getErrorPromise(mutex.acquire(fn))
           const isLocked2 = mutex.isLocked()
+          // 证明出错后仍能够再次获取锁.
+          await mutex.acquire(() => {
+            expect(mutex.isLocked()).toBe(true)
+          })
+          const isLocked3 = mutex.isLocked()
 
           const elapsedTime = Date.now() - startTime
           expect(elapsedTime).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
           expect(err).toBe(customError)
           expect(isLocked1).toBe(true)
           expect(isLocked2).toBe(false)
+          expect(isLocked3).toBe(false)
         })
       })
     })

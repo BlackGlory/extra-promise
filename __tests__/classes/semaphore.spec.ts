@@ -1,112 +1,184 @@
 import { Semaphore } from '@classes/semaphore.js'
-import { delay } from '@functions/delay.js'
 import { TIME_ERROR } from '@test/utils.js'
 import { getErrorPromise } from 'return-style'
-import { pass } from '@blackglory/pass'
-import { assert } from '@blackglory/errors'
-import { isFunction } from 'extra-utils'
+
+class TestSemaphore extends Semaphore {
+  getUsers(): number {
+    return this.users
+  }
+}
 
 describe('Semaphore', () => {
   describe('not locked', () => {
-    it('without handler', async () => {
-      const semaphore = new Semaphore(1)
+    describe('without handler', () => {
+      test('general', async () => {
+        const semaphore = new TestSemaphore(2)
+        await semaphore.acquire()
 
-      const result = await semaphore.acquire()
+        const users1 = semaphore.getUsers()
+        const release = await semaphore.acquire()
+        const users2 = semaphore.getUsers()
+        release()
+        const users3 = semaphore.getUsers()
 
-      assert(isFunction(result), 'result is not a function')
+        expect(users1).toBe(1)
+        expect(users2).toBe(2)
+        expect(users3).toBe(1)
+      })
+
+      test('edge: reuse release', async () => {
+        const semaphore = new TestSemaphore(2)
+        await semaphore.acquire()
+
+        const users1 = semaphore.getUsers()
+        const release = await semaphore.acquire()
+        const users2 = semaphore.getUsers()
+        release()
+        const users3 = semaphore.getUsers()
+        release()
+        const users4 = semaphore.getUsers()
+
+        expect(users1).toBe(1)
+        expect(users2).toBe(2)
+        expect(users3).toBe(1)
+        expect(users4).toBe(1)
+      })
     })
 
     describe('with handler', () => {
-      it('calls handler', async () => {
-        const semaphore = new Semaphore(1)
+      test('return value', async () => {
+        const semaphore = new TestSemaphore(2)
+        const fn = vi.fn(() => {
+          expect(semaphore.getUsers()).toBe(2)
+          return true
+        })
+        await semaphore.acquire()
 
-        await new Promise<void>(resolve => semaphore.acquire(resolve))
-      })
+        const users1 = semaphore.getUsers()
+        const result = await semaphore.acquire(fn)
+        const users2 = semaphore.getUsers()
 
-      it('throws error', async () => {
-        const customError = new Error('custom error')
-        const semaphore = new Semaphore(1)
-
-        const err = await getErrorPromise(semaphore.acquire(() => {
-          throw customError
-        }))
-        await semaphore.acquire(pass)
-
-        expect(err).toBe(customError)
-      })
-
-      it('returns value', async () => {
-        const semaphore = new Semaphore(1)
-
-        const result = await semaphore.acquire(() => true)
-
+        expect(fn).toBeCalledTimes(1)
         expect(result).toBe(true)
+        expect(users1).toBe(1)
+        expect(users2).toBe(1)
+      })
+
+      test('throw error', async () => {
+        const customError = new Error('custom error')
+        const semaphore = new TestSemaphore(2)
+        const fn = vi.fn(() => {
+          expect(semaphore.getUsers()).toBe(2)
+          throw customError
+        })
+        await semaphore.acquire()
+
+        const users1 = semaphore.getUsers()
+        const err = await getErrorPromise(semaphore.acquire(fn))
+        const users2 = semaphore.getUsers()
+        // 证明出错后仍能够再次获取锁.
+        await semaphore.acquire(() => {
+          expect(semaphore.getUsers()).toBe(2)
+        })
+        const users3 = semaphore.getUsers()
+
+        expect(fn).toBeCalledTimes(1)
+        expect(err).toBe(customError)
+        expect(users1).toBe(1)
+        expect(users2).toBe(1)
+        expect(users3).toBe(1)
       })
     })
   })
 
   describe('locked', () => {
-    it('without handler', async () => {
-      const semaphore = new Semaphore(2)
+    describe('without handler', () => {
+      test('general', async () => {
+        const semaphore = new TestSemaphore(2)
+        await semaphore.acquire()
+        const release = await semaphore.acquire()
 
-      const release = await semaphore.acquire()
-      const time1 = Date.now()
-      await semaphore.acquire()
-      const time2 = Date.now()
-      setTimeout(release, 1000)
-      await semaphore.acquire()
-      const time3 = Date.now()
+        const startTime = Date.now()
+        const users1 = semaphore.getUsers()
+        setTimeout(release, 1000)
+        await semaphore.acquire()
+        const endTime = Date.now()
+        const users2 = semaphore.getUsers()
 
-      expect(time3 - time1).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
-      expect(time3 - time2).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
+        expect(users1).toBe(2)
+        expect(users2).toBe(2)
+        expect(endTime - startTime).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
+      })
+
+      test('edge: reuse release', async () => {
+        const semaphore = new TestSemaphore(2)
+        const release = await semaphore.acquire()
+        await semaphore.acquire()
+
+        const users1 = semaphore.getUsers()
+        setTimeout(release, 1000)
+        await semaphore.acquire()
+        const users2 = semaphore.getUsers()
+        release()
+        const users3 = semaphore.getUsers()
+
+        expect(users1).toBe(2)
+        expect(users2).toBe(2)
+        expect(users3).toBe(2)
+      })
     })
 
     describe('with handler', () => {
-      it('calls handler', async () => {
-        const semaphore = new Semaphore(2)
-
-        let time1: number
-          , time2: number
-        semaphore.acquire(async () => {
-          time1 = Date.now()
-          await delay(1000)
+      test('return value', async () => {
+        const semaphore = new TestSemaphore(2)
+        const release = await semaphore.acquire()
+        await semaphore.acquire()
+        const fn = vi.fn(() => {
+          expect(semaphore.getUsers()).toBe(2)
+          return true
         })
-        semaphore.acquire(async () => {
-          time2 = Date.now()
-          await delay(1000)
+
+        const startTime = Date.now()
+        const users1 = semaphore.getUsers()
+        setTimeout(release, 1000)
+        const result = await semaphore.acquire(fn)
+        const endTime = Date.now()
+        const users2 = semaphore.getUsers()
+
+        expect(result).toBe(true)
+        expect(users1).toBe(2)
+        expect(users2).toBe(1)
+        expect(endTime - startTime).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
+      })
+
+      test('throw error', async () => {
+        const semaphore = new TestSemaphore(2)
+        const release = await semaphore.acquire()
+        await semaphore.acquire()
+        const customError = new Error('custom error')
+        const fn = vi.fn(() => {
+          expect(semaphore.getUsers()).toBe(2)
+          throw customError
         })
-        await new Promise<void>(resolve => semaphore.acquire(resolve))
-        const time3 = Date.now()
 
-        expect(time3 - time1!).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
-        expect(time3 - time2!).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
+        const startTime = Date.now()
+        const users1 = semaphore.getUsers()
+        setTimeout(release, 1000)
+        const err = await getErrorPromise(semaphore.acquire(fn))
+        const endTime = Date.now()
+        const users2 = semaphore.getUsers()
+        // 证明出错后仍能够再次获取锁.
+        await semaphore.acquire(() => {
+          expect(semaphore.getUsers()).toBe(2)
+        })
+        const users3 = semaphore.getUsers()
+
+        expect(err).toBe(customError)
+        expect(users1).toBe(2)
+        expect(users2).toBe(1)
+        expect(users3).toBe(1)
+        expect(endTime - startTime).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
       })
-    })
-
-    it('returns value', async () => {
-      const semaphore = new Semaphore(2)
-      const release = await semaphore.acquire()
-
-      const startTime = Date.now()
-      setTimeout(release, 1000)
-      const promise1 = semaphore.acquire(async () => {
-        await delay(500)
-        return 1
-      })
-      const promise2 = semaphore.acquire(async () => {
-        await delay(500)
-        return 2
-      })
-      const result1 = await promise1
-      const promise1ResolvedTime = Date.now()
-      const result2 = await promise2
-      const promise2ResolvedTime = Date.now()
-
-      expect(result1).toBe(1)
-      expect(result2).toBe(2)
-      expect(promise1ResolvedTime - startTime).toBeGreaterThanOrEqual(500 - TIME_ERROR)
-      expect(promise1ResolvedTime - startTime).toBeLessThan(1000 - TIME_ERROR)
-      expect(promise2ResolvedTime - startTime).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
     })
   })
 })
