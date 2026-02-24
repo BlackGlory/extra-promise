@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.1.0](https://github.com/BlackGlory/extra-promise/compare/v7.0.1...v7.1.0) (2026-02-24)
+
+
+### Features
+
+* add `KeyedMutex` ([d0564a9](https://github.com/BlackGlory/extra-promise/commit/d0564a9dc390edb98cc56ea279239e2814f83986))
+* **task-runner:** improve performance ([a532624](https://github.com/BlackGlory/extra-promise/commit/a5326241b57b23cfc1a903a520d855c81aa11423))
+
 ### [7.0.1](https://github.com/BlackGlory/extra-promise/compare/v7.0.0...v7.0.1) (2025-11-03)
 
 ## [7.0.0](https://github.com/BlackGlory/extra-promise/compare/v6.2.0...v7.0.0) (2024-10-25)
