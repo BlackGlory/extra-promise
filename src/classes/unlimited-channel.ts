@@ -1,4 +1,4 @@
-import { DeferredGroup } from '@classes/deferred-group.js'
+import { UniqueQueue } from '@blackglory/structures'
 import { Deferred } from '@classes/deferred.js'
 import { Queue } from '@blackglory/structures'
 import { ChannelClosedError } from '@utils/errors.js'
@@ -13,14 +13,14 @@ export class UnlimitedChannel<T> implements INonBlockingChannel<T> {
   , closed: {}
   }, 'opened')
 
-  private enqueueDeferredGroup = new DeferredGroup<void>()
-  private buffer = new Queue<T>()
+  private enqueueDeferredQueue: UniqueQueue<Deferred<void>> = new UniqueQueue()
+  private buffer: Queue<T> = new Queue()
 
   send(value: T): void {
     if (this.fsm.matches('closed')) throw new ChannelClosedError()
 
     this.buffer.enqueue(value)
-    this.enqueueDeferredGroup.resolve(undefined)
+    this.enqueueDeferredQueue.dequeue()?.resolve()
   }
 
   receive(): AsyncIterable<T> {
@@ -32,19 +32,20 @@ export class UnlimitedChannel<T> implements INonBlockingChannel<T> {
           next: async () => {
             if (this.fsm.matches('closed')) return { done: true, value: undefined }
 
-            // 缓冲区队列为空, 则等待入列信号
             while (this.buffer.size === 0) {
-
               const enqueueDeferred = new Deferred<void>()
-              this.enqueueDeferredGroup.add(enqueueDeferred)
 
+              this.enqueueDeferredQueue.enqueue(enqueueDeferred)
               try {
-                // 等待入列信号, 如果通道关闭, 则停止接收
                 await enqueueDeferred
-              } catch {
-                return { done: true, value: undefined }
+              } catch (e) {
+                if (e instanceof ChannelClosedError) {
+                  return { done: true, value: undefined }
+                } else {
+                  throw e
+                }
               } finally {
-                this.enqueueDeferredGroup.remove(enqueueDeferred)
+                this.enqueueDeferredQueue.remove(enqueueDeferred)
               }
             }
 
@@ -65,7 +66,11 @@ export class UnlimitedChannel<T> implements INonBlockingChannel<T> {
       this.fsm.send('close')
 
       this.buffer.empty()
-      this.enqueueDeferredGroup.reject(new ChannelClosedError())
+
+      let deferred: Deferred<void> | undefined
+      while (deferred = this.enqueueDeferredQueue.dequeue()) {
+        deferred.reject(new ChannelClosedError())
+      }
     }
   }
 }
