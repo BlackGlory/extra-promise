@@ -1,4 +1,5 @@
-import { ReusableDeferred } from '@classes/reusable-deferred.js'
+import { Deferred } from '@classes/deferred.js'
+import { UniqueQueue } from '@blackglory/structures'
 import { once } from 'lodash-es'
 import { Awaitable } from 'justypes'
 
@@ -6,7 +7,7 @@ type Release = () => void
 
 export class Semaphore {
   protected users: number = 0
-  private readonly unlockDeferred: ReusableDeferred<void> = new ReusableDeferred()
+  private readonly unlockDeferredQueue: UniqueQueue<Deferred<void>> = new UniqueQueue()
 
   constructor(private readonly permits: number) {}
 
@@ -41,12 +42,21 @@ export class Semaphore {
   }
 
   private async waitForUnlock(): Promise<void> {
-    await this.unlockDeferred
+    const unlockDeferred = new Deferred<void>()
+
+    this.unlockDeferredQueue.enqueue(unlockDeferred)
+    try {
+      await unlockDeferred
+    } finally {
+      this.unlockDeferredQueue.remove(unlockDeferred)
+    }
   }
 
   private unlock(): void {
     this.users--
-    this.unlockDeferred.resolve()
+
+    const unlockDeferred = this.unlockDeferredQueue.dequeue()
+    unlockDeferred?.resolve()
   }
 
   protected isLocked(): boolean {
