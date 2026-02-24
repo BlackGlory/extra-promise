@@ -1,6 +1,6 @@
 import { Mutex } from '@classes/mutex.js'
+import { delay } from '@functions/delay.js'
 import { TIME_ERROR } from '@test/utils.js'
-import { go } from '@blackglory/go'
 import { getErrorPromise } from 'return-style'
 import { pass } from '@blackglory/pass'
 import { isFunction } from 'extra-utils'
@@ -51,11 +51,12 @@ describe('Mutex', () => {
         const mutex = new Mutex()
         const release = await mutex.acquire()
 
-        const start = now()
+        const startTime = Date.now()
         setTimeout(release, 1000)
         await mutex.acquire()
 
-        expect(now() - start).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
+        const elapsedTime = Date.now() - startTime
+        expect(elapsedTime).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
       })
 
       describe('with handler', () => {
@@ -63,36 +64,30 @@ describe('Mutex', () => {
           const mutex = new Mutex()
           const release = await mutex.acquire()
 
-          const start = now()
+          const startTime = Date.now()
           setTimeout(release, 1000)
           await new Promise<void>(resolve => mutex.acquire(resolve))
 
-          expect(now() - start).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
+          const elapsedTime = Date.now() - startTime
+          expect(elapsedTime).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
         })
 
         it('returns value', async () => {
           const mutex = new Mutex()
           const release = await mutex.acquire()
 
-          const start = now()
+          const startTime = Date.now()
           setTimeout(release, 1000)
           const result = await mutex.acquire(async () => {
-            await sleep(500)
+            await delay(500)
             return true
           })
 
-          expect(now() - start).toBeGreaterThanOrEqual(1500 - TIME_ERROR)
+          const elapsedTime = Date.now() - startTime
+          expect(elapsedTime).toBeGreaterThanOrEqual(1500 - TIME_ERROR)
           expect(result).toBe(true)
         })
       })
     })
   })
 })
-
-function now() {
-  return Date.now()
-}
-
-function sleep(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms))
-}

@@ -1,4 +1,5 @@
 import { Semaphore } from '@classes/semaphore.js'
+import { delay } from '@functions/delay.js'
 import { TIME_ERROR } from '@test/utils.js'
 import { getErrorPromise } from 'return-style'
 import { pass } from '@blackglory/pass'
@@ -49,12 +50,12 @@ describe('Semaphore', () => {
       const semaphore = new Semaphore(2)
 
       const release = await semaphore.acquire()
-      const time1 = now()
+      const time1 = Date.now()
       await semaphore.acquire()
-      const time2 = now()
+      const time2 = Date.now()
       setTimeout(release, 1000)
       await semaphore.acquire()
-      const time3 = now()
+      const time3 = Date.now()
 
       expect(time3 - time1).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
       expect(time3 - time2).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
@@ -67,15 +68,15 @@ describe('Semaphore', () => {
         let time1: number
           , time2: number
         semaphore.acquire(async () => {
-          time1 = now()
-          await sleep(1000)
+          time1 = Date.now()
+          await delay(1000)
         })
         semaphore.acquire(async () => {
-          time2 = now()
-          await sleep(1000)
+          time2 = Date.now()
+          await delay(1000)
         })
         await new Promise<void>(resolve => semaphore.acquire(resolve))
-        const time3 = now()
+        const time3 = Date.now()
 
         expect(time3 - time1!).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
         expect(time3 - time2!).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
@@ -86,34 +87,26 @@ describe('Semaphore', () => {
       const semaphore = new Semaphore(2)
       const release = await semaphore.acquire()
 
-      const start = now()
+      const startTime = Date.now()
       setTimeout(release, 1000)
       const promise1 = semaphore.acquire(async () => {
-        await sleep(500)
+        await delay(500)
         return 1
       })
       const promise2 = semaphore.acquire(async () => {
-        await sleep(500)
+        await delay(500)
         return 2
       })
       const result1 = await promise1
-      const promise1ResolvedTime = now()
+      const promise1ResolvedTime = Date.now()
       const result2 = await promise2
-      const promise2ResolvedTime = now()
+      const promise2ResolvedTime = Date.now()
 
       expect(result1).toBe(1)
       expect(result2).toBe(2)
-      expect(promise1ResolvedTime - start).toBeGreaterThanOrEqual(500 - TIME_ERROR)
-      expect(promise1ResolvedTime - start).toBeLessThan(1000 - TIME_ERROR)
-      expect(promise2ResolvedTime - start).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
+      expect(promise1ResolvedTime - startTime).toBeGreaterThanOrEqual(500 - TIME_ERROR)
+      expect(promise1ResolvedTime - startTime).toBeLessThan(1000 - TIME_ERROR)
+      expect(promise2ResolvedTime - startTime).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
     })
   })
 })
-
-function now() {
-  return Date.now()
-}
-
-function sleep(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms))
-}
