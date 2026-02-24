@@ -16,11 +16,11 @@ export class Channel<T> implements IBlockingChannel<T> {
   }, 'opened')
 
   private writeLock: Mutex = new Mutex()
-  private writeDeferredQueue = new UniqueQueue<Deferred<void>>()
-  private readDeferredQueue = new UniqueQueue<Deferred<void>>()
+  private writeDeferredQueue: UniqueQueue<Deferred<void>> = new UniqueQueue()
+  private readDeferredQueue: UniqueQueue<Deferred<void>> = new UniqueQueue()
 
   // 此队列仅仅是一个值的容器, 最长队列长度为1.
-  private box = new Queue<T>()
+  private box: Queue<T> = new Queue()
 
   async send(value: T): Promise<void> {
     if (this.fsm.matches('closed')) throw new ChannelClosedError()
