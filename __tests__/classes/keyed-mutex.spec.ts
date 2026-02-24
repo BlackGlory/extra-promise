@@ -4,12 +4,12 @@ import { getErrorPromise } from 'return-style'
 
 class TestKeyedMutex<T, U> extends KeyedMutex<T, U> {
   getLocks(): number {
-    return this.keyToUnlockDeferred.size
+    return this.lockedKeys.size
   }
 
   isLocked(val: T): boolean {
     const key = this.createKey(val)
-    return this.keyToUnlockDeferred.has(key)
+    return this.lockedKeys.has(key)
   }
 }
 
