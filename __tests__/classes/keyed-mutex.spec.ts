@@ -37,6 +37,7 @@ describe('KeyedMutex', () => {
         expect(locks1).toBe(1)
         expect(locks2).toBe(2)
         expect(locks3).toBe(1)
+        expect(mutex.isLocked(0)).toBe(true)
       })
 
       describe('with handler', () => {
@@ -59,6 +60,7 @@ describe('KeyedMutex', () => {
           expect(isLocked).toBe(false)
           expect(locks1).toBe(1)
           expect(locks2).toBe(1)
+          expect(mutex.isLocked(0)).toBe(true)
         })
 
         test('throw error', async () => {
@@ -86,6 +88,7 @@ describe('KeyedMutex', () => {
           expect(locks3).toBe(2)
           expect(isLocked1).toBe(false)
           expect(isLocked2).toBe(true)
+          expect(mutex.isLocked(0)).toBe(true)
         })
       })
     })
@@ -94,6 +97,7 @@ describe('KeyedMutex', () => {
       describe('without handler', () => {
         test('general', async () => {
           const mutex = new TestKeyedMutex(createKey)
+          await mutex.acquire(0)
           const release1 = await mutex.acquire(1)
 
           const startTime = Date.now()
@@ -112,9 +116,10 @@ describe('KeyedMutex', () => {
           expect(isLocked1).toBe(true)
           expect(isLocked2).toBe(true)
           expect(isLocked3).toBe(false)
-          expect(locks1).toBe(1)
-          expect(locks2).toBe(1)
-          expect(locks3).toBe(0)
+          expect(locks1).toBe(2)
+          expect(locks2).toBe(2)
+          expect(locks3).toBe(1)
+          expect(mutex.isLocked(0)).toBe(true)
         })
 
         test('edge: reuse release', async () => {
@@ -137,9 +142,10 @@ describe('KeyedMutex', () => {
       describe('with handler', () => {
         test('return value', async () => {
           const mutex = new TestKeyedMutex(createKey)
+          await mutex.acquire(0)
           const release = await mutex.acquire(1)
           const fn = vi.fn(() => {
-            expect(mutex.getLocks()).toBe(1)
+            expect(mutex.getLocks()).toBe(2)
             expect(mutex.isLocked(1)).toBe(true)
             return true
           })
@@ -157,16 +163,18 @@ describe('KeyedMutex', () => {
           expect(result).toBe(true)
           expect(isLocked1).toBe(true)
           expect(isLocked2).toBe(false)
-          expect(locks1).toBe(1)
-          expect(locks2).toBe(0)
+          expect(locks1).toBe(2)
+          expect(locks2).toBe(1)
+          expect(mutex.isLocked(0)).toBe(true)
         })
 
         test('throw error', async () => {
           const customError = new Error('custom error')
           const mutex = new TestKeyedMutex(createKey)
+          await mutex.acquire(0)
           const release = await mutex.acquire(1)
           const fn = vi.fn(() => {
-            expect(mutex.getLocks()).toBe(1)
+            expect(mutex.getLocks()).toBe(2)
             expect(mutex.isLocked(1)).toBe(true)
             throw customError
           })
@@ -188,9 +196,10 @@ describe('KeyedMutex', () => {
           expect(isLocked1).toBe(true)
           expect(isLocked2).toBe(false)
           expect(isLocked3).toBe(true)
-          expect(locks1).toBe(1)
-          expect(locks2).toBe(0)
-          expect(locks3).toBe(1)
+          expect(locks1).toBe(2)
+          expect(locks2).toBe(1)
+          expect(locks3).toBe(2)
+          expect(mutex.isLocked(0)).toBe(true)
         })
       })
     })
