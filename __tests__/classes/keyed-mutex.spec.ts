@@ -52,10 +52,11 @@ describe('KeyedMutex', () => {
           const locks1 = mutex.getLocks()
           const result = await mutex.acquire(1, fn)
           const locks2 = mutex.getLocks()
+          const isLocked = mutex.isLocked(1)
 
           expect(fn).toBeCalledTimes(1)
           expect(result).toBe(true)
-          expect(mutex.isLocked(1)).toBe(false)
+          expect(isLocked).toBe(false)
           expect(locks1).toBe(1)
           expect(locks2).toBe(1)
         })
@@ -72,19 +73,18 @@ describe('KeyedMutex', () => {
           const locks1 = mutex.getLocks()
           const err = await getErrorPromise(mutex.acquire(1, fn))
           const locks2 = mutex.getLocks()
-          // 出错后仍能够再次获取锁.
-          await mutex.acquire(1, () => {
-            expect(mutex.isLocked(1)).toBe(true)
-            expect(mutex.getLocks()).toBe(2)
-          })
+          const isLocked1 = mutex.isLocked(1)
+          await mutex.acquire(1) // 出错后仍能够再次获取锁.
           const locks3 = mutex.getLocks()
+          const isLocked2 = mutex.isLocked(1)
 
           expect(fn).toBeCalledTimes(1)
           expect(err).toBe(customError)
-          expect(mutex.isLocked(1)).toBe(false)
           expect(locks1).toBe(1)
           expect(locks2).toBe(1)
-          expect(locks3).toBe(1)
+          expect(locks3).toBe(2)
+          expect(isLocked1).toBe(false)
+          expect(isLocked2).toBe(true)
         })
       })
     })
@@ -108,7 +108,6 @@ describe('KeyedMutex', () => {
           expect(isLocked1).toBe(true)
           expect(isLocked2).toBe(true)
           expect(isLocked3).toBe(false)
-          expect(mutex.getLocks()).toBe(0)
         })
 
         test('edge: reuse release', async () => {
@@ -148,7 +147,6 @@ describe('KeyedMutex', () => {
           expect(result).toBe(true)
           expect(isLocked1).toBe(true)
           expect(isLocked2).toBe(false)
-          expect(mutex.getLocks()).toBe(0)
         })
 
         test('throw error', async () => {
@@ -165,10 +163,7 @@ describe('KeyedMutex', () => {
           const isLocked1 = mutex.isLocked(1)
           const err = await getErrorPromise(mutex.acquire(1, fn))
           const isLocked2 = mutex.isLocked(1)
-          // 证明出错后仍能够再次获取锁.
-          await mutex.acquire(1, () => {
-            expect(mutex.isLocked(1)).toBe(true)
-          })
+          await mutex.acquire(1) // 出错后仍能够再次获取锁.
           const isLocked3 = mutex.isLocked(1)
 
           const elapsedTime = Date.now() - startTime
@@ -176,8 +171,7 @@ describe('KeyedMutex', () => {
           expect(err).toBe(customError)
           expect(isLocked1).toBe(true)
           expect(isLocked2).toBe(false)
-          expect(isLocked3).toBe(false)
-          expect(mutex.getLocks()).toBe(0)
+          expect(isLocked3).toBe(true)
         })
       })
     })

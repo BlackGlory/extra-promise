@@ -76,17 +76,14 @@ describe('Semaphore', () => {
         const users1 = semaphore.getUsers()
         const err = await getErrorPromise(semaphore.acquire(fn))
         const users2 = semaphore.getUsers()
-        // 证明出错后仍能够再次获取锁.
-        await semaphore.acquire(() => {
-          expect(semaphore.getUsers()).toBe(2)
-        })
+        await semaphore.acquire() // 出错后仍能够再次获取锁.
         const users3 = semaphore.getUsers()
 
         expect(fn).toBeCalledTimes(1)
         expect(err).toBe(customError)
         expect(users1).toBe(1)
         expect(users2).toBe(1)
-        expect(users3).toBe(1)
+        expect(users3).toBe(2)
       })
     })
   })
@@ -167,16 +164,13 @@ describe('Semaphore', () => {
         const err = await getErrorPromise(semaphore.acquire(fn))
         const endTime = Date.now()
         const users2 = semaphore.getUsers()
-        // 证明出错后仍能够再次获取锁.
-        await semaphore.acquire(() => {
-          expect(semaphore.getUsers()).toBe(2)
-        })
+        await semaphore.acquire() // 出错后仍能够再次获取锁.
         const users3 = semaphore.getUsers()
 
         expect(err).toBe(customError)
         expect(users1).toBe(2)
         expect(users2).toBe(1)
-        expect(users3).toBe(1)
+        expect(users3).toBe(2)
         expect(endTime - startTime).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
       })
     })

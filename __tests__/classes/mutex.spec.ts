@@ -47,14 +47,14 @@ describe('Mutex', () => {
           })
 
           const err = await getErrorPromise(mutex.acquire(fn))
-          // 出错后仍能够再次获取锁.
-          await mutex.acquire(() => {
-            expect(mutex.isLocked()).toBe(true)
-          })
+          const isLocked1 = mutex.isLocked()
+          await mutex.acquire() // 出错后仍能够再次获取锁.
+          const isLocked2 = mutex.isLocked()
 
           expect(fn).toBeCalledTimes(1)
           expect(err).toBe(customError)
-          expect(mutex.isLocked()).toBe(false)
+          expect(isLocked1).toBe(false)
+          expect(isLocked2).toBe(true)
         })
       })
     })
@@ -133,10 +133,7 @@ describe('Mutex', () => {
           const isLocked1 = mutex.isLocked()
           const err = await getErrorPromise(mutex.acquire(fn))
           const isLocked2 = mutex.isLocked()
-          // 证明出错后仍能够再次获取锁.
-          await mutex.acquire(() => {
-            expect(mutex.isLocked()).toBe(true)
-          })
+          await mutex.acquire() // 出错后仍能够再次获取锁.
           const isLocked3 = mutex.isLocked()
 
           const elapsedTime = Date.now() - startTime
@@ -144,7 +141,7 @@ describe('Mutex', () => {
           expect(err).toBe(customError)
           expect(isLocked1).toBe(true)
           expect(isLocked2).toBe(false)
-          expect(isLocked3).toBe(false)
+          expect(isLocked3).toBe(true)
         })
       })
     })
