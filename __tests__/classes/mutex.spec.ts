@@ -1,91 +1,142 @@
 import { Mutex } from '@classes/mutex.js'
-import { delay } from '@functions/delay.js'
 import { TIME_ERROR } from '@test/utils.js'
 import { getErrorPromise } from 'return-style'
 import { pass } from '@blackglory/pass'
-import { isFunction } from 'extra-utils'
-import { assert } from '@blackglory/errors'
+
+class TestMutex extends Mutex {
+  isLocked(): boolean {
+    return super.isLocked()
+  }
+}
 
 describe('Mutex', () => {
   describe('acquire', () => {
     describe('not locked', () => {
-      it('without handler', async () => {
-        const mutex = new Mutex()
+      test('without handler', async () => {
+        const mutex = new TestMutex()
 
-        const result = await mutex.acquire()
+        const release = await mutex.acquire()
+        const isLocked1 = mutex.isLocked()
+        release()
+        const isLocked2 = mutex.isLocked()
 
-        assert(isFunction(result), 'result is not a function')
+        expect(isLocked1).toBe(true)
+        expect(isLocked2).toBe(false)
       })
 
       describe('with handler', () => {
-        it('calls handler', async () => {
-          const mutex = new Mutex()
+        test('return value', async () => {
+          const mutex = new TestMutex()
+          const fn = vi.fn(() => {
+            expect(mutex.isLocked()).toBe(true)
+            return true
+          })
 
-          await new Promise<void>(resolve => mutex.acquire(resolve))
+          const result = await mutex.acquire(fn)
+
+          expect(fn).toBeCalledTimes(1)
+          expect(result).toBe(true)
+          expect(mutex.isLocked()).toBe(false)
         })
 
-        test('throws error', async () => {
+        test('throw error', async () => {
           const customError = new Error('custom error')
-          const mutex = new Mutex()
-
-          const err = await getErrorPromise(mutex.acquire(() => {
+          const mutex = new TestMutex()
+          const fn = vi.fn(() => {
+            expect(mutex.isLocked()).toBe(true)
             throw customError
-          }))
+          })
+
+          const err = await getErrorPromise(mutex.acquire(fn))
           await mutex.acquire(pass)
 
+          expect(fn).toBeCalledTimes(1)
           expect(err).toBe(customError)
-        })
-
-        test('returns value', async () => {
-          const mutex = new Mutex()
-
-          const result = await mutex.acquire(() => true)
-
-          expect(result).toBe(true)
+          expect(mutex.isLocked()).toBe(false)
         })
       })
     })
 
     describe('locked', () => {
-      it('without handler', async () => {
-        const mutex = new Mutex()
-        const release = await mutex.acquire()
-
-        const startTime = Date.now()
-        setTimeout(release, 1000)
-        await mutex.acquire()
-
-        const elapsedTime = Date.now() - startTime
-        expect(elapsedTime).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
-      })
-
-      describe('with handler', () => {
-        it('calls handler', async () => {
-          const mutex = new Mutex()
-          const release = await mutex.acquire()
+      describe('without handler', () => {
+        test('general', async () => {
+          const mutex = new TestMutex()
+          const release1 = await mutex.acquire()
 
           const startTime = Date.now()
-          setTimeout(release, 1000)
-          await new Promise<void>(resolve => mutex.acquire(resolve))
+          setTimeout(release1, 1000)
+          const isLocked1 = mutex.isLocked()
+          const release2 = await mutex.acquire()
+          const isLocked2 = mutex.isLocked()
+          release2()
+          const isLocked3 = mutex.isLocked()
 
           const elapsedTime = Date.now() - startTime
           expect(elapsedTime).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
+          expect(isLocked1).toBe(true)
+          expect(isLocked2).toBe(true)
+          expect(isLocked3).toBe(false)
         })
 
-        it('returns value', async () => {
-          const mutex = new Mutex()
+        test('edge: reuse release', async () => {
+          const mutex = new TestMutex()
           const release = await mutex.acquire()
 
-          const startTime = Date.now()
           setTimeout(release, 1000)
-          const result = await mutex.acquire(async () => {
-            await delay(500)
+          const isLocked1 = mutex.isLocked()
+          await mutex.acquire()
+          const isLocked2 = mutex.isLocked()
+          release()
+          const isLocked3 = mutex.isLocked()
+
+          expect(isLocked1).toBe(true)
+          expect(isLocked2).toBe(true)
+          expect(isLocked3).toBe(true)
+        })
+      })
+
+      describe('with handler', () => {
+        test('return value', async () => {
+          const mutex = new TestMutex()
+          const release = await mutex.acquire()
+          const fn = vi.fn(() => {
+            expect(mutex.isLocked()).toBe(true)
             return true
           })
 
+          const startTime = Date.now()
+          setTimeout(release, 1000)
+          const isLocked1 = mutex.isLocked()
+          const result = await mutex.acquire(fn)
+          const isLocked2 = mutex.isLocked()
+
           const elapsedTime = Date.now() - startTime
-          expect(elapsedTime).toBeGreaterThanOrEqual(1500 - TIME_ERROR)
+          expect(elapsedTime).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
           expect(result).toBe(true)
+          expect(isLocked1).toBe(true)
+          expect(isLocked2).toBe(false)
+        })
+
+        test('throw error', async () => {
+          const customError = new Error('custom error')
+          const mutex = new TestMutex()
+          const release = await mutex.acquire()
+          const fn = vi.fn(() => {
+            expect(mutex.isLocked()).toBe(true)
+            throw customError
+          })
+
+          const startTime = Date.now()
+          setTimeout(release, 1000)
+          const isLocked1 = mutex.isLocked()
+          const err = await getErrorPromise(mutex.acquire(fn))
+          const isLocked2 = mutex.isLocked()
+
+          const elapsedTime = Date.now() - startTime
+          expect(elapsedTime).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
+          expect(err).toBe(customError)
+          expect(isLocked1).toBe(true)
+          expect(isLocked2).toBe(false)
         })
       })
     })

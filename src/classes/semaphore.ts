@@ -46,7 +46,7 @@ export class Semaphore {
     this.unlockDeferred.resolve()
   }
 
-  private isLocked(): boolean {
+  protected isLocked(): boolean {
     return this.locked === this.count
   }
 }
