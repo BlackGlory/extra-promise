@@ -65,6 +65,7 @@ describe('KeyedMutex', () => {
           const customError = new Error('custom error')
           const mutex = new TestKeyedMutex(createKey)
           const fn = vi.fn(() => {
+            expect(mutex.getLocks()).toBe(2)
             expect(mutex.isLocked(1)).toBe(true)
             throw customError
           })
@@ -97,10 +98,13 @@ describe('KeyedMutex', () => {
 
           const startTime = Date.now()
           setTimeout(release1, 1000)
+          const locks1 = mutex.getLocks()
           const isLocked1 = mutex.isLocked(1)
           const release2 = await mutex.acquire(1)
+          const locks2 = mutex.getLocks()
           const isLocked2 = mutex.isLocked(1)
           release2()
+          const locks3 = mutex.getLocks()
           const isLocked3 = mutex.isLocked(1)
 
           const elapsedTime = Date.now() - startTime
@@ -108,6 +112,9 @@ describe('KeyedMutex', () => {
           expect(isLocked1).toBe(true)
           expect(isLocked2).toBe(true)
           expect(isLocked3).toBe(false)
+          expect(locks1).toBe(1)
+          expect(locks2).toBe(1)
+          expect(locks3).toBe(0)
         })
 
         test('edge: reuse release', async () => {
@@ -132,14 +139,17 @@ describe('KeyedMutex', () => {
           const mutex = new TestKeyedMutex(createKey)
           const release = await mutex.acquire(1)
           const fn = vi.fn(() => {
+            expect(mutex.getLocks()).toBe(1)
             expect(mutex.isLocked(1)).toBe(true)
             return true
           })
 
           const startTime = Date.now()
           setTimeout(release, 1000)
+          const locks1 = mutex.getLocks()
           const isLocked1 = mutex.isLocked(1)
           const result = await mutex.acquire(1, fn)
+          const locks2 = mutex.getLocks()
           const isLocked2 = mutex.isLocked(1)
 
           const elapsedTime = Date.now() - startTime
@@ -147,6 +157,8 @@ describe('KeyedMutex', () => {
           expect(result).toBe(true)
           expect(isLocked1).toBe(true)
           expect(isLocked2).toBe(false)
+          expect(locks1).toBe(1)
+          expect(locks2).toBe(0)
         })
 
         test('throw error', async () => {
@@ -154,16 +166,20 @@ describe('KeyedMutex', () => {
           const mutex = new TestKeyedMutex(createKey)
           const release = await mutex.acquire(1)
           const fn = vi.fn(() => {
+            expect(mutex.getLocks()).toBe(1)
             expect(mutex.isLocked(1)).toBe(true)
             throw customError
           })
 
           const startTime = Date.now()
           setTimeout(release, 1000)
+          const locks1 = mutex.getLocks()
           const isLocked1 = mutex.isLocked(1)
           const err = await getErrorPromise(mutex.acquire(1, fn))
+          const locks2 = mutex.getLocks()
           const isLocked2 = mutex.isLocked(1)
           await mutex.acquire(1) // 出错后仍能够再次获取锁.
+          const locks3 = mutex.getLocks()
           const isLocked3 = mutex.isLocked(1)
 
           const elapsedTime = Date.now() - startTime
@@ -172,6 +188,9 @@ describe('KeyedMutex', () => {
           expect(isLocked1).toBe(true)
           expect(isLocked2).toBe(false)
           expect(isLocked3).toBe(true)
+          expect(locks1).toBe(1)
+          expect(locks2).toBe(0)
+          expect(locks3).toBe(1)
         })
       })
     })
