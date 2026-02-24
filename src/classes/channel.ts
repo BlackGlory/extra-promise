@@ -1,5 +1,5 @@
 import { Deferred } from '@classes/deferred.js'
-import { DeferredGroup } from '@classes/deferred-group.js'
+import { UniqueQueue } from '@blackglory/structures'
 import { ChannelClosedError } from '@utils/errors.js'
 import { Mutex } from '@classes/mutex.js'
 import { IBlockingChannel } from '@utils/types.js'
@@ -15,31 +15,31 @@ export class Channel<T> implements IBlockingChannel<T> {
   , closed: {}
   }, 'opened')
 
-  private writeLock = new Mutex()
-  private writeDeferredGroup = new DeferredGroup<void>()
-  private readDeferredGroup = new DeferredGroup<void>()
+  private writeLock: Mutex = new Mutex()
+  private writeDeferredQueue = new UniqueQueue<Deferred<void>>()
+  private readDeferredQueue = new UniqueQueue<Deferred<void>>()
 
-  // 此队列仅仅是一个值的容器, 可能的最长长度为1
-  private queue = new Queue<T>()
+  // 此队列仅仅是一个值的容器, 最长队列长度为1.
+  private box = new Queue<T>()
 
   async send(value: T): Promise<void> {
     if (this.fsm.matches('closed')) throw new ChannelClosedError()
 
+    // 通过锁来防止写入超过1个值.
     await this.writeLock.acquire(async () => {
-      // 双重检查
+      // 双重检查.
       if (this.fsm.matches('closed')) throw new ChannelClosedError()
 
       const readDeferred = new Deferred<void>()
-      this.readDeferredGroup.add(readDeferred)
+      this.readDeferredQueue.enqueue(readDeferred)
 
-      this.queue.enqueue(value)
-      this.writeDeferredGroup.resolve()
+      this.box.enqueue(value)
+      this.writeDeferredQueue.dequeue()?.resolve()
 
       try {
-        // 等待receive发出读取信号
         await readDeferred
       } finally {
-        this.readDeferredGroup.remove(readDeferred)
+        this.readDeferredQueue.remove(readDeferred)
       }
     })
   }
@@ -53,22 +53,25 @@ export class Channel<T> implements IBlockingChannel<T> {
           next: async () => {
             if (this.fsm.matches('closed')) return { done: true, value: undefined }
 
-            while (this.queue.size === 0) {
+            while (this.box.size === 0) {
               const writeDeferred = new Deferred<void>()
-              this.writeDeferredGroup.add(writeDeferred)
 
+              this.writeDeferredQueue.enqueue(writeDeferred)
               try {
-                // 等待send发出写入信号, 如果通道关闭, 则停止接收
                 await writeDeferred
-              } catch {
-                return { done: true, value: undefined }
+              } catch (e) {
+                if (e instanceof ChannelClosedError) {
+                  return { done: true, value: undefined }
+                } else {
+                  throw e
+                }
               } finally {
-                this.writeDeferredGroup.remove(writeDeferred)
+                this.writeDeferredQueue.remove(writeDeferred)
               }
             }
 
-            const value = this.queue.dequeue()!
-            this.readDeferredGroup.resolve()
+            const value = this.box.dequeue()!
+            this.readDeferredQueue.dequeue()?.resolve()
             return { done: false, value }
           }
         , return: async () => {
@@ -81,10 +84,19 @@ export class Channel<T> implements IBlockingChannel<T> {
   }
 
   close() {
-    this.fsm.send('close')
+    if (this.fsm.matches('opened')) {
+      this.fsm.send('close')
 
-    this.queue.empty()
-    this.writeDeferredGroup.reject(new ChannelClosedError())
-    this.readDeferredGroup.reject(new ChannelClosedError())
+      this.box.empty()
+
+      const error = new ChannelClosedError()
+      let deferred: Deferred<void> | undefined
+      while (deferred = this.writeDeferredQueue.dequeue()) {
+        deferred.reject(error)
+      }
+      while (deferred = this.readDeferredQueue.dequeue()) {
+        deferred.reject(error)
+      }
+    }
   }
 }

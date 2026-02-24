@@ -67,9 +67,10 @@ export class UnlimitedChannel<T> implements INonBlockingChannel<T> {
 
       this.buffer.empty()
 
+      const error = new ChannelClosedError()
       let deferred: Deferred<void> | undefined
       while (deferred = this.enqueueDeferredQueue.dequeue()) {
-        deferred.reject(new ChannelClosedError())
+        deferred.reject(error)
       }
     }
   }
