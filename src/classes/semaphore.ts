@@ -1,5 +1,4 @@
-import { Deferred } from './deferred.js'
-import { DeferredGroup } from '@classes/deferred-group.js'
+import { ReusableDeferred } from '@classes/reusable-deferred.js'
 import { go } from '@blackglory/go'
 import { once } from 'lodash-es'
 import { Awaitable } from 'justypes'
@@ -8,7 +7,7 @@ type Release = () => void
 
 export class Semaphore {
   private locked: number = 0
-  private readonly awaitings = new DeferredGroup()
+  private readonly unlockDeferred: ReusableDeferred<void> = new ReusableDeferred()
 
   constructor(private readonly count: number) {}
 
@@ -21,7 +20,7 @@ export class Semaphore {
     if (args.length === 0) {
       return new Promise(async resolve => {
         // 此处的`tryLock`和`waitForUnlock`组合不能被封装成一个`lock`函数,
-        // 因为`await lock()`会导致引擎等待下一个microtask, 造成无锁情况下任务被延迟执行.
+        // 因为`await lock()`会导致引擎等待下一个microtask, 造成在无锁情况下任务被延迟执行.
         while (!this.tryLock()) {
           await this.waitForUnlock()
         }
@@ -57,15 +56,12 @@ export class Semaphore {
   }
 
   private async waitForUnlock(): Promise<void> {
-    const unlockDeferred = new Deferred()
-    this.awaitings.add(unlockDeferred)
-    await unlockDeferred
-    this.awaitings.remove(unlockDeferred)
+    await this.unlockDeferred
   }
 
   private unlock(): void {
     this.locked--
-    this.awaitings.resolve(undefined)
+    this.unlockDeferred.resolve()
   }
 
   private isLocked(): boolean {

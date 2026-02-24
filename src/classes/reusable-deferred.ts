@@ -21,7 +21,7 @@ export class ReusableDeferred<T> implements PromiseLike<T>, IDeferred<T> {
     this.deferred = this.createDeferred()
   }
 
-  private createDeferred() {
+  private createDeferred(): Deferred<T> {
     const deferred = new Deferred<T>()
     Promise.resolve(deferred).catch(pass)
     return deferred
