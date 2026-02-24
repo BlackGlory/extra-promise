@@ -44,6 +44,7 @@ test('exports', () => {
 
   , 'Semaphore'
   , 'Mutex'
+  , 'KeyedMutex'
 
   , 'DebounceMicrotask'
   , 'DebounceMacrotask'

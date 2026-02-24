@@ -11,18 +11,16 @@ class TestMutex extends Mutex {
 describe('Mutex', () => {
   describe('acquire', () => {
     describe('not locked', () => {
-      describe('without handler', () => {
-        test('general', async () => {
-          const mutex = new TestMutex()
+      test('without handler', async () => {
+        const mutex = new TestMutex()
 
-          const release = await mutex.acquire()
-          const isLocked1 = mutex.isLocked()
-          release()
-          const isLocked2 = mutex.isLocked()
+        const release = await mutex.acquire()
+        const isLocked1 = mutex.isLocked()
+        release()
+        const isLocked2 = mutex.isLocked()
 
-          expect(isLocked1).toBe(true)
-          expect(isLocked2).toBe(false)
-        })
+        expect(isLocked1).toBe(true)
+        expect(isLocked2).toBe(false)
       })
 
       describe('with handler', () => {

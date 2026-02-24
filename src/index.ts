@@ -12,6 +12,7 @@ export * from '@classes/channel.js'
 export * from '@classes/buffered-channel.js'
 export * from '@classes/unlimited-channel.js'
 export * from '@classes/task-runner.js'
+export * from '@classes/keyed-mutex.js'
 
 export * from '@functions/all.js'
 export * from '@functions/asyncify.js'

@@ -537,6 +537,18 @@ class Mutex extends Semaphore {
 }
 ```
 
+#### KeyedMutex
+```ts
+type Release = () => void
+
+class KeyedMutex<T, U> {
+  constructor(createKey: (val: T) => U)
+
+  acquire(val: T): Promise<Release>
+  acquire<U>(val: T, handler: () => Awaitable<U>): Promise<U>
+}
+```
+
 #### DebounceMicrotask
 ```ts
 class DebounceMicrotask {
