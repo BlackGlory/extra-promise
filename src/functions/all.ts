@@ -1,16 +1,13 @@
 import { UnpackedPromiseLike } from 'hotypes'
+import { fromEntries, pipeAsync } from 'extra-utils'
 import { map } from './map.js'
 
-export async function all<T extends { [key: string]: PromiseLike<unknown> }>(
-  obj: T
+export function all<T extends { [key: string]: PromiseLike<unknown> }>(
+  keyToPromise: T
 ): Promise<{ [Key in keyof T]: UnpackedPromiseLike<T[Key]> }> {
-  const entries = Object.entries(obj)
-  const results = await map(
-    entries
-  , async ([key, value]) => [key, await value] as const
+  return pipeAsync(
+    Object.entries(keyToPromise)
+  , entries => map(entries, async ([key, value]) => [key, await value])
+  , fromEntries
   )
-
-  return Object.fromEntries(results) as {
-    [Key in keyof T]: UnpackedPromiseLike<T[Key]>
-  }
 }

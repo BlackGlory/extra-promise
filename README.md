@@ -195,7 +195,7 @@ Same as `filter`, but `iterable` is an `AsyncIterable`.
 #### all
 ```ts
 function all<T extends { [key: string]: PromiseLike<unknown> }>(
-  obj: T
+  keyToPromise: T
 ): Promise<{ [Key in keyof T]: UnpackedPromiseLike<T[Key]> }>
 ```
 
