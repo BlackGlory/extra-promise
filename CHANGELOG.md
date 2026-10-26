@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.0.0](https://github.com/BlackGlory/extra-promise/compare/v7.1.1...v8.0.0) (2026-10-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* - Node.js v18 => Node.js v22
+- ES2018 => ES2020
+
+* upgrade dependencies ([547ef4e](https://github.com/BlackGlory/extra-promise/commit/547ef4e2bea66c87edd185a9870efee4417734cc))
+
 ### [7.1.1](https://github.com/BlackGlory/extra-promise/compare/v7.1.0...v7.1.1) (2026-02-24)
 
 ## [7.1.0](https://github.com/BlackGlory/extra-promise/compare/v7.0.1...v7.1.0) (2026-02-24)
