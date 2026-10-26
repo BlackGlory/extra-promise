@@ -20,7 +20,7 @@
   "scripts": {
     "lint": "eslint --quiet src __tests__",
     "test": "vitest --run",
-    "prepublishOnly": "run-s prepare clean build",
+    "prepublishOnly": "run-s clean build",
     "clean": "rimraf lib",
     "build": "tsc --project tsconfig.build.json && tsc-alias --project tsconfig.build.json",
     "release": "standard-version"
