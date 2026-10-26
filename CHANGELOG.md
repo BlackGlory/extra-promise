@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [8.0.1](https://github.com/BlackGlory/extra-promise/compare/v8.0.0...v8.0.1) (2026-10-26)
+
 ## [8.0.0](https://github.com/BlackGlory/extra-promise/compare/v7.1.1...v8.0.0) (2026-10-26)
 
 
