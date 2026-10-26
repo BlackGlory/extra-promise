@@ -1,3 +1,4 @@
+import { describe, test, expect } from 'vitest'
 import { StatefulPromise, StatefulPromiseState } from '@classes/stateful-promise.js'
 import { getErrorPromise } from 'return-style'
 import { setImmediate } from 'extra-timers'

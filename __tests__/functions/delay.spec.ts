@@ -1,3 +1,4 @@
+import { describe, test, expect } from 'vitest'
 import { delay } from '@functions/delay.js'
 import { advanceTimersByTime } from '@test/utils.js'
 import { StatefulPromise, StatefulPromiseState } from '@classes/stateful-promise.js'

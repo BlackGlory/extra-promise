@@ -1,3 +1,4 @@
+import { describe, test, expect } from 'vitest'
 import { pad } from '@functions/pad.js'
 import { getErrorPromise } from 'return-style'
 import { TIME_ERROR } from '@test/utils.js'

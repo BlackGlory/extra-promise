@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest'
 import { spawn } from '@functions/spawn.js'
 import { delay } from '@functions/delay.js'
 import { TIME_ERROR } from '@test/utils.js'

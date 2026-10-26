@@ -1,3 +1,4 @@
+import { describe, test, it, expect } from 'vitest'
 import { getErrorPromise } from 'return-style'
 import { Deferred } from '@classes/deferred.js'
 import { isPromiseLike } from '@src/functions/is-promise-like.js'

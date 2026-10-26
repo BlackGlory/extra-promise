@@ -1,3 +1,4 @@
+import { describe, test, vi, expect } from 'vitest'
 import { Mutex } from '@classes/mutex.js'
 import { TIME_ERROR } from '@test/utils.js'
 import { getErrorPromise } from 'return-style'

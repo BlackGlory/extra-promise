@@ -1,3 +1,4 @@
+import { describe, test, it, expect, vi } from 'vitest'
 import { delay } from '@functions/delay.js'
 import { parallelAsync } from '@functions/parallel-async.js'
 import { getCalledTimes, advanceTimersByTime, MockIterable }

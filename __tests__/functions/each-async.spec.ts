@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest'
 import { getErrorPromise } from 'return-style'
 import { eachAsync } from '@functions/each-async.js'
 import { delay } from '@functions/delay.js'

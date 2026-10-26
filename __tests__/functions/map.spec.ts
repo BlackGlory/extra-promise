@@ -1,3 +1,4 @@
+import { describe, it, vi, expect } from 'vitest'
 import { getErrorPromise } from 'return-style'
 import { map } from '@functions/map.js'
 import { delay } from '@functions/delay.js'

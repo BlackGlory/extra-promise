@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest'
 import { DebounceMicrotask } from '@classes/debounce-microtask.js'
 
 describe('DebounceMicrotask', () => {

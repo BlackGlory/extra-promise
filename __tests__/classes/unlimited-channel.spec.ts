@@ -1,3 +1,4 @@
+import { describe, test, it, expect } from 'vitest'
 import { UnlimitedChannel, ChannelClosedError } from '@classes/unlimited-channel.js'
 import { getError, getErrorAsyncIterable } from 'return-style'
 import { toArrayAsync } from 'iterable-operator'

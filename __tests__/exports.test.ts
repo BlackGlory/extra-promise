@@ -1,3 +1,4 @@
+import { test, expect } from 'vitest'
 import * as target from '@src/index.js'
 
 test('exports', () => {

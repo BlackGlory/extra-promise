@@ -1,3 +1,4 @@
+import { test, expect } from 'vitest'
 import { limitConcurrencyByQueue } from '@functions/limit-concurrency-by-queue.js'
 import { delay } from '@functions/delay.js'
 import { TIME_ERROR } from '@test/utils.js'

@@ -1,3 +1,4 @@
+import { describe, test, expect, vi } from 'vitest'
 import { getErrorPromise } from 'return-style'
 import { timeout, TimeoutError } from '@functions/timeout.js'
 import { AbortController, AbortError } from 'extra-abort'

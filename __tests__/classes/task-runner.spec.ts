@@ -1,3 +1,4 @@
+import { describe, test, vi, expect } from 'vitest'
 import { delay } from '@functions/delay.js'
 import { getCalledTimes, runAllMicrotasks, advanceTimersByTime, TIME_ERROR } from '@test/utils.js'
 import { TaskRunner, TaskRunnerDestroyedError } from '@classes/task-runner.js'

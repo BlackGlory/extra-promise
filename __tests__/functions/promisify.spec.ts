@@ -1,3 +1,4 @@
+import { describe, test, it, expect } from 'vitest'
 import { isFunction } from 'extra-utils'
 import { getErrorPromise } from 'return-style'
 import { promisify } from '@functions/promisify.js'

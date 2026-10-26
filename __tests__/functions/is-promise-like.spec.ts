@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { isPromiseLike, isntPromiseLike } from '@functions/is-promise-like.js'
 import { pass } from '@blackglory/pass'
 

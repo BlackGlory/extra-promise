@@ -1,3 +1,4 @@
+import { describe, it, test, expect, vi } from 'vitest'
 import { runAllMicrotasks } from '@test/utils.js'
 import { callbackify } from '@functions/callbackify.js'
 

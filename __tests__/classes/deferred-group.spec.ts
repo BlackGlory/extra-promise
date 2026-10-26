@@ -1,3 +1,4 @@
+import { describe, test, expect, vi } from 'vitest'
 import { DeferredGroup } from '@classes/deferred-group.js'
 import { IDeferred } from '@utils/types.js'
 

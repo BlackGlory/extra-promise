@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest'
 import { DebounceMacrotask } from '@classes/debounce-macrotask.js'
 import { delay } from '@functions/delay.js'
 

@@ -1,3 +1,4 @@
+import { describe, it, expect, test } from 'vitest'
 import { BufferedChannel, ChannelClosedError } from '@classes/buffered-channel.js'
 import { getErrorPromise, getErrorAsyncIterable } from 'return-style'
 import { delay } from '@functions/delay.js'

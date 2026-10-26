@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest'
 import { series } from '@functions/series.js'
 import { delay } from '@functions/delay.js'
 import { getCalledTimes, advanceTimersByTime } from '@test/utils.js'

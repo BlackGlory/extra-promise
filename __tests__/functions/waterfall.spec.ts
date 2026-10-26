@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest'
 import { waterfall } from '@functions/waterfall.js'
 import { getErrorPromise } from 'return-style'
 import { pass } from '@blackglory/pass'

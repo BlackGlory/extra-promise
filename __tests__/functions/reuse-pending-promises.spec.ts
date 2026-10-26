@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest'
 import { reusePendingPromises } from '@functions/reuse-pending-promises.js'
 import { delay } from '@src/functions/delay.js'
 

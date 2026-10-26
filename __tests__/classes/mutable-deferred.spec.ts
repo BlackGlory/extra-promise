@@ -1,3 +1,4 @@
+import { describe, test, it, expect } from 'vitest'
 import { MutableDeferred } from '@classes/mutable-deferred.js'
 import { getErrorPromise } from 'return-style'
 import { isPromiseLike } from '@src/functions/is-promise-like.js'

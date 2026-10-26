@@ -1,3 +1,4 @@
+import { describe, test, it, expect, vi } from 'vitest'
 import { LazyPromise } from '@classes/lazy-promise.js'
 import { getCalledTimes } from '@test/utils.js'
 import { pass } from '@blackglory/pass'

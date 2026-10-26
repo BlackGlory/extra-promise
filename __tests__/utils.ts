@@ -1,6 +1,8 @@
+import { Mock } from 'vitest'
+
 export const TIME_ERROR = 1
 
-export function getCalledTimes(fn: vi.Mock): number {
+export function getCalledTimes(fn: Mock): number {
   return fn.mock.calls.length
 }
 

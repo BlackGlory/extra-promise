@@ -1,3 +1,4 @@
+import { describe, it, test, expect } from 'vitest'
 import { asyncify } from '@functions/asyncify.js'
 import { Awaitable } from 'justypes'
 
